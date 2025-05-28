@@ -1041,7 +1041,7 @@ class AdaNode implements Node[AdaNode] {
     fun std_entity_implem(sym: Symbol): Entity[AdaNode] =
         node.std_env().get_first(
             sym,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
 
     |" Static method. Return the standard Boolean type.
@@ -1108,7 +1108,7 @@ class AdaNode implements Node[AdaNode] {
         node.std_root_types().get_first(
             s"root_integer",
             lookup=LookupKind.minimal,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .as[BaseTypeDecl]
 
@@ -1117,7 +1117,7 @@ class AdaNode implements Node[AdaNode] {
         node.std_root_types().get_first(
             s"root_real",
             lookup=LookupKind.minimal,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .as[BaseTypeDecl]
 
@@ -1137,7 +1137,7 @@ class AdaNode implements Node[AdaNode] {
         node.std_root_types().get(
             sym,
             lookup=LookupKind.minimal,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .filtermap(
             (n) => n.as[BasicDecl],
@@ -5690,7 +5690,7 @@ class BasicDecl: AdaNode {
     fun is_directly_reachable(origin: Entity[AdaNode]): Bool =
         origin.node.node_env.get(
             node.name_symbol(),
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .contains(node.as_bare_entity)
 
@@ -6360,7 +6360,7 @@ class BasicDecl: AdaNode {
                 origin.node_env.get(
                     sym,
                     categories=RefCategories(
-                        inherited_primitives=false,
+                        primitives=false,
                         _=true
                     )
                 )
@@ -6728,7 +6728,7 @@ class BasicDecl: AdaNode {
         self.children_env.get_first(
             s"__nextpart",
             lookup=LookupKind.minimal,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .as[BasicDecl]
     }
@@ -7240,7 +7240,7 @@ class PackageDecl: BasePackageDecl {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
     }
 }
@@ -9543,7 +9543,7 @@ class IncompleteTypeDecl: BaseTypeDecl {
         decl_part.children_env.get(
             node.name_symbol(),
             lookup=LookupKind.minimal,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .find((t) => t.as[BaseTypeDecl].do((btd) => self != btd))
         .as[BaseTypeDecl]
@@ -9841,7 +9841,7 @@ class TypeDecl: BaseTypeDecl {
                 self.type_def.defining_env().get_first(
                     imp_deref.as[Name].name_symbol(),
                     categories=RefCategories(
-                        inherited_primitives=false,
+                        primitives=false,
                         _=true
                     )
                 )
@@ -10164,7 +10164,7 @@ class TypeDecl: BaseTypeDecl {
             kind=transitive,
             dest_env=node.node_env,
             cond=node.type_def is DerivedTypeDef | InterfaceTypeDef,
-            category="inherited_primitives"
+            category="primitives"
         )
     }
 }
@@ -10262,7 +10262,7 @@ class FormalTypeDecl: TypeDecl {
             rb.new_env.get_first(
                 self.defining_name().name_symbol(),
                 lookup=LookupKind.minimal,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             )
             .as[BaseTypeDecl]
         else self.corresponding_actual_impl(rb.get_parent)
@@ -10299,7 +10299,7 @@ class BasicSubpDecl: BasicDecl {
             env.get(
                 self.name_symbol(),
                 lookup=LookupKind.flat,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             );
         val self_spec = self.subp_decl_spec().node.as_bare_entity;
         val precise = {
@@ -10394,7 +10394,7 @@ class BasicSubpDecl: BasicDecl {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
         handle_children()
         do(node.populate_body_unit())
@@ -10823,7 +10823,7 @@ class Body: BasicDecl {
         match
             self.body_scope(true).get(
                 self.name_symbol(),
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             ).at(0)
         {
             case gpd: GenericPackageDecl =>
@@ -10840,7 +10840,7 @@ class Body: BasicDecl {
             public_part.get(
                 s"__privatepart",
                 lookup=LookupKind.flat,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             ).at(0)
             .do(
                 # If there is a private part, group it with the rest
@@ -11011,7 +11011,7 @@ class Body: BasicDecl {
 
         env.get(
             self.name_symbol(),
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .find(
             (sp) =>
@@ -11047,7 +11047,7 @@ class Body: BasicDecl {
 
                 self.defining_name().all_env_els_impl(
                     categories=RefCategories(
-                        inherited_primitives=false,
+                        primitives=false,
                         _=true
                     )
                 )
@@ -11170,7 +11170,7 @@ class Body: BasicDecl {
             # lookups, hence doing an infinite recursion.
             self.children_env.env_parent.get(
                 self.name_symbol(),
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             )
             ?.find((r) => r is GenericSubpDecl)
             .as[GenericSubpDecl]
@@ -11249,7 +11249,7 @@ class Body: BasicDecl {
             public_scope.get(
                 s"__privatepart",
                 lookup=LookupKind.flat,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             ).at(0)
             .do((pp) => pp.children_env, default_val=public_scope)
         else public_scope
@@ -11540,7 +11540,7 @@ class BaseSubpBody: Body {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
         # If self, which is assumed to be a SubpBody, is a library-level
         # subprogram, it must "inherit" the use clauses of its declaration, if
@@ -11943,7 +11943,7 @@ class PackageBody: Body {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
         reference(
             node.as[AdaNode].do((v1) => [v1]),
@@ -12035,7 +12035,7 @@ class ProtectedBody: Body {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
         reference(
             node.as[AdaNode].do((v1) => [v1]),
@@ -12117,7 +12117,7 @@ class TaskBody: Body {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
         reference(
             node.as[AdaNode].do((v1) => [v1]),
@@ -12417,7 +12417,7 @@ class GenericPackageDecl: GenericDecl {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
     }
 }
@@ -12469,7 +12469,7 @@ class GenericSubpDecl: GenericDecl {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
         handle_children()
         do(node.populate_body_unit())
@@ -12550,7 +12550,7 @@ class GenericInstantiation: BasicDecl {
         self.generic_entity_name().all_env_elements_internal(
             seq=true,
             seq_from=node,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .find((e) => node.has_visibility(e))
         .do(
@@ -12825,7 +12825,7 @@ class GenericInstantiation: BasicDecl {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
         reference(
             [node.as[AdaNode]],
@@ -13010,7 +13010,7 @@ class GenericRenamingDecl: BasicDecl {
         self.renaming_name().all_env_elements_internal(
             seq=true,
             seq_from=node,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .filter((e) => not e is Body).at(0)
         .do(
@@ -13061,7 +13061,7 @@ class GenericPackageRenamingDecl: GenericRenamingDecl {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
     }
 }
@@ -13096,7 +13096,7 @@ class GenericSubpRenamingDecl: GenericRenamingDecl {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
     }
 }
@@ -13285,7 +13285,7 @@ class ObjectDecl: BasicDecl {
             .get_first(
                 sym,
                 lookup=LookupKind.minimal,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             )
             .as[BasicDecl]
         else null[Entity[BasicDecl]]
@@ -13303,7 +13303,7 @@ class ObjectDecl: BasicDecl {
             .get_first(
                 sym,
                 lookup=LookupKind.minimal,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             )
             .as[BasicDecl]
         else null[Entity[BasicDecl]]
@@ -13384,7 +13384,7 @@ class PackageRenamingDecl: BasicDecl {
         val _ =
             node_env.get(
                 s"__dummy",
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             );
 
         # We can then safely perform the actual query which will not trigger
@@ -13445,7 +13445,7 @@ class PackageRenamingDecl: BasicDecl {
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
             cond=node.parent is LibraryItem | Subunit,
-            category="inherited_primitives"
+            category="primitives"
         )
     }
 }
@@ -20289,7 +20289,7 @@ class SingleTokNode: Name implements TokenNode {
             node.symbol,
             lookup=lookup_type,
             from_node=from_node,
-            categories=RefCategories(inherited_primitives=false, _=true)
+            categories=RefCategories(primitives=false, _=true)
         )
         .find(
             (el) =>
@@ -20314,7 +20314,7 @@ class BaseId: SingleTokNode implements TokenNode {
                 node.symbol,
                 lookup=if node.is_prefix() then LookupKind.recursive
                 else LookupKind.flat,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             );
         val ret =
             if not elt.is_null and elt.node is BasicDecl then elt.children_env
@@ -20431,14 +20431,14 @@ class BaseId: SingleTokNode implements TokenNode {
             env.get(
                 s"__privatepart",
                 lookup=LookupKind.flat,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             ).at(0)
             .do((pp) => pp.children_env, default_val=env);
         val package_body_env =
             private_part_env.get(
                 s"__nextpart",
                 lookup=LookupKind.flat,
-                categories=RefCategories(inherited_primitives=false, _=true)
+                categories=RefCategories(primitives=false, _=true)
             ).at(0)
             .do(
                 (pb) =>
@@ -20450,7 +20450,7 @@ class BaseId: SingleTokNode implements TokenNode {
                         s"__nextpart",
                         lookup=LookupKind.flat,
                         categories=RefCategories(
-                            inherited_primitives=false,
+                            primitives=false,
                             _=true
                         )
                     ).at(0)
@@ -20625,7 +20625,7 @@ class BaseId: SingleTokNode implements TokenNode {
                 categories=
                     if node.can_designate_primitive()
                     then RefCategories(_=true)
-                    else RefCategories(inherited_primitives=false, _=true)
+                    else RefCategories(primitives=false, _=true)
             ).filter((e) => e.as[AnonymousExprDecl].do(
                 (aed) => self.parents().find((p) => p is GenericFormal).do(
                     # If we are in a generic formal part, we do not
@@ -21965,7 +21965,7 @@ class Pragma: AdaNode {
                     name.name_symbol(),
                     lookup=LookupKind.flat,
                     categories=RefCategories(
-                        inherited_primitives=false,
+                        primitives=false,
                         _=true
                     )
                 )
@@ -25189,7 +25189,7 @@ class UseTypeClause: UseClause {
             node.types.map((n) => n.as[AdaNode]),
             Name.name_designated_type_env,
             cond=not node.parent.parent is CompilationUnit,
-            category="inherited_primitives"
+            category="primitives"
         )
     }
 }

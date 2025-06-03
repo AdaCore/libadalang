@@ -36,6 +36,20 @@ enum CallExprKind {
     case call, array_slice, array_index, type_conversion, family_index
 }
 
+# =========================
+# ===== Ref Categories ====
+# =========================
+# - The `primitives` category is used for lexical environment references to
+#   environments that only contain primitives. As such, lookups that are known
+#   to never target primitives can safely ignore them. Today, we have two
+#   instances of that:
+#    - referencing inherited primitives when declaring a derived type
+#    - referencing primitives made visible by a `use type` clause
+#   Note that this is not just an optimization but it is actually a correctness
+#   requirement. Both these referenced environments may lead to infinite
+#   recursions if they are not ignored by certains classes of lookups, for
+#   example when resolving a reference to a type or to a package.
+
 |" Root node class for the Ada syntax tree.
 @abstract
 @generic_list_type("AdaList")

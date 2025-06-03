@@ -3,7 +3,7 @@ import tokens
 
 dynvar env: LexicalEnv
 |" Origin for this property's request. See :ref:`The origin parameter` for more
-|" details
+|" details.
 
 dynvar origin: AdaNode
 dynvar no_visibility: Bool

@@ -41,7 +41,7 @@ package Libadalang.Helpers is
    --  empty.
    --
    --  See ``GPR2.Options`` as well as for more details about the use of
-      --  ``Target``, ``RTS`` and ``Config_File``.
+   --  ``Target``, ``RTS`` and ``Config_File``.
    --
    --   ``Absent_Dir_Error`` controls how missing output directories should be
    --   reported.
@@ -60,9 +60,8 @@ package Libadalang.Helpers is
    --  the standard error stream.
    --
    --  ``Keep_Going_On_Missing_File`` will determine the behavior when
-     --  encountering a missing dependency. If ``True``, a warning will be
-     --  shown but resolution will continue. If ``False``, application will
-     --  exit.
+   --  encountering a missing dependency. If ``True``, a warning will be shown
+   --  but resolution will continue. If ``False``, application will exit.
 
    procedure Abort_App (Message : String := "") with No_Return;
    --  If provided, print Message to the standard error output and abort the

@@ -66,12 +66,19 @@ newhtml:
 		   ../extensions/src/libadalang-preprocessing.ads \
 		   ../extensions/src/libadalang-project_provider.ads \
 		   ../extensions/src/libadalang-target_info.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-text.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-symbols.ads \
 		   $(LANGKIT_DIR)/langkit/support/langkit_support-diagnostics.ads \
 		   $(LANGKIT_DIR)/langkit/support/langkit_support-diagnostics-output.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-slocs.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-errors.ads \
 		   $(LANGKIT_DIR)/langkit/support/langkit_support-file_readers.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-generic_api.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-analysis.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-introspection.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-rewriting.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-unparsing.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-names.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-names-maps.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-symbols.ads \
+		   $(LANGKIT_DIR)/langkit/support/langkit_support-text.ads \
 		-O generated
 
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -t new_laldoc $(BUILDDIR)/html

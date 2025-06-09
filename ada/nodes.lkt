@@ -3185,6 +3185,19 @@ class RecordRepClause: AspectClause {
     fun xref_equation(): Equation =
         self.name.xref_type_equation()
         %and self.at_expr.do((e) => e.sub_equation(), default_val=%true)
+
+    @with_dynvars(origin)
+    fun complete_items(): Array[CompletionItem] = {
+        bind env = node.node_env;
+        self.name.designated_env().get(null[Symbol]).map(
+            (n) => CompletionItem(
+                decl=n.as[BasicDecl],
+                is_dot_call=n.info.md.dottable_subp,
+                is_visible=node.has_visibility(n),
+                weight=if n is ComponentDecl then 100 else 0
+            )
+        )
+    }
 }
 
 |" List of aspects in a declaration (:rmlink:`13.1.1`).

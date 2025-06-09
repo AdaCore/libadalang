@@ -520,6 +520,7 @@ grammar ada_grammar {
             static_name
             "use"
             "record"
+            /
             ?pick("at" "mod" simple_expr !";")
             list*(or(component_clause | pragma))
             "end"

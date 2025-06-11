@@ -3173,7 +3173,20 @@
         ]
       }
     },
-    "ForLoopVarDecl": {},
+    "ForLoopVarDecl": {
+      "node": "recurse",
+      "fields": {
+        "f_id_type": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": ":"
+          },
+          "whitespace",
+          "recurse"
+        ]
+      }
+    },
     "FormalDiscreteTypeDef": {},
     "FormalTypeDecl": {
       "node": {

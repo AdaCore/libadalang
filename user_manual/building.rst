@@ -87,14 +87,15 @@ run:
 
 .. code-block:: sh
 
-   $ python manage.py generate
+   $ python -m langkit.scripts.lkm generate
 
 This generates Ada, C and Python source code for Libadalang in the ``build``
 directory. In order to build this source code into a shared library, run:
 
 .. code-block:: sh
 
-    $ python manage.py build --library-types=static,static-pic,relocatable
+   $ python -m langkit.scripts.lkm build \
+     --library-types=static,static-pic,relocatable
 
 Assuming you satisfied all the above dependencies, both commands should
 successfully run to completion.
@@ -103,7 +104,8 @@ While developing Libadalang you might be happy to use the following command:
 
 .. code-block:: sh
 
-   $ python manage.py make --library-types=static,static-pic,relocatable
+   $ python -m langkit.scripts.lkm make \
+     --library-types=static,static-pic,relocatable
 
 It will wrap the two previous commands in one, generating the code and building
 it in one step.
@@ -119,7 +121,8 @@ Once you built Libadalang, you can install the library in any place you want:
 
 .. code-block:: sh
 
-   $ python manage.py install $INSTALL_DIR --library-types=static,static-pic,relocatable
+   $ python -m langkit.scripts.lkm install \
+     $INSTALL_DIR --library-types=static,static-pic,relocatable
 
 Then, depending on your operating system and your system configuration, you may
 need to update environment variables so that programs can load dynamic
@@ -151,7 +154,7 @@ Bourne-compatible shell, run:
 
 .. code-block:: sh
 
-   $ eval `python manage.py printenv`
+   $ eval `python -m langkit.scripts.lkm printenv`
 
 After this, you can both build programs that depend on Libadalang using
 GPRbuild and run Python interpreter to import the ``libadalang`` module.

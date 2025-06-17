@@ -2084,14 +2084,12 @@ class AdaNode implements Node[AdaNode] {
     |" Static method. Return an equation that will bind type_var to any
     |" integer value, corresponding to the notion of universal_integer in the
     |" Ada RM (see :rmlink:`3.4.1`).
-    @with_dynvars(origin)
     fun universal_int_bind(type_var: LogicVar): Equation =
         type_var <- node.universal_int_type()
 
     |" Static method. Return an equation that will bind type_var to any real
     |" value, corresponding to the notion of universal_real in the Ada RM (see
     |" :rmlink:`3.4.1`).
-    @with_dynvars(origin)
     fun universal_real_bind(type_var: LogicVar): Equation =
         type_var <- node.universal_real_type()
 
@@ -2582,7 +2580,6 @@ class AssocList: ASTList[BasicAssoc] {
                     case a: BaseAggregate =>
                         {
                             bind origin = node;
-                            bind env = node.node_env;
 
                             a.expression_type().record_def()
                             ?.components
@@ -2983,7 +2980,7 @@ class AspectAssoc: AdaNode {
 
     |" Equation for the case where this is an aspect assoc for an
     |" Implicit_Dereference aspect.
-    @with_dynvars(env, origin, entry_point)
+    @with_dynvars(origin)
     fun implicit_dereference_equation(target: TypeDecl): Equation = {
         val id = self.expr.as![Identifier];
         val discr =
@@ -2996,7 +2993,7 @@ class AspectAssoc: AdaNode {
 
     |" Equation for the case where this is an aspect assoc for a
     |" Stable_Properties aspect.
-    @with_dynvars(env, origin, entry_point)
+    @with_dynvars(env)
     fun stable_properties_assoc_equation(): Equation = {
         # Get the list of names defined by the aspect
         val identifiers =
@@ -3044,7 +3041,6 @@ class AspectAssoc: AdaNode {
 
     |" Equation for the case where this is an aspect assoc for a
     |" user-defined literal.
-    @with_dynvars(env, origin, entry_point)
     fun user_defined_literals_equation(target: TypeDecl): Equation =
         self.expr.as![Identifier].ref_var()
         <- target.as_entity.user_defined_literal_fns(self.id.name_symbol()).at(
@@ -3296,7 +3292,6 @@ class BaseFormalParamHolder: AdaNode {
 
     |" Return whether a AssocList is a match for this SubpSpec, i.e.
     |" whether the argument count (and designators, if any) match.
-    @with_dynvars(env)
     fun is_matching_param_list(
         params: Entity[AssocList],
         is_dottable_subp: Bool
@@ -3975,7 +3970,6 @@ class BaseSubpSpec: BaseFormalParamHolder {
     |" Return whether this subprogram has a controlling result, i.e. that
     |" it is the primitive of a tagged type ``T`` and its return type is
     |" ``T`` as well.
-    @with_dynvars(imprecise_fallback=false)
     fun has_controlling_result(): Bool = {
         val typ = self.candidate_primitive_subp_tagged_type();
 
@@ -4180,7 +4174,7 @@ class ComponentList: BaseFormalParamHolder {
         self.type_def().as[DerivedTypeDef]?.base_type().record_def()?.comps()
     }
 
-    @with_dynvars(env, origin=null[AdaNode])
+    @with_dynvars(origin=null[AdaNode])
     fun abstract_formal_params_for_assocs(
         assocs: Entity[AssocList],
         stop_recurse_at: Entity[BaseTypeDecl] = null[Entity[BaseTypeDecl]]
@@ -6056,7 +6050,6 @@ class BasicDecl: AdaNode {
         else dns.at(0)
     }
 
-    @with_dynvars(origin)
     fun identity_type(): Entity[BaseTypeDecl] = match self {
         case _: ExceptionDecl => node.exc_id_type()
         case _: SingleTaskDecl => node.task_id_type()
@@ -8095,7 +8088,6 @@ class BaseTypeDecl: BasicDecl {
     }
 
     @memoized
-    @with_dynvars(origin)
     fun is_iterator_type(): Bool = {
         val iifcs =
             self.get_unit_root_decl(
@@ -12902,7 +12894,6 @@ class GenericPackageInstantiation: GenericInstantiation {
     |" If ``inst_from_formal`` is True, we know that this generic package
     |" instantiation is coming from a rebound formal package, and that we need
     |" visibility on the formals.
-    @with_dynvars(origin)
     fun defining_env_impl(inst_from_formal: Bool = false): LexicalEnv = {
         val dp = self.designated_package();
 
@@ -15022,7 +15013,7 @@ class Expr: AdaNode {
         case _ => null[DiscreteRange]
     }
 
-    @with_dynvars(env, no_visibility=false)
+    @with_dynvars(env)
     fun env_elements(): Array[Entity[AdaNode]] =
         self.env_elements_impl().filter((e) => node.has_visibility(e))
 
@@ -15313,7 +15304,7 @@ class BaseAggregate: Expr {
     |"     AggregateAssocs. More details under ``all_discriminants``.
     @memoized
     @call_memoizable
-    @with_dynvars(origin, env)
+    @with_dynvars(origin)
     fun all_components(): Array[Entity[BaseFormalParamDecl]] = {
         val td = node.type_val().as[BaseTypeDecl];
         val stop_recurse_at = self.ancestor_expr_type(resolve_type=false);
@@ -15358,7 +15349,7 @@ class BaseAggregate: Expr {
     |"     This property is part of the name resolution algorithm for
     |"     AggregateAssocs. More details under ``all_discriminants``.
     @memoized
-    @with_dynvars(origin, env)
+    @with_dynvars(origin)
     fun matched_components(): Array[ParamMatch] =
         node.match_formals(self.all_components(), self.assocs, false)
 
@@ -15368,7 +15359,7 @@ class BaseAggregate: Expr {
     |" .. attention::
     |"     This property is part of the name resolution algorithm for
     |"     AggregateAssocs. More details under ``all_discriminants``.
-    @with_dynvars(origin, env)
+    @with_dynvars(origin)
     fun first_unmatched_formal(): Entity[DefiningName] = {
         val matched_discr = self.matched_discriminants(match_others=false);
         # Try to find an unmatched discriminant first
@@ -15573,7 +15564,7 @@ class BinOp: Expr {
         )
     }
 
-    @with_dynvars(origin, env, logic_context)
+    @with_dynvars(origin, logic_context)
     fun double_dot_equation(): Equation = {
         bind logic_context = null[LogicContext];
         %any(
@@ -15608,7 +15599,7 @@ class BinOp: Expr {
         node.type_var() <-> node.left.type_var()
     )
 
-    @with_dynvars(origin, env, logic_context)
+    @with_dynvars(origin, logic_context)
     fun arguments_eq(spec: Entity[BaseSubpSpec]): Equation = {
         val ps = spec.unpacked_formal_params();
 
@@ -15629,7 +15620,7 @@ class BinOp: Expr {
         else %false
     }
 
-    @with_dynvars(origin, env, logic_context)
+    @with_dynvars(origin, logic_context)
     fun entity_eq(subp: Entity[BasicDecl]): Equation = {
         val spec = subp.subp_spec_or_null();
 
@@ -15639,7 +15630,7 @@ class BinOp: Expr {
         %and node.op.subp_spec_var() <- spec
     }
 
-    @with_dynvars(origin, env)
+    @with_dynvars(origin)
     fun overload_equation(): Equation =
         self.op.subprograms().logic_any(
             (subp) => {
@@ -15942,7 +15933,7 @@ class ConcatOp: Expr {
         %and node.expected_type_var() <-> last_operand.expected_type_var()
     }
 
-    @with_dynvars(origin, env, logic_context)
+    @with_dynvars(origin, logic_context)
     fun arguments_eq(
         spec: Entity[BaseSubpSpec],
         left: Entity[Expr],
@@ -16363,7 +16354,7 @@ class IfExpr: CondExpr {
     |" Return the equation to use in the case where the expected type for this
     |" if-expression is known. In that case, we can use it to infer the
     |" branches' types.
-    @with_dynvars(env, origin, entry_point)
+    @with_dynvars(origin)
     fun expected_type_equation(): Equation =
         (
             (
@@ -16419,7 +16410,7 @@ class IfExpr: CondExpr {
     |" example if we are inside a type conversion. In that case, we'll infer
     |" the type of the if expression by taking the common base subtype of the
     |" context-free types of all the sub-branches.
-    @with_dynvars(env, origin, entry_point)
+    @with_dynvars(origin)
     fun no_expected_type_equation(): Equation =
         self.dependent_exprs().filter((e) => e.has_context_free_type())
         .logic_all(
@@ -17943,7 +17934,7 @@ class AttributeRef: Name {
         %and self.prefix.sub_equation()
         %and node.type_var() <-> node.prefix.type_var()
 
-    @with_dynvars(env, origin, entry_point)
+    @with_dynvars(origin)
     fun result_attr_equation(): Equation = {
         # Look for the containing declaration (a function declaration or an
         # access-to-function type) amongst self's semantic parents, as this
@@ -18223,7 +18214,6 @@ class AttributeRef: Name {
 
     |" Generates the xref equation for a an attribute that is defined on any
     |" subtype and that evaluates to an universal integer.
-    @with_dynvars(env, origin, entry_point)
     fun subtype_attr_equation(): Equation =
         node.prefix.ref_var() <- self.prefix.name_designated_type()
         %and node.universal_int_bind(node.type_var())
@@ -18766,7 +18756,7 @@ class CallExpr: Name {
         else %false
     }
 
-    @with_dynvars(env, origin, logic_context)
+    @with_dynvars(origin, logic_context)
     fun subprogram_equation(
         subp_spec: Entity[BaseFormalParamHolder],
         dottable_subp: Bool
@@ -19579,7 +19569,6 @@ class DefiningName: Name {
 
     |" Return all the ``Annotate`` aspects associated to this specific entity
     |" part.
-    @with_dynvars(imprecise_fallback=false)
     fun get_annotations_impl(): Array[Aspect] = {
         val bd = self.basic_decl_internal();
         # Gather aspects defined by pragmas
@@ -20088,7 +20077,7 @@ class ExplicitDeref: Name {
     fun env_elements_impl(): Array[Entity[AdaNode]] =
         self.prefix.env_elements_impl()
 
-    @with_dynvars(env, origin)
+    @with_dynvars(origin)
     fun eq_for_type(typ: Entity[BaseTypeDecl]): Equation =
         if typ.is_access_type()
         then
@@ -20409,7 +20398,7 @@ class BaseId: SingleTokNode implements TokenNode {
     |" If ``inst_from_formal`` is True, we know that bd is a generic package
     |" instantiation coming from a rebound formal package, and that we need
     |" visibility on the formals.
-    @with_dynvars(env, origin)
+    @with_dynvars(origin)
     fun pkg_env(from_pkg: Entity[BasicDecl]): LexicalEnv = {
         # If the given package is a renaming (after potentially several levels
         # of renamings) of another package P, do the rest of the work on P
@@ -21308,7 +21297,7 @@ class UnOp: Expr {
                 }
             )
 
-    @with_dynvars(origin, env)
+    @with_dynvars(origin)
     fun overload_equation(): Equation =
         self.op.subprograms().logic_any(
             (subp) => {
@@ -21319,7 +21308,7 @@ class UnOp: Expr {
             }
         )
 
-    @with_dynvars(origin, env, logic_context)
+    @with_dynvars(origin, logic_context)
     fun entity_eq(subp: Entity[BasicDecl]): Equation = {
         val spec = subp.subp_spec_or_null();
         val ps = spec.unpacked_formal_params();
@@ -23682,7 +23671,7 @@ class TypeDef: AdaNode {
     @with_dynvars(origin, dottable_type)
     fun previous_part_env(): LexicalEnv = self.previous_part()?.defining_env()
 
-    @with_dynvars(origin, dottable_type)
+    @with_dynvars(dottable_type)
     fun dottable_subps_env(): LexicalEnv =
         # Return the environment containing all subprograms that can be called
         # with the dot-notation on values of the type which this is defined.
@@ -25100,7 +25089,6 @@ class UnconstrainedArrayIndex: AdaNode {
     @nullable
     lower_bound: Expr
 
-    @with_dynvars(origin)
     fun designated_type(): Entity[BaseTypeDecl] =
         self.subtype_name.name_designated_type()
 }

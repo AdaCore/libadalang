@@ -113,8 +113,10 @@ class AdaNode implements Node[AdaNode] {
     fun is_contract_aspect(name: Symbol): Bool =
         name in s"Pre"
             | s"Pre'Class"
+            | s"Pre_Class"
             | s"Post"
             | s"Post'Class"
+            | s"Post_Class"
             | s"Refined_Post"
             | s"Precondition"
             | s"Postcondition"
@@ -19281,7 +19283,11 @@ class DefiningName: Name {
     |" entity part.
     @with_dynvars(imprecise_fallback=false)
     fun get_aspect_impl(name: Symbol, inherited: Bool): Aspect =
-        self.get_pragma(name).do((p) => p.as_aspect(inherited))
+        self.get_pragma(
+            if name == s"Pre'Class" then s"Pre_Class"
+            elif name == s"Post'Class" then s"Post_Class"
+            else name
+        ).do((p) => p.as_aspect(inherited))
         or? self.basic_decl_internal().get_aspect_assoc(name).do(
             (aa) =>
             Aspect(
@@ -21784,8 +21790,8 @@ class Pragma: AdaNode {
         elif
             self.id.name_symbol() in s"Pre"
                 | s"Post"
-                | s"Pre'Class"
-                | s"Post'Class"
+                | s"Pre_Class"
+                | s"Post_Class"
                 | s"Precondition"
                 | s"Postcondition"
                 | s"Precondition'Class"
@@ -22091,8 +22097,8 @@ class Pragma: AdaNode {
         elif
             node.as_bare_entity.id.name_symbol() in s"Pre"
                 | s"Post"
-                | s"Pre'Class"
-                | s"Post'Class"
+                | s"Pre_Class"
+                | s"Post_Class"
                 | s"Precondition"
                 | s"Postcondition"
                 | s"Precondition'Class"

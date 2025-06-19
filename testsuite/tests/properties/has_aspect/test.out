@@ -55,13 +55,28 @@ Result: True
 Eval 'node.p_has_aspect("pre'class")'
 Result: True
 
-Working on node <ConcreteTypeDecl ["T"] test.adb:50:7-50:62>
+Working on node <ExprFunction ["Baz"] test.adb:49:7-49:53>
+==========================================================
+
+Eval 'node.p_has_aspect("pre")'
+Result: True
+
+Eval 'node.p_has_aspect("pre'class")'
+Result: True
+
+Eval 'node.p_has_aspect("post")'
+Result: True
+
+Eval 'node.p_has_aspect("post'class")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["T"] test.adb:60:7-60:62>
 ============================================================
 
 Eval 'node.p_has_aspect("invariant")'
 Result: True
 
-Working on node <ObjectDecl ["Op"] test.adb:54:4-57:30>
+Working on node <ObjectDecl ["Op"] test.adb:64:4-67:30>
 =======================================================
 
 Eval 'node.p_has_aspect("convention")'

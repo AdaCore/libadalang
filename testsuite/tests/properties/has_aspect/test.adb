@@ -46,6 +46,16 @@ procedure Test is
       --% node.p_has_aspect("pre")
       --% node.p_has_aspect("pre'class")
 
+      function Baz (X : T) return Boolean is (True);
+      --% node.p_has_aspect("pre")
+      --% node.p_has_aspect("pre'class")
+      --% node.p_has_aspect("post")
+      --% node.p_has_aspect("post'class")
+      pragma Pre (True);
+      pragma Post (True);
+      pragma Pre_Class (True);
+      pragma Post_Class (True);
+
    private
       type T is tagged null record with Invariant => Foo (T);
       --% node.p_has_aspect("invariant")

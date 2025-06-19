@@ -19281,41 +19281,36 @@ class DefiningName: Name {
     |" entity part.
     @with_dynvars(imprecise_fallback=false)
     fun get_aspect_impl(name: Symbol, inherited: Bool): Aspect =
-        (
-            (
-                self.get_pragma(name).do((p) => p.as_aspect(inherited))
-                or? self.basic_decl_internal().get_aspect_assoc(name).do(
-                    (aa) =>
+        self.get_pragma(name).do((p) => p.as_aspect(inherited))
+        or? self.basic_decl_internal().get_aspect_assoc(name).do(
+            (aa) =>
+            Aspect(
+                exists=true,
+                node=aa,
+                value=aa.expr,
+                inherited=inherited
+            )
+        ) or? self.get_representation_clause(name).do(
+            (rc) =>
+            Aspect(
+                exists=true,
+                node=rc,
+                value=rc.expr,
+                inherited=inherited
+            )
+        ) or?
+            if name == s"Address"
+            then
+                self.get_at_clause().do(
+                    (atc) =>
                     Aspect(
                         exists=true,
-                        node=aa,
-                        value=aa.expr,
+                        node=atc,
+                        value=atc.expr,
                         inherited=inherited
                     )
                 )
-            )
-            or? self.get_representation_clause(name).do(
-                (rc) =>
-                Aspect(
-                    exists=true,
-                    node=rc,
-                    value=rc.expr,
-                    inherited=inherited
-                )
-            )
-        )
-        or? if name == s"Address"
-        then
-            self.get_at_clause().do(
-                (atc) =>
-                Aspect(
-                    exists=true,
-                    node=atc,
-                    value=atc.expr,
-                    inherited=inherited
-                )
-            )
-        else null[Aspect]
+            else null[Aspect]
 
     |" Return the aspect with name ``name`` associated to entity that this
     |" name defines.

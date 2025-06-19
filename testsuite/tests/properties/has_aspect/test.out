@@ -1,52 +1,52 @@
-Working on node <NullSubpDecl ["Pouet0"] test.adb:5:4-5:29>
+Working on node <NullSubpDecl ["Pouet0"] test.adb:6:4-6:29>
 ===========================================================
 
 Eval 'node.p_has_aspect('inline')'
 Result: False
 
-Working on node <NullSubpDecl ["Pouet1"] test.adb:8:4-9:19>
-===========================================================
+Working on node <NullSubpDecl ["Pouet1"] test.adb:9:4-10:19>
+============================================================
 
 Eval 'node.p_has_aspect('inline')'
 Result: True
 
-Working on node <NullSubpDecl ["Pouet2"] test.adb:12:4-13:30>
+Working on node <NullSubpDecl ["Pouet2"] test.adb:13:4-14:30>
 =============================================================
 
 Eval 'node.p_has_aspect('inline')'
 Result: False
 
-Working on node <NullSubpDecl ["Pouet3"] test.adb:16:4-17:29>
+Working on node <NullSubpDecl ["Pouet3"] test.adb:17:4-18:29>
 =============================================================
 
 Eval 'node.p_has_aspect('inline')'
 Result: True
 
-Working on node <NullSubpDecl ["Pouet4"] test.adb:20:4-21:27>
+Working on node <NullSubpDecl ["Pouet4"] test.adb:21:4-22:27>
 =============================================================
 
 Eval 'node.p_has_aspect('inline')'
 Result: True
 
-Working on node <NullSubpDecl ["Pouet5"] test.adb:24:4-25:28>
+Working on node <NullSubpDecl ["Pouet5"] test.adb:25:4-26:28>
 =============================================================
 
 Eval 'node.p_has_aspect('inline')'
 Result: False
 
-Working on node <ConcreteTypeDecl ["Small"] test.adb:28:4-30:15>
+Working on node <ConcreteTypeDecl ["Small"] test.adb:29:4-31:15>
 ================================================================
 
 Eval 'node.p_has_aspect('size')'
 Result: True
 
-Working on node <ConcreteTypeDecl ["Angle"] test.adb:34:4-34:51>
+Working on node <ConcreteTypeDecl ["Angle"] test.adb:35:4-35:43>
 ================================================================
 
 Eval 'node.p_has_aspect('small')'
 Result: True
 
-Working on node <ExprFunction ["Bar"] test.adb:39:4-42:33>
+Working on node <ExprFunction ["Bar"] test.adb:43:7-45:36>
 ==========================================================
 
 Eval 'node.p_has_aspect("pre")'
@@ -55,10 +55,13 @@ Result: True
 Eval 'node.p_has_aspect("pre'class")'
 Result: True
 
+Working on node <ConcreteTypeDecl ["T"] test.adb:50:7-50:62>
+============================================================
+
 Eval 'node.p_has_aspect("invariant")'
 Result: True
 
-Working on node <ObjectDecl ["Op"] test.adb:47:4-50:30>
+Working on node <ObjectDecl ["Op"] test.adb:54:4-57:30>
 =======================================================
 
 Eval 'node.p_has_aspect("convention")'

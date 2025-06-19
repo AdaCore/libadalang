@@ -1,6 +1,7 @@
 procedure Test is
    A : constant Boolean := True;
    B : constant Boolean := False;
+   Pi : constant := 3.14;
 
    procedure Pouet0 is null;
    --% node.p_has_aspect('inline')
@@ -29,20 +30,26 @@ procedure Test is
       A, B : Character;
    end record;
    --% node.p_has_aspect('size')
-   for Small'Size use 0;
+   for Small'Size use 16;
 
-   type Angle is delta Pi/2.0**31 range -Pi .. Pi;
+   type Angle is delta Pi range -Pi .. Pi;
    --% node.p_has_aspect('small')
    for Angle'Small use 0.001;
 
-   function Foo (X : Integer) return Boolean is (True);
-   function Bar (X : Integer) return Integer is (42)
-      with Pre => Foo (X),
-           Pre'Class => Foo (X),
-           Invariant => Foo (X);
-   --% node.p_has_aspect("pre")
-   --% node.p_has_aspect("pre'class")
-   --% node.p_has_aspect("invariant")
+   package P is
+      type T is tagged private;
+
+      function Foo (X : T) return Boolean is (True);
+      function Bar (X : T) return Integer is (42)
+         with Pre => Foo (X),
+              Pre'Class => Foo (X);
+      --% node.p_has_aspect("pre")
+      --% node.p_has_aspect("pre'class")
+
+   private
+      type T is tagged null record with Invariant => Foo (T);
+      --% node.p_has_aspect("invariant")
+   end P;
 
    Op : access function (Arg1 : Integer; Arg2 : Integer) return Integer
      with Import => True,

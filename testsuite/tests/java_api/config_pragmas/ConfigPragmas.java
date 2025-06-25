@@ -6,7 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.adacore.libadalang.Libadalang.*;
+import com.adacore.langkit_support.LangkitSupport.*;
+import com.adacore.libadalang.Libadalang.AdaNode;
+import com.adacore.libadalang.Libadalang.AnalysisContext;
+import com.adacore.libadalang.Libadalang.CompilationUnit;
+import com.adacore.libadalang.Libadalang.LangkitException;
 
 /**
  * Test that the AnalysisContext.setConfigPragmasMapping method works as

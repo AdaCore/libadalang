@@ -6,21 +6,24 @@
 
         ${java_doc("libadalang.set_config_pragmas_mapping", 8)}
         public void setConfigPragmasMapping(
-            AnalysisUnit globalPragmas,
-            Map<AnalysisUnit, AnalysisUnit> localPragmas
+            LangkitSupport.AnalysisUnit globalPragmas,
+            Map<LangkitSupport.AnalysisUnit, LangkitSupport.AnalysisUnit> localPragmas
         ) {
+            final AnalysisUnit castGlobalPragmas = (AnalysisUnit) globalPragmas;
+            final Map<AnalysisUnit, AnalysisUnit> castLocalPragmas = (Map) localPragmas;
+
             // Create the flat array for local pragmas that the C API expects
             AnalysisUnit[] locals;
             int i = 0;
             int localCount;
-            if (localPragmas == null) {
+            if (castLocalPragmas == null) {
                 localCount = 1;
                 locals = new AnalysisUnit[localCount];
             } else {
-                localCount = 2 * localPragmas.size() + 1;
+                localCount = 2 * castLocalPragmas.size() + 1;
                 locals = new AnalysisUnit[localCount];
                 for (Map.Entry<AnalysisUnit, AnalysisUnit> entry :
-                     localPragmas.entrySet()) {
+                     castLocalPragmas.entrySet()) {
                     AnalysisUnit key = entry.getKey();
                     AnalysisUnit value = entry.getValue();
 
@@ -50,9 +53,9 @@
                 }
 
                 final AnalysisUnitNative globalPragmasNative =
-                    globalPragmas == null
+                    castGlobalPragmas == null
                     ? WordFactory.nullPointer()
-                    : globalPragmas.unwrap();
+                    : castGlobalPragmas.unwrap();
 
                 NI_LIB.${nat("set_config_pragmas_mapping")}(
                     this.reference.ni(),
@@ -62,7 +65,7 @@
             } else {
                 JNI_LIB.${nat("set_config_pragmas_mapping")}(
                     this,
-                    globalPragmas,
+                    castGlobalPragmas,
                     locals
                 );
             }

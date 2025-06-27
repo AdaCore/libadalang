@@ -6760,6 +6760,7 @@
             "text": ")"
           },
           "hardlineWithoutBreakParent",
+          "flushLineBreaks",
           {
             "kind": "recurse_field",
             "field": "f_body"

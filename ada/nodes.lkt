@@ -3597,14 +3597,14 @@ class BaseFormalParamHolder: AdaNode {
         val self_params =
             self.unpacked_formal_params().do(
                 (params) =>
-                if ignore_first_param then params.ifilter((e, i) => i != 0)
+                if ignore_first_param then params.ifilter((_, i) => i != 0)
                 else params
             );
         val other_params = other.unpacked_formal_params();
         val self_types =
             self.param_types().do(
                 (types) =>
-                if ignore_first_param then types.ifilter((e, i) => i != 0)
+                if ignore_first_param then types.ifilter((_, i) => i != 0)
                 else types
             );
         val other_types = other.param_types();

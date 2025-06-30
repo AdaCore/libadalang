@@ -144,6 +144,11 @@ class LALTestsuite(Testsuite):
                  ' (need for non-standard Python packages, assumptions on the'
                  ' source directory layout, etc.).'
         )
+        parser.add_argument(
+            "--intra-test-jobs", type=int, default=1,
+            help="Number of parallel jobs that a single test can use. Used to"
+            " speed up slow low-consumption tests in the internal testsuite."
+        )
 
         parser.add_argument(
             '--perf-mode',
@@ -231,6 +236,8 @@ class LALTestsuite(Testsuite):
             shutil.rmtree(traces_dir)
         os.mkdir(traces_dir)
         self.env.traces_dir = traces_dir
+
+        os.environ["LAL_INTRA_TEST_JOBS"] = str(opts.intra_test_jobs)
 
         # If requested, enable the performance mode. In this case, make sure
         # that the directory in which to create profile data exists.

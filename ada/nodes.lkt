@@ -12688,7 +12688,7 @@ class GenericInstantiation: BasicDecl {
         # in this non-memoized property to avoid a false "infinite recursion"
         # property error that can happen when the computation is only done in
         # instantiation_bindings_internal.
-        val _ = node.nonbound_generic_decl_from_self();
+        val _ = node.as_bare_entity.nonbound_generic_decl_from_entity(true);
 
         self.instantiation_bindings_internal()
     }
@@ -12771,6 +12771,7 @@ class GenericInstantiation: BasicDecl {
     |" By default, this property follows renaming declarations to return the
     |" designated generic declaration. Set follow_renaming to false in order to
     |" return the renaming declaration instead if any.
+    @memoized
     fun nonbound_generic_decl_from_self(
         follow_renaming: Bool = true
     ): Entity[BasicDecl] =
@@ -18640,6 +18641,7 @@ class CallExpr: Name {
 
     |" Return whether this CallExpr actually represents a type conversion.
     @with_dynvars(env, origin)
+    @memoized
     fun is_type_conversion(): Bool =
         not self.name is QualExpr
         # Directly call designated_type_impl instead of

@@ -5988,6 +5988,12 @@
           "document": [
             "line",
             {
+              "kind": "group",
+              "document": "flushLineBreaks",
+              "bubbleUpLeadingTrivias": false,
+              "bubbleUpTrailingTrivias": false
+            },
+            {
               "kind": "recurse_field",
               "field": "f_has_abstract"
             },

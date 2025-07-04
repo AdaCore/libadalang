@@ -192,14 +192,61 @@ class JavaDriver(BaseDriver):
             print(ni_main_content, file=f)
         javac(ni_main_file_name)
 
+        os_specific_options = []
+        if os.name != "nt":
+            def find_file_in_env(file_name, env_var) -> str | None:
+                for dir in os.environ.get(env_var, "").split(os.pathsep):
+                    if os.path.isfile(os.path.join(dir, file_name)):
+                        return dir
+                return None
+
+            # Find the directory that contains the "libadalang.h" header file
+            header_dir = find_file_in_env("libadalang.h", "C_INCLUDE_PATH")
+            assert header_dir is not None
+
+            # Find the directory that contains the LAL shared library
+            lib_dirs = [
+                dir for dir in [
+                    find_file_in_env("libadalang.so", "LIBRARY_PATH"),
+                    find_file_in_env("libz.so", "LIBRARY_PATH"),
+                ]
+                if dir is not None
+            ]
+
+            # We also need to provide rpath-links to the compiler to allow it
+            # to find libraries during linking phase.
+            ld_library_path = os.environ.get('LD_LIBRARY_PATH')
+            rpaths = (
+                [
+                    f"-Wl,-rpath-link={p}"
+                    for p in ld_library_path.split(os.pathsep)
+                ]
+                if ld_library_path else
+                []
+            )
+
+            # Create native-image options to provide required information when
+            # spawning GCC.
+            os_specific_options.extend([
+                f"--native-compiler-options=-I{header_dir}",
+                *[
+                    f"--native-compiler-options=-L{lib_dir}"
+                    for lib_dir in lib_dirs
+                ],
+                *[f"--native-compiler-options={rp}" for rp in rpaths],
+            ])
+        else:
+            # Ensure the compiler isn't emitting warnings about CPU features
+            os_specific_options.append("-march=native")
+
         # Run the native-image compiler
         subprocess.check_call([
             cls.ni_compiler_exec(),
             '-cp', class_path,
             '--no-fallback',
-            '--macro:truffle',
-            '-H:+BuildOutputSilent',
-            '-H:+ReportExceptionStackTraces',
+            "-Ob",
+            "--silent",
+            *os_specific_options,
             'NativeImageMain',
             ni_bin,
         ])
@@ -257,13 +304,10 @@ class JavaDriver(BaseDriver):
                 self.java_exec(),
                 '-cp', class_path,
                 '-Dfile.encoding=UTF-8',
+                # Enable the Java application to load and use native libraries
+                "--enable-native-access=ALL-UNNAMED",
                 f"-Djava.library.path={java_library_path}",
             ]
-            if 'graalvm' in os.environ['JAVA_HOME']:
-                args.append((
-                    '--add-opens=org.graalvm.truffle/com.oracle.truffle.api.'
-                    'strings=ALL-UNNAMED'
-                ))
             args.append(main_java)
 
         # Run the test main. Mains expect a GPR project path as their only

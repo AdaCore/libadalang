@@ -2606,8 +2606,6 @@
         ]
       }
     },
-    "ErrorDecl": {},
-    "ErrorStmt": {},
     "ExceptionDecl": {
       "node": [
         {

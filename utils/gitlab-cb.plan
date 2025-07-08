@@ -4,7 +4,3 @@ def run_cb():
 
     # Also build the customer-facing Libadalang package
     anod_build("libadalang_for_customers")
-
-    # Build gnatformat, to ensure that Libadalang/Langkit changes do not break
-    # this unstabilized component.
-    anod_build("gnatformat")

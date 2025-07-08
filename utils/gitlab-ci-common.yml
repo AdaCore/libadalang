@@ -41,7 +41,6 @@
   script:
     - generic_anod_ci
         --continuous-builder-mode
-        --add-dep eng/gpr/gpr
         --add-dep eng/ide/gnatformat
         --add-dep eng/ide/libadalang-tools
         --add-dep eng/libadalang/adasat

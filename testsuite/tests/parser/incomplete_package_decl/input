@@ -1,0 +1,3 @@
+package Pkg is
+   procedure P;
+   type T is new Float;

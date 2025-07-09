@@ -1,0 +1,55 @@
+input:1:1: Cannot parse <package_decl>
+input:4:1: Expected 'end', got Termination
+PackageDecl[1:1-4:1] <<INCOMPLETE>>
+|f_package_name:
+|  DefiningName[1:9-1:12]
+|  |f_name:
+|  |  Id[1:9-1:12]: Pkg
+|f_aspects: <null>
+|f_public_part:
+|  PublicPart[1:15-4:1]
+|  |f_decls:
+|  |  AdaNodeList[2:4-3:24]
+|  |  |  SubpDecl[2:4-2:16]
+|  |  |  |f_overriding:
+|  |  |  |  OverridingUnspecified[1:15-1:15]
+|  |  |  |f_subp_spec:
+|  |  |  |  SubpSpec[2:4-2:15]
+|  |  |  |  |f_subp_kind:
+|  |  |  |  |  SubpKindProcedure[2:4-2:13]
+|  |  |  |  |f_subp_name:
+|  |  |  |  |  DefiningName[2:14-2:15]
+|  |  |  |  |  |f_name:
+|  |  |  |  |  |  Id[2:14-2:15]: P
+|  |  |  |  |f_subp_params: <null>
+|  |  |  |  |f_subp_returns: <null>
+|  |  |  |f_aspects: <null>
+|  |  |  ConcreteTypeDecl[3:4-3:24]
+|  |  |  |f_name:
+|  |  |  |  DefiningName[3:9-3:10]
+|  |  |  |  |f_name:
+|  |  |  |  |  Id[3:9-3:10]: T
+|  |  |  |f_discriminants: <null>
+|  |  |  |f_type_def:
+|  |  |  |  DerivedTypeDef[3:14-3:23]
+|  |  |  |  |f_has_abstract:
+|  |  |  |  |  AbstractAbsent[3:13-3:13]
+|  |  |  |  |f_has_limited:
+|  |  |  |  |  LimitedAbsent[3:13-3:13]
+|  |  |  |  |f_has_synchronized:
+|  |  |  |  |  SynchronizedAbsent[3:13-3:13]
+|  |  |  |  |f_subtype_indication:
+|  |  |  |  |  SubtypeIndication[3:18-3:23]
+|  |  |  |  |  |f_has_not_null:
+|  |  |  |  |  |  NotNullAbsent[3:17-3:17]
+|  |  |  |  |  |f_name:
+|  |  |  |  |  |  Id[3:18-3:23]: Float
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_interfaces:
+|  |  |  |  |  ParentList[3:23-3:23]: <empty list>
+|  |  |  |  |f_record_extension: <null>
+|  |  |  |  |f_has_with_private:
+|  |  |  |  |  WithPrivateAbsent[3:23-3:23]
+|  |  |  |f_aspects: <null>
+|f_private_part: <null>
+|f_end_name: <null>

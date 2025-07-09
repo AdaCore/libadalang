@@ -376,7 +376,7 @@ grammar ada_grammar {
         "package"
         defining_name
         aspect_spec
-        "is"
+        "is" /
         PublicPart(basic_decls.dont_skip(or("private" | "end")))
         ?pick("private" PrivatePart(basic_decls.dont_skip("end")))
         pick("end" ?EndName(static_name))

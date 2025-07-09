@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a record type declaration that contains
+    a comment between the `is` and the `record` keyword. This comment is long
+    enough so that its formatting will necessarily exceed the maximum width.
+
+    The unparsing configuration used to yield an extra line break after the
+    comment at each reformatting step (unstable formatting).
+
+driver: unparser
+rule: type_decl

@@ -1,0 +1,17 @@
+Working on node <ConcreteTypeDecl ["T_Ancestor"] test.ads:2:4-2:35>
+===================================================================
+
+Set 'ancestor_prims' to 'node.p_get_primitives()'
+Result: [<SubpDecl ["Compute"] test.ads:16:4-16:60>]
+
+Working on node <ConcreteTypeDecl ["T_Descendant"] test.ads:5:4-5:40>
+=====================================================================
+
+Set 'descendant_prims' to 'node.p_get_primitives()'
+Result: [<SubpDecl ["Compute"] test.ads:18:4-18:62>]
+
+Set 'descendant_inherited_prims' to 'node.p_get_primitives(True)'
+Result: []
+
+Eval 'len(descendant_inherited_prims) == 0'
+Result: True

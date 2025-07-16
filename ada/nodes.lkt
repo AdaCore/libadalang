@@ -7683,7 +7683,17 @@ class BaseTypeDecl: BasicDecl {
         # Next, for each of these names, we only want to keep the
         # "most overriding" ones.
         all_prim_names.mapcat((name) => {
-            val all_prims = prim_env.get(name).map((t) => t.as[BasicDecl]);
+            val all_prims = prim_env.get(name).filtermap(
+                (p) => p.as[BasicDecl],
+                # Primitives are inherited iff they have been declared before
+                # self in source (late primitives of parent type are not
+                # primitives for self).
+                (p) =>
+                    if only_inherited
+                    and p.declarative_scope() == node.declarative_scope()
+                    then p.node < node
+                    else true
+            );
             val bds =
                 if include_predefined_operators
                 then all_prims

@@ -2,3 +2,5 @@ driver: ada-api
 main: main.adb
 argv: [--no-such-flag]
 check_output: False
+control:
+  - [XFAIL, "True", "Pending resolution of eng/toolchain/gnatcoll-core#132"]

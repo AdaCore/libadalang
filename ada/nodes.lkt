@@ -2974,6 +2974,11 @@ class AspectAssoc: AdaNode {
             %and self.expr.expected_type_var() <- node.std_string_type()
             %and self.expr.matches_expected_type()
 
+        elif self.id.name_symbol() in s"Taint_Source"
+             | s"Taint_Sink" | s"Taint_Sanitizer"
+        then
+            self.taint_aspect_equation()
+
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
         # name resolve the expression.
@@ -3048,6 +3053,49 @@ class AspectAssoc: AdaNode {
         <- target.as_entity.user_defined_literal_fns(self.id.name_symbol()).at(
         # First result in the list is the last override if any
             0
+        )
+
+    |" Equation for GNATSAS taint aspects.
+    |" Without any designators, the first parameter is expected to be an
+    |" arbitrary expression while the second parameter is expected to be a
+    |" statically known string. The designator ``Kind`` can be used to specify
+    |" the statically known string instead of using positional arguments.
+    |" Note that this feature is still work in progress and is used as a
+    |" prototype for now.
+    @with_dynvars(env, origin, entry_point)
+    fun taint_aspect_equation(): Equation =
+        self.expr.as[Aggregate].do(
+            (agg) => {
+                # True if the designator kind is used. In which case we don't
+                # want to assume the string to be the second parameter.
+                val has_kind = agg.assocs.any(
+                    (l) => l.names().any((n) => n.as[Name].name_is(s"Kind"))
+                );
+
+                agg.assocs.ilogic_all((assoc, i) =>
+                    if assoc.names().at(0).as[Name]?.name_is(s"Kind")
+                       or (not has_kind and i == 1)
+                    then
+                        assoc.expr().sub_equation()
+                        %and assoc.expr().expected_type_var()
+                             <- node.std_string_type()
+                        %and assoc.expr().matches_expected_type()
+                    else
+                        # The other association correspond to the target of the
+                        # taint aspect.
+                        # Handle the aggregate case that can occur when
+                        # multiple targets are specified for the given
+                        # taint property.
+                        assoc.expr().as[Aggregate].do(
+                            (targets) =>
+                                targets.assocs.ilogic_all((target, _) =>
+                                    target.expr().sub_equation()
+                                ),
+                            default_val=assoc.expr().sub_equation()
+                        )
+                )
+            },
+            default_val=%false
         )
 
     |" Return the string representation of the given name, which must be a
@@ -4516,6 +4564,13 @@ class AggregateAssoc: BasicAssoc {
             # as they must all refer to existing declarations.
             self.exprs_assoc_equation()
         )
+        elif agg.in_aspect(s"Taint_Source")
+             or agg.in_aspect(s"Taint_Sanitizer")
+             or agg.in_aspect(s"Taint_Sink")
+        then
+            # Aggregates within taint aspects are directly handled by
+            # the AspectAssoc equations.
+            %true
 
         elif agg.in_aspect(s"Iterable")
         then self.iterable_assoc_equation()

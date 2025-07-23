@@ -8434,8 +8434,19 @@ class TypeDecl(BaseTypeDecl):
             Entity.primitives_env
         ))
 
-        all_prims = Var(prim_env.get(symbol=No(T.Symbol)).map(
-            lambda t: t.cast(BasicDecl)
+        all_prims = Var(prim_env.get(symbol=No(T.Symbol)).filtermap(
+            lambda t: t.cast(BasicDecl),
+            # Primitives are inherited iff they have been declared before
+            # self in source (late primitives of parent type are not
+            # primitives for self).
+            lambda p: If(
+                And(
+                    only_inherited,
+                    p.declarative_scope == Self.declarative_scope
+                ),
+                p.node < Self,
+                True
+            )
         ))
 
         bds = Var(If(

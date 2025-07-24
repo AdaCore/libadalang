@@ -2,36 +2,46 @@
 
 set -e
 
-RELEASE=23.0.0
-SRC_PKG=/tmp/libadalang-$RELEASE.tar.gz
+RELEASE=26.0.0
+RELEASE_ARCHIVE=/tmp/libadalang-$RELEASE.tar.gz
 
-# Make sure the appropriate Langkit sources are checked out in
-# /tmp/langkit-$RELEASE and Libadalang sources in /tmp/lal-$RELEASE
-SRC_DIR=/tmp/lal-$RELEASE
-cd $SRC_DIR
-export PYTHONPATH=/tmp/langkit-$RELEASE:$PYTHONPATH
+# Before running this script, make sure the appropriate sources are checked
+# out:
+# * Langkit    in /tmp/langkit-$RELEASE
+# * AdaSAT     in /tmp/adasat-$RELEASE
+# * Libadalang in /tmp/lal-$RELEASE
+LANGKIT_SRC=/tmp/langkit-$RELEASE
+ADASAT_SRC=/tmp/adasat-$RELEASE
+LAL_SRC=/tmp/lal-$RELEASE
 
-BUILD_DIR=/tmp/libadalang-$RELEASE
-rm -rf $BUILD_DIR
+cd $LAL_SRC
+# Build Langkit and add it to the environment
+export PYTHONPATH=$LANGKIT_SRC:$PYTHONPATH
+export GPR_PROJECT_PATH=$ADASAT_SRC
+(cd $LANGKIT_SRC && ./manage.py make)
+eval $(cd $LANGKIT_SRC && ./manage.py printenv)
 
 # Generate the Libadalang and Mains projects
-./manage.py generate --build-dir=$BUILD_DIR
+LAL_BUILD_DIR=/tmp/libadalang-$RELEASE
+rm -rf $LAL_BUILD_DIR
+python -m langkit.scripts.lkm generate \
+    --build-dir=$LAL_BUILD_DIR \
+    --portable-project
 
 # Remove the automatically created object directory
-rm -rf $BUILD_DIR/obj
+rm -rf $LAL_BUILD_DIR/obj
 
 # Reorganize the trees for libadalang.gpr
-patch -d $BUILD_DIR -p0 -f -i $SRC_DIR/utils/libadalang.gpr.patch
-
-mv $BUILD_DIR/libadalang.h $BUILD_DIR/src/
-cp -a $SRC_DIR/extensions/src/* $BUILD_DIR/src/
+sed -ie \
+    's/Primary_Source_Dirs := ("src".*/Primary_Source_Dirs := ("src");/' \
+    $LAL_BUILD_DIR/libadalang.gpr
+cp -a $LAL_SRC/extensions/src/* $LAL_BUILD_DIR/src/
 
 # Reorganize the trees for mains.gpr
-patch -d $BUILD_DIR -p0 -f -i $SRC_DIR/utils/mains.gpr.patch
-
-cp -ar $SRC_DIR/testsuite/ada/*.ad* $BUILD_DIR/src-mains/
-cp -ar $SRC_DIR/testsuite/ada/gnat_compare/*.ad* $BUILD_DIR/src-mains/
+sed -ie 's/".*"src-mains"/"src-mains"/' $LAL_BUILD_DIR/mains.gpr
+cp -ar $LAL_SRC/testsuite/ada/*.ad* $LAL_BUILD_DIR/src-mains/
+cp -ar $LAL_SRC/testsuite/ada/gnat_compare/*.ad* $LAL_BUILD_DIR/src-mains/
 
 # Create the release tarball
-tar czf $SRC_PKG -C /tmp libadalang-$RELEASE
-sha512sum $SRC_PKG
+tar czf $RELEASE_ARCHIVE -C /tmp libadalang-$RELEASE
+sha512sum $RELEASE_ARCHIVE

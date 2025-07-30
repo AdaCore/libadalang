@@ -9276,6 +9276,10 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin=null[AdaNode])
     fun is_tagged_type(): Bool = false
 
+    |" Whether the type is abstract or not.
+    @exported
+    fun is_abstract_type(): Bool = false
+
     |" Return the base type entity for this derived type declaration
     @exported
     @with_dynvars(origin=null[AdaNode])
@@ -9418,6 +9422,8 @@ class BaseSubtypeDecl: BaseTypeDecl {
     @with_dynvars(origin=null[AdaNode])
     fun is_tagged_type(): Bool = self.get_type().is_tagged_type()
 
+    fun is_abstract_type(): Bool = self.get_type().is_abstract_type()
+
     @with_dynvars(origin=null[AdaNode])
     fun base_type(): Entity[BaseTypeDecl] = self.get_type().base_type()
 
@@ -9544,6 +9550,8 @@ class ClasswideTypeDecl: BaseTypeDecl {
 
     @with_dynvars(origin=null[AdaNode])
     fun is_tagged_type(): Bool = true
+
+    fun is_abstract_type(): Bool = false
 
     @with_dynvars(origin=null[AdaNode])
     fun base_type(): Entity[BaseTypeDecl] = null[Entity[BaseTypeDecl]]
@@ -9676,6 +9684,8 @@ class IncompleteTaggedTypeDecl: IncompleteTypeDecl {
 
     @with_dynvars(origin=null[AdaNode])
     fun is_tagged_type(): Bool = true
+
+    fun is_abstract_type(): Bool = self.has_abstract.as_bool()
 }
 
 |" Declaration for a protected type (:rmlink:`9.4`).
@@ -9951,6 +9961,8 @@ class TypeDecl: BaseTypeDecl {
 
     @with_dynvars(origin=null[AdaNode])
     fun is_tagged_type(): Bool = self.type_def.is_tagged_type()
+
+    fun is_abstract_type(): Bool = self.type_def.is_abstract_type()
 
     fun is_task_type(): Bool = self.type_def.is_task_type()
 
@@ -23841,6 +23853,16 @@ class TypeDef: AdaNode {
     fun is_task_type(): Bool = false
 
     fun is_limited_type(): Bool = false
+
+    |" Return whether the type is abstract.
+    fun is_abstract_type(): Bool =
+        match self {
+            case dt : DerivedTypeDef => dt.has_abstract.as_bool()
+            case pt : PrivateTypeDef => pt.has_abstract.as_bool()
+            case rt : RecordTypeDef => rt.has_abstract.as_bool()
+            case it : InterfaceTypeDef => true
+            case _ => false
+        }
 
     |" Return the base type entity for this derived type definition.
     @with_dynvars(origin)

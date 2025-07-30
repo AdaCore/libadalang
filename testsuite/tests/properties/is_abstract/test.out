@@ -1,0 +1,53 @@
+Working on node <ConcreteTypeDecl ["Non_Abstract"] test.adb:2:4-2:39>
+=====================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: False
+
+Working on node <IncompleteTaggedTypeDecl ["Incomplete_Abstract_Type"] test.adb:5:4-5:53>
+=========================================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Abstract_Tagged_Rec"] test.adb:8:4-8:60>
+============================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Abstract_Derived_Tagged_Type"] test.adb:11:4-12:21>
+=======================================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Derived_Tagged_Type"] test.adb:15:4-15:73>
+==============================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: False
+
+Working on node <ConcreteTypeDecl ["Interface_Type"] test.adb:18:4-18:37>
+=========================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Derived_Interface"] test.adb:21:4-21:59>
+============================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Non_Abstract_From_Interface"] test.adb:24:4-24:76>
+======================================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: False
+
+Working on node <SubtypeDecl ["Classwide_Type"] test.adb:27:4-27:56>
+====================================================================
+
+Eval 'node.p_is_abstract_type'
+Result: False

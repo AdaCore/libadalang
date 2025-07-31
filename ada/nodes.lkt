@@ -16318,7 +16318,7 @@ class CaseExpr: CondExpr {
             %and alt.expr.expected_type_var()
             <- BaseTypeDecl.derefed_base_subtype%(node.expected_type_var())
             %and alt.expr.sub_equation()
-            %and alt.expr.matches_expected_type()
+            %and alt.expr.matches_expected_formal_type()
             %and (
                 if alt.expr.has_context_free_type()
                 then (

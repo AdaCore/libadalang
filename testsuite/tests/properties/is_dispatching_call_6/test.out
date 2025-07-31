@@ -1,0 +1,38 @@
+Processing calls in: <AssignStmt test.adb:25:4-25:16>
+
+Call to <Id "Make" test.adb:25:10-25:14> is dispatching call: True
+
+Processing calls in: <AssignStmt test.adb:27:4-27:61>
+
+Call to <Id "Test" test.adb:27:13-27:17> is dispatching call: False
+Call to <Id "Make" test.adb:27:23-27:27> is dispatching call: True
+Call to <Id "Test" test.adb:27:34-27:38> is dispatching call: False
+Call to <Id "Make" test.adb:27:44-27:48> is dispatching call: True
+Call to <Id "Make2" test.adb:27:54-27:59> is dispatching call: True
+
+Processing calls in: <AssignStmt test.adb:29:4-29:74>
+
+Call to <Id "X" test.adb:29:25-29:26> is dispatching call: False
+Call to <Id "Make" test.adb:29:30-29:34> is dispatching call: True
+Call to <Id "Y" test.adb:29:41-29:42> is dispatching call: False
+Call to <Id "Make" test.adb:29:46-29:50> is dispatching call: True
+Call to <Id "Make2" test.adb:29:67-29:72> is dispatching call: True
+
+Processing calls in: <AssignStmt test.adb:31:4-31:57>
+
+Call to <Id "Make" test.adb:31:51-31:55> is dispatching call: True
+
+Processing calls in: <AssignStmt test.adb:33:4-44:6>
+
+Call to <Id "Test" test.adb:36:14-36:18> is dispatching call: False
+Call to <Id "Make" test.adb:37:16-37:20> is dispatching call: True
+Call to <Id "Test" test.adb:38:17-38:21> is dispatching call: False
+Call to <Id "Make" test.adb:39:19-39:23> is dispatching call: True
+Call to <Id "X" test.adb:41:25-41:26> is dispatching call: False
+Call to <Id "Make" test.adb:41:30-41:34> is dispatching call: True
+Call to <Id "Y" test.adb:42:25-42:26> is dispatching call: False
+Call to <Id "Make" test.adb:42:30-42:34> is dispatching call: True
+Call to <Id "Make2" test.adb:43:35-43:40> is dispatching call: True
+
+
+Done

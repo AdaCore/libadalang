@@ -16287,78 +16287,47 @@ class CaseExpr: CondExpr {
     fun xref_equation(): Equation = {
         # We solve self.expr separately because it is not dependent on the rest
         # of the semres.
-        val _ =
-            self.expr.resolve_names_internal_with_eq(
-                BaseTypeDecl.is_discrete_type%(node.expr.type_var())
-            );
+        val _ = self.expr.resolve_names_internal_with_eq(
+            BaseTypeDecl.is_discrete_type%(node.expr.type_var())
+        );
 
         self.cases.logic_all(
-            (alt) =>
-            (
-                (
-                    (
-                        (
-                            alt.choices.logic_all(
-                                (c) =>
-                                match c {
-                                    # Expression case
-                                    case e: Expr =>
-                                        if
-                                            e is Name
-                                            and not e
-                                            .as[Name]
-                                            .name_designated_type()
-                                            .is_null
-                                        then e.as[Name].xref_type_equation()
-                                        else
-                                            (
-                                                e.expected_type_var()
-                                                <- node.expr.type_val()
-                                                %and e.sub_equation()
-                                            )
-                                            %and e.matches_expected_type()
+            (alt) => alt.choices.logic_all(
+                (c) => match c {
+                    # Expression case
+                    case e: Expr =>
+                        if e is Name
+                            and not e.as[Name].name_designated_type().is_null
+                        then
+                            e.as[Name].xref_type_equation()
+                        else
+                            e.expected_type_var() <- node.expr.type_val()
+                            %and e.sub_equation()
+                            %and e.matches_expected_type()
 
-                                    # SubtypeIndication case (``when Color
-                                    # range Red .. Blue``).
-                                    case t: SubtypeIndication =>
-                                        t.xref_equation()
-                                    case _: OthersDesignator => %true
-                                    case _ =>
-                                        raise[Equation] PropertyError(
-                                            "Should not happen"
-                                        )
-                                }
-                            )
-                            %and (
-                                # Equations for the dependent expressions
-                                node.type_var()
-                                <-> alt.expr.expected_type_var()
-                            )
-                        )
-                        %and alt.expr.expected_type_var()
-                        <- BaseTypeDecl.derefed_base_subtype%(
-                            node.expected_type_var()
-                        )
-                    )
-                    %and alt.expr.sub_equation()
-                )
-                %and alt.expr.matches_expected_type()
+                    # SubtypeIndication case (``when Color range Red .. Blue``)
+                    case t: SubtypeIndication => t.xref_equation()
+
+                    case _: OthersDesignator => %true
+                    case _ =>
+                        raise[Equation] PropertyError("Should not happen")
+                }
             )
+            # Equations for the dependent expressions
+            %and node.type_var() <-> alt.expr.expected_type_var()
+            %and alt.expr.expected_type_var()
+            <- BaseTypeDecl.derefed_base_subtype%(node.expected_type_var())
+            %and alt.expr.sub_equation()
+            %and alt.expr.matches_expected_type()
             %and (
                 if alt.expr.has_context_free_type()
-                then
-                    (
-                        (
-                            BaseTypeDecl.is_not_universal_type%(
-                                alt.expr.type_var()
-                            )
-                            %and alt.expr.expected_type_var()
-                            <- BaseTypeDecl.base_subtype%(alt.expr.type_var())
-                        )
-                        %and alt.expr.expected_type_var()
-                        <-> node.expected_type_var()
-                    )
-                    %or %true
+                then (
+                    BaseTypeDecl.is_not_universal_type%(alt.expr.type_var())
+                    %and alt.expr.expected_type_var()
+                    <- BaseTypeDecl.base_subtype%(alt.expr.type_var())
+                    %and alt.expr.expected_type_var()
+                    <-> node.expected_type_var()
+                ) %or %true
                 else %true
             )
         )

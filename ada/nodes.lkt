@@ -14797,27 +14797,40 @@ class Expr: AdaNode {
     }
 
     |" Return whether the tag value for this tag-indeterminate expression can
-    |" be determined from the enclosing context, that is, whether this is the
-    |" RHS of an assign statement which destination has a classwide type, or a
-    |" controlling operand of an enclosing call which is itself dispatching.
+    |" be determined from the enclosing context, that is, whether this is an
+    |" operative constituent (:rmlink:`4.4` 9.2/5) of the RHS of an assign
+    |" statement which destination has a classwide type, or a controlling
+    |" operand of an enclosing call which is itself dispatching.
     @with_dynvars(imprecise_fallback=false)
-    fun has_dynamic_context(): Bool =
-        self.parent.as[AssignStmt].do(
-            (a) =>
-            (
-                # If we're the RHS of an assignment, RM 3.9.2 (18.1/2) applies:
-                # The controlling operand is the LHS of the assignment.  This
-                # only applies to the RHS of the assign statement.
-                a.expr == self
-            )
-            and self.expected_expression_type().is_classwide(),
+    fun has_dynamic_context(): Bool = match self.parent {
+        # If we're the RHS of an assignment, RM 3.9.2(18.1/2) applies: The
+        # controlling operand is the LHS of the assignment. This only applies
+        # to the RHS of the assign statement.
+        case a: AssignStmt =>
+            (a.expr == self)
+            and self.expected_expression_type().is_classwide()
 
-            # If we're an argument of an enclosing dispatching call, then
-            # RM 3.9.2 (18/2) applies: The controlling tag value of this
-            # call is the controlling tag value of the enclosing call.
-            default_val=self.parent_candidate_dispatching_call()
-            ?.is_dispatching_call()
-        )
+        # The wording in 3.9.2(18/2) and in 3.9.2(18.1/2) talks about
+        # parenthesized expressions and qualified expressions, but fails to
+        # mention other similar cases (for instance, conditional expressions,
+        # declare expressions). This was an oversight addressed by AI22-0043-1.
+        case e: ParenExpr => e.has_dynamic_context()
+        case e: CondExpr  => e.has_dynamic_context()
+        case e: DeclExpr  => e.has_dynamic_context()
+        # CaseExprAlternative and ElsifExprPart expressions are in a list so
+        # jump directly to the closest expression which is the corresponding
+        # CondExpr.
+        case e: CaseExprAlternative =>
+            e.parent.parent.as[CondExpr]?.has_dynamic_context()
+        case e: ElsifExprPart =>
+            e.parent.parent.as[CondExpr]?.has_dynamic_context()
+
+        # If we're an argument of an enclosing dispatching call, then
+        # RM 3.9.2 (18/2) applies: The controlling tag value of this
+        # call is the controlling tag value of the enclosing call.
+        case _ =>
+            self.parent_candidate_dispatching_call()?.is_dispatching_call()
+    }
 
     |" Common logic for the implementation of is_dispatching_call on the
     |" various node types. ``decl`` should be the declaration of the
@@ -16287,78 +16300,47 @@ class CaseExpr: CondExpr {
     fun xref_equation(): Equation = {
         # We solve self.expr separately because it is not dependent on the rest
         # of the semres.
-        val _ =
-            self.expr.resolve_names_internal_with_eq(
-                BaseTypeDecl.is_discrete_type%(node.expr.type_var())
-            );
+        val _ = self.expr.resolve_names_internal_with_eq(
+            BaseTypeDecl.is_discrete_type%(node.expr.type_var())
+        );
 
         self.cases.logic_all(
-            (alt) =>
-            (
-                (
-                    (
-                        (
-                            alt.choices.logic_all(
-                                (c) =>
-                                match c {
-                                    # Expression case
-                                    case e: Expr =>
-                                        if
-                                            e is Name
-                                            and not e
-                                            .as[Name]
-                                            .name_designated_type()
-                                            .is_null
-                                        then e.as[Name].xref_type_equation()
-                                        else
-                                            (
-                                                e.expected_type_var()
-                                                <- node.expr.type_val()
-                                                %and e.sub_equation()
-                                            )
-                                            %and e.matches_expected_type()
+            (alt) => alt.choices.logic_all(
+                (c) => match c {
+                    # Expression case
+                    case e: Expr =>
+                        if e is Name
+                            and not e.as[Name].name_designated_type().is_null
+                        then
+                            e.as[Name].xref_type_equation()
+                        else
+                            e.expected_type_var() <- node.expr.type_val()
+                            %and e.sub_equation()
+                            %and e.matches_expected_type()
 
-                                    # SubtypeIndication case (``when Color
-                                    # range Red .. Blue``).
-                                    case t: SubtypeIndication =>
-                                        t.xref_equation()
-                                    case _: OthersDesignator => %true
-                                    case _ =>
-                                        raise[Equation] PropertyError(
-                                            "Should not happen"
-                                        )
-                                }
-                            )
-                            %and (
-                                # Equations for the dependent expressions
-                                node.type_var()
-                                <-> alt.expr.expected_type_var()
-                            )
-                        )
-                        %and alt.expr.expected_type_var()
-                        <- BaseTypeDecl.derefed_base_subtype%(
-                            node.expected_type_var()
-                        )
-                    )
-                    %and alt.expr.sub_equation()
-                )
-                %and alt.expr.matches_expected_type()
+                    # SubtypeIndication case (``when Color range Red .. Blue``)
+                    case t: SubtypeIndication => t.xref_equation()
+
+                    case _: OthersDesignator => %true
+                    case _ =>
+                        raise[Equation] PropertyError("Should not happen")
+                }
             )
+            # Equations for the dependent expressions
+            %and node.type_var() <-> alt.expr.expected_type_var()
+            %and alt.expr.expected_type_var()
+            <- BaseTypeDecl.derefed_base_subtype%(node.expected_type_var())
+            %and alt.expr.sub_equation()
+            %and alt.expr.matches_expected_formal_type()
             %and (
                 if alt.expr.has_context_free_type()
-                then
-                    (
-                        (
-                            BaseTypeDecl.is_not_universal_type%(
-                                alt.expr.type_var()
-                            )
-                            %and alt.expr.expected_type_var()
-                            <- BaseTypeDecl.base_subtype%(alt.expr.type_var())
-                        )
-                        %and alt.expr.expected_type_var()
-                        <-> node.expected_type_var()
-                    )
-                    %or %true
+                then (
+                    BaseTypeDecl.is_not_universal_type%(alt.expr.type_var())
+                    %and alt.expr.expected_type_var()
+                    <- BaseTypeDecl.base_subtype%(alt.expr.type_var())
+                    %and alt.expr.expected_type_var()
+                    <-> node.expected_type_var()
+                ) %or %true
                 else %true
             )
         )

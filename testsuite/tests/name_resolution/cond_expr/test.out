@@ -1,0 +1,41 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:19:4-19:58>
+*********************************************************
+
+Expr: <Id "U" test.adb:19:4-19:5>
+  references:    <DefiningName "U" test.adb:16:4-16:5>
+  type:          <ClasswideTypeDecl ["Root"] test.adb:5:7-5:58>
+  expected type: None
+Expr: <ParenExpr test.adb:19:9-19:57>
+  type:          <ClasswideTypeDecl ["Root"] test.adb:5:7-5:58>
+  expected type: <ClasswideTypeDecl ["Root"] test.adb:5:7-5:58>
+Expr: <CaseExpr test.adb:19:10-19:56>
+  type:          <ClasswideTypeDecl ["Root"] test.adb:5:7-5:58>
+  expected type: <ClasswideTypeDecl ["Root"] test.adb:5:7-5:58>
+Expr: <Id "O" test.adb:19:15-19:16>
+  references:    <DefiningName "O" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:24>
+  expected type: None
+Expr: <CaseExprAlternative test.adb:19:20-19:34>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:19:25-19:26>
+  references:    <DefiningName "X" test.adb:2:15-2:16>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:24>
+Expr: <Id "Make" test.adb:19:30-19:34>
+  references:    <DefiningName "Make" test.adb:6:16-6:20>
+  type:          <ConcreteTypeDecl ["Root"] test.adb:5:7-5:58>
+  expected type: <ClasswideTypeDecl ["Root"] test.adb:5:7-5:58>
+Expr: <CaseExprAlternative test.adb:19:36-19:56>
+  type:          None
+  expected type: None
+Expr: <Id "Make2" test.adb:19:51-19:56>
+  references:    <DefiningName "Make2" test.adb:7:16-7:21>
+  type:          <ConcreteTypeDecl ["Root"] test.adb:5:7-5:58>
+  expected type: <ClasswideTypeDecl ["Root"] test.adb:5:7-5:58>
+
+
+Done.

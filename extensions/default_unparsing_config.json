@@ -6109,7 +6109,9 @@
                           "kind": "recurse_field",
                           "field": "f_right"
                         }
-                      ]
+                      ],
+                      "bubbleUpLeadingTrivias": true,
+                      "bubbleUpTrailingTrivias": true
                     }
                   ]
                 }

@@ -2235,9 +2235,13 @@ class AdaNode implements Node[AdaNode] {
                     subp_symbol=op,
                     right_param=SyntheticFormalParamDecl(
                         param_name=s"right",
-                        param_type=SyntheticTypeExpr(target_type=rhs)
+                        param_type=SyntheticTypeExpr(
+                            target_type=rhs.as_bare_entity
+                        )
                     ),
-                    return_type_expr=SyntheticTypeExpr(target_type=ret)
+                    return_type_expr=SyntheticTypeExpr(
+                        target_type=ret.as_bare_entity
+                    )
                 )
             ),
             dest_env=DesignatedEnv(
@@ -2293,9 +2297,9 @@ class AdaNode implements Node[AdaNode] {
     ): EnvAssoc =
         node.create_binop_assoc_impl(
             op,
-            SyntheticTypeExpr(target_type=lhs),
-            SyntheticTypeExpr(target_type=rhs),
-            SyntheticTypeExpr(target_type=ret)
+            SyntheticTypeExpr(target_type=lhs.as_bare_entity),
+            SyntheticTypeExpr(target_type=rhs.as_bare_entity),
+            SyntheticTypeExpr(target_type=ret.as_bare_entity)
         )
 
     |" Like ``create_binop_assoc`` but the left parameter's type is given as a
@@ -2310,8 +2314,8 @@ class AdaNode implements Node[AdaNode] {
         node.create_binop_assoc_impl(
             op,
             lhs,
-            SyntheticTypeExpr(target_type=rhs),
-            SyntheticTypeExpr(target_type=ret)
+            SyntheticTypeExpr(target_type=rhs.as_bare_entity),
+            SyntheticTypeExpr(target_type=ret.as_bare_entity)
         )
 
     |" Like ``create_binop_assoc`` but the right parameter's type is given as
@@ -2325,9 +2329,9 @@ class AdaNode implements Node[AdaNode] {
     ): EnvAssoc =
         node.create_binop_assoc_impl(
             op,
-            SyntheticTypeExpr(target_type=lhs),
+            SyntheticTypeExpr(target_type=lhs.as_bare_entity),
             rhs,
-            SyntheticTypeExpr(target_type=ret)
+            SyntheticTypeExpr(target_type=ret.as_bare_entity)
         )
 
     |" Like ``create_binop_assoc`` but the left and right parameters' types
@@ -2343,7 +2347,7 @@ class AdaNode implements Node[AdaNode] {
             op,
             lhs,
             rhs,
-            SyntheticTypeExpr(target_type=ret)
+            SyntheticTypeExpr(target_type=ret.as_bare_entity)
         )
 
     |" Custom Unique identifying text used to recognize this node. Not
@@ -7850,7 +7854,7 @@ class BaseTypeDecl: BasicDecl {
                 # the contrary, we have to embed the TypeDecl into a synthetic
                 # `TypeExpr` for `TypeDecl`s.
                 type_expr=node.as_bare_entity.type_expression().node
-                or? SyntheticTypeExpr(target_type=node)
+                or? SyntheticTypeExpr(target_type=node.as_bare_entity)
             ),
             dest_env=DesignatedEnv(
                 kind=DesignatedEnvKind.current_env,
@@ -23078,25 +23082,24 @@ class TypeAttributesRepository: AdaNode {
 
     @lazy
     base_type_expr: NodeBuilder[SyntheticTypeExpr] =
-        SyntheticTypeExpr.builder(target_type=node.base_type.to_builder())
+        SyntheticTypeExpr.builder(target_type=node.base_type.as_bare_entity)
 
     @lazy
     scalar_base_type_expr: NodeBuilder[SyntheticTypeExpr] =
         SyntheticTypeExpr.builder(
-            target_type=node.base_type.as_bare_entity
-                .base_subtype().node.to_builder()
+            target_type=node.base_type.as_bare_entity.base_subtype()
         )
 
     @lazy
     universal_int_type_expr: NodeBuilder[SyntheticTypeExpr] =
         SyntheticTypeExpr.builder(
-            target_type=node.universal_int_type().node.to_builder()
+            target_type=node.universal_int_type()
         )
 
     @lazy
     universal_real_type_expr: NodeBuilder[SyntheticTypeExpr] =
         SyntheticTypeExpr.builder(
-            target_type=node.universal_real_type().node.to_builder()
+            target_type=node.universal_real_type()
         )
 
     @lazy
@@ -23133,8 +23136,6 @@ class TypeAttributesRepository: AdaNode {
             param_name=s"S",
             param_type=SyntheticTypeExpr.builder(
                 target_type=node.root_stream_type().anonymous_access_type()
-                .node
-                .to_builder()
             )
         )
 
@@ -23388,8 +23389,6 @@ class TypeAttributesRepository: AdaNode {
                     param_type=SyntheticTypeExpr.builder(
                         target_type=node.std_entity(s"String")
                         .as[BaseTypeDecl]
-                        .node
-                        .to_builder()
                     )
                 ),
                 return_type_expr=node.scalar_base_type_expr
@@ -23407,8 +23406,6 @@ class TypeAttributesRepository: AdaNode {
                     param_type=SyntheticTypeExpr.builder(
                         target_type=node.std_entity(s"Wide_String")
                         .as[BaseTypeDecl]
-                        .node
-                        .to_builder()
                     )
                 ),
                 return_type_expr=node.scalar_base_type_expr
@@ -23426,8 +23423,6 @@ class TypeAttributesRepository: AdaNode {
                     param_type=SyntheticTypeExpr.builder(
                         target_type=node.std_entity(s"Wide_Wide_String")
                         .as[BaseTypeDecl]
-                        .node
-                        .to_builder()
                     )
                 ),
                 return_type_expr=node.scalar_base_type_expr
@@ -23558,8 +23553,6 @@ class TypeAttributesRepository: AdaNode {
                 return_type_expr=SyntheticTypeExpr.builder(
                     target_type=node.std_entity(s"String")
                     .as[BaseTypeDecl]
-                    .node
-                    .to_builder()
                 )
             )
         )
@@ -23574,8 +23567,6 @@ class TypeAttributesRepository: AdaNode {
                 return_type_expr=SyntheticTypeExpr.builder(
                     target_type=node.std_entity(s"Wide_String")
                     .as[BaseTypeDecl]
-                    .node
-                    .to_builder()
                 )
             )
         )
@@ -23590,8 +23581,6 @@ class TypeAttributesRepository: AdaNode {
                 return_type_expr=SyntheticTypeExpr.builder(
                     target_type=node.std_entity(s"Wide_Wide_String")
                     .as[BaseTypeDecl]
-                    .node
-                    .to_builder()
                 )
             )
         )
@@ -23606,8 +23595,6 @@ class TypeAttributesRepository: AdaNode {
                     param_name=s"Buffer",
                     param_type=SyntheticTypeExpr.builder(
                         target_type=node.root_buffer_type().classwide_type()
-                        .node
-                        .to_builder()
                     )
                 ),
                 right_param=node.base_type_param,
@@ -23626,7 +23613,6 @@ class TypeAttributesRepository: AdaNode {
                 )
                 ?.children_env
                 .get_first(s"Asm_Input_Operand", lookup=LookupKind.flat)
-                .node
                 .as[BaseTypeDecl];
 
             SyntheticSubpDecl.builder(
@@ -23637,13 +23623,11 @@ class TypeAttributesRepository: AdaNode {
                         param_type=SyntheticTypeExpr.builder(
                             target_type=node.std_entity(s"String")
                             .as[BaseTypeDecl]
-                            .node
-                            .to_builder()
                         )
                     ),
                     right_param=node.base_type_param,
                     return_type_expr=SyntheticTypeExpr.builder(
-                        target_type=input_type.to_builder()
+                        target_type=input_type
                     )
                 )
             )
@@ -23660,7 +23644,6 @@ class TypeAttributesRepository: AdaNode {
                 )
                 ?.children_env
                 .get_first(s"Asm_Output_Operand", lookup=LookupKind.flat)
-                .node
                 .as[BaseTypeDecl];
 
             SyntheticSubpDecl.builder(
@@ -23671,13 +23654,11 @@ class TypeAttributesRepository: AdaNode {
                         param_type=SyntheticTypeExpr.builder(
                             target_type=node.std_entity(s"String")
                             .as[BaseTypeDecl]
-                            .node
-                            .to_builder()
                         )
                     ),
                     right_param=node.base_type_param,
                     return_type_expr=SyntheticTypeExpr.builder(
-                        target_type=output_type.to_builder()
+                        target_type=output_type
                     )
                 )
             )
@@ -25185,11 +25166,10 @@ class DiscreteSubtypeIndication: SubtypeIndication {
 |" instantiation time and is to be given in the ``target_type`` field.
 @synthetic
 class SyntheticTypeExpr: TypeExpr {
-    @parse_field
-    target_type: BaseTypeDecl
+    target_type: Entity[BaseTypeDecl]
 
     @with_dynvars(origin)
-    fun designated_type(): Entity[BaseTypeDecl] = {
+    fun designated_type(): Entity[BaseTypeDecl] =
         # The `target_type` field stores the bare designated BaseTypeDecl,
         # but self may be carrying rebindings that need to be put back on
         # the bare node.
@@ -25198,20 +25178,17 @@ class SyntheticTypeExpr: TypeExpr {
         # rebindings will ever be relevant.
         # Hence we use the built-in `shed_rebindings` construct from the type
         # definition's lexical environment so as to only keep relevant ones.
-        val relevant_rebindings =
-            node.target_type.children_env.shed_rebindings(self.info)
-            .rebindings;
-
-        # Return a rebound `target_type`
         Entity[BaseTypeDecl](
-            node=node.target_type,
-            info=EntityInfo(
-                md=null[Metadata],
-                rebindings=relevant_rebindings,
-                from_rebound=self.info.from_rebound
+            node=node.target_type.node,
+            info=node.target_type.children_env.shed_rebindings(
+                self.target_type.info.update(
+                    rebindings=self.insert_rebindings(
+                        self.info.rebindings,
+                        self.target_type.info.rebindings
+                    )
+                )
             )
-        )
-    }
+        ).corresponding_actual().as[BaseTypeDecl]
 }
 
 |" List of unconstrained array indexes.

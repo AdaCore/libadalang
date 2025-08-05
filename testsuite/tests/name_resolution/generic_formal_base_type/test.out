@@ -1,90 +1,186 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg"] test.adb:10:4-10:41>
+Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg"] test.adb:14:4-14:41>
 *************************************************************************************
 
-Expr: <Id "Pkg" test.adb:10:26-10:29>
+Expr: <Id "Pkg" test.adb:14:26-14:29>
   references:    <DefiningName "Pkg" test.adb:4:12-4:15>
   type:          None
   expected type: None
-Expr: <Id "Positive" test.adb:10:31-10:39>
+Expr: <Id "Positive" test.adb:14:31-14:39>
   references:    <DefiningName "Positive" in Standard>
   type:          None
   expected type: None
-Traversing generic node <| GenericPackageDecl ["Pkg"] test.adb:2:4-8:12 [test.adb:10:4] |>
-******************************************************************************************
+Traversing generic node <| GenericPackageDecl ["Pkg"] test.adb:2:4-12:12 [test.adb:14:4] |>
+*******************************************************************************************
 
-Resolving xrefs for node <| FormalTypeDecl ["T"] test.adb:3:7-3:26 [test.adb:10:4] |>
+Resolving xrefs for node <| FormalTypeDecl ["T"] test.adb:3:7-3:26 [test.adb:14:4] |>
 *************************************************************************************
 
-Expr: <| BoxExpr test.adb:3:23-3:25 [test.adb:10:4] |>
+Expr: <| BoxExpr test.adb:3:23-3:25 [test.adb:14:4] |>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 
-Resolving xrefs for node <| ObjectDecl ["X"] test.adb:5:7-5:29 [test.adb:10:4] |>
+Resolving xrefs for node <| ObjectDecl ["X"] test.adb:5:7-5:29 [test.adb:14:4] |>
 *********************************************************************************
 
-Expr: <| AttributeRef test.adb:5:11-5:17 [test.adb:10:4] |>
+Expr: <| AttributeRef test.adb:5:11-5:17 [test.adb:14:4] |>
   references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
-Expr: <| Id "T" test.adb:5:11-5:12 [test.adb:10:4] |>
+Expr: <| Id "T" test.adb:5:11-5:12 [test.adb:14:4] |>
   references:    <DefiningName "Positive" in Standard>
   type:          None
   expected type: None
-Expr: <| Id "Base" test.adb:5:13-5:17 [test.adb:10:4] |>
+Expr: <| Id "Base" test.adb:5:13-5:17 [test.adb:14:4] |>
   references:    None
   type:          None
   expected type: None
-Expr: <| AttributeRef test.adb:5:21-5:28 [test.adb:10:4] |>
+Expr: <| AttributeRef test.adb:5:21-5:28 [test.adb:14:4] |>
   references:    None
   type:          <SubtypeDecl ["Positive"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <| Id "T" test.adb:5:21-5:22 [test.adb:10:4] |>
+Expr: <| Id "T" test.adb:5:21-5:22 [test.adb:14:4] |>
   references:    <DefiningName "Positive" in Standard>
   type:          None
   expected type: None
-Expr: <| Id "First" test.adb:5:23-5:28 [test.adb:10:4] |>
+Expr: <| Id "First" test.adb:5:23-5:28 [test.adb:14:4] |>
   references:    None
   type:          None
   expected type: None
 
-Resolving xrefs for node <| ObjectDecl ["Y"] test.adb:7:7-7:22 [test.adb:10:4] |>
+Resolving xrefs for node <| ObjectDecl ["Y"] test.adb:7:7-7:22 [test.adb:14:4] |>
 *********************************************************************************
 
-Expr: <| Id "T" test.adb:7:11-7:12 [test.adb:10:4] |>
+Expr: <| Id "T" test.adb:7:11-7:12 [test.adb:14:4] |>
   references:    <DefiningName "Positive" in Standard>
   type:          None
   expected type: None
-Expr: <| BinOp test.adb:7:16-7:21 [test.adb:10:4] |>
+Expr: <| BinOp test.adb:7:16-7:21 [test.adb:14:4] |>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
-Expr: <| Id "X" test.adb:7:16-7:17 [test.adb:10:4] |>
-  references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:10:4] |>
+Expr: <| Id "X" test.adb:7:16-7:17 [test.adb:14:4] |>
+  references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <| OpMult "*" test.adb:7:18-7:19 [test.adb:10:4] |>
+Expr: <| OpMult "*" test.adb:7:18-7:19 [test.adb:14:4] |>
   references:    None
   type:          None
   expected type: None
-Expr: <| Id "x" test.adb:7:20-7:21 [test.adb:10:4] |>
-  references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:10:4] |>
+Expr: <| Id "X" test.adb:7:20-7:21 [test.adb:14:4] |>
+  references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
-Resolving xrefs for node <| EndName test.adb:8:8-8:11 [test.adb:10:4] |>
-************************************************************************
+Resolving xrefs for node <| SubtypeDecl ["U"] test.adb:9:7-9:22 [test.adb:14:4] |>
+**********************************************************************************
 
-Expr: <| EndName test.adb:8:8-8:11 [test.adb:10:4] |>
-  references:    <DefiningName "My_Pkg" test.adb:10:12-10:18>
-  type:          None
-  expected type: None
-Expr: <| Id "Pkg" test.adb:8:8-8:11 [test.adb:10:4] |>
-  references:    <DefiningName "My_Pkg" test.adb:10:12-10:18>
+Expr: <| Id "T" test.adb:9:20-9:21 [test.adb:14:4] |>
+  references:    <DefiningName "Positive" in Standard>
   type:          None
   expected type: None
 
+Resolving xrefs for node <| ConcreteTypeDecl ["V"] test.adb:11:7-11:29 [test.adb:14:4] |>
+*****************************************************************************************
+
+Expr: <| Id "Integer" test.adb:11:21-11:28 [test.adb:14:4] |>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:12:8-12:11 [test.adb:14:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:12:8-12:11 [test.adb:14:4] |>
+  references:    <DefiningName "My_Pkg" test.adb:14:12-14:18>
+  type:          None
+  expected type: None
+Expr: <| Id "Pkg" test.adb:12:8-12:11 [test.adb:14:4] |>
+  references:    <DefiningName "My_Pkg" test.adb:14:12-14:18>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <AssignStmt test.adb:19:4-19:41>
+*********************************************************
+
+Expr: <DottedName test.adb:19:4-19:12>
+  references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "My_Pkg" test.adb:19:4-19:10>
+  references:    <DefiningName "My_Pkg" test.adb:14:12-14:18>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:19:11-19:12>
+  references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <CallExpr test.adb:19:16-19:40>
+  references:    <| SyntheticDefiningName "succ" test.adb:9:7-9:22 [test.adb:14:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <AttributeRef test.adb:19:16-19:29>
+  references:    <| SyntheticDefiningName "succ" test.adb:9:7-9:22 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:19:16-19:24>
+  references:    <| DefiningName "U" test.adb:9:15-9:16 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "My_Pkg" test.adb:19:16-19:22>
+  references:    <DefiningName "My_Pkg" test.adb:14:12-14:18>
+  type:          None
+  expected type: None
+Expr: <Id "U" test.adb:19:23-19:24>
+  references:    <| DefiningName "U" test.adb:9:15-9:16 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "Succ" test.adb:19:25-19:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:19:31-19:39>
+  references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <| SubtypeDecl ["U"] test.adb:9:7-9:22 [test.adb:14:4] |>
+Expr: <Id "My_Pkg" test.adb:19:31-19:37>
+  references:    <DefiningName "My_Pkg" test.adb:14:12-14:18>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:19:38-19:39>
+  references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <| SubtypeDecl ["U"] test.adb:9:7-9:22 [test.adb:14:4] |>
+
+Resolving xrefs for node <ObjectDecl ["Y"] test.adb:24:7-24:27>
+***************************************************************
+
+Expr: <Id "V" test.adb:24:11-24:12>
+  references:    <DefiningName "V" test.adb:23:15-23:16>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:24:16-24:26>
+  references:    <SyntheticDefiningName "succ" test.adb:23:7-23:29>
+  type:          <| ConcreteTypeDecl ["V"] test.adb:11:7-11:29 [test.adb:14:4] |>
+  expected type: <SubtypeDecl ["V"] test.adb:23:7-23:29>
+Expr: <AttributeRef test.adb:24:16-24:22>
+  references:    <SyntheticDefiningName "succ" test.adb:23:7-23:29>
+  type:          None
+  expected type: None
+Expr: <Id "V" test.adb:24:16-24:17>
+  references:    <DefiningName "V" test.adb:23:15-23:16>
+  type:          None
+  expected type: None
+Expr: <Id "Succ" test.adb:24:18-24:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:24:24-24:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["V"] test.adb:23:7-23:29>
 
 
 Done.

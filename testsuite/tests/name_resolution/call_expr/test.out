@@ -14,7 +14,7 @@ Expr: <CallExpr test.adb:26:13-26:49>
   expected type: None
 Expr: <DottedName test.adb:26:13-26:26>
   references:    <DefiningName "Blocks" test.adb:14:7-14:13>
-  type:          <| ConcreteTypeDecl ["Vector"] a-convec.ads:91:4-100:64 [test.adb:10:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] a-convec.ads:91:4-101:36 [test.adb:10:4] |>
   expected type: None
 Expr: <Id "Stream" test.adb:26:13-26:19>
   references:    <DefiningName "Stream" test.adb:19:7-19:13>
@@ -22,7 +22,7 @@ Expr: <Id "Stream" test.adb:26:13-26:19>
   expected type: <ConcreteTypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
 Expr: <Id "Blocks" test.adb:26:20-26:26>
   references:    <DefiningName "Blocks" test.adb:14:7-14:13>
-  type:          <| ConcreteTypeDecl ["Vector"] a-convec.ads:91:4-100:64 [test.adb:10:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] a-convec.ads:91:4-101:36 [test.adb:10:4] |>
   expected type: None
 Expr: <DottedName test.adb:26:28-26:48>
   references:    <DefiningName "Current_Block" test.adb:15:7-15:20>

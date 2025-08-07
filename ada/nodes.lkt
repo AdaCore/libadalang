@@ -17129,59 +17129,6 @@ class Name: Expr {
             kind=RefResultKind.error
         )
 
-    |" Wrapper to get the referenced declaration inside ``self.ref_var``.
-    |"
-    |" This wrapper will put back the generic context on generic bodies. When
-    |" you are inside an instantiation and you lookup the generic by name,
-    |" such as in this example:
-    |"
-    |" .. code-block:: ada
-    |"
-    |"     generic procedure P2_G;
-    |"
-    |"     procedure P2_G is
-    |"     begin
-    |"         P2_G; <- Reference to the generic body
-    |"     end;
-    |"
-    |"     procedure P2 is new P2_G; <- Through this instantiation
-    |"
-    |" It needs to return the instantiated generic, but by default this will
-    |" not work.
-    |"
-    |" TODO: This is kind of a special case, and we need to investigate
-    |" whether a rework of the rebindings mechanism can simplify this or not.
-    fun get_referenced_decl(): LogicValResult = {
-        val val_result = node.logic_val(self, node.ref_var());
-        val entity = val_result.value.as![BasicDecl];
-        val generic_context_node = self.info.rebindings?.old_env.env_node;
-        # Put back the generic context on entity if applicable as per the
-        # example in the docstring.
-        val entity_with_generic_context =
-            if
-                not generic_context_node.is_null
-                and (
-                    # The referenced node is the generic declaration inside
-                    # of which we are.
-                    generic_context_node
-                    == entity
-                    .node
-                    # The referenced node is the generic body inside of which
-                    # we are.
-                    or generic_context_node
-                    == entity.as[Body]?.decl_part()?.node
-                )
-            then (
-                # Add back the rebindings if the conditions are satisfied
-                entity.unshed_rebindings_helper(self.info.rebindings)
-            )
-            else entity;
-
-        val_result.success.do(
-            (s) => LogicValResult(success=s, value=entity_with_generic_context)
-        )
-    }
-
     |" Return the declaration this node references. Try not to run name res if
     |" already resolved.
     @with_dynvars(imprecise_fallback=false)
@@ -17193,10 +17140,10 @@ class Name: Expr {
             val v =
                 if imprecise_fallback
                 then
-                    try self.get_referenced_decl()
+                    try node.logic_val(self, node.ref_var())
                     else null[LogicValResult]
                 else
-                    self.get_referenced_decl();
+                    node.logic_val(self, node.ref_var());
 
             if v.success
             then v.value.as[BasicDecl].do((bd) => {

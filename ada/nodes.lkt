@@ -141,6 +141,9 @@ class AdaNode implements Node[AdaNode] {
             | s"Refined_Depends"
             | s"Predicate_Failure"
             | s"SPARK_Mode"
+            | s"Taint_Source"
+            | s"Taint_Sink"
+            | s"Taint_Sanitizer"
 
     |" Return True if the given ``name`` is that of an Ada aspect in which
     |" references can designate entities declared *after* the entity on which
@@ -170,7 +173,9 @@ class AdaNode implements Node[AdaNode] {
     |" Return whether self is contained by an aspect whose name is ``name``.
     fun in_aspect(name: Symbol): Bool =
         node.parents().any(
-            (p) => p.as[AspectAssoc].do((a) => a.id.name_is(name))
+            (p) =>
+            p.as[AspectAssoc].do((a) => a.id.name_is(name))
+            or? p.as[Pragma].do((a) => a.id.name_is(name))
         )
 
     |" Return True iff this node is not null.
@@ -2975,9 +2980,13 @@ class AspectAssoc: AdaNode {
             %and self.expr.matches_expected_type()
 
         elif self.id.name_symbol() in s"Taint_Source"
-             | s"Taint_Sink" | s"Taint_Sanitizer"
+             | s"Taint_Sink"
+             | s"Taint_Sanitizer"
         then
-            self.taint_aspect_equation()
+            self.expr.as[Aggregate].do(
+                (agg) => agg.taint_aggregate_equation(),
+                default_val=%false
+            )
 
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
@@ -3053,49 +3062,6 @@ class AspectAssoc: AdaNode {
         <- target.as_entity.user_defined_literal_fns(self.id.name_symbol()).at(
         # First result in the list is the last override if any
             0
-        )
-
-    |" Equation for GNATSAS taint aspects.
-    |" Without any designators, the first parameter is expected to be an
-    |" arbitrary expression while the second parameter is expected to be a
-    |" statically known string. The designator ``Kind`` can be used to specify
-    |" the statically known string instead of using positional arguments.
-    |" Note that this feature is still work in progress and is used as a
-    |" prototype for now.
-    @with_dynvars(env, origin, entry_point)
-    fun taint_aspect_equation(): Equation =
-        self.expr.as[Aggregate].do(
-            (agg) => {
-                # True if the designator kind is used. In which case we don't
-                # want to assume the string to be the second parameter.
-                val has_kind = agg.assocs.any(
-                    (l) => l.names().any((n) => n.as[Name].name_is(s"Kind"))
-                );
-
-                agg.assocs.ilogic_all((assoc, i) =>
-                    if assoc.names().at(0).as[Name]?.name_is(s"Kind")
-                       or (not has_kind and i == 1)
-                    then
-                        assoc.expr().sub_equation()
-                        %and assoc.expr().expected_type_var()
-                             <- node.std_string_type()
-                        %and assoc.expr().matches_expected_type()
-                    else
-                        # The other association correspond to the target of the
-                        # taint aspect.
-                        # Handle the aggregate case that can occur when
-                        # multiple targets are specified for the given
-                        # taint property.
-                        assoc.expr().as[Aggregate].do(
-                            (targets) =>
-                                targets.assocs.ilogic_all((target, _) =>
-                                    target.expr().sub_equation()
-                                ),
-                            default_val=assoc.expr().sub_equation()
-                        )
-                )
-            },
-            default_val=%false
         )
 
     |" Return the string representation of the given name, which must be a
@@ -4565,8 +4531,8 @@ class AggregateAssoc: BasicAssoc {
             self.exprs_assoc_equation()
         )
         elif agg.in_aspect(s"Taint_Source")
-             or agg.in_aspect(s"Taint_Sanitizer")
              or agg.in_aspect(s"Taint_Sink")
+             or agg.in_aspect(s"Taint_Sanitizer")
         then
             # Aggregates within taint aspects are directly handled by
             # the AspectAssoc equations.
@@ -15648,6 +15614,27 @@ class Aggregate: BaseAggregate {
         # type used for indexed aggregates.
         or? self.universal_int_type()
     }
+
+    |" Equation for GNATSAS taint aspects.
+    |" The designators are regular names that can be resolved with sub_equation.
+    |" The associated expressions are identifiers for the taint kind.
+    |" Designators can also be an aggregate to designate multiple taint targets.
+    @with_dynvars(env, origin, entry_point)
+    fun taint_aggregate_equation(): Equation =
+        self.assocs.logic_all((assoc) =>
+            # The designator correspond to the target of the
+            # taint aspect.
+            # Handle the aggregate case that can occur when
+            # multiple targets are specified.
+            assoc.names().at(0).as[Aggregate].do(
+                (targets) =>
+                targets.assocs.logic_all(
+                    (target) =>
+                    target.as_entity.expr().sub_equation()
+                ),
+                default_val=assoc.names().at(0).as_entity.sub_equation()
+            )
+        )
 }
 
 |" Bracket array or container aggregate (Ada 2020, :rmlink:`4.3`).
@@ -22010,6 +21997,11 @@ class Pragma: AdaNode {
                 else arg.assoc_expr().annotate_argument_equation()
             )
         )
+        elif self.id.name_symbol() in s"Taint_Source"
+             | s"Taint_Sink"
+             | s"Taint_Sanitizer"
+        then
+           self.args.at(0).assoc_expr().as[Aggregate].taint_aggregate_equation()
         else
             self.args.logic_all(
                 (a) =>
@@ -22241,6 +22233,9 @@ class Pragma: AdaNode {
                 | s"Postcondition'Class"
                 | s"Test_Case"
                 | s"Contract_Cases"
+                | s"Taint_Source"
+                | s"Taint_Sink"
+                | s"Taint_Sanitizer"
                 | s"Predicate"
         then
             node.as_bare_entity.associated_entities().at(0).do(

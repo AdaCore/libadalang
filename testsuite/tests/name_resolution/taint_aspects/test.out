@@ -9,14 +9,14 @@ Expr: <Id "String" test_taint.adb:8:27-8:33>
   type:          None
   expected type: None
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:9:12-9:56>
+Resolving xrefs for node <AspectAssoc test_taint.adb:9:12-9:57>
 ***************************************************************
 
 Expr: <Id "Taint_Source" test_taint.adb:9:12-9:24>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:9:28-9:56>
+Expr: <Aggregate test_taint.adb:9:28-9:57>
   type:          None
   expected type: None
 Expr: <AttributeRef test_taint.adb:9:29-9:42>
@@ -31,10 +31,10 @@ Expr: <Id "Result" test_taint.adb:9:36-9:42>
   references:    None
   type:          None
   expected type: None
-Expr: <Str ""my_source"" test_taint.adb:9:44-9:55>
+Expr: <Id "FILESYSTEM" test_taint.adb:9:46-9:56>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec test_taint.adb:12:4-12:34>
 *************************************************************
@@ -48,14 +48,14 @@ Expr: <Id "Rec" test_taint.adb:12:30-12:33>
   type:          None
   expected type: None
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:13:12-13:46>
+Resolving xrefs for node <AspectAssoc test_taint.adb:13:12-13:47>
 *****************************************************************
 
 Expr: <Id "Taint_Source" test_taint.adb:13:12-13:24>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:13:28-13:46>
+Expr: <Aggregate test_taint.adb:13:28-13:47>
   type:          None
   expected type: None
 Expr: <DottedName test_taint.adb:13:29-13:32>
@@ -70,33 +70,33 @@ Expr: <Id "F" test_taint.adb:13:31-13:32>
   references:    <DefiningName "F" test_taint.adb:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <Str ""my_source"" test_taint.adb:13:34-13:45>
+Expr: <Id "FILESYSTEM" test_taint.adb:13:36-13:46>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec test_taint.adb:16:4-16:20>
 *************************************************************
 
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:17:12-17:46>
+Resolving xrefs for node <AspectAssoc test_taint.adb:17:12-17:47>
 *****************************************************************
 
 Expr: <Id "Taint_Source" test_taint.adb:17:12-17:24>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:17:28-17:46>
+Expr: <Aggregate test_taint.adb:17:28-17:47>
   type:          None
   expected type: None
 Expr: <Id "Str" test_taint.adb:17:29-17:32>
   references:    <DefiningName "Str" test_taint.adb:6:4-6:7>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
-Expr: <Str ""my_source"" test_taint.adb:17:34-17:45>
+Expr: <Id "FILESYSTEM" test_taint.adb:17:36-17:46>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec test_taint.adb:21:4-21:49>
 *************************************************************
@@ -114,14 +114,14 @@ Expr: <Id "String" test_taint.adb:21:28-21:34>
   type:          None
   expected type: None
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:22:12-22:60>
+Resolving xrefs for node <AspectAssoc test_taint.adb:22:12-22:73>
 *****************************************************************
 
 Expr: <Id "Taint_Sanitizer" test_taint.adb:22:12-22:27>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:22:31-22:60>
+Expr: <Aggregate test_taint.adb:22:31-22:73>
   type:          None
   expected type: None
 Expr: <AttributeRef test_taint.adb:22:32-22:48>
@@ -136,10 +136,10 @@ Expr: <Id "Result" test_taint.adb:22:42-22:48>
   references:    None
   type:          None
   expected type: None
-Expr: <Str ""my_sink"" test_taint.adb:22:50-22:59>
+Expr: <Id "OS_COMMAND_INJECTION" test_taint.adb:22:52-22:72>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec test_taint.adb:25:4-25:40>
 *************************************************************
@@ -153,14 +153,14 @@ Expr: <Id "Rec" test_taint.adb:25:36-25:39>
   type:          None
   expected type: None
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:26:12-26:47>
+Resolving xrefs for node <AspectAssoc test_taint.adb:26:12-26:60>
 *****************************************************************
 
 Expr: <Id "Taint_Sanitizer" test_taint.adb:26:12-26:27>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:26:31-26:47>
+Expr: <Aggregate test_taint.adb:26:31-26:60>
   type:          None
   expected type: None
 Expr: <DottedName test_taint.adb:26:32-26:35>
@@ -175,10 +175,10 @@ Expr: <Id "F" test_taint.adb:26:34-26:35>
   references:    <DefiningName "F" test_taint.adb:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <Str ""my_sink"" test_taint.adb:26:37-26:46>
+Expr: <Id "OS_COMMAND_INJECTION" test_taint.adb:26:39-26:59>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec test_taint.adb:30:4-30:28>
 *************************************************************
@@ -192,14 +192,14 @@ Expr: <Id "Rec" test_taint.adb:30:24-30:27>
   type:          None
   expected type: None
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:31:12-31:42>
+Resolving xrefs for node <AspectAssoc test_taint.adb:31:12-31:55>
 *****************************************************************
 
 Expr: <Id "Taint_Sink" test_taint.adb:31:12-31:22>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:31:26-31:42>
+Expr: <Aggregate test_taint.adb:31:26-31:55>
   type:          None
   expected type: None
 Expr: <DottedName test_taint.adb:31:27-31:30>
@@ -214,149 +214,247 @@ Expr: <Id "F" test_taint.adb:31:29-31:30>
   references:    <DefiningName "F" test_taint.adb:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <Str ""my_sink"" test_taint.adb:31:32-31:41>
+Expr: <Id "OS_COMMAND_INJECTION" test_taint.adb:31:34-31:54>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec test_taint.adb:34:4-34:18>
 *************************************************************
 
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:35:12-35:42>
+Resolving xrefs for node <AspectAssoc test_taint.adb:35:12-35:55>
 *****************************************************************
 
 Expr: <Id "Taint_Sink" test_taint.adb:35:12-35:22>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:35:26-35:42>
+Expr: <Aggregate test_taint.adb:35:26-35:55>
   type:          None
   expected type: None
 Expr: <Id "Str" test_taint.adb:35:27-35:30>
   references:    <DefiningName "Str" test_taint.adb:6:4-6:7>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
-Expr: <Str ""my_sink"" test_taint.adb:35:32-35:41>
+Expr: <Id "OS_COMMAND_INJECTION" test_taint.adb:35:34-35:54>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          None
+  expected type: None
 
-Resolving xrefs for node <SubpSpec test_taint.adb:41:4-41:38>
+Resolving xrefs for node <SubpSpec test_taint.adb:41:4-41:46>
 *************************************************************
 
 
-Resolving xrefs for node <ParamSpec ["Param"] test_taint.adb:41:22-41:37>
-*************************************************************************
+Resolving xrefs for node <ParamSpec ["Param1", "Param2"] test_taint.adb:41:22-41:45>
+************************************************************************************
 
-Expr: <Id "Rec" test_taint.adb:41:34-41:37>
+Expr: <Id "Rec" test_taint.adb:41:42-41:45>
   references:    <DefiningName "Rec" test_taint.adb:2:9-2:12>
   type:          None
   expected type: None
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:42:12-42:66>
+Resolving xrefs for node <AspectAssoc test_taint.adb:42:12-42:60>
 *****************************************************************
 
 Expr: <Id "Taint_Source" test_taint.adb:42:12-42:24>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:42:28-42:66>
+Expr: <Aggregate test_taint.adb:42:28-42:60>
   type:          None
   expected type: None
-Expr: <Id "Kind" test_taint.adb:42:29-42:33>
-  references:    None
+Expr: <Aggregate test_taint.adb:42:29-42:45>
   type:          None
   expected type: None
-Expr: <Str ""my_source"" test_taint.adb:42:37-42:48>
-  references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <Id "Target" test_taint.adb:42:50-42:56>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Id "Param" test_taint.adb:42:60-42:65>
-  references:    <DefiningName "Param" test_taint.adb:41:22-41:27>
+Expr: <Id "Param1" test_taint.adb:42:30-42:36>
+  references:    <DefiningName "Param1" test_taint.adb:41:22-41:28>
   type:          <ConcreteTypeDecl ["Rec"] test_taint.adb:2:4-4:15>
   expected type: None
+Expr: <Id "Param2" test_taint.adb:42:38-42:44>
+  references:    <DefiningName "Param2" test_taint.adb:41:30-41:36>
+  type:          <ConcreteTypeDecl ["Rec"] test_taint.adb:2:4-4:15>
+  expected type: None
+Expr: <Id "FILESYSTEM" test_taint.adb:42:49-42:59>
+  references:    None
+  type:          None
+  expected type: None
 
-Resolving xrefs for node <SubpSpec test_taint.adb:47:4-47:39>
+Resolving xrefs for node <SubpSpec test_taint.adb:45:4-45:48>
 *************************************************************
 
 
-Resolving xrefs for node <ParamSpec ["Param"] test_taint.adb:47:23-47:38>
-*************************************************************************
-
-Expr: <Id "Rec" test_taint.adb:47:35-47:38>
-  references:    <DefiningName "Rec" test_taint.adb:2:9-2:12>
-  type:          None
-  expected type: None
-
-Resolving xrefs for node <AspectAssoc test_taint.adb:48:12-48:66>
-*****************************************************************
-
-Expr: <Id "Taint_Source" test_taint.adb:48:12-48:24>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Aggregate test_taint.adb:48:28-48:66>
-  type:          None
-  expected type: None
-Expr: <Id "Kind" test_taint.adb:48:29-48:33>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Id "Source_Kind" test_taint.adb:48:37-48:48>
-  references:    <DefiningName "Source_Kind" test_taint.adb:45:4-45:15>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <Id "Target" test_taint.adb:48:50-48:56>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Id "Param" test_taint.adb:48:60-48:65>
-  references:    <DefiningName "Param" test_taint.adb:47:23-47:28>
-  type:          <ConcreteTypeDecl ["Rec"] test_taint.adb:2:4-4:15>
-  expected type: None
-
-Resolving xrefs for node <SubpSpec test_taint.adb:51:4-51:47>
-*************************************************************
-
-
-Resolving xrefs for node <ParamSpec ["Param1", "Param2"] test_taint.adb:51:22-51:46>
+Resolving xrefs for node <ParamSpec ["Param1", "Param2"] test_taint.adb:45:23-45:47>
 ************************************************************************************
 
-Expr: <Id "Rec" test_taint.adb:51:43-51:46>
+Expr: <Id "Rec" test_taint.adb:45:44-45:47>
   references:    <DefiningName "Rec" test_taint.adb:2:9-2:12>
   type:          None
   expected type: None
 
-Resolving xrefs for node <AspectAssoc test_taint.adb:52:12-52:59>
+Resolving xrefs for node <AspectAssoc test_taint.adb:46:12-46:69>
 *****************************************************************
 
-Expr: <Id "Taint_Source" test_taint.adb:52:12-52:24>
+Expr: <Id "Taint_Source" test_taint.adb:46:12-46:24>
   references:    None
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:52:28-52:59>
+Expr: <Aggregate test_taint.adb:46:28-46:69>
   type:          None
   expected type: None
-Expr: <Aggregate test_taint.adb:52:29-52:45>
-  type:          None
-  expected type: None
-Expr: <Id "Param1" test_taint.adb:52:30-52:36>
-  references:    <DefiningName "Param1" test_taint.adb:51:22-51:28>
+Expr: <Id "Param1" test_taint.adb:46:29-46:35>
+  references:    <DefiningName "Param1" test_taint.adb:45:23-45:29>
   type:          <ConcreteTypeDecl ["Rec"] test_taint.adb:2:4-4:15>
   expected type: None
-Expr: <Id "Param2" test_taint.adb:52:38-52:44>
-  references:    <DefiningName "Param2" test_taint.adb:51:30-51:36>
-  type:          <ConcreteTypeDecl ["Rec"] test_taint.adb:2:4-4:15>
-  expected type: None
-Expr: <Str ""my_source"" test_taint.adb:52:47-52:58>
+Expr: <Id "FILESYSTEM" test_taint.adb:46:39-46:49>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          None
+  expected type: None
+Expr: <Id "Param2" test_taint.adb:46:51-46:57>
+  references:    <DefiningName "Param2" test_taint.adb:45:31-45:37>
+  type:          <ConcreteTypeDecl ["Rec"] test_taint.adb:2:4-4:15>
+  expected type: None
+Expr: <Id "NETWORK" test_taint.adb:46:61-46:68>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test_taint.adb:49:4-49:48>
+*************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["Param1", "Param2"] test_taint.adb:49:23-49:47>
+************************************************************************************
+
+Expr: <Id "Rec" test_taint.adb:49:44-49:47>
+  references:    <DefiningName "Rec" test_taint.adb:2:9-2:12>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_taint.adb:50:12-53:8>
+****************************************************************
+
+Expr: <Id "Taint_Source" test_taint.adb:50:12-50:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_taint.adb:50:28-53:8>
+  type:          None
+  expected type: None
+Expr: <Id "Param1" test_taint.adb:51:10-51:16>
+  references:    <DefiningName "Param1" test_taint.adb:49:23-49:29>
+  type:          <ConcreteTypeDecl ["Rec"] test_taint.adb:2:4-4:15>
+  expected type: None
+Expr: <Id "FILESYSTEM" test_taint.adb:51:20-51:30>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Param2" test_taint.adb:52:10-52:16>
+  references:    <DefiningName "Param2" test_taint.adb:49:31-49:37>
+  type:          <ConcreteTypeDecl ["Rec"] test_taint.adb:2:4-4:15>
+  expected type: None
+Expr: <Aggregate test_taint.adb:52:20-52:41>
+  type:          None
+  expected type: None
+Expr: <Id "FILESYSTEM" test_taint.adb:52:21-52:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "NETWORK" test_taint.adb:52:33-52:40>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test_taint.adb:59:4-59:48>
+***************************************************************
+
+Expr: <Id "Taint_Source" test_taint.adb:59:11-59:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_taint.adb:59:25-59:46>
+  type:          None
+  expected type: None
+Expr: <Id "Param" test_taint.adb:59:26-59:31>
+  references:    <DefiningName "Param" test_taint.adb:58:34-58:39>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "FILESYSTEM" test_taint.adb:59:35-59:45>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test_taint.adb:63:4-63:56>
+***************************************************************
+
+Expr: <Id "Taint_Sink" test_taint.adb:63:11-63:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_taint.adb:63:23-63:54>
+  type:          None
+  expected type: None
+Expr: <Id "Param" test_taint.adb:63:24-63:29>
+  references:    <DefiningName "Param" test_taint.adb:62:32-62:37>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "OS_COMMAND_INJECTION" test_taint.adb:63:33-63:53>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test_taint.adb:67:4-67:51>
+***************************************************************
+
+Expr: <Id "Taint_Sanitizer" test_taint.adb:67:11-67:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_taint.adb:67:28-67:49>
+  type:          None
+  expected type: None
+Expr: <Id "Param" test_taint.adb:67:29-67:34>
+  references:    <DefiningName "Param" test_taint.adb:66:37-66:42>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "FILESYSTEM" test_taint.adb:67:38-67:48>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test_taint.adb:71:4-71:73>
+***************************************************************
+
+Expr: <Id "Taint_Source" test_taint.adb:71:11-71:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_taint.adb:71:25-71:71>
+  type:          None
+  expected type: None
+Expr: <Aggregate test_taint.adb:71:26-71:42>
+  type:          None
+  expected type: None
+Expr: <Id "Param1" test_taint.adb:71:27-71:33>
+  references:    <DefiningName "Param1" test_taint.adb:70:34-70:40>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Param2" test_taint.adb:71:35-71:41>
+  references:    <DefiningName "Param2" test_taint.adb:70:42-70:48>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "FILESYSTEM" test_taint.adb:71:46-71:56>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "B" test_taint.adb:71:58-71:59>
+  references:    <DefiningName "B" test_taint.adb:70:59-70:60>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: None
+Expr: <Id "NETWORK" test_taint.adb:71:63-71:70>
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

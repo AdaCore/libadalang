@@ -12988,19 +12988,23 @@ class GenericInstantiation: BasicDecl {
         )
     }
 
-    |" Return the expression of the actual used for the given formal in this
-    |" generic instantiation. Returns null if none is provided, even if there
-    |" is a default value.
-    fun actual_for_formal(formal_name: DefiningName): Entity[Expr] = {
+    @memoized
+    fun param_actual_mapping(): Array[ParamMatch] = {
         val gen_decl = node.nonbound_generic_decl_from_self().as[GenericDecl];
 
         gen_decl?.formal_part.match_param_list(
             self.generic_inst_params(),
             false
         )
+    }
+
+    |" Return the expression of the actual used for the given formal in this
+    |" generic instantiation. Returns null if none is provided, even if there
+    |" is a default value.
+    fun actual_for_formal(formal_name: DefiningName): Entity[Expr] =
+        self.param_actual_mapping()
         .find((pm) => pm.formal.node == formal_name)
         .do((pm) => pm.actual.assoc.expr())
-    }
 
     env_spec {
         do(node.env_hook())

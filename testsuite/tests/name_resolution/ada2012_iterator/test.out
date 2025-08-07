@@ -5,25 +5,25 @@ Resolving xrefs for node <ForLoopSpec test.adb:10:8-10:43>
 **********************************************************
 
 Expr: <CallExpr test.adb:10:13-10:43>
-  references:    <| DefiningName "Iterate" a-ciorse.ads:236:13-236:20 [test.adb:4:4] |>
-  type:          <| ClasswideTypeDecl ["Reversible_Iterator"] a-iteint.ads:32:4-33:20 [test.adb:4:4, a-ciorse.ads:76:4] |>
+  references:    <| DefiningName "Iterate" a-ciorse.ads:235:13-235:20 [test.adb:4:4] |>
+  type:          <| ClasswideTypeDecl ["Reversible_Iterator"] a-iteint.ads:32:4-33:20 [test.adb:4:4, a-ciorse.ads:75:4] |>
   expected type: None
 Expr: <DottedName test.adb:10:13-10:29>
-  references:    <| DefiningName "Iterate" a-ciorse.ads:236:13-236:20 [test.adb:4:4] |>
-  type:          <| ClasswideTypeDecl ["Reversible_Iterator"] a-iteint.ads:32:4-33:20 [test.adb:4:4, a-ciorse.ads:76:4] |>
+  references:    <| DefiningName "Iterate" a-ciorse.ads:235:13-235:20 [test.adb:4:4] |>
+  type:          <| ClasswideTypeDecl ["Reversible_Iterator"] a-iteint.ads:32:4-33:20 [test.adb:4:4, a-ciorse.ads:75:4] |>
   expected type: None
 Expr: <Id "My_Set_1" test.adb:10:13-10:21>
   references:    <DefiningName "My_Set_1" test.adb:7:4-7:12>
-  type:          <| ConcreteTypeDecl ["Set"] a-ciorse.ads:57:4-62:53 [test.adb:4:4] |>
-  expected type: <| ConcreteTypeDecl ["Set"] a-ciorse.ads:57:4-62:53 [test.adb:4:4] |>
+  type:          <| ConcreteTypeDecl ["Set"] a-ciorse.ads:57:4-63:36 [test.adb:4:4] |>
+  expected type: <| ConcreteTypeDecl ["Set"] a-ciorse.ads:57:4-63:36 [test.adb:4:4] |>
 Expr: <Id "Iterate" test.adb:10:22-10:29>
-  references:    <| DefiningName "Iterate" a-ciorse.ads:236:13-236:20 [test.adb:4:4] |>
-  type:          <| ClasswideTypeDecl ["Reversible_Iterator"] a-iteint.ads:32:4-33:20 [test.adb:4:4, a-ciorse.ads:76:4] |>
+  references:    <| DefiningName "Iterate" a-ciorse.ads:235:13-235:20 [test.adb:4:4] |>
+  type:          <| ClasswideTypeDecl ["Reversible_Iterator"] a-iteint.ads:32:4-33:20 [test.adb:4:4, a-ciorse.ads:75:4] |>
   expected type: None
 Expr: <Id "My_Cursor_1" test.adb:10:31-10:42>
   references:    <DefiningName "My_Cursor_1" test.adb:8:4-8:15>
-  type:          <| ConcreteTypeDecl ["Cursor"] a-ciorse.ads:66:4-66:27 [test.adb:4:4] |>
-  expected type: <| ConcreteTypeDecl ["Cursor"] a-ciorse.ads:66:4-66:27 [test.adb:4:4] |>
+  type:          <| ConcreteTypeDecl ["Cursor"] a-ciorse.ads:65:4-66:36 [test.adb:4:4] |>
+  expected type: <| ConcreteTypeDecl ["Cursor"] a-ciorse.ads:65:4-66:36 [test.adb:4:4] |>
 
 Resolving xrefs for node <NullStmt test.adb:11:7-11:12>
 *******************************************************

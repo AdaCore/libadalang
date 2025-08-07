@@ -147,7 +147,7 @@ Expr: <Id "Input" streamable_types.adb:16:16-16:21>
 Expr: <Id "S" streamable_types.adb:16:23-16:24>
   references:    <DefiningName "S" streamable_types.adb:8:7-8:8>
   type:          <ConcreteTypeDecl ["Stream_Access"] a-ststio.ads:42:4-42:60>
-  expected type: <SynthAnonymousTypeDecl ["Root_Stream_Type"] a-stream.ads:39:4-39:61>
+  expected type: <SynthAnonymousTypeDecl ["Root_Stream_Type"] a-stream.ads:39:4-40:38>
 
 
 Done.

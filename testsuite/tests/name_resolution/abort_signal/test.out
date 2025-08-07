@@ -10,8 +10,8 @@ Expr: <Id "Exception_Id" test.adb:4:8-4:20>
   expected type: None
 Expr: <AttributeRef test.adb:4:24-4:54>
   references:    None
-  type:          <ConcreteTypeDecl ["Exception_Id"] a-except.ads:48:4-48:33>
-  expected type: <ConcreteTypeDecl ["Exception_Id"] a-except.ads:48:4-48:33>
+  type:          <ConcreteTypeDecl ["Exception_Id"] a-except.ads:48:4-49:38>
+  expected type: <ConcreteTypeDecl ["Exception_Id"] a-except.ads:48:4-49:38>
 Expr: <AttributeRef test.adb:4:24-4:45>
   references:    <DefiningName "Abort_Signal_" in Standard>
   type:          None

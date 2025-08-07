@@ -6,7 +6,7 @@ Resolving xrefs for node <AttributeDefClause test.adb:3:4-3:32>
 
 Expr: <AttributeRef test.adb:3:8-3:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
   expected type: None
 Expr: <Id "Y" test.adb:3:8-3:9>
   references:    <DefiningName "Y" test.adb:2:7-2:8>
@@ -18,8 +18,8 @@ Expr: <Id "Address" test.adb:3:10-3:17>
   expected type: None
 Expr: <AttributeRef test.adb:3:22-3:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
-  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
+  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
 Expr: <Id "X" test.adb:3:22-3:23>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
@@ -38,7 +38,7 @@ Resolving xrefs for node <AttributeDefClause subp.adb:16:10-16:32>
 
 Expr: <AttributeRef subp.adb:16:14-16:23>
   references:    None
-  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
   expected type: None
 Expr: <Id "C" subp.adb:16:14-16:15>
   references:    <DefiningName "C" subp.adb:13:20-13:21>
@@ -50,16 +50,16 @@ Expr: <Id "Address" subp.adb:16:16-16:23>
   expected type: None
 Expr: <DottedName subp.adb:16:28-16:31>
   references:    <DefiningName "A" subp.adb:5:7-5:8>
-  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
-  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
+  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
 Expr: <Id "X" subp.adb:16:28-16:29>
   references:    <DefiningName "X" subp.adb:10:7-10:8>
   type:          <ConcreteTypeDecl ["T"] subp.adb:4:4-7:15>
   expected type: <ConcreteTypeDecl ["T"] subp.adb:4:4-7:15>
 Expr: <Id "A" subp.adb:16:30-16:31>
   references:    <DefiningName "A" subp.adb:5:7-5:8>
-  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
-  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
+  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
 
 Resolving xrefs for node <IfStmt subp.adb:19:10-21:17>
 ******************************************************
@@ -69,8 +69,8 @@ Expr: <RelationOp subp.adb:19:13-19:40>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <AttributeRef subp.adb:19:13-19:27>
   references:    None
-  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
-  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
+  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
 Expr: <Id "C" subp.adb:19:13-19:14>
   references:    <DefiningName "C" subp.adb:13:20-13:21>
   type:          None
@@ -85,8 +85,8 @@ Expr: <OpNeq "/=" subp.adb:19:28-19:30>
   expected type: None
 Expr: <AttributeRef subp.adb:19:31-19:40>
   references:    None
-  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
-  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
+  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
 Expr: <Id "C" subp.adb:19:31-19:32>
   references:    <DefiningName "C" subp.adb:13:20-13:21>
   type:          None

@@ -6897,15 +6897,15 @@ class AbstractStateDecl: BasicDecl {
 |" the expression of the actual through the ``expr`` field.
 @synthetic
 class AnonymousExprDecl: BasicDecl {
-    |" Return the expression wrapped by this declaration.
-    @parse_field
-    expr: Expr
-    @parse_field
-    @null_field
-    aspects: AspectSpec
+    @parse_field name: SyntheticDefiningName
+
+    |" The expression wrapped by this declaration.
+    @parse_field expr: Expr
+
+    @parse_field @null_field aspects: AspectSpec
 
     fun defining_names(): Array[Entity[DefiningName]] =
-        null[Array[Entity[DefiningName]]]
+        [self.name.as[DefiningName]]
 
     @with_dynvars(
         origin, include_ud_indexing=false, dottable_type=null[AdaNode]
@@ -12696,7 +12696,16 @@ class GenericInstantiation: BasicDecl {
             case pkg: GenericPackageInstantiation => pkg.params
         }
         .map(
-            (assoc) => AnonymousExprDecl(expr=assoc.as_bare_entity.expr().node)
+            (assoc) => AnonymousExprDecl.builder(
+                name=SyntheticDefiningName.builder(
+                    logic_vars=null[Address],
+                    name=SyntheticIdentifier.builder(
+                        logic_vars=null[Address],
+                        sym=s"<anonymous expr decl>"
+                    )
+                ),
+                expr=assoc.as_bare_entity.expr().node.to_builder()
+            ).build(parent=node)
         )
 
     |" Return the defining environment of the parent of this generic package

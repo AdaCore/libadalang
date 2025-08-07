@@ -55,7 +55,7 @@ Expr: <| DottedName test.adb:11:22-11:27 [test.adb:18:4] |>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| Id "X" test.adb:11:22-11:23 [test.adb:18:4] |>
-  references:    None
+  references:    <SyntheticDefiningName "<anonymous expr decl>" test.adb:18:4-18:39>
   type:          <ConcreteTypeDecl ["T"] test.adb:3:7-3:36>
   expected type: <ConcreteTypeDecl ["T"] test.adb:3:7-3:36>
 Expr: <| Id "Bar" test.adb:11:24-11:27 [test.adb:18:4] |>

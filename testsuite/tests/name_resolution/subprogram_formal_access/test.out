@@ -1,0 +1,63 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericSubpInstantiation ["Bar_Inst"] test.adb:18:4-18:54>
+************************************************************************************
+
+Expr: <Id "Bar" test.adb:18:30-18:33>
+  references:    <DefiningName "Bar" test.adb:7:14-7:17>
+  type:          None
+  expected type: None
+Expr: <ExplicitDeref test.adb:18:35-18:52>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "My_Foo_Access" test.adb:18:35-18:48>
+  references:    None
+  type:          None
+  expected type: None
+Traversing generic node <| GenericSubpDecl ["Bar"] test.adb:5:4-7:18 [test.adb:18:4] |>
+***************************************************************************************
+
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] test.adb:6:12-6:26 [test.adb:18:4] |>
+************************************************************************************************
+
+
+Resolving xrefs for node <| SubpSpec test.adb:6:12-6:25 [test.adb:18:4] |>
+**************************************************************************
+
+
+Resolving xrefs for node <| SubpSpec test.adb:7:4-7:17 [test.adb:18:4] |>
+*************************************************************************
+
+
+Traversing generic node <| SubpBody ["Bar"] test.adb:9:4-12:12 [test.adb:18:4] |>
+*********************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:9:4-9:17 [test.adb:18:4] |>
+*************************************************************************
+
+
+Resolving xrefs for node <| CallStmt test.adb:11:7-11:11 [test.adb:18:4] |>
+***************************************************************************
+
+Expr: <| Id "Foo" test.adb:11:7-11:10 [test.adb:18:4] |>
+  references:    <SyntheticDefiningName "<anonymous expr decl>" test.adb:18:4-18:54>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:12:8-12:11 [test.adb:18:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:12:8-12:11 [test.adb:18:4] |>
+  references:    <| DefiningName "Bar" test.adb:9:14-9:17 [test.adb:18:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Bar" test.adb:12:8-12:11 [test.adb:18:4] |>
+  references:    <| DefiningName "Bar" test.adb:9:14-9:17 [test.adb:18:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

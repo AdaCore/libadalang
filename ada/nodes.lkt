@@ -10555,16 +10555,33 @@ class FormalSubpDecl: ClassicSubpDecl {
     |" Note that we cannot simply call ``referenced_decl`` here as this would
     |" cause name resolution recursions which we want to avoid at all cost.
     @memoized
-    fun resolve_actual_name(name: Entity[Expr]): Entity[BasicDecl] = {
+    fun resolve_actual_name(
+        name: Entity[Expr],
+        instantiation: Entity[GenericInstantiation]
+    ): Entity[BasicDecl] = {
         bind origin = name.node;
 
         if name is AttributeRef
         then name.as[AttributeRef].attribute_subprogram()
-        elif name is BoxExpr
-        then
+
         # We are inside an instantiation of formal package without
         # constraint on this function (so, a BoxExpr).
-            null[Entity[BasicDecl]]
+        elif name is BoxExpr
+        then null[Entity[BasicDecl]]
+
+        # Name is an explicit deref, which means that the subprogram is an
+        # access to subprogram actual.
+        elif name is ExplicitDeref
+        then Entity[BasicDecl](
+            node=instantiation.actual_expr_decls.find(
+                (decl) => decl.expr == name.node
+            ),
+            info=EntityInfo(
+                md=null[Metadata],
+                rebindings=instantiation.info.rebindings,
+                from_rebound=false
+            )
+        )
         elif name is Name
         then
             name.as[Name].all_env_elements().find(
@@ -10577,28 +10594,33 @@ class FormalSubpDecl: ClassicSubpDecl {
             )
     }
 
-    |" Retrieves the actual for this formal subprogram by finding the generic
-    |" formal part in which self lies in self's rebindings, and then resolving
-    |" the corresponding actual.
+    |" Recursive method: Retrieves the actual for this formal subprogram by
+    |" finding the generic formal part in which self lies in self's rebindings,
+    |" and then resolving the corresponding actual.
     fun corresponding_actual_impl(rb: EnvRebindings): Entity[BasicDecl] =
         if rb.is_null then self
-        elif rb.old_env == node.parent.node_env
-        then
-            rb.new_env.env_node.as[GenericInstantiation].do(
-                (inst) =>
-                Entity[GenericInstantiation](
-                    node=inst,
-                    info=EntityInfo(
-                        md=null[Metadata],
-                        rebindings=rb.get_parent,
-                        from_rebound=false
-                    )
+
+        # If we don't have the rebindings corresponding to this formal's
+        # instantiation, recurse to the parent instantiation.
+        elif rb.old_env != node.parent.node_env
+        then self.corresponding_actual_impl(rb.get_parent)
+
+        else rb.new_env.env_node.as[GenericInstantiation].do((inst) => {
+            # Recreate the proper instantiation node, with the proper
+            # rebindings (so remaining rebindings if we remove the
+            # instantiation).
+            val inst = Entity[GenericInstantiation](
+                node=inst,
+                info=EntityInfo(
+                    md=null[Metadata],
+                    rebindings=rb.get_parent,
+                    from_rebound=false
                 )
-            )
-            .actual_for_formal(self.defining_name().node)
-            .do((name) => self.resolve_actual_name(name))
-            .do(
-                (actual) =>
+            );
+
+            inst.actual_for_formal(self.defining_name().node)
+            .do((name) => self.resolve_actual_name(name, inst))
+            .do((actual) =>
                 Entity[BasicDecl](
                     node=actual.node,
                     info=EntityInfo(
@@ -10608,11 +10630,9 @@ class FormalSubpDecl: ClassicSubpDecl {
                         # the given rebindings, so set the `from_rebound` flag.
                         from_rebound=true
                     )
-                )
-                .corresponding_actual()
+                ).corresponding_actual()
             )
-            or? self
-        else self.corresponding_actual_impl(rb.get_parent)
+        }) or? self
 
     |" For a ``FormalSubpDecl`` we must find the actual by looking in our own
     |" rebindings. See ``corresponding_actual_impl``.
@@ -12595,12 +12615,12 @@ class GenericInstantiation: BasicDecl {
                 (pm, i) =>
                 InnerEnvAssoc(
                     key=pm.formal.name.name_symbol(),
-                    # Do not put formal subprograms in the rebindings to
-                    # avoid them being eagerly resolved to an actual, as
-                    # the formal part is needed to implement correct name
-                    # resolution.
-                    # We will use ``BasicDecl.corresponding_actual``
-                    # instead to manually resolve it.
+                    # Do not put formal subprograms in the rebindings to avoid
+                    # them being eagerly resolved to an actual, as the formal
+                    # part is needed to implement correct name resolution.
+                    #
+                    # We will use ``BasicDecl.corresponding_actual`` instead to
+                    # manually resolve it.
                     value=if
                         pm.actual.assoc.expr() is BoxExpr
                         or pm.formal.formal_decl() is GenericFormalSubpDecl

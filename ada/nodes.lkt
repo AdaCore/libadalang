@@ -538,14 +538,20 @@ class AdaNode implements Node[AdaNode] {
         )
         then base.append_rebinding(old_env, new_env)
         elif base.old_env == parent_env
-        then
-            base.new_env.get_first(
-                new_env.env_node.as[GenericPackageInstantiation]
-                .name.name_symbol(),
-                lookup=LookupKind.minimal
-            )
-            .as[GenericPackageInstantiation]
-            .do(
+        then {
+            val inst = Entity[GenericInstantiation](
+                node=base.new_env.env_node.as[GenericInstantiation],
+                info=EntityInfo(
+                    md=null[Metadata],
+                    rebindings=base.get_parent,
+                    from_rebound=false
+                )
+            );
+            inst.actual_for_formal(
+                new_env.env_node.as[GenericPackageInstantiation].name
+            ).do(
+                (actual) => actual.as[Name]?.all_env_elements().at(0)
+            ).as[GenericPackageInstantiation].do(
                 (gpi) => {
                     val gen_env =
                         gpi.nonbound_generic_decl_from_self()
@@ -566,6 +572,7 @@ class AdaNode implements Node[AdaNode] {
                 },
                 default_val=base.append_rebinding(old_env, new_env)
             )
+        }
         else node.add_rebinding(base.get_parent, old_env, new_env)
     }
 

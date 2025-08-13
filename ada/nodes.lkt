@@ -19082,6 +19082,9 @@ class DefiningName: Name {
 
     |" Return a canonical representation of the fully qualified name
     |" corresponding to this defining name.
+    |"
+    |" See ``P_Fully_Qualified_Name`` documentation for details on how
+    |" Libadalang handles generic instantiations.
     @exported
     fun canonical_fully_qualified_name(): String =
         self.canonical_fully_qualified_name_impl(
@@ -19093,6 +19096,9 @@ class DefiningName: Name {
     |" declaration is a public declaration. In the case of subprograms, this
     |" will include the profile.
     |"
+    |" See ``P_Fully_Qualified_Name`` documentation for details on how
+    |" Libadalang handles generic instantiations.
+    |"
     |" .. attention::
     |"     This will only return a unique name for public declarations.
     |"     Notably, anything nested in an unnamed declare block won't be
@@ -19103,6 +19109,9 @@ class DefiningName: Name {
 
     |" Return the fully qualified name corresponding to this defining name, as
     |" an array of symbols.
+    |"
+    |" See ``P_Fully_Qualified_Name`` documentation for details on how
+    |" Libadalang handles generic instantiations.
     @exported
     fun fully_qualified_name_array(): Array[Symbol] =
         self.fully_qualified_name_impl(include_profile=false, suffix="").map(
@@ -19110,6 +19119,32 @@ class DefiningName: Name {
         )
 
     |" Return the fully qualified name corresponding to this defining name.
+    |"
+    |" When navigating inside a generic, Libadalang behaves as if you were
+    |" inside the instantiated generic. Thus, declarations inside of it are
+    |" prefixed by the fully qualified name of the instantiation and not by
+    |" that of the generic.
+    |"
+    |" Hence, this property returns the fully qualified name of the
+    |" instantiation, and if one wants the fully qualified name of the generic
+    |" (while inside an instantiation), one should call
+    |" ``P_Get_Uninstantiated_Node`` first.
+    |"
+    |" Example:
+    |"
+    |" .. code:: ada
+    |"
+    |"     generic
+    |"     package My_Generic is
+    |"        X : Integer;
+    |"     end My_Generic;
+    |"
+    |"     package My_Instance is new My_Generic;
+    |"
+    |" When analyzing ``X`` inside ``My_Instance``:
+    |" * ``X.P_Fully_Qualified_Name`` returns ``My_Instance.X``.
+    |" * ``X.P_Get_Uninstantiated_Node.P_Fully_Qualified_Name``
+    |"   returns ``My_Generic.X``.
     @exported
     fun fully_qualified_name(): String =
         ".".join(

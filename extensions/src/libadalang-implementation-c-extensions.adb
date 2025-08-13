@@ -12,9 +12,7 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
-with GNATCOLL.Projects;   use GNATCOLL.Projects;
 with GNATCOLL.Refcount;   use GNATCOLL.Refcount;
-with GNATCOLL.VFS;        use GNATCOLL.VFS;
 with GPR2.Containers;
 with GPR2.Message;
 with GPR2.Options;
@@ -69,11 +67,10 @@ package body Libadalang.Implementation.C.Extensions is
       Errors                       : out String_Vectors.Vector;
       Exc                          : out Exception_Occurrence);
    --  Helper to load a project file from C arguments. May set Exc to a
-   --  ``GNATCOLL.Projects.Invalid_Project`` exception if the project cannot be
-   --  loaded: in this case it is up to the caller to re-raise it.
-   --  If ``Project_File`` is a null pointer or an empty string, use the
-   --  ``GNATCOLL.Projects.Load_Implicit_Project`` function to load the
-   --  ``_default.gpr`` project file in the current directory.
+   --  ``GPR2.Project_Error`` exception if the project cannot be loaded: in
+   --  this case it is up to the caller to re-raise it.
+   --  If ``Project_File`` is a null pointer or an empty string, set the
+   --  ``GPR2.Options.No_Project`` switch.
 
    function Fetch_Project
      (Tree         : GPR2.Project.Tree.Object;

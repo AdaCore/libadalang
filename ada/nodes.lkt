@@ -10875,6 +10875,18 @@ class SyntheticSubpDecl: BasicSubpDecl {
 
     @with_dynvars(imprecise_fallback=false)
     fun is_static_decl(): Bool = true
+
+    fun corresponding_actual(): Entity[BasicDecl] =
+        self.parent.as[BaseTypeDecl].do((bt) => {
+            val sym = self.name_symbol();
+            val synth = bt.synthesize_attribute_subprogram(sym);
+
+            if synth == self
+            then bt.corresponding_actual().as[BaseTypeDecl].do(
+                (act) => act.synthesize_attribute_subprogram(sym)
+            )
+            else null[Entity[BasicSubpDecl]]
+        }) or? self
 }
 
 |" Base class for an Ada body (:rmlink:`3.11`). A body is the completion

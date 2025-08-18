@@ -3,3 +3,9 @@ main: main.adb
 sync_trees:
   - ../../../shared/gpr_context
 canonicalize_directory_separators: true
+control:
+    - [
+        XFAIL,
+        "valgrind and env.build.cpu.bits == 32",
+        "eng/gpr/gpr-issues#406: GPR2 slowness, test times out"
+    ]

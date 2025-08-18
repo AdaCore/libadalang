@@ -211,12 +211,12 @@ class LALTestsuite(Testsuite):
         # Compute a common evaluation environment for expression test execution
         # control.
         self.env.control_condition_env = {
-            'restricted_env': opts.restricted_env,
+            'coverage': opts.coverage is not None,
+            'has_put_image': opts.has_put_image,
             'os': self.env.build.os.name,
             'python': python_version,
-            'has_put_image': opts.has_put_image,
+            'restricted_env': opts.restricted_env,
             'valgrind': opts.valgrind,
-            'coverage': opts.coverage is not None,
         }
 
         ocaml_bindings = opts.with_ocaml_bindings

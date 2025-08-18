@@ -212,6 +212,7 @@ class LALTestsuite(Testsuite):
         # control.
         self.env.control_condition_env = {
             'coverage': opts.coverage is not None,
+            'env': self.env,
             'has_put_image': opts.has_put_image,
             'os': self.env.build.os.name,
             'python': python_version,

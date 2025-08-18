@@ -4,3 +4,9 @@ input_sources: []
 canonicalize_directory_separators: true
 sync_trees:
   - ../../../shared/gpr_context
+control:
+    - [
+        XFAIL,
+        "valgrind and env.build.cpu.bits == 32",
+        "eng/gpr/gpr-issues#406: GPR2 slowness, test times out"
+    ]

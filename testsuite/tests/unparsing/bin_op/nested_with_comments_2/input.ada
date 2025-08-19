@@ -1,0 +1,14 @@
+if Add_Intf
+ --  Ignore external units
+ and then CU.Owning_View
+          /= Self.View
+             --  except for encapsulated libraries
+ and then Self.Ctxt.Library_Standalone
+          /= Encapsulated
+             --  except for aggregated projects
+ and then (Self.Ctxt.Kind /= K_Aggregate_Library
+           or else not Self.Ctxt.Aggregated.Contains
+                         (CU.Owning_View))
+then
+ null;
+end if;

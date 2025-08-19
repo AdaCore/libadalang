@@ -1,0 +1,4 @@
+function Foo
+  (AAAAAAAAAAAA : Bar; BBBBBBBBBBBB : Baz; CCCCCCCCCCCC : Qux; DDDDDDDDDDDD : Corge)
+  --  Comment for the params
+   return Fred;

@@ -19129,7 +19129,9 @@ class DefiningName: Name {
     |"     package My_Instance is new My_Generic;
     |"
     |" When analyzing ``X`` inside ``My_Instance``:
+    |"
     |" * ``X.P_Fully_Qualified_Name`` returns ``My_Instance.X``.
+    |"
     |" * ``X.P_Get_Uninstantiated_Node.P_Fully_Qualified_Name``
     |"   returns ``My_Generic.X``.
     @exported
@@ -23890,8 +23892,7 @@ class TypeDef: AdaNode {
             case dt : DerivedTypeDef => dt.has_abstract.as_bool()
             case pt : PrivateTypeDef => pt.has_abstract.as_bool()
             case rt : RecordTypeDef => rt.has_abstract.as_bool()
-            case it : InterfaceTypeDef => true
-            case _ => false
+            case o => o is InterfaceTypeDef
         }
 
     |" Return the base type entity for this derived type definition.

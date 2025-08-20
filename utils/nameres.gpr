@@ -1,7 +1,7 @@
 --  Project file to ease the recompilation of the "nameres" program out of
 --  Libadalang's regular build process.
 
-with "gnatcoll";
+with "gnatcoll_core";
 with "langkit_support";
 with "libadalang";
 

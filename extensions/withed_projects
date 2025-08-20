@@ -1,1 +1,2 @@
+with "gnatcoll_projects";
 with "gpr2";

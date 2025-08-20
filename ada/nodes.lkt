@@ -13063,7 +13063,6 @@ class GenericSubpInstantiation: GenericInstantiation {
     fun defining_env(): LexicalEnv = self.subp_spec_or_null()?.defining_env()
 
     |" Return the subprogram decl designated by this instantiation.
-    @exported
     fun designated_subp(): Entity[BasicSubpDecl] =
         self.nonbound_generic_decl_from_entity().do(
             (p) =>

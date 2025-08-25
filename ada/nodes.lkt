@@ -17526,6 +17526,7 @@ class Name: Expr {
         {
             case dn: DottedName => dn.prefix
             case ar: AttributeRef => ar.prefix
+            case id: Identifier => id.parent.as[DottedName]?.prefix
             case _ => null[Entity[Expr]]
         };
         # Get the actuals of this call expression if any

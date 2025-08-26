@@ -379,7 +379,7 @@ Working on node <CallStmt dot.adb:56:4-56:21>
 =============================================
 
 Eval 'node.f_call.f_name.f_suffix.p_call_params'
-Result: [<ParamActual param=<DefiningName "S" dot.adb:10:21-10:22> actual=None>,
+Result: [<ParamActual param=<DefiningName "S" dot.adb:10:21-10:22> actual=<Id "X" dot.adb:56:4-56:5>>,
          <ParamActual param=<DefiningName "V" dot.adb:10:28-10:29> actual=<Int dot.adb:56:10-56:11>>,
          <ParamActual param=<DefiningName "W" dot.adb:10:46-10:47> actual=<Int dot.adb:56:18-56:19>>]
 

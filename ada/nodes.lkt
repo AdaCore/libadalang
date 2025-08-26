@@ -17438,45 +17438,12 @@ class Name: Expr {
     |" the dot-notation is used.
     @with_dynvars(imprecise_fallback=false)
     fun potential_actuals_for_dispatch(
-        spec: Entity[BaseSubpSpec]
-    ): Array[ExpectedTypeForExpr] = {
-        # Handle calls done using the dot notation. Retrieve the prefix and
-        # match it with the type of the first parameter of the called
-        # subprogram.
-        val prefix =
-            self.is_dot_call().do(
-                (_) =>
-                match self {
-                    case c: CallExpr => c.name.as![DottedName]
-                    case d: DottedName => d
-                    case i: Identifier => i.parent.as![DottedName]
-                    case _ => null[Entity[DottedName]]
-                }
-                .do(
-                    (d) =>
-                    [
-                        ExpectedTypeForExpr(
-                            expected_type=spec.unpacked_formal_params().at(0)
-                            .formal_decl()
-                            .type_expression(),
-                            expr=d.prefix
-                        )
-                    ]
-                )
-            );
-        # Handle the rest of the arguments if this is a CallExpr, matching
-        # them with the types of the parameters of the called subprogram.
-        val args =
-            self.as[CallExpr]?.params()?.zip_with_params().map(
-                (pm) =>
-                ExpectedTypeForExpr(
-                    expected_type=pm.param.basic_decl().type_expression(),
-                    expr=pm.actual
-                )
-            );
-
-        prefix & args
-    }
+        @ignored spec: Entity[BaseSubpSpec]
+    ): Array[ExpectedTypeForExpr] =
+        self.call_params().map((pm) => ExpectedTypeForExpr(
+            expected_type=pm.param.basic_decl().type_expression(),
+            expr=pm.actual
+        ))
 
     @with_dynvars(imprecise_fallback=false)
     fun is_dispatching_call(): Bool =
@@ -17526,6 +17493,7 @@ class Name: Expr {
         {
             case dn: DottedName => dn.prefix
             case ar: AttributeRef => ar.prefix
+            case id: Identifier => id.parent.as[DottedName]?.prefix
             case _ => null[Entity[Expr]]
         };
         # Get the actuals of this call expression if any

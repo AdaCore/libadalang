@@ -21347,12 +21347,11 @@ class RaiseExpr: Expr {
         %and node.expected_type_var() <-> node.type_var()
         %and self.error_message.do(
             (er) =>
-            (
-                # The expected type of that error message is always String,
-                # according to RM 11.3 - 3.1/2.
-                er.expected_type_var() <- node.std_string_type()
-            )
-            %and er.sub_equation(),
+            # The expected type of that error message is always String,
+            # according to RM 11.3 - 3.1/2.
+            er.expected_type_var() <- node.std_string_type()
+            %and er.sub_equation()
+            %and er.matches_expected_type(),
             default_val=%true
         )
 }
@@ -22737,12 +22736,11 @@ class RaiseStmt: SimpleStmt {
         self.exception_name.do((en) => en.sub_equation(), default_val=%true)
         %and self.error_message.do(
             (er) =>
-            (
-                # The expected type of that error message is always String,
-                # according to RM 11.3 - 3.1/2.
-                er.expected_type_var() <- node.std_string_type()
-            )
-            %and er.sub_equation(),
+            # The expected type of that error message is always String,
+            # according to RM 11.3 - 3.1/2.
+            er.expected_type_var() <- node.std_string_type()
+            %and er.sub_equation()
+            %and er.matches_expected_type(),
             default_val=%true
         )
 }

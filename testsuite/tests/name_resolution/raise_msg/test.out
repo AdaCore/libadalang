@@ -43,54 +43,104 @@ Expr: <Int test.adb:7:38-7:39>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
-Resolving xrefs for node <ObjectDecl ["Dummy"] test.adb:11:7-11:65>
-*******************************************************************
+Resolving xrefs for node <RaiseStmt test.adb:10:4-10:31>
+********************************************************
 
-Expr: <Id "Integer" test.adb:11:15-11:22>
-  references:    <DefiningName "Integer" in Standard>
-  type:          None
-  expected type: None
-Expr: <ParenExpr test.adb:11:26-11:64>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <RaiseExpr test.adb:11:27-11:63>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <Id "Failure" test.adb:11:33-11:40>
+Expr: <Id "Failure" test.adb:10:10-10:17>
   references:    <DefiningName "Failure" test.adb:5:4-5:11>
   type:          None
   expected type: None
-Expr: <ConcatOp test.adb:11:46-11:63>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <CallExpr test.adb:11:46-11:53>
+Expr: <CallExpr test.adb:10:23-10:30>
   references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <Id "Get" test.adb:11:46-11:49>
+Expr: <Id "Get" test.adb:10:23-10:26>
   references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
-Expr: <Int test.adb:11:51-11:52>
+Expr: <Int test.adb:10:28-10:29>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <ConcatOperand test.adb:11:54-11:63>
+
+Resolving xrefs for node <ObjectDecl ["Dummy"] test.adb:14:7-14:65>
+*******************************************************************
+
+Expr: <Id "Integer" test.adb:14:15-14:22>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:14:26-14:64>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <RaiseExpr test.adb:14:27-14:63>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Failure" test.adb:14:33-14:40>
+  references:    <DefiningName "Failure" test.adb:5:4-5:11>
+  type:          None
+  expected type: None
+Expr: <ConcatOp test.adb:14:46-14:63>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:11:54-11:55>
+Expr: <CallExpr test.adb:14:46-14:53>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <Id "Get" test.adb:14:46-14:49>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: None
+Expr: <Int test.adb:14:51-14:52>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <ConcatOperand test.adb:14:54-14:63>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <OpConcat "&" test.adb:14:54-14:55>
   references:    None
   type:          None
   expected type: None
-Expr: <CallExpr test.adb:11:56-11:63>
+Expr: <CallExpr test.adb:14:56-14:63>
   references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <Id "Get" test.adb:11:56-11:59>
+Expr: <Id "Get" test.adb:14:56-14:59>
   references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
-Expr: <Int test.adb:11:61-11:62>
+Expr: <Int test.adb:14:61-14:62>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["Dummy_2"] test.adb:17:7-17:57>
+*********************************************************************
+
+Expr: <Id "Integer" test.adb:17:17-17:24>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:17:28-17:56>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <RaiseExpr test.adb:17:29-17:55>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Failure" test.adb:17:35-17:42>
+  references:    <DefiningName "Failure" test.adb:5:4-5:11>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:17:48-17:55>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <Id "Get" test.adb:17:48-17:51>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: None
+Expr: <Int test.adb:17:53-17:54>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>

@@ -213,7 +213,8 @@ package body Libadalang.Implementation.C.Extensions is
                With_Runtime         => True,
                Reporter             => Reporter,
                Artifacts_Info_Level => GPR2.Sources_Units,
-               Absent_Dir_Error     => GPR2.No_Error)
+               Absent_Dir_Error     => GPR2.No_Error,
+               Check_Drivers        => False)
             then
                raise GPR2.Project_Error with
                  "fatal error, cannot load the project tree";

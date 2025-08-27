@@ -716,7 +716,8 @@ package body Libadalang.Helpers is
         (Options,
          With_Runtime         => True,
          Artifacts_Info_Level => GPR2.Sources_Units,
-         Absent_Dir_Error     => Absent_Dir_Error)
+         Absent_Dir_Error     => Absent_Dir_Error,
+         Check_Drivers        => False)
       then
          Libadalang.Project_Provider.Trace.Trace ("Loading failed");
          Abort_App;

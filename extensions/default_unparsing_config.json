@@ -355,7 +355,7 @@
             "document": {
               "kind": "continuationLineIndent",
               "contents": [
-                "softline",
+                "line",
                 "flushLineBreaks",
                 {
                   "kind": "recurse_field",
@@ -380,20 +380,30 @@
             "kind": "group",
             "document": "recurse"
           },
-          "whitespace",
           {
             "kind": "tableSeparator",
             "text": ""
           },
           {
-            "kind": "continuationLineIndent",
-            "contents": [
-              {
-                "kind": "text",
-                "text": "=>"
-              },
-              "whitespace"
-            ]
+            "kind": "group",
+            "document": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "dedent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    "line",
+                    {
+                      "kind": "text",
+                      "text": "=>"
+                    }
+                  ]
+                },
+                "bubbleUpLeadingTrivias": true,
+                "bubbleUpTrailingTrivias": true
+              }
+            }
           }
         ]
       }
@@ -1063,57 +1073,83 @@
       }
     },
     "CaseExprAlternative": {
-      "node": {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "group",
-            "document": [
-              {
-                "kind": "indent",
-                "contents": [
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "indent",
+              "contents": [
+                {
+                  "kind": "text",
+                  "text": "when"
+                },
+                "whitespace",
+                {
+                  "kind": "group",
+                  "document": {
+                    "kind": "recurse_field",
+                    "field": "f_choices"
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "case_expr_alt_choice"
+        },
+        {
+          "kind": "tableSeparator",
+          "text": ""
+        },
+        {
+          "kind": "group",
+          "document": {
+            "kind": "ifBreak",
+            "breakContents": "hardlineWithoutBreakParent",
+            "flatContents": "whitespace",
+            "groupId": "case_expr_alt_choice"
+          }
+        },
+        {
+          "kind": "group",
+          "document": {
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "dedent",
+              "contents": {
+                "kind": "group",
+                "document": [
+                  "softline",
                   {
                     "kind": "text",
-                    "text": "when"
-                  },
-                  "whitespace",
-                  {
-                    "kind": "group",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_choices"
-                    }
+                    "text": "=>"
                   }
                 ]
               },
-              "line",
-              {
-                "kind": "text",
-                "text": "=>"
-              }
-            ]
-          },
-          {
+              "bubbleUpLeadingTrivias": true,
+              "bubbleUpTrailingTrivias": true
+            }
+          }
+        },
+        {
+          "kind": "group",
+          "document": {
             "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
-                "kind": "group",
-                "document": {
-                  "kind": "recurse_field",
-                  "field": "f_expr"
-                }
+                "kind": "recurse_field",
+                "field": "f_expr"
               }
             ]
           }
-        ]
-      }
+        }
+      ]
     },
     "CaseExprAlternativeList": {
-      "sep": [
-        "recurse",
-        "hardline"
-      ]
+      "table": {
+        "must_break": true
+      }
     },
     "CaseStmt": {
       "node": {
@@ -1206,13 +1242,43 @@
                   }
                 }
               ]
-            },
-            "line",
-            {
-              "kind": "text",
-              "text": "=>"
             }
-          ]
+          ],
+          "id": "case_stmt_alt_choice"
+        },
+        {
+          "kind": "tableSeparator",
+          "text": ""
+        },
+        {
+          "kind": "group",
+          "document": {
+            "kind": "ifBreak",
+            "breakContents": "hardlineWithoutBreakParent",
+            "flatContents": "whitespace",
+            "groupId": "case_stmt_alt_choice"
+          }
+        },
+        {
+          "kind": "group",
+          "document": {
+            "kind": "indent",
+            "contents": {
+              "kind": "dedent",
+              "contents": {
+                "kind": "group",
+                "document": [
+                  "softline",
+                  {
+                    "kind": "text",
+                    "text": "=>"
+                  }
+                ]
+              },
+              "bubbleUpLeadingTrivias": true,
+              "bubbleUpTrailingTrivias": true
+            }
+          }
         },
         {
           "kind": "indent",

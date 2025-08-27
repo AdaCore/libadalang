@@ -2,9 +2,8 @@ case Foo is
   when Barrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
      | Quxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
      | Corge
-  =>
-    Baz,
+  => Baz,
   when Bazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz | Quux
-  =>
-    Baaaz,
-  when others => Bazzz
+  => Baaaz,
+  when others
+  => Bazzz

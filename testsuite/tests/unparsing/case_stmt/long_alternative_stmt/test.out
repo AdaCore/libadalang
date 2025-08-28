@@ -1,9 +1,9 @@
 case Foo is
-   when Bar =>
+   when Bar    =>
       Qux;
       Qux;
 
-   when Baz =>
+   when Baz    =>
       Quuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuux;
 
    when others =>

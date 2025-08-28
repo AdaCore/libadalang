@@ -1094,21 +1094,11 @@
                 }
               ]
             }
-          ],
-          "id": "case_expr_alt_choice"
+          ]
         },
         {
           "kind": "tableSeparator",
           "text": ""
-        },
-        {
-          "kind": "group",
-          "document": {
-            "kind": "ifBreak",
-            "breakContents": "hardlineWithoutBreakParent",
-            "flatContents": "whitespace",
-            "groupId": "case_expr_alt_choice"
-          }
         },
         {
           "kind": "group",
@@ -1119,7 +1109,7 @@
               "contents": {
                 "kind": "group",
                 "document": [
-                  "softline",
+                  "line",
                   {
                     "kind": "text",
                     "text": "=>"
@@ -1243,21 +1233,11 @@
                 }
               ]
             }
-          ],
-          "id": "case_stmt_alt_choice"
+          ]
         },
         {
           "kind": "tableSeparator",
           "text": ""
-        },
-        {
-          "kind": "group",
-          "document": {
-            "kind": "ifBreak",
-            "breakContents": "hardlineWithoutBreakParent",
-            "flatContents": "whitespace",
-            "groupId": "case_stmt_alt_choice"
-          }
         },
         {
           "kind": "group",
@@ -1268,7 +1248,7 @@
               "contents": {
                 "kind": "group",
                 "document": [
-                  "softline",
+                  "line",
                   {
                     "kind": "text",
                     "text": "=>"
@@ -1295,10 +1275,12 @@
       ]
     },
     "CaseStmtAlternativeList": {
+      "table": {
+        "must_break": true
+      },
       "sep": [
         "recurse",
-        "hardline",
-        "hardline"
+        "literalline"
       ]
     },
     "CharLiteral": {},

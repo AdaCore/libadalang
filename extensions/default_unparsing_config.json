@@ -6212,6 +6212,7 @@
       "fields": {
         "f_return_expr": [
           "line",
+          "flushLineBreaks",
           "recurse"
         ]
       }

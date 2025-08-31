@@ -9,6 +9,7 @@ case Foo is
    =>
       null;
 
-   when others =>
+   when others
+   =>
       null;
 end case;

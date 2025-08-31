@@ -1,9 +1,9 @@
 case Fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 is
-   when Bar =>
+   when Bar    =>
       null;
 
-   when Baz =>
+   when Baz    =>
       null;
 
    when others =>

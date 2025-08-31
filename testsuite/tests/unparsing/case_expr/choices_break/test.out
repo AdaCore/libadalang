@@ -1,0 +1,23 @@
+package body Foo is
+   package body Bar is
+      Main_File : constant Unbounded_String :=
+        (case Build_Mode is
+           when BUILD_FUZZING_HARNESS
+              | COMPILE_FUZZING_HARNESS
+              | BUILD_CMPLOG_FUZZING_HARNESS
+              | COMPILE_CMPLOG_FUZZING_HARNESS                =>
+             To_Unbounded_String ("gnatfuzz-fuzz_test_harness_driver.adb"),
+           when COVERAGE                                      =>
+             To_Unbounded_String ("gnatfuzz-coverage_main.adb"),
+           when TGEN_CORPUS_GEN                               =>
+             To_Unbounded_String ("gnatfuzz-tgen_corpus_generator.adb"),
+           when CORPUS_GEN                                    =>
+             To_Unbounded_String ("gnatfuzz-corpus_generator.adb"),
+           when COMPILE_CMPLOG_HARNESS | BUILD_CMPLOG_HARNESS =>
+             To_Unbounded_String ("gnatfuzz-fuzz_test_harness.adb"),
+           when SYMCC                                         =>
+             To_Unbounded_String ("gnatfuzz-fuzz_test_harness.adb"),
+           when TGEN_GNATTEST_TEST_GENERATOR                  =>
+             To_Unbounded_String ("gnatfuzz-fuzz_test_harness.adb"));
+   end Bar;
+end Foo;

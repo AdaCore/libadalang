@@ -170,6 +170,7 @@ begin
    Check_Loading ("invalid_float_size");
    Check_Loading ("invalid_float_alignment");
    Check_Loading ("invalid_missing_double");
+   Check_Loading ("mandatory_float_only");
    Check_Loading ("linux_64");
 
    Check_Standard ("linux_64");

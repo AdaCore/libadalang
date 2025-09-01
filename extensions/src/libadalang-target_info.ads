@@ -65,7 +65,7 @@ package Libadalang.Target_Info is
        when TF_Id          => "TF");
 
    subtype Mandatory_Floating_Point_Type_Id is
-     Floating_Point_Type_Id range Float_Id .. Long_Double_Id;
+     Floating_Point_Type_Id range Float_Id .. Double_Id;
    --  Floating-point type that are required in a target information file
 
    type Floating_Point_Types_Information is

@@ -256,18 +256,40 @@ The ``origin`` parameter
 ------------------------
 
 In Libadalang many semantic properties, like
-:ada:ref:`Libadalang.Analysis.P_Referenced_Decl`, have an ``origin`` parameter.
-That's because for many semantic queries, the answer to your query might differ
-depending on where you come from.
+:ada:ref:`Libadalang.Analysis.P_Most_Visible_Part`, have an ``origin``
+parameter. That's because for many semantic queries, the answer to your query
+might differ depending on where you come from.
 
-For example in the following code:
+Consider for example the following code:
 
 .. code-block:: ada
 
-   package P is
+   -- pkg.ads
+   package Pkg is
       type T is private;
+
+      procedure Foo;
    private
       type T is record
-         A, B: Integer;
+         A, B : Integer;
       end record;
    end P;
+
+   -- pkg.adb
+   package body Pkg is
+      procedure Foo is null;
+   end Pkg;
+
+   -- main.adb
+   with Pkg;
+   procedure Main is
+   begin
+      null;
+   end Main;
+
+Calling ``P_Most_Visible_Part`` on the public declaration of ``T`` using as
+origin any node belonging to the ``Main`` unit will return that same public
+declaration, because ``Main`` does not have visiblity on ``Pkg``'s private
+part. However, using as origin any node inside ``Pkg``'s body will now return
+``T``'s private completion, because we do have visibility on ``Pkg``'s private
+part from there.

@@ -992,8 +992,7 @@ package body Libadalang.Implementation.Extensions is
       Generate_Diagnostics : Boolean;
       Env                  : Lexical_Env;
       Origin               : Bare_Ada_Node;
-      Entry_Point          : Bare_Ada_Node;
-      E_Info               : Internal_Entity_Info := No_Entity_Info)
+      Entry_Point          : Bare_Ada_Node)
       return Boolean
    is
       use Nameres_Maps;
@@ -1011,7 +1010,6 @@ package body Libadalang.Implementation.Extensions is
             Cached : Resolution_Val renames Cache.Reference (C);
          begin
             if Cached.Cache_Version >= Node.Unit.Context.Cache_Version
-               and then Cached.Rebindings = E_Info.Rebindings
                and then (not Generate_Diagnostics
                          or else Cached.Has_Diagnostics)
             then
@@ -1036,14 +1034,13 @@ package body Libadalang.Implementation.Extensions is
          R : Relation;
          V : Resolution_Val :=
            (Cache_Version   => Node.Unit.Context.Cache_Version,
-            Rebindings      => E_Info.Rebindings,
             Has_Diagnostics => Generate_Diagnostics,
             Return_Value    => (False, null),
             Exc_Id          => Ada.Exceptions.Null_Id,
             Exc_Msg         => null);
       begin
          R := Dispatcher_Ada_Node_P_Xref_Equation
-           (Node, Env, Origin, Entry_Point, E_Info);
+           (Node, Env, Origin, Entry_Point);
 
          if Generate_Diagnostics then
             V.Return_Value := Solve_With_Diagnostics (R, Node);
@@ -1087,7 +1084,6 @@ package body Libadalang.Implementation.Extensions is
             Cached : Resolution_Val renames Cache.Reference (C);
          begin
             if Cached.Cache_Version >= Node.Unit.Context.Cache_Version
-               and then Cached.Rebindings = E_Info.Rebindings
                and then Cached.Has_Diagnostics
             then
                if Cached.Exc_Id = Ada.Exceptions.Null_Id then

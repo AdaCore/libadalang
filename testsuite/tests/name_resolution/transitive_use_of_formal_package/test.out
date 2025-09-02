@@ -31,7 +31,7 @@ Resolving xrefs for node <| GenericPackageInstantiation ["Shared"] test.adb:10:1
 *************************************************************************************************************************
 
 Expr: <| Id "Shared_G" test.adb:10:37-10:45 [test.adb:30:4, test.adb:32:4] |>
-  references:    <DefiningName "Shared_G" test.adb:6:15-6:23>
+  references:    <| DefiningName "Shared_G" test.adb:6:15-6:23 [test.adb:30:4] |>
   type:          None
   expected type: None
 Expr: <| BoxExpr test.adb:10:47-10:49 [test.adb:30:4, test.adb:32:4] |>

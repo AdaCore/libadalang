@@ -251,6 +251,50 @@ class AdaNode implements Node[AdaNode] {
     @exported
     fun get_uninstantiated_node(): Entity[AdaNode] = node.as_bare_entity
 
+    |" Given a set of rebindings representing the current generic context,
+    |" return this node as if it had been retrieved from within the generic
+    |" context. In particular, this filters in the rebindings from the context
+    |" that are actually relevant for this node.
+    |" This may totally return the node as-is, for example if the node is not
+    |" inside a generic, or inside one that is not instantiated by the context.
+    fun get_instantiated_node(instances: EnvRebindings): Entity[AdaNode] = {
+        val instantiated = Entity[AdaNode](
+            node=node,
+            info=EntityInfo(
+                md=self.info.md,
+                rebindings=node.insert_rebindings(
+                    instances,
+                    self.info.rebindings
+                ),
+                from_rebound=false
+            )
+        );
+
+        # If rebindings have been updated by the call to `insert_rebindings`,
+        # try to insert `instances` again, as some of the entries may have
+        # been used to collapse existing entries. We don't risk inserting
+        # useless entries because those will be filtered out by the call to
+        # `shed_rebindings` in the else branch, which will be reached once
+        # inserting `instances` does not change the rebindings anymore.
+        if instantiated.info.rebindings != self.info.rebindings
+        then instantiated.get_instantiated_node(instances)
+        else {
+            val scope =
+                if (
+                    not self.info.md.dottable_subp
+                    and not self.info.md.primitive_real_type.is_null
+                )
+                then self.info.md.primitive_real_type.children_env
+                elif self is SyntheticSubpDecl
+                then self.parent.children_env
+                else self.node.children_env;
+
+            instantiated.update(
+                info=scope.shed_rebindings(instantiated.info)
+            )
+        }
+    }
+
     |" Return possible completions at this point in the file.
     @exported
     fun complete(): Iterator[CompletionItem] = {
@@ -494,22 +538,24 @@ class AdaNode implements Node[AdaNode] {
         )
         then base.append_rebinding(old_env, new_env)
         elif base.old_env == parent_env
-        then
-            base.new_env.get_first(
-                new_env
-                .env_node
-                .as[GenericPackageInstantiation]
-                .name
-                .name_symbol(),
-                lookup=LookupKind.minimal
-            )
-            .as[GenericPackageInstantiation]
-            .do(
+        then {
+            val inst = Entity[GenericInstantiation](
+                node=base.new_env.env_node.as[GenericInstantiation],
+                info=EntityInfo(
+                    md=null[Metadata],
+                    rebindings=base.get_parent,
+                    from_rebound=false
+                )
+            );
+            inst.actual_for_formal(
+                new_env.env_node.as[GenericPackageInstantiation].name
+            ).do(
+                (actual) => actual.as[Name]?.all_env_elements().at(0)
+            ).as[GenericPackageInstantiation].do(
                 (gpi) => {
                     val gen_env =
                         gpi.nonbound_generic_decl_from_self()
-                        .node
-                        .children_env;
+                        .node.children_env;
                     val info =
                         EntityInfo(
                             md=null[Metadata],
@@ -526,6 +572,7 @@ class AdaNode implements Node[AdaNode] {
                 },
                 default_val=base.append_rebinding(old_env, new_env)
             )
+        }
         else node.add_rebinding(base.get_parent, old_env, new_env)
     }
 
@@ -569,6 +616,13 @@ class AdaNode implements Node[AdaNode] {
             and node.has_parent_rebindings(base.get_parent, parent)
         )
 
+    |" Resolve names from the closest entry point from ``from_node`` and return
+    |" the content of the given logic variable, adjusted to carry the context
+    |" rebindings. Note that the result is expected to be resolved to an
+    |" actual by calling one of a ``corresponding_actual*`` property on it.
+    |" This resolution step is left to the user to allow finer control on
+    |" said resolution routine, as the need may vary depending on the kind of
+    |" content held by the logic variable.
     # We mark this property as memoizable because for the moment, we only ever
     # get the first result of logic resolution, so we only ever want the result
     # of the first evaluation of this property. When we change that, we'll
@@ -580,10 +634,18 @@ class AdaNode implements Node[AdaNode] {
     ): LogicValResult = {
         val success = from_node.resolve_names_from_closest_entry_point();
 
-        LogicValResult(
-            success=success,
-            value=if success then lvar.get_value() else null[Entity[AdaNode]]
+        if success
+        then lvar.get_value().do(
+            (raw) => LogicValResult(
+                success=true,
+                value=raw.get_instantiated_node(from_node.info.rebindings)
+            ),
+            default_val=LogicValResult(
+                success=true,
+                value=null[Entity[AdaNode]]
+            )
         )
+        else null[LogicValResult]
     }
 
     fun semantic_parent_helper(env: LexicalEnv): Entity[AdaNode] =
@@ -823,7 +885,7 @@ class AdaNode implements Node[AdaNode] {
     |" Return the environment to bind initially during the construction of the
     |" xref equation for this node. Note that this only makes sense if this
     |" node is an xref entry point.
-    fun xref_initial_env(): LexicalEnv = self.children_env
+    fun xref_initial_env(): LexicalEnv = node.children_env
 
     |" This property can be used when an xref_equation needs to bind one of
     |" self's logic vars (given in ``dest``) to one of ``outer_node``'s logic
@@ -853,12 +915,13 @@ class AdaNode implements Node[AdaNode] {
     |" resolution in several steps.
     @with_dynvars(env, origin, entry_point)
     fun sub_equation(): Equation =
-        if self.xref_stop_resolution() then self.stop_resolution_equation()
+        if self.xref_stop_resolution()
+        then self.stop_resolution_equation()
         else self.xref_equation()
 
     |" Internal helper for resolve_names. Resolve names for this node up to
     |" xref_entry_point and xref_stop_resolution boundaries.
-    @external(uses_entity_info=true, uses_envs=true)
+    @external(uses_entity_info=false, uses_envs=true)
     @call_memoizable
     @with_dynvars(env, origin, entry_point)
     fun resolve_own_names(generate_diagnostics: Bool): Bool
@@ -867,38 +930,32 @@ class AdaNode implements Node[AdaNode] {
     |" needed to resolve names across xref_stop_resolution boundaries.
     @with_dynvars(env, origin)
     fun resolve_children_names(generate_diagnostics: Bool): Bool =
-        node.children.all(
+        node.children.all((c) => c.do(
+            # Only resolve nodes that have xref_stop_resolution set, and do
+            # not recursively explore nodes that are xref entry points.
             (c) =>
-            c.do(
-                # Only resolve nodes that have xref_stop_resolution set, and do
-                # not recursively explore nodes that are xref entry points.
-                (c) =>
-                if c.xref_entry_point() then true
-                else
-                    (
-                        if c.as_entity.xref_stop_resolution()
-                        then {
-                            bind entry_point = c;
-                            bind env = self.xref_initial_env();
+            if c.xref_entry_point() then true
+            else
+                (
+                    if c.as_bare_entity.xref_stop_resolution()
+                    then {
+                        bind entry_point = c;
+                        bind env = node.xref_initial_env();
 
-                            c.as_entity.resolve_own_names(generate_diagnostics)
-                        }
-                        else true
-                    )
-                    and c.as_entity.resolve_children_names(
-                        generate_diagnostics
-                    ),
-                default_val=true
-            )
-        )
+                        c.resolve_own_names(generate_diagnostics)
+                    }
+                    else true
+                ) and c.resolve_children_names(generate_diagnostics),
+            default_val=true
+        ))
 
     |" Resolves names for this node up to xref_entry_point boundaries.
     @with_dynvars(env, origin)
     fun resolve_names_internal(generate_diagnostics: Bool): Bool = {
         bind entry_point = node;
 
-        self.resolve_own_names(generate_diagnostics)
-        and self.resolve_children_names(generate_diagnostics)
+        node.resolve_own_names(generate_diagnostics)
+        and node.resolve_children_names(generate_diagnostics)
     }
 
     |" Resolves names in this node with an additional constraint given by
@@ -909,11 +966,11 @@ class AdaNode implements Node[AdaNode] {
             {
                 bind entry_point = node;
 
-                self.xref_equation()
+                node.as_bare_entity.xref_equation()
             }
             %and additional_equation;
 
-        eq.solve() and self.resolve_children_names(false)
+        eq.solve() and node.resolve_children_names(false)
     }
 
     |" This will resolve names for this node. If the operation is successful,
@@ -923,10 +980,10 @@ class AdaNode implements Node[AdaNode] {
     @memoized
     @call_memoizable
     fun resolve_names(): Bool = {
-        bind env = self.xref_initial_env();
+        bind env = node.xref_initial_env();
         bind origin = node.origin_node();
 
-        self.resolve_names_internal(false)
+        node.resolve_names_internal(false)
     }
 
     |" Resolve names from the closest entry point up to this node. Note that
@@ -951,29 +1008,29 @@ class AdaNode implements Node[AdaNode] {
     fun resolve_names_from_closest_entry_point(): Bool =
         # This is the closest entry point: resolve its names and stop the
         # recursion.
-        if self.xref_entry_point()
+        if node.xref_entry_point()
         then {
-            bind env = self.xref_initial_env();
+            bind env = node.xref_initial_env();
             bind origin = node.origin_node();
             bind entry_point = node;
 
-            self.resolve_own_names(false)
+            node.resolve_own_names(false)
         }
 
         # Otherwise, recurse on the parent
         else
-            self.parent?.resolve_names_from_closest_entry_point().do(
+            node.parent?.resolve_names_from_closest_entry_point().do(
                 (_) => {
-                    bind env = self.xref_initial_env();
+                    bind env = node.xref_initial_env();
                     bind origin = node.origin_node();
 
                     # Resolution succeeded for the parent and this is a
                     # stop resolution, so resolve own names as well.
-                    if self.xref_stop_resolution()
+                    if node.as_bare_entity.xref_stop_resolution()
                     then {
                         bind entry_point = node;
 
-                        self.resolve_own_names(false)
+                        node.resolve_own_names(false)
                     }
 
                     # Resolution succeeded and there is nothing to do
@@ -1012,7 +1069,7 @@ class AdaNode implements Node[AdaNode] {
     |" diagnostics that were produced while resolving it.
     @exported
     fun nameres_diagnostics(): Array[SolverDiagnostic] = {
-        bind env = self.xref_initial_env();
+        bind env = node.xref_initial_env();
         bind origin = node.origin_node();
 
         val _ = self.resolve_names_internal(true);
@@ -2235,9 +2292,13 @@ class AdaNode implements Node[AdaNode] {
                     subp_symbol=op,
                     right_param=SyntheticFormalParamDecl(
                         param_name=s"right",
-                        param_type=SyntheticTypeExpr(target_type=rhs)
+                        param_type=SyntheticTypeExpr(
+                            target_type=rhs.as_bare_entity
+                        )
                     ),
-                    return_type_expr=SyntheticTypeExpr(target_type=ret)
+                    return_type_expr=SyntheticTypeExpr(
+                        target_type=ret.as_bare_entity
+                    )
                 )
             ),
             dest_env=DesignatedEnv(
@@ -2293,9 +2354,9 @@ class AdaNode implements Node[AdaNode] {
     ): EnvAssoc =
         node.create_binop_assoc_impl(
             op,
-            SyntheticTypeExpr(target_type=lhs),
-            SyntheticTypeExpr(target_type=rhs),
-            SyntheticTypeExpr(target_type=ret)
+            SyntheticTypeExpr(target_type=lhs.as_bare_entity),
+            SyntheticTypeExpr(target_type=rhs.as_bare_entity),
+            SyntheticTypeExpr(target_type=ret.as_bare_entity)
         )
 
     |" Like ``create_binop_assoc`` but the left parameter's type is given as a
@@ -2310,8 +2371,8 @@ class AdaNode implements Node[AdaNode] {
         node.create_binop_assoc_impl(
             op,
             lhs,
-            SyntheticTypeExpr(target_type=rhs),
-            SyntheticTypeExpr(target_type=ret)
+            SyntheticTypeExpr(target_type=rhs.as_bare_entity),
+            SyntheticTypeExpr(target_type=ret.as_bare_entity)
         )
 
     |" Like ``create_binop_assoc`` but the right parameter's type is given as
@@ -2325,9 +2386,9 @@ class AdaNode implements Node[AdaNode] {
     ): EnvAssoc =
         node.create_binop_assoc_impl(
             op,
-            SyntheticTypeExpr(target_type=lhs),
+            SyntheticTypeExpr(target_type=lhs.as_bare_entity),
             rhs,
-            SyntheticTypeExpr(target_type=ret)
+            SyntheticTypeExpr(target_type=ret.as_bare_entity)
         )
 
     |" Like ``create_binop_assoc`` but the left and right parameters' types
@@ -2343,7 +2404,7 @@ class AdaNode implements Node[AdaNode] {
             op,
             lhs,
             rhs,
-            SyntheticTypeExpr(target_type=ret)
+            SyntheticTypeExpr(target_type=ret.as_bare_entity)
         )
 
     |" Custom Unique identifying text used to recognize this node. Not
@@ -3637,10 +3698,10 @@ class BaseFormalParamHolder: AdaNode {
     |" actual (e.g. a ``BasicSubpDecl``), and then grab the formal param
     |" holder of that node (e.g. a ``SubpSpec``).
     fun corresponding_actual(): Entity[BaseFormalParamHolder] =
-        self.parent.as[BasicDecl].do(
-            (bd) => bd.corresponding_actual()?.formal_param_holder_or_null(),
-            default_val=self
-        )
+        self.parent.as[BasicDecl]
+        ?.corresponding_actual()
+        ?.formal_param_holder_or_null()
+        or? self
 
     |" Base method of any BaseFormalParamHolder that checks whether the
     |" other given BaseFormalParamHolder matches. In practice, this will call
@@ -6632,9 +6693,75 @@ class BasicDecl: AdaNode {
     @with_dynvars(imprecise_fallback=false)
     fun is_static_decl(): Bool = false
 
+    fun resolve_actual_name(
+        name: Entity[Expr],
+        @ignored instantiation: Entity[GenericInstantiation]
+    ): Entity[BasicDecl] =
+        name.resolve_generic_actual().as[BasicDecl]
+
+    |" Retrieves the actual for this formal declaration by finding the generic
+    |" formal part in which self lies in self's rebindings, and then resolving
+    |" the corresponding actual.
+    fun corresponding_actual_helper(
+        rb: EnvRebindings,
+        dn: Entity[DefiningName]
+    ): Entity[BasicDecl] =
+        if rb.is_null then self
+
+        # If we don't have the rebindings corresponding to this formal's
+        # instantiation, recurse to the parent instantiation.
+        elif rb.old_env != node.parent.node_env
+        then self.corresponding_actual_helper(rb.get_parent, dn)
+
+        else {
+            # Recreate the proper instantiation node, with the proper
+            # rebindings (so remaining rebindings if we remove the
+            # instantiation).
+            val inst = Entity[GenericInstantiation](
+                node=rb.new_env.env_node.as[GenericInstantiation],
+                info=EntityInfo(
+                    md=null[Metadata],
+                    rebindings=rb.get_parent,
+                    from_rebound=false
+                )
+            );
+
+            inst.actual_for_formal(dn.node)
+            .do((name) => self.resolve_actual_name(name, inst))
+            .do((actual) =>
+                Entity[BasicDecl](
+                    node=actual.node,
+                    info=EntityInfo(
+                        md=actual.info.md,
+                        rebindings=actual.info.rebindings,
+                        # We (manually) found an actual for our formal through
+                        # the given rebindings, so set the `from_rebound` flag.
+                        from_rebound=true
+                    )
+                ).corresponding_actual()
+            )
+            or? self
+        }
+
     |" Given a generic formal entity inside a generic context, return the
     |" actual that was used to instantiate it.
-    fun corresponding_actual(): Entity[BasicDecl] = self
+    fun corresponding_actual(): Entity[BasicDecl] =
+        self.corresponding_actual_at(self.defining_name()).decl
+
+    |" Given a the defining name of a generic formal entity inside a generic
+    |" context, return the both the declaration and the exact defining name of
+    |" the actual that was used to instantiate it. See ``CorrespondingActual``.
+    fun corresponding_actual_at(
+        name: Entity[DefiningName]
+    ): CorrespondingActual =
+        self.corresponding_actual_helper(self.info.rebindings, name).do(
+            (actual) => CorrespondingActual(
+                decl=actual,
+                def_name=
+                    if actual == self then name
+                    else actual.defining_name()
+            )
+        )
 
     |" Return whether this is a top-level element.
     fun is_library_item(): Bool = node.parent is LibraryItem
@@ -6980,6 +7107,21 @@ class BaseFormalParamDecl: BasicDecl {
                 %and prefix.matches_expected_prefix_type()
             )
         ) else %false
+
+    fun corresponding_actual_at(
+        name: Entity[DefiningName]
+    ): CorrespondingActual =
+        self.parents().find(
+            (p) => p is BaseFormalParamHolder
+        ).as[BaseFormalParamHolder].do(
+            (h) => h.corresponding_actual_param(name),
+            default_val=name
+        ).do(
+            (dn) => CorrespondingActual(
+                decl=dn.formal_decl(),
+                def_name=dn
+            )
+        )
 }
 
 |" Declaration for a component (:rmlink:`3.8`).
@@ -7194,7 +7336,12 @@ class SyntheticFormalParamDecl: BaseFormalParamDecl {
 
     fun type_expression(): Entity[TypeExpr] = self.param_type
 
-    fun corresponding_actual(): Entity[BasicDecl] = self
+    fun corresponding_actual_at(
+         name: Entity[DefiningName]
+    ): CorrespondingActual = CorrespondingActual(
+        decl=self,
+        def_name=name
+    )
 }
 
 |" Base class for package declarations. This will be used
@@ -7305,6 +7452,7 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin=null[AdaNode])
     fun base_subtype(): Entity[BaseTypeDecl] = match self {
         case db: DiscreteBaseSubtypeDecl => db
+        case ft: FormalTypeDecl => ft.scalar_base_type()
         case st: BaseSubtypeDecl => st.get_type().base_subtype()
         case _ => self
     }
@@ -7849,7 +7997,7 @@ class BaseTypeDecl: BasicDecl {
                 # the contrary, we have to embed the TypeDecl into a synthetic
                 # `TypeExpr` for `TypeDecl`s.
                 type_expr=node.as_bare_entity.type_expression().node
-                or? SyntheticTypeExpr(target_type=node)
+                or? SyntheticTypeExpr(target_type=node.as_bare_entity)
             ),
             dest_env=DesignatedEnv(
                 kind=DesignatedEnvKind.current_env,
@@ -8624,16 +8772,11 @@ class BaseTypeDecl: BasicDecl {
     fun classwide_type_node(): ClasswideTypeDecl =
         ClasswideTypeDecl(name=node.name)
 
-    |" Helper for scalar_base_subtype. Return the interned node for the
+    |" Helper for scalar_base_type. Return the interned node for the
     |" subtype entity.
     @memoized
     fun scalar_base_subtype_node(): DiscreteBaseSubtypeDecl =
         DiscreteBaseSubtypeDecl(name=node.name)
-
-    |" Return the base subtype for this type. Note that this is only legal for
-    |" scalar types.
-    fun scalar_base_subtype(): Entity[DiscreteBaseSubtypeDecl] =
-        node.scalar_base_subtype_node().as_entity
 
     |" Returns the previous part for this type decl.
     @exported
@@ -9455,6 +9598,19 @@ class DiscreteBaseSubtypeDecl: BaseSubtypeDecl {
     @with_dynvars(origin=null[AdaNode])
     fun get_type(): Entity[BaseTypeDecl] =
         node.parent.as![BaseTypeDecl].as_entity
+
+    fun corresponding_actual_at(
+        @ignored name: Entity[DefiningName]
+    ): CorrespondingActual = {
+        val base_type = self.get_type()
+            .corresponding_actual()
+            .as[BaseTypeDecl]
+            .base_subtype();
+        CorrespondingActual(
+            decl=base_type,
+            def_name=base_type.defining_name()
+        )
+    }
 }
 
 |" Subtype declaration (:rmlink:`3.2.2`).
@@ -10316,25 +10472,10 @@ class FormalTypeDecl: TypeDecl {
     @parse_field
     aspects: AspectSpec
 
-    |" Retrieves the actual for this formal type decl by finding the generic
-    |" formal part in which self lies in self's rebindings, and then resolving
-    |" the corresponding actual.
-    fun corresponding_actual_impl(rb: EnvRebindings): Entity[BaseTypeDecl] =
-        if rb.is_null then self
-        elif rb.old_env == node.parent.node_env
-        then
-            rb.new_env.get_first(
-                self.defining_name().name_symbol(),
-                lookup=LookupKind.minimal,
-                categories=RefCategories(primitives=false, _=true)
-            )
-            .as[BaseTypeDecl]
-        else self.corresponding_actual_impl(rb.get_parent)
-
     |" For a ``FormalTypeDecl`` we must find the actual by looking in our own
     |" rebindings. See ``corresponding_actual_impl``.
     fun get_actual(): Entity[BaseTypeDecl] =
-        self.corresponding_actual_impl(self.info.rebindings)
+        self.corresponding_actual().as[BaseTypeDecl]
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
@@ -10571,51 +10712,6 @@ class FormalSubpDecl: ClassicSubpDecl {
                 "invalid actual for subprogram formal"
             )
     }
-
-    |" Recursive method: Retrieves the actual for this formal subprogram by
-    |" finding the generic formal part in which self lies in self's rebindings,
-    |" and then resolving the corresponding actual.
-    fun corresponding_actual_impl(rb: EnvRebindings): Entity[BasicDecl] =
-        if rb.is_null then self
-
-        # If we don't have the rebindings corresponding to this formal's
-        # instantiation, recurse to the parent instantiation.
-        elif rb.old_env != node.parent.node_env
-        then self.corresponding_actual_impl(rb.get_parent)
-
-        else rb.new_env.env_node.as[GenericInstantiation].do((inst) => {
-            # Recreate the proper instantiation node, with the proper
-            # rebindings (so remaining rebindings if we remove the
-            # instantiation).
-            val inst = Entity[GenericInstantiation](
-                node=inst,
-                info=EntityInfo(
-                    md=null[Metadata],
-                    rebindings=rb.get_parent,
-                    from_rebound=false
-                )
-            );
-
-            inst.actual_for_formal(self.defining_name().node)
-            .do((name) => self.resolve_actual_name(name, inst))
-            .do((actual) =>
-                Entity[BasicDecl](
-                    node=actual.node,
-                    info=EntityInfo(
-                        md=actual.info.md,
-                        rebindings=actual.info.rebindings,
-                        # We (manually) found an actual for our formal through
-                        # the given rebindings, so set the `from_rebound` flag.
-                        from_rebound=true
-                    )
-                ).corresponding_actual()
-            )
-        }) or? self
-
-    |" For a ``FormalSubpDecl`` we must find the actual by looking in our own
-    |" rebindings. See ``corresponding_actual_impl``.
-    fun corresponding_actual(): Entity[BasicDecl] =
-        self.corresponding_actual_impl(self.info.rebindings)
 
     |" Return the first visible subprogram that can match this formal subp in
     |" the context of an instantiation. This is used to find the matching
@@ -10873,6 +10969,29 @@ class SyntheticSubpDecl: BasicSubpDecl {
 
     @with_dynvars(imprecise_fallback=false)
     fun is_static_decl(): Bool = true
+
+    fun corresponding_actual_at(
+        name: Entity[DefiningName]
+    ): CorrespondingActual =
+        self.parent.as[BaseTypeDecl].do((bt) => {
+            val sym = self.name_symbol();
+            val synth = bt.synthesize_attribute_subprogram(sym);
+
+            if synth == self
+            then
+                bt.corresponding_actual().as[BaseTypeDecl].do(
+                    (act) => act.synthesize_attribute_subprogram(sym)
+                ).do(
+                    (subp) => CorrespondingActual(
+                        decl=subp,
+                        def_name=subp.defining_name()
+                    )
+                )
+            else null[CorrespondingActual]
+        }) or? CorrespondingActual(
+            decl=self,
+            def_name=name
+        )
 }
 
 |" Base class for an Ada body (:rmlink:`3.11`). A body is the completion
@@ -12576,7 +12695,7 @@ class GenericInstantiation: BasicDecl {
         # in this non-memoized property to avoid a false "infinite recursion"
         # property error that can happen when the computation is only done in
         # instantiation_bindings_internal.
-        val _ = node.nonbound_generic_decl_from_self();
+        val _ = node.as_bare_entity.nonbound_generic_decl_from_entity(true);
 
         self.instantiation_bindings_internal()
     }
@@ -12659,6 +12778,7 @@ class GenericInstantiation: BasicDecl {
     |" By default, this property follows renaming declarations to return the
     |" designated generic declaration. Set follow_renaming to false in order to
     |" return the renaming declaration instead if any.
+    @memoized
     fun nonbound_generic_decl_from_self(
         follow_renaming: Bool = true
     ): Entity[BasicDecl] =
@@ -12875,19 +12995,23 @@ class GenericInstantiation: BasicDecl {
         )
     }
 
-    |" Return the expression of the actual used for the given formal in this
-    |" generic instantiation. Returns null if none is provided, even if there
-    |" is a default value.
-    fun actual_for_formal(formal_name: DefiningName): Entity[Expr] = {
+    @memoized
+    fun param_actual_mapping(): Array[ParamMatch] = {
         val gen_decl = node.nonbound_generic_decl_from_self().as[GenericDecl];
 
         gen_decl?.formal_part.match_param_list(
             self.generic_inst_params(),
             false
         )
+    }
+
+    |" Return the expression of the actual used for the given formal in this
+    |" generic instantiation. Returns null if none is provided, even if there
+    |" is a default value.
+    fun actual_for_formal(formal_name: DefiningName): Entity[Expr] =
+        self.param_actual_mapping()
         .find((pm) => pm.formal.node == formal_name)
         .do((pm) => pm.actual.assoc.expr())
-    }
 
     env_spec {
         do(node.env_hook())
@@ -13420,6 +13544,16 @@ class ObjectDecl: BasicDecl {
     fun previous_part_for_decl(): Entity[BasicDecl] = self.public_part_decl()
 
     fun xref_entry_point(): Bool = true
+
+    fun resolve_actual_name(
+        name: Entity[Expr],
+        instantiation: Entity[GenericInstantiation]
+    ): Entity[BasicDecl] = Entity[BasicDecl](
+        node=instantiation.actual_expr_decls.find(
+            (decl) => decl.expr == name.node
+        ),
+        info=name.info
+    )
 
     env_spec {
         add_all_to_env(node.env_mappings(node.ids, node))
@@ -14593,13 +14727,17 @@ class Expr: AdaNode {
     |" after name resolution.
     @exported
     fun expression_type(): Entity[BaseTypeDecl] =
-        node.logic_val(self, node.type_var()).value.as![BaseTypeDecl]
+        node.logic_val(
+            self, node.type_var()
+        ).value.as![BaseTypeDecl]?.corresponding_actual().as![BaseTypeDecl]
 
     |" Return the declaration corresponding to the expected type of this
     |" expression after name resolution.
     @exported
     fun expected_expression_type(): Entity[BaseTypeDecl] =
-        node.logic_val(self, node.expected_type_var()).value.as![BaseTypeDecl]
+        node.logic_val(
+            self, node.expected_type_var()
+        ).value.as![BaseTypeDecl]?.corresponding_actual().as![BaseTypeDecl]
 
     @with_dynvars(origin)
     fun matches_expected_type(): Equation = {
@@ -16695,46 +16833,6 @@ class Name: Expr {
     fun is_dot_call(): Bool =
         not self.is_defining() and self.referenced_decl().info.md.dottable_subp
 
-    |" Failsafe version of ``referenced_defining_name``. Returns a
-    |" ``RefdDef``, which can be precise, imprecise, or error.
-    @exported
-    @with_dynvars(imprecise_fallback=false)
-    fun failsafe_referenced_def_name(): RefdDef = {
-        val ref_decl = self.failsafe_referenced_decl();
-        val def_name =
-            ref_decl.decl.do(
-                (ref_decl) =>
-                self.name_symbol().do(
-                    (rel_name) =>
-                    ref_decl.defining_names().find(
-                        (dn) => dn.name_is(rel_name)
-                    )
-                )
-                or? ref_decl.defining_name(),
-                default_val=null[Entity[DefiningName]]
-            );
-
-        RefdDef(def_name=def_name, kind=ref_decl.kind)
-    }
-
-    |" Like ``referenced_decl``, but will return the defining identifier for
-    |" the decl, rather than the basic declaration node itself.
-    @exported
-    @with_dynvars(imprecise_fallback=false)
-    fun referenced_defining_name(): Entity[DefiningName] = {
-        val ref_decl = self.referenced_decl();
-
-        ref_decl.do(
-            (ref_decl) =>
-            self.name_symbol().do(
-                (rel_name) =>
-                ref_decl.defining_names().find((dn) => dn.name_is(rel_name))
-            )
-            or? ref_decl.defining_name(),
-            default_val=null[Entity[DefiningName]]
-        )
-    }
-
     |" Implementation helper for DefiningName.gnat_xref. TODO: Get rid of that
     |" by inlining in DefiningName.gnat_xref.
     @with_dynvars(imprecise_fallback=false)
@@ -17027,6 +17125,13 @@ class Name: Expr {
     fun referenced_decl(): Entity[BasicDecl] =
         self.referenced_decl_internal().decl
 
+    |" Like ``referenced_decl``, but will return the defining identifier for
+    |" the decl, rather than the basic declaration node itself.
+    @exported
+    @with_dynvars(imprecise_fallback=false)
+    fun referenced_defining_name(): Entity[DefiningName] =
+        self.referenced_decl_internal().def_name
+
     |" Failsafe version of ``referenced_decl``. Returns a ``RefdDecl``, which
     |" can be precise, imprecise, or error.
     @exported
@@ -17036,59 +17141,6 @@ class Name: Expr {
             kind=RefResultKind.error
         )
 
-    |" Wrapper to get the referenced declaration inside ``self.ref_var``.
-    |"
-    |" This wrapper will put back the generic context on generic bodies. When
-    |" you are inside an instantiation and you lookup the generic by name,
-    |" such as in this example:
-    |"
-    |" .. code-block:: ada
-    |"
-    |"     generic procedure P2_G;
-    |"
-    |"     procedure P2_G is
-    |"     begin
-    |"         P2_G; <- Reference to the generic body
-    |"     end;
-    |"
-    |"     procedure P2 is new P2_G; <- Through this instantiation
-    |"
-    |" It needs to return the instantiated generic, but by default this will
-    |" not work.
-    |"
-    |" TODO: This is kind of a special case, and we need to investigate
-    |" whether a rework of the rebindings mechanism can simplify this or not.
-    fun get_referenced_decl(): LogicValResult = {
-        val val_result = node.logic_val(self, node.ref_var());
-        val entity = val_result.value.as![BasicDecl];
-        val generic_context_node = self.info.rebindings?.old_env.env_node;
-        # Put back the generic context on entity if applicable as per the
-        # example in the docstring.
-        val entity_with_generic_context =
-            if
-                not generic_context_node.is_null
-                and (
-                    # The referenced node is the generic declaration inside
-                    # of which we are.
-                    generic_context_node
-                    == entity
-                    .node
-                    # The referenced node is the generic body inside of which
-                    # we are.
-                    or generic_context_node
-                    == entity.as[Body]?.decl_part()?.node
-                )
-            then (
-                # Add back the rebindings if the conditions are satisfied
-                entity.unshed_rebindings_helper(self.info.rebindings)
-            )
-            else entity;
-
-        val_result.success.do(
-            (s) => LogicValResult(success=s, value=entity_with_generic_context)
-        )
-    }
-
     |" Return the declaration this node references. Try not to run name res if
     |" already resolved.
     @with_dynvars(imprecise_fallback=false)
@@ -17096,64 +17148,70 @@ class Name: Expr {
         # First, check whether the name is defining, in which case it
         # cannot be a reference.
         if self.is_defining() then null[RefdDecl]
-        else
-            (
+        else {
+            val v =
                 if imprecise_fallback
-                then # The imprecise_fallback path cannot raise
-                {
-                    val v =
-                        try self.get_referenced_decl()
-                        else null[LogicValResult];
+                then
+                    try node.logic_val(self, node.ref_var())
+                    else null[LogicValResult]
+                else
+                    node.logic_val(self, node.ref_var());
 
-                    if v.success
-                    then (
-                        # If we resolved correctly using full nameres, return a
-                        # precise result.
-                        RefdDecl(
-                            decl=v.value.as[BasicDecl],
-                            kind=RefResultKind.precise
-                        )
-                    )
-                    else (
-                        # Else, just take the first corresponding declaration,
-                        # return as an imprecise result.
-                        self?.first_corresponding_decl().do(
-                            (fcd) =>
-                            RefdDecl(decl=fcd, kind=RefResultKind.imprecise),
-                            default_val=RefdDecl(kind=RefResultKind.error)
-                        )
-                    )
-                }
-                else # No fallback path
-                {
-                    val v = self.get_referenced_decl();
-
-                    if v.success
-                    then
-                        RefdDecl(
-                            decl=v.value.as![BasicDecl],
-                            kind=RefResultKind.precise
-                        )
-                    else
-                        RefdDecl(
-                            decl=null[Entity[BasicDecl]],
-                            kind=RefResultKind.error
-                        )
-                }
-            )
-            .do(
-                (res) =>
-                RefdDecl(decl=res.decl?.wrap_public_reference(), kind=res.kind)
-                .do(
-                    # Never return a null node with a Precise result: this
-                    # indicates that it should be a no_ref (e.g. builtin
-                    # operator).
-                    (res) =>
-                    if res.decl.is_null and res.kind == RefResultKind.precise
-                    then null[RefdDecl]
-                    else res
+            if v.success
+            then v.value.as[BasicDecl].do((bd) => {
+                # If we resolved correctly using full nameres, return a
+                # precise result.
+                val dns = bd.defining_names();
+                val dn = if dns.length() > 1 then {
+                    val sym = self.name_symbol();
+                    dns.find((dn) => dn.name_is(sym)) or? dns.at(0)
+                } else
+                    dns.at(0);
+                val actual = bd.corresponding_actual_at(dn);
+                RefdDecl(
+                    decl=actual.decl,
+                    def_name=actual.def_name,
+                    kind=RefResultKind.precise
                 )
+            })
+            elif imprecise_fallback then
+                # Else, if an imprecise fallback was allowed, just take the
+                # first corresponding declaration.
+                self?.first_corresponding_decl().do(
+                    (fcd) => RefdDecl(
+                        decl=fcd,
+                        def_name=fcd.defining_name(),
+                        kind=RefResultKind.imprecise
+                    ),
+                    default_val=RefdDecl(kind=RefResultKind.error)
+                )
+            else
+                # Otherwise there is an error
+                RefdDecl(kind=RefResultKind.error)
+        }.do(
+            (res) =>
+            # Never return a null node with a Precise result: this
+            # indicates that it should be a no_ref (e.g. builtin
+            # operator).
+            if res.decl.is_null and res.kind == RefResultKind.precise
+            then null[RefdDecl]
+            else res
+        ).do(
+            # The computed defining name may be that of an internal decl.
+            # In that case, return the defining name of the public decl
+            # computed by `wrap_public_reference` instead.
+            (res) => res.decl.do(
+                (decl) => {
+                    val pub_decl = decl.wrap_public_reference();
+                    if pub_decl == decl then res
+                    else res.update(
+                        decl=pub_decl,
+                        def_name=pub_decl.defining_name()
+                    )
+                },
+                default_val=res
             )
+        )
 
     |" Like SubtypeIndication.designated_type, but on names, since because of
     |" Ada's ambiguous grammar, some subtype indications will be parsed as
@@ -17258,7 +17316,7 @@ class Name: Expr {
                 elif ar.attribute.sym() == s"Base"
                 then
                     ar.ref_var()
-                    <- BaseTypeDecl.scalar_base_type%(ar.prefix.ref_var())
+                    <- BaseTypeDecl.base_subtype%(ar.prefix.ref_var())
                 else %true
             )
         case _ => %false
@@ -17621,8 +17679,7 @@ class Name: Expr {
         if node.defines_subp_spec_var()
         then
             node.logic_val(from_node=self, lvar=node.subp_spec_var())
-            .value
-            .as[BaseFormalParamHolder]
+            .value.as[BaseFormalParamHolder]
         else null[Entity[BaseFormalParamHolder]]
 
     |" Assuming this name designates a type, return this type.
@@ -17690,7 +17747,7 @@ class AttributeRef: Name {
         if node.attribute.sym() == s"Class"
         then self.prefix.designated_type_impl()?.classwide_type()
         elif node.attribute.sym() == s"Base"
-        then self.prefix.designated_type_impl().scalar_base_subtype()
+        then self.prefix.designated_type_impl().base_subtype()
         else null[Entity[BaseTypeDecl]]
 
     fun has_context_free_type(): Bool = not node.is_access_attr()
@@ -18595,6 +18652,7 @@ class CallExpr: Name {
 
     |" Return whether this CallExpr actually represents a type conversion.
     @with_dynvars(env, origin)
+    @memoized
     fun is_type_conversion(): Bool =
         not self.name is QualExpr
         # Directly call designated_type_impl instead of
@@ -19182,11 +19240,11 @@ class DefiningName: Name {
             (
                 if id.is_defining()
                 then
-                    RefdDef(
+                    RefdDecl(
                         def_name=id.enclosing_defining_name(),
                         kind=RefResultKind.precise
                     )
-                else id.failsafe_referenced_def_name()
+                else id.failsafe_referenced_decl()
             ).do((def_res) => {
                 val canon = def_res.def_name?.canonical_part()?.node;
 
@@ -21613,8 +21671,7 @@ class ForLoopSpec: LoopSpec {
                     # type.
                     case t: SubtypeIndication =>
                         t.sub_equation()
-                        %and node.var_decl.id.type_var()
-                        <- t.designated_type().canonical_type()
+                        %and node.var_decl.id.type_var() <- t.designated_type()
                     case r: AttributeRef =>
                         r.sub_equation()
                         %and node.var_decl.id.type_var() <-> r.type_var()
@@ -21627,8 +21684,7 @@ class ForLoopSpec: LoopSpec {
                         t.sub_equation()
                         %and t.name_designated_type().do(
                             (typ) =>
-                            node.var_decl.id.type_var()
-                            <- typ.canonical_type(),
+                            node.var_decl.id.type_var() <- typ,
                             default_val=(
                                 # Make sure null is not a possible value to
                                 # avoid a null dereference in the subsequent
@@ -22346,9 +22402,9 @@ class Stmt: AdaNode {
         # Either it's an implicitly ghost statement, because it's assigning
         # to a ghost variable, or calling a ghost procedure.
         or match self {
-            case ass: AssignStmt => ass.dest.failsafe_referenced_def_name()
-            case call: CallStmt => call.call.failsafe_referenced_def_name()
-            case _ => null[RefdDef]
+            case ass: AssignStmt => ass.dest.failsafe_referenced_decl()
+            case call: CallStmt => call.call.failsafe_referenced_decl()
+            case _ => null[RefdDecl]
         }
         .do(
             (res) =>
@@ -23066,18 +23122,24 @@ class TypeAttributesRepository: AdaNode {
 
     @lazy
     base_type_expr: NodeBuilder[SyntheticTypeExpr] =
-        SyntheticTypeExpr.builder(target_type=node.base_type.to_builder())
+        SyntheticTypeExpr.builder(target_type=node.base_type.as_bare_entity)
+
+    @lazy
+    scalar_base_type_expr: NodeBuilder[SyntheticTypeExpr] =
+        SyntheticTypeExpr.builder(
+            target_type=node.base_type.as_bare_entity.base_subtype()
+        )
 
     @lazy
     universal_int_type_expr: NodeBuilder[SyntheticTypeExpr] =
         SyntheticTypeExpr.builder(
-            target_type=node.universal_int_type().node.to_builder()
+            target_type=node.universal_int_type()
         )
 
     @lazy
     universal_real_type_expr: NodeBuilder[SyntheticTypeExpr] =
         SyntheticTypeExpr.builder(
-            target_type=node.universal_real_type().node.to_builder()
+            target_type=node.universal_real_type()
         )
 
     @lazy
@@ -23085,6 +23147,13 @@ class TypeAttributesRepository: AdaNode {
         SyntheticFormalParamDecl.builder(
             param_name=s"Value",
             param_type=node.base_type_expr
+        )
+
+    @lazy
+    scalar_base_type_param: NodeBuilder[SyntheticFormalParamDecl] =
+        SyntheticFormalParamDecl.builder(
+            param_name=s"Value",
+            param_type=node.scalar_base_type_expr
         )
 
     @lazy
@@ -23107,8 +23176,6 @@ class TypeAttributesRepository: AdaNode {
             param_name=s"S",
             param_type=SyntheticTypeExpr.builder(
                 target_type=node.root_stream_type().anonymous_access_type()
-                .node
-                .to_builder()
             )
         )
 
@@ -23118,7 +23185,7 @@ class TypeAttributesRepository: AdaNode {
             spec=SyntheticUnarySpec.builder(
                 subp_symbol=s"Succ",
                 right_param=node.base_type_param,
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23129,7 +23196,7 @@ class TypeAttributesRepository: AdaNode {
             spec=SyntheticUnarySpec.builder(
                 subp_symbol=s"Pred",
                 right_param=node.base_type_param,
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23139,9 +23206,9 @@ class TypeAttributesRepository: AdaNode {
         SyntheticSubpDecl.builder(
             spec=SyntheticBinarySpec.builder(
                 subp_symbol=s"Min",
-                left_param=node.base_type_param,
-                right_param=node.base_type_param,
-                return_type_expr=node.base_type_expr
+                left_param=node.scalar_base_type_param,
+                right_param=node.scalar_base_type_param,
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23151,9 +23218,9 @@ class TypeAttributesRepository: AdaNode {
         SyntheticSubpDecl.builder(
             spec=SyntheticBinarySpec.builder(
                 subp_symbol=s"Max",
-                left_param=node.base_type_param,
-                right_param=node.base_type_param,
-                return_type_expr=node.base_type_expr
+                left_param=node.scalar_base_type_param,
+                right_param=node.scalar_base_type_param,
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23362,11 +23429,9 @@ class TypeAttributesRepository: AdaNode {
                     param_type=SyntheticTypeExpr.builder(
                         target_type=node.std_entity(s"String")
                         .as[BaseTypeDecl]
-                        .node
-                        .to_builder()
                     )
                 ),
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23381,11 +23446,9 @@ class TypeAttributesRepository: AdaNode {
                     param_type=SyntheticTypeExpr.builder(
                         target_type=node.std_entity(s"Wide_String")
                         .as[BaseTypeDecl]
-                        .node
-                        .to_builder()
                     )
                 ),
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23400,11 +23463,9 @@ class TypeAttributesRepository: AdaNode {
                     param_type=SyntheticTypeExpr.builder(
                         target_type=node.std_entity(s"Wide_Wide_String")
                         .as[BaseTypeDecl]
-                        .node
-                        .to_builder()
                     )
                 ),
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23532,8 +23593,6 @@ class TypeAttributesRepository: AdaNode {
                 return_type_expr=SyntheticTypeExpr.builder(
                     target_type=node.std_entity(s"String")
                     .as[BaseTypeDecl]
-                    .node
-                    .to_builder()
                 )
             )
         )
@@ -23548,8 +23607,6 @@ class TypeAttributesRepository: AdaNode {
                 return_type_expr=SyntheticTypeExpr.builder(
                     target_type=node.std_entity(s"Wide_String")
                     .as[BaseTypeDecl]
-                    .node
-                    .to_builder()
                 )
             )
         )
@@ -23564,8 +23621,6 @@ class TypeAttributesRepository: AdaNode {
                 return_type_expr=SyntheticTypeExpr.builder(
                     target_type=node.std_entity(s"Wide_Wide_String")
                     .as[BaseTypeDecl]
-                    .node
-                    .to_builder()
                 )
             )
         )
@@ -23580,8 +23635,6 @@ class TypeAttributesRepository: AdaNode {
                     param_name=s"Buffer",
                     param_type=SyntheticTypeExpr.builder(
                         target_type=node.root_buffer_type().classwide_type()
-                        .node
-                        .to_builder()
                     )
                 ),
                 right_param=node.base_type_param,
@@ -23600,7 +23653,6 @@ class TypeAttributesRepository: AdaNode {
                 )
                 ?.children_env
                 .get_first(s"Asm_Input_Operand", lookup=LookupKind.flat)
-                .node
                 .as[BaseTypeDecl];
 
             SyntheticSubpDecl.builder(
@@ -23611,13 +23663,11 @@ class TypeAttributesRepository: AdaNode {
                         param_type=SyntheticTypeExpr.builder(
                             target_type=node.std_entity(s"String")
                             .as[BaseTypeDecl]
-                            .node
-                            .to_builder()
                         )
                     ),
                     right_param=node.base_type_param,
                     return_type_expr=SyntheticTypeExpr.builder(
-                        target_type=input_type.to_builder()
+                        target_type=input_type
                     )
                 )
             )
@@ -23634,7 +23684,6 @@ class TypeAttributesRepository: AdaNode {
                 )
                 ?.children_env
                 .get_first(s"Asm_Output_Operand", lookup=LookupKind.flat)
-                .node
                 .as[BaseTypeDecl];
 
             SyntheticSubpDecl.builder(
@@ -23645,13 +23694,11 @@ class TypeAttributesRepository: AdaNode {
                         param_type=SyntheticTypeExpr.builder(
                             target_type=node.std_entity(s"String")
                             .as[BaseTypeDecl]
-                            .node
-                            .to_builder()
                         )
                     ),
                     right_param=node.base_type_param,
                     return_type_expr=SyntheticTypeExpr.builder(
-                        target_type=output_type.to_builder()
+                        target_type=output_type
                     )
                 )
             )
@@ -25159,11 +25206,10 @@ class DiscreteSubtypeIndication: SubtypeIndication {
 |" instantiation time and is to be given in the ``target_type`` field.
 @synthetic
 class SyntheticTypeExpr: TypeExpr {
-    @parse_field
-    target_type: BaseTypeDecl
+    target_type: Entity[BaseTypeDecl]
 
     @with_dynvars(origin)
-    fun designated_type(): Entity[BaseTypeDecl] = {
+    fun designated_type(): Entity[BaseTypeDecl] =
         # The `target_type` field stores the bare designated BaseTypeDecl,
         # but self may be carrying rebindings that need to be put back on
         # the bare node.
@@ -25172,20 +25218,17 @@ class SyntheticTypeExpr: TypeExpr {
         # rebindings will ever be relevant.
         # Hence we use the built-in `shed_rebindings` construct from the type
         # definition's lexical environment so as to only keep relevant ones.
-        val relevant_rebindings =
-            node.target_type.children_env.shed_rebindings(self.info)
-            .rebindings;
-
-        # Return a rebound `target_type`
         Entity[BaseTypeDecl](
-            node=node.target_type,
-            info=EntityInfo(
-                md=null[Metadata],
-                rebindings=relevant_rebindings,
-                from_rebound=self.info.from_rebound
+            node=node.target_type.node,
+            info=node.target_type.children_env.shed_rebindings(
+                self.target_type.info.update(
+                    rebindings=self.insert_rebindings(
+                        self.info.rebindings,
+                        self.target_type.info.rebindings
+                    )
+                )
             )
-        )
-    }
+        ).corresponding_actual().as[BaseTypeDecl]
 }
 
 |" List of unconstrained array indexes.
@@ -25591,6 +25634,18 @@ struct LogicValResult {
     value: Entity[AdaNode]
 }
 
+|" Contains the result of the ``corresponding_actual_at`` property. We need to
+|" carry both the defining name and its corresponding declaration, because it
+|" is not always possible to go back to the declaration from the defining name
+|" (e.g. in case of a synthetic declaration, the parent of its defining name
+|" may not be that declaration - it's the case for predefined operators today).
+|" Likewise it is not possible to go from a declaration to a defining name,
+|" because it may have several of them.
+struct CorrespondingActual {
+    decl: Entity[BasicDecl]
+    def_name: Entity[DefiningName]
+}
+
 |" Struct enclosing information about aggregates for multidimensional array
 |" types.
 struct MultidimAggregateInfo {
@@ -25636,11 +25691,6 @@ struct RefResult {
 |" Result for a cross reference query returning a referenced decl.
 struct RefdDecl {
     decl: Entity[BasicDecl] = null[Entity[BasicDecl]]
-    kind: RefResultKind = RefResultKind.no_ref
-}
-
-|" Result for a cross reference query returning a referenced defining name.
-struct RefdDef {
     def_name: Entity[DefiningName] = null[Entity[DefiningName]]
     kind: RefResultKind = RefResultKind.no_ref
 }

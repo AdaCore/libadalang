@@ -1,0 +1,198 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["Int_Vectors_Vectors"] test.adb:21:4-21:68>
+**************************************************************************************************
+
+Expr: <Id "Vectors" test.adb:21:39-21:46>
+  references:    <DefiningName "Vectors" test.adb:4:12-4:19>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:21:48-21:66>
+  references:    <| DefiningName "Vector" test.adb:6:12-6:18 [test.adb:20:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "Int_Vectors" test.adb:21:48-21:59>
+  references:    <DefiningName "Int_Vectors" test.adb:20:12-20:23>
+  type:          None
+  expected type: None
+Expr: <Id "Vector" test.adb:21:60-21:66>
+  references:    <| DefiningName "Vector" test.adb:6:12-6:18 [test.adb:20:4] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Vectors"] test.adb:2:4-11:16 [test.adb:21:4] |>
+***********************************************************************************************
+
+Resolving xrefs for node <| FormalTypeDecl ["T"] test.adb:3:7-3:25 [test.adb:21:4] |>
+*************************************************************************************
+
+
+Resolving xrefs for node <| ConcreteTypeDecl ["Elements_Array"] test.adb:5:7-5:61 [test.adb:21:4] |>
+****************************************************************************************************
+
+
+Resolving xrefs for node <| ArrayTypeDef test.adb:5:30-5:60 [test.adb:21:4] |>
+******************************************************************************
+
+Expr: <| Id "Positive" test.adb:5:37-5:45 [test.adb:21:4] |>
+  references:    <DefiningName "Positive" in Standard>
+  type:          None
+  expected type: None
+Expr: <| Id "T" test.adb:5:59-5:60 [test.adb:21:4] |>
+  references:    <| DefiningName "Vector" test.adb:6:12-6:18 [test.adb:20:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| ConcreteTypeDecl ["Vector"] test.adb:6:7-8:18 [test.adb:21:4] |>
+********************************************************************************************
+
+
+Resolving xrefs for node <| ComponentDecl ["EA"] test.adb:7:10-7:40 [test.adb:21:4] |>
+**************************************************************************************
+
+Expr: <| Id "Elements_Array" test.adb:7:15-7:29 [test.adb:21:4] |>
+  references:    <| DefiningName "Elements_Array" test.adb:5:12-5:26 [test.adb:21:4] |>
+  type:          None
+  expected type: None
+Expr: <| BinOp test.adb:7:31-7:38 [test.adb:21:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <| Int test.adb:7:31-7:32 [test.adb:21:4] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <| OpDoubleDot ".." test.adb:7:33-7:35 [test.adb:21:4] |>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <| Int test.adb:7:36-7:38 [test.adb:21:4] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <| SubpSpec test.adb:10:7-10:58 [test.adb:21:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["V"] test.adb:10:23-10:40 [test.adb:21:4] |>
+***********************************************************************************
+
+Expr: <| Id "Vector" test.adb:10:34-10:40 [test.adb:21:4] |>
+  references:    <| DefiningName "Vector" test.adb:6:12-6:18 [test.adb:21:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| ParamSpec ["I", "J"] test.adb:10:42-10:57 [test.adb:21:4] |>
+****************************************************************************************
+
+Expr: <| Id "Positive" test.adb:10:49-10:57 [test.adb:21:4] |>
+  references:    <DefiningName "Positive" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:11:8-11:15 [test.adb:21:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:11:8-11:15 [test.adb:21:4] |>
+  references:    <DefiningName "Int_Vectors_Vectors" test.adb:21:12-21:31>
+  type:          None
+  expected type: None
+Expr: <| Id "Vectors" test.adb:11:8-11:15 [test.adb:21:4] |>
+  references:    <DefiningName "Int_Vectors_Vectors" test.adb:21:12-21:31>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Vectors"] test.adb:13:4-18:16 [test.adb:21:4] |>
+*****************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:14:7-14:58 [test.adb:21:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["V"] test.adb:14:23-14:40 [test.adb:21:4] |>
+***********************************************************************************
+
+Expr: <| Id "Vector" test.adb:14:34-14:40 [test.adb:21:4] |>
+  references:    <| DefiningName "Vector" test.adb:6:12-6:18 [test.adb:21:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| ParamSpec ["I", "J"] test.adb:14:42-14:57 [test.adb:21:4] |>
+****************************************************************************************
+
+Expr: <| Id "Positive" test.adb:14:49-14:57 [test.adb:21:4] |>
+  references:    <DefiningName "Positive" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| AssignStmt test.adb:16:10-16:31 [test.adb:21:4] |>
+******************************************************************************
+
+Expr: <| CallExpr test.adb:16:10-16:18 [test.adb:21:4] |>
+  references:    <| DefiningName "EA" test.adb:7:10-7:12 [test.adb:21:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] test.adb:6:7-8:18 [test.adb:20:4] |>
+  expected type: None
+Expr: <| DottedName test.adb:16:10-16:14 [test.adb:21:4] |>
+  references:    <| DefiningName "EA" test.adb:7:10-7:12 [test.adb:21:4] |>
+  type:          <| ConcreteTypeDecl ["Elements_Array"] test.adb:5:7-5:61 [test.adb:21:4] |>
+  expected type: None
+Expr: <| Id "V" test.adb:16:10-16:11 [test.adb:21:4] |>
+  references:    <| DefiningName "V" test.adb:14:23-14:24 [test.adb:21:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] test.adb:6:7-8:18 [test.adb:21:4] |>
+  expected type: <| ConcreteTypeDecl ["Vector"] test.adb:6:7-8:18 [test.adb:21:4] |>
+Expr: <| Id "EA" test.adb:16:12-16:14 [test.adb:21:4] |>
+  references:    <| DefiningName "EA" test.adb:7:10-7:12 [test.adb:21:4] |>
+  type:          <| ConcreteTypeDecl ["Elements_Array"] test.adb:5:7-5:61 [test.adb:21:4] |>
+  expected type: None
+Expr: <| Id "I" test.adb:16:16-16:17 [test.adb:21:4] |>
+  references:    <| DefiningName "I" test.adb:14:42-14:43 [test.adb:21:4] |>
+  type:          <SubtypeDecl ["Positive"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
+Expr: <| CallExpr test.adb:16:22-16:30 [test.adb:21:4] |>
+  references:    <| DefiningName "EA" test.adb:7:10-7:12 [test.adb:21:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] test.adb:6:7-8:18 [test.adb:20:4] |>
+  expected type: <| ConcreteTypeDecl ["Vector"] test.adb:6:7-8:18 [test.adb:20:4] |>
+Expr: <| DottedName test.adb:16:22-16:26 [test.adb:21:4] |>
+  references:    <| DefiningName "EA" test.adb:7:10-7:12 [test.adb:21:4] |>
+  type:          <| ConcreteTypeDecl ["Elements_Array"] test.adb:5:7-5:61 [test.adb:21:4] |>
+  expected type: None
+Expr: <| Id "V" test.adb:16:22-16:23 [test.adb:21:4] |>
+  references:    <| DefiningName "V" test.adb:14:23-14:24 [test.adb:21:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] test.adb:6:7-8:18 [test.adb:21:4] |>
+  expected type: <| ConcreteTypeDecl ["Vector"] test.adb:6:7-8:18 [test.adb:21:4] |>
+Expr: <| Id "EA" test.adb:16:24-16:26 [test.adb:21:4] |>
+  references:    <| DefiningName "EA" test.adb:7:10-7:12 [test.adb:21:4] |>
+  type:          <| ConcreteTypeDecl ["Elements_Array"] test.adb:5:7-5:61 [test.adb:21:4] |>
+  expected type: None
+Expr: <| Id "J" test.adb:16:28-16:29 [test.adb:21:4] |>
+  references:    <| DefiningName "J" test.adb:14:45-14:46 [test.adb:21:4] |>
+  type:          <SubtypeDecl ["Positive"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
+
+Resolving xrefs for node <| EndName test.adb:17:11-17:15 [test.adb:21:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:17:11-17:15 [test.adb:21:4] |>
+  references:    <| DefiningName "Swap" test.adb:14:17-14:21 [test.adb:21:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Swap" test.adb:17:11-17:15 [test.adb:21:4] |>
+  references:    <| DefiningName "Swap" test.adb:14:17-14:21 [test.adb:21:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:18:8-18:15 [test.adb:21:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:18:8-18:15 [test.adb:21:4] |>
+  references:    <| DefiningName "Vectors" test.adb:13:17-13:24 [test.adb:21:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Vectors" test.adb:18:8-18:15 [test.adb:21:4] |>
+  references:    <| DefiningName "Vectors" test.adb:13:17-13:24 [test.adb:21:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

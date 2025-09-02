@@ -148,7 +148,7 @@ Expr: <BinOp testexp.adb:17:17-17:49>
   expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <AttributeRef testexp.adb:17:17-17:32>
   references:    None
-  type:          <DiscreteBaseSubtypeDecl ["Float"] in Standard>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
   expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <AttributeRef testexp.adb:17:17-17:27>
   references:    <DefiningName "Float" in Standard>

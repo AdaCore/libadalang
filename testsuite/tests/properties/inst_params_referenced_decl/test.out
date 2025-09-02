@@ -22,4 +22,4 @@ Eval 'p[0].actual.p_referenced_decl()'
 Result: None
 
 Eval 'p[1].actual.p_referenced_decl()'
-Result: <| ObjectDecl ["X"] a.adb:20:7-20:19 [a.adb:29:4] |>
+Result: <AnonymousExprDecl ["<anonymous expr decl>"] a.adb:29:4-29:36>

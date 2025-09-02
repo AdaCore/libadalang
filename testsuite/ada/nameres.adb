@@ -1106,53 +1106,52 @@ procedure Nameres is
          ----------------
 
          function Print_Node (N : Ada_Node'Class) return Visit_Status is
+            Decl_Name          : Defining_Name;
+            Type_Decl          : Base_Type_Decl;
+            Expected_Type_Decl : Base_Type_Decl;
          begin
-            if not Quiet
-               and then Kind (N) in Ada_Expr
+            if Kind (N) in Ada_Expr
                and then (Kind (N) not in Ada_Name
                          or else not N.As_Name.P_Is_Defining)
             then
-               Put_Line ("Expr: " & N.Image);
+               if not Quiet then
+                  Put_Line ("Expr: " & N.Image);
+               end if;
                if Kind (N) in Ada_Name
                   and then
                     (not Args.Disable_Operator_Resolution.Get
                      or else not (Kind (N) in Ada_Op))
                then
-                  declare
-                     Decl_Name : constant Defining_Name :=
-                        N.As_Name.P_Referenced_Defining_Name
-                          (Args.Imprecise_Fallback.Get);
+                  Decl_Name :=
+                     N.As_Name.P_Referenced_Defining_Name
+                       (Args.Imprecise_Fallback.Get);
 
-                     Referenced_Decl_Image : constant String :=
-                        (if Show_Slocs or else Decl_Name.Is_Null
-                         then Image (Decl_Name)
-                         else Image
-                           (Decl_Name.P_Unique_Identifying_Name));
-                  begin
-                     Put_Line ("  references:    " & Referenced_Decl_Image);
-                  end;
+                  if not Quiet then
+                     Put_Line
+                        ("  references:    "
+                         & (if Show_Slocs or else Decl_Name.Is_Null
+                            then Image (Decl_Name)
+                            else Image
+                              (Decl_Name.P_Unique_Identifying_Name)));
+                  end if;
                end if;
 
-               declare
-                  Type_Decl : constant Base_Type_Decl :=
-                     P_Expression_Type (As_Expr (N));
-                  Expected_Type_Decl : constant Base_Type_Decl :=
-                     P_Expected_Expression_Type (As_Expr (N));
+               Type_Decl := P_Expression_Type (As_Expr (N));
+               Expected_Type_Decl := P_Expected_Expression_Type (As_Expr (N));
 
-                  Type_Decl_Image : constant String :=
-                    (if Show_Slocs or else Type_Decl.Is_Null
-                     then Image (Type_Decl)
-                     else Image (Type_Decl.P_Unique_Identifying_Name));
-
-                  Expected_Type_Decl_Image : constant String :=
-                    (if Show_Slocs or else Expected_Type_Decl.Is_Null
-                     then Image (Expected_Type_Decl)
-                     else Image
-                       (Expected_Type_Decl.P_Unique_Identifying_Name));
-               begin
-                  Put_Line ("  type:          " & Type_Decl_Image);
-                  Put_Line ("  expected type: " & Expected_Type_Decl_Image);
-               end;
+               if not Quiet then
+                  Put_Line
+                    ("  type:          "
+                     & (if Show_Slocs or else Type_Decl.Is_Null
+                        then Image (Type_Decl)
+                        else Image (Type_Decl.P_Unique_Identifying_Name)));
+                  Put_Line
+                    ("  expected type: "
+                     & (if Show_Slocs or else Expected_Type_Decl.Is_Null
+                        then Image (Expected_Type_Decl)
+                        else Image
+                          (Expected_Type_Decl.P_Unique_Identifying_Name)));
+               end if;
             end if;
             return
               (if (P_Xref_Entry_Point (N) and then As_Ada_Node (N) /= Node)

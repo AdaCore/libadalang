@@ -29,7 +29,7 @@ procedure Pcase is
    begin
       case D is
          when M ..
-         --% list(node.f_choices.p_complete)
+         --% list(node.parent.parent.p_complete)
       end case;
    end P4;
 

@@ -1276,7 +1276,7 @@ grammar ada_grammar {
         | Op.Or("or")
     )
     discrete_range <- or(
-        | BinOp(simple_expr Op.DoubleDot("..") or(simple_expr | box_expr))
+        | BinOp(simple_expr Op.DoubleDot("..") / or(simple_expr | box_expr))
         | name |> when(Name.is_range_attribute)
     )
     array_subcomponent_choice <- or(

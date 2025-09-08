@@ -87,7 +87,7 @@ Resolving xrefs for node <| CallStmt test.adb:19:10-19:16 [test.adb:25:4] |>
 ****************************************************************************
 
 Expr: <| DottedName test.adb:19:10-19:15 [test.adb:25:4] |>
-  references:    <| DefiningName "Foo" test.adb:3:22-3:25 [test.adb:24:4] |>
+  references:    <DefiningName "Foo" test.adb:23:14-23:17>
   type:          None
   expected type: None
 Expr: <| Id "O" test.adb:19:10-19:11 [test.adb:25:4] |>
@@ -95,7 +95,7 @@ Expr: <| Id "O" test.adb:19:10-19:11 [test.adb:25:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Foo" test.adb:19:12-19:15 [test.adb:25:4] |>
-  references:    <| DefiningName "Foo" test.adb:3:22-3:25 [test.adb:24:4] |>
+  references:    <DefiningName "Foo" test.adb:23:14-23:17>
   type:          None
   expected type: None
 

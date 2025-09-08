@@ -54,7 +54,7 @@ Expr: <Id "Integer" test.adb:13:19-13:26>
   expected type: None
 Expr: <CallExpr test.adb:13:28-13:46>
   references:    <| SyntheticDefiningName "value" test.adb:4:7-4:31 [test.adb:7:4] |>
-  type:          <| ConcreteTypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
+  type:          <| DiscreteBaseSubtypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
   expected type: None
 Expr: <AttributeRef test.adb:13:28-13:42>
   references:    <| SyntheticDefiningName "value" test.adb:4:7-4:31 [test.adb:7:4] |>
@@ -98,7 +98,7 @@ Expr: <Id "A" test.adb:18:19-18:20>
   expected type: None
 Expr: <CallExpr test.adb:18:22-18:40>
   references:    <| SyntheticDefiningName "value" test.adb:4:7-4:31 [test.adb:7:4] |>
-  type:          <| ConcreteTypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
+  type:          <| DiscreteBaseSubtypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
   expected type: <| ConcreteTypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
 Expr: <AttributeRef test.adb:18:22-18:36>
   references:    <| SyntheticDefiningName "value" test.adb:4:7-4:31 [test.adb:7:4] |>

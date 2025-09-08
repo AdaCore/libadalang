@@ -40,7 +40,7 @@ Expr: <| Id "Base" test.adb:5:13-5:17 [test.adb:14:4] |>
 Expr: <| AttributeRef test.adb:5:21-5:28 [test.adb:14:4] |>
   references:    None
   type:          <SubtypeDecl ["Positive"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
 Expr: <| Id "T" test.adb:5:21-5:22 [test.adb:14:4] |>
   references:    <DefiningName "Positive" in Standard>
   type:          None
@@ -58,20 +58,20 @@ Expr: <| Id "T" test.adb:7:11-7:12 [test.adb:14:4] |>
   type:          None
   expected type: None
 Expr: <| BinOp test.adb:7:16-7:21 [test.adb:14:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          <SubtypeDecl ["Positive"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <| Id "X" test.adb:7:16-7:17 [test.adb:14:4] |>
   references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <| OpMult "*" test.adb:7:18-7:19 [test.adb:14:4] |>
   references:    None
   type:          None
   expected type: None
 Expr: <| Id "X" test.adb:7:20-7:21 [test.adb:14:4] |>
   references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 
 Resolving xrefs for node <| SubtypeDecl ["U"] test.adb:9:7-9:22 [test.adb:14:4] |>
 **********************************************************************************
@@ -107,7 +107,7 @@ Resolving xrefs for node <AssignStmt test.adb:19:4-19:41>
 
 Expr: <DottedName test.adb:19:4-19:12>
   references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "My_Pkg" test.adb:19:4-19:10>
   references:    <DefiningName "My_Pkg" test.adb:14:12-14:18>
@@ -115,12 +115,12 @@ Expr: <Id "My_Pkg" test.adb:19:4-19:10>
   expected type: None
 Expr: <Id "X" test.adb:19:11-19:12>
   references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <CallExpr test.adb:19:16-19:40>
   references:    <| SyntheticDefiningName "succ" test.adb:9:7-9:22 [test.adb:14:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
+  expected type: <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:19:16-19:29>
   references:    <| SyntheticDefiningName "succ" test.adb:9:7-9:22 [test.adb:14:4] |>
   type:          None
@@ -143,7 +143,7 @@ Expr: <Id "Succ" test.adb:19:25-19:29>
   expected type: None
 Expr: <DottedName test.adb:19:31-19:39>
   references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
   expected type: <| SubtypeDecl ["U"] test.adb:9:7-9:22 [test.adb:14:4] |>
 Expr: <Id "My_Pkg" test.adb:19:31-19:37>
   references:    <DefiningName "My_Pkg" test.adb:14:12-14:18>
@@ -151,7 +151,7 @@ Expr: <Id "My_Pkg" test.adb:19:31-19:37>
   expected type: None
 Expr: <Id "X" test.adb:19:38-19:39>
   references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
   expected type: <| SubtypeDecl ["U"] test.adb:9:7-9:22 [test.adb:14:4] |>
 
 Resolving xrefs for node <ObjectDecl ["Y"] test.adb:24:7-24:27>
@@ -163,7 +163,7 @@ Expr: <Id "V" test.adb:24:11-24:12>
   expected type: None
 Expr: <CallExpr test.adb:24:16-24:26>
   references:    <SyntheticDefiningName "succ" test.adb:23:7-23:29>
-  type:          <| ConcreteTypeDecl ["V"] test.adb:11:7-11:29 [test.adb:14:4] |>
+  type:          <| DiscreteBaseSubtypeDecl ["V"] test.adb:11:7-11:29 [test.adb:14:4] |>
   expected type: <SubtypeDecl ["V"] test.adb:23:7-23:29>
 Expr: <AttributeRef test.adb:24:16-24:22>
   references:    <SyntheticDefiningName "succ" test.adb:23:7-23:29>

@@ -544,15 +544,7 @@ package body Libadalang.Target_Info is
          begin
             if Info.Present then
                declare
-                  Name : constant String :=
-                    (case Id is
-                     when Float_Id       => "float",
-                     when Double_Id      => "double",
-                     when Long_Double_Id => "long double",
-                     when HF_Id          => "HF",
-                     when BF_Id          => "BF",
-                     when TF_Id          => "TF");
-
+                  Name      : constant String := C_Name (Id);
                   Digs      : constant String := Info.Digs'Image;
                   Size      : constant String := Info.Size'Image;
                   Alignment : constant String := Info.Alignment'Image;

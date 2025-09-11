@@ -49,9 +49,14 @@ package Libadalang.Target_Info is
      (Float_Id,
       Double_Id,
       Long_Double_Id,
+      FPRX2_Id,
       HF_Id,
       BF_Id,
-      TF_Id);
+      IF_Id,
+      KF_Id,
+      RF_Id,
+      TF_Id,
+      XF_Id);
    --  List of all the floating-point types that can be described in a
    --  Target_Information record.
 
@@ -60,9 +65,14 @@ package Libadalang.Target_Info is
        when Float_Id       => "float",
        when Double_Id      => "double",
        when Long_Double_Id => "long double",
+       when FPRX2_Id       => "FPRX2",
        when HF_Id          => "HF",
        when BF_Id          => "BF",
-       when TF_Id          => "TF");
+       when IF_Id          => "IF",
+       when KF_Id          => "KF",
+       when RF_Id          => "RF",
+       when TF_Id          => "TF",
+       when XF_Id          => "XF");
 
    subtype Mandatory_Floating_Point_Type_Id is
      Floating_Point_Type_Id range Float_Id .. Double_Id;
@@ -189,9 +199,14 @@ package Libadalang.Target_Info is
                             Representation => IEEE_754_Binary,
                             Size           => 80,
                             Alignment      => 128),
-         HF_Id          => Absent_Floating_Point_Type_Info,
          BF_Id          => Absent_Floating_Point_Type_Info,
-         TF_Id          => Absent_Floating_Point_Type_Info));
+         FPRX2_Id       => Absent_Floating_Point_Type_Info,
+         HF_Id          => Absent_Floating_Point_Type_Info,
+         IF_Id          => Absent_Floating_Point_Type_Info,
+         KF_Id          => Absent_Floating_Point_Type_Info,
+         RF_Id          => Absent_Floating_Point_Type_Info,
+         TF_Id          => Absent_Floating_Point_Type_Info,
+         XF_Id          => Absent_Floating_Point_Type_Info));
    --  Default target information to use when no specific values were provided.
    --  This is just a placeholder: actual values are not guaranteed to remain
    --  unchanged across versions.

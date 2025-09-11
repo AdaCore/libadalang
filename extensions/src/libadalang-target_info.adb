@@ -21,15 +21,15 @@ package body Libadalang.Target_Info is
      Compile ("^([a-zA-Z_]+)  +([0-9]+)$");
 
    Floating_Point_Line_Pattern : constant Pattern_Matcher :=
-     Compile ("^([a-zA-Z_](?: ?[a-zA-Z_])+)"  --  Type name
+     Compile ("^([a-zA-Z0-9_](?: ?[a-zA-Z0-9_])+)"  --  Type name
               & "  +"
-              & "([0-9]+)"                    --  Digits
+              & "([0-9]+)"                          --  Digits
               & " +"
-              & "I"                           --  Representation
+              & "I"                                 --  Representation
               & " +"
-              & "([0-9]+)"                    --  Size (in bits)
+              & "([0-9]+)"                          --  Size (in bits)
               & " +"
-              & "([0-9]+)"                    --  Alignment (in bits)
+              & "([0-9]+)"                          --  Alignment (in bits)
               & "$");
 
    -------------------------
@@ -337,12 +337,22 @@ package body Libadalang.Target_Info is
                Id := Double_Id;
             elsif N = "long double" then
                Id := Long_Double_Id;
+            elsif N = "FPRX2" then
+               Id := FPRX2_Id;
             elsif N = "HF" then
                Id := HF_Id;
             elsif N = "BF" then
                Id := BF_Id;
+            elsif N = "IF" then
+               Id := IF_Id;
+            elsif N = "KF" then
+               Id := KF_Id;
+            elsif N = "RF" then
+               Id := RF_Id;
             elsif N = "TF" then
                Id := TF_Id;
+            elsif N = "XF" then
+               Id := XF_Id;
             else
                raise Invalid_Input with "unknown floating point type: " & N;
             end if;

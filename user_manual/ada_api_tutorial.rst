@@ -78,7 +78,7 @@ an analysis unit is very simple:
 
 Both ``Analysis_Context`` and ``Analysis_Unit`` values are references
 (assignment creates an alias, not a copy), and these are reference-counted, so
-you don't need to do anything special to do regarding resource allocation.
+you don't need to do anything special regarding resource allocation.
 
 Assuming that parsing went well enough for the parsers to create a tree, the
 ``Libadalang.Analysis.Root`` unit primitive will return the root node
@@ -185,7 +185,7 @@ field is null for the ``V : T;`` object declaration.
 Final program
 -------------
 
-Put all these bit in the right order, and you should get something similar to
+Put all these bits in the right order, and you should get something similar to
 the following program:
 
 .. code-block:: ada

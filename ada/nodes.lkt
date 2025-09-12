@@ -9361,8 +9361,10 @@ class BaseTypeDecl: BasicDecl {
     fun classwide_type(): Entity[ClasswideTypeDecl] = {
         bind origin = node;
 
-        if self.is_tagged_type() then node.classwide_type_node().as_entity
-        else null[Entity[ClasswideTypeDecl]]
+        if self.is_tagged_type() or self is IncompleteTypeDecl then
+            node.classwide_type_node().as_entity
+        else
+            null[Entity[ClasswideTypeDecl]]
     }
 
     |" Return the discrete range for this type decl, if applicable.

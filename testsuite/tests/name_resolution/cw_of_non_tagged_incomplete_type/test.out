@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:8:4-8:32>
+*************************************************************
+
+Expr: <AttributeRef test.adb:8:15-8:24>
+  references:    <DefiningName "Der" test.adb:4:9-4:12>
+  type:          None
+  expected type: None
+Expr: <Id "Der" test.adb:8:15-8:18>
+  references:    <DefiningName "Der" test.adb:4:9-4:12>
+  type:          None
+  expected type: None
+Expr: <Id "Class" test.adb:8:19-8:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Foo" test.adb:8:28-8:31>
+  references:    <DefiningName "Foo" test.adb:6:13-6:16>
+  type:          <AnonymousTypeDecl ["None"] test.adb:6:24-6:40>
+  expected type: <AnonymousTypeDecl ["None"] test.adb:8:8-8:24>
+
+
+Done.

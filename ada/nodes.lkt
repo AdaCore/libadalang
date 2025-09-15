@@ -9753,6 +9753,19 @@ class ClasswideTypeDecl: BaseTypeDecl {
             (t) => t.classwide_type() or? t
         )
 
+    fun corresponding_actual_at(
+        @ignored name: Entity[DefiningName]
+    ): CorrespondingActual = {
+        val cw_type = self.type_decl()
+            .corresponding_actual()
+            .as[BaseTypeDecl]
+            .classwide_type();
+        CorrespondingActual(
+            decl=cw_type,
+            def_name=cw_type.defining_name()
+        )
+    }
+
     # We don't want to add the classwide type to the environment
     env_spec {
     }

@@ -1,0 +1,14 @@
+Working on node <CallStmt test.adb:13:10-13:19>
+===============================================
+
+Eval 'node.f_call.p_is_dispatching_call()'
+Result: True
+
+Working on node <GenericPackageInstantiation ["Inst"] test.adb:42:4-42:35>
+==========================================================================
+
+Set 'ce' to 'node.p_designated_generic_decl.p_body_part.find(lal.CallExpr)'
+Result: <| CallExpr test.adb:13:10-13:18 [test.adb:42:4] |>
+
+Eval 'ce.p_is_dispatching_call()'
+Result: True

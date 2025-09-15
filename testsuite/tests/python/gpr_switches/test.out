@@ -1,0 +1,20 @@
+Option values:
+  AP = 0
+  Autoconf = 1
+  Config = 2
+  Db = 3
+  Db_Minus = 4
+  Implicit_With = 5
+  Resolve_Links = 6
+  No_Project = 7
+  P = 8
+  Print_GPR_Registry = 9
+  Relocate_Build_Tree = 10
+  Root_Dir = 11
+  RTS = 12
+  Src_Subdirs = 13
+  Subdirs = 14
+  Target = 15
+  X = 16
+
+Done

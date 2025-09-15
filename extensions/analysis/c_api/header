@@ -1,8 +1,9 @@
 ## vim: filetype=makocpp
 
 <%
+   option_type = capi.get_name('gpr_option')
+   options_type = capi.get_name('gpr_options')
    project_type = capi.get_name('gpr_project')
-   scn_var_type = capi.get_name('gpr_project_scenario_variable')
    str_array_type = capi.get_name('string_array_ptr')
    string_array_struct = capi.get_name('string_array_ptr_struct')
    target_info_type = capi.get_name('target_information')
@@ -26,34 +27,55 @@ ${capi.get_name('free_string_array')} (
 
 /* Project handling */
 
+${c_doc('libadalang.gpr_options')}
+typedef void *${options_type};
+
+enum ${option_type} {
+    ADA_GPR_OPTION_AP = 0,
+    ADA_GPR_OPTION_AUTOCONF = 1,
+    ADA_GPR_OPTION_CONFIG = 2,
+    ADA_GPR_OPTION_DB = 3,
+    ADA_GPR_OPTION_DB_MINUS = 4,
+    ADA_GPR_OPTION_IMPLICIT_WITH = 5,
+    ADA_GPR_OPTION_RESOLVE_LINKS = 6,
+    ADA_GPR_OPTION_NO_PROJECT = 7,
+    ADA_GPR_OPTION_P = 8,
+    ADA_GPR_OPTION_PRINT_GPR_REGISTRY = 9,
+    ADA_GPR_OPTION_RELOCATE_BUILD_TREE = 10,
+    ADA_GPR_OPTION_ROOT_DIR = 11,
+    ADA_GPR_OPTION_RTS = 12,
+    ADA_GPR_OPTION_SRC_SUBDIRS = 13,
+    ADA_GPR_OPTION_SUBDIRS = 14,
+    ADA_GPR_OPTION_TARGET = 15,
+    ADA_GPR_OPTION_X = 16
+};
+
+${c_doc('libadalang.gpr_options_create')}
+extern ${options_type}
+${capi.get_name('gpr_options_create')} (void);
+
+${c_doc('libadalang.gpr_options_add_switch')}
+extern void
+${capi.get_name('gpr_options_add_switch')} (
+   ${options_type} options,
+   enum ${option_type} switch_,
+   const char *param,
+   const char *index,
+   int override_
+);
+
+${c_doc('libadalang.gpr_options_free')}
+extern void
+${capi.get_name('gpr_options_free')} (${options_type} options);
+
 ${c_doc('libadalang.gpr_project')}
 typedef void *${project_type};
-
-${c_doc('libadalang.gpr_scenario_variable')}
-typedef struct {
-   char *name;
-   char *value;
-} ${scn_var_type};
 
 ${c_doc('libadalang.gpr_project_load')}
 extern void
 ${capi.get_name('gpr_project_load')}(
-   const char *project_file,
-   const ${scn_var_type} *scenario_vars,
-   const char *target,
-   const char *runtime,
-   const char *config_file,
+   ${options_type} options,
    int ada_only,
-   ${project_type} *project,
-   ${str_array_type} *errors
-);
-
-${c_doc('libadalang.gpr_project_load_implicit')}
-extern void
-${capi.get_name('gpr_project_load_implicit')}(
-   const char *target,
-   const char *runtime,
-   const char *config_file,
    ${project_type} *project,
    ${str_array_type} *errors
 );
@@ -94,16 +116,6 @@ ${capi.get_name('gpr_project_initialize_context')}(
    ${event_handler_type} event_handler,
    int with_trivia,
    int tab_stop
-);
-
-${c_doc('libadalang.create_project_unit_provider')}
-extern ${unit_provider_type}
-${capi.get_name('create_project_unit_provider')}(
-   const char *project_file,
-   const char *project,
-   const ${scn_var_type} *scenario_vars,
-   const char *target,
-   const char *runtime
 );
 
 /* Auto unit provider */

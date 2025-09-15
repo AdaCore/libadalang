@@ -30,29 +30,43 @@ package Libadalang.Implementation.C.Extensions is
    -- Project handling --
    ----------------------
 
+   type ada_gpr_options is new System.Address;
+   --  Holder for GPR loading options
+
+   function ada_gpr_options_create return ada_gpr_options
+   with Export, Convention => C;
+   --  Create a new holder for GPR loading options
+
+   procedure ada_gpr_options_add_switch
+     (Options  : ada_gpr_options;
+      Switch   : int;
+      Param    : chars_ptr;
+      Index    : chars_ptr;
+      Override : int)
+   with Export, Convention => C;
+   --  Add a switch to the given options.
+   --
+   --  ``Switch`` is the position of the ``GPR2.Options.Option`` enumeration
+   --  value for the switch to add.
+   --
+   --  ``Param`` and ``Index`` are the strings to pass to
+   --  ``GPR2.Options.Add_Switch``, and can be null to designate empty strings.
+   --
+   --  ``Override`` encodes False as zero and True as any other value.
+
+   procedure ada_gpr_options_free (Options : ada_gpr_options)
+   with Export, Convention => C;
+   --  Dellocate the given holder for GPR loading options
+
    type ada_gpr_project is new System.Address;
 
-   type ada_gpr_project_scenario_variable is record
-      Name, Value : chars_ptr;
-   end record
-      with Convention => C_Pass_By_Copy;
-
-   type ada_gpr_project_scenario_variable_array is
-      array (Positive range <>) of ada_gpr_project_scenario_variable
-      with Convention => C;
-   --  Array of name/value definitions for scenario variables. The last entry
-   --  in such arrays must be a null/null association.
-
    procedure ada_gpr_project_load
-     (Project_File                 : chars_ptr;
-      Scenario_Vars                : System.Address;
-      Target, Runtime, Config_File : chars_ptr;
-      Ada_Only                     : int;
-      Project                      : access ada_gpr_project;
-      Errors                       : access ada_string_array_ptr)
+     (Options  : ada_gpr_options;
+      Ada_Only : int;
+      Project  : access ada_gpr_project;
+      Errors   : access ada_string_array_ptr)
      with Export, Convention => C;
-   --  Load the ``Project_File`` GPR file with the given scenario variables,
-   --  target, runtime and GPR configuration file (all optional).
+   --  Load the ``Project_File`` GPR file with the given options.
    --
    --  If ``Ada_Only`` is true, call ``Restrict_Autoconf_To_Languages`` to
    --  make GPR only consider the Ada language.
@@ -60,14 +74,6 @@ package Libadalang.Implementation.C.Extensions is
    --  On success, set ``Project`` to a newly allocated ``ada_gpr_project``, as
    --  well as a possibly empty list of error messages in ``Errors``.  Raise an
    --  ``Invalid_Project`` exception on failure.
-
-   procedure ada_gpr_project_load_implicit
-     (Target, Runtime, Config_File : chars_ptr;
-      Project                      : access ada_gpr_project;
-      Errors                       : access ada_string_array_ptr)
-     with Export, Convention => C;
-   --  Load an implicit project. On success, set ``Project`` to a newly
-   --  allocated ``ada_gpr_project``.
 
    procedure ada_gpr_project_free (Self : ada_gpr_project)
      with Export, Convention => C;
@@ -112,13 +118,6 @@ package Libadalang.Implementation.C.Extensions is
    --
    --  Note that, as of today, this detection only looks for the ``-gnatW8``
    --  compiler switch: other charsets are not supported.
-
-   function ada_create_project_unit_provider
-     (Project_File, Project : chars_ptr;
-      Scenario_Vars         : System.Address;
-      Target, Runtime       : chars_ptr) return ada_unit_provider
-     with Export, Convention => C;
-   --  Load a project file and create a unit provider for it in one pass
 
    procedure ada_gpr_project_initialize_context
      (Self          : ada_gpr_project;

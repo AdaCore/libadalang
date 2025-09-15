@@ -6,6 +6,23 @@ nat = c_api.get_name
 
     // --- Project manager functions
 
+    ${java_doc("libadalang.gpr_options_create", 4)}
+    public static native PointerWrapper ${nat("gpr_options_create")}();
+
+    ${java_doc("libadalang.gpr_options_add_switch", 4)}
+    public static native void ${nat("gpr_options_add_switch")}(
+        ProjectOptions options,
+        int switchKind,
+        String param,
+        String index,
+        boolean overwrite
+    );
+
+    ${java_doc("libadalang.gpr_options_free", 4)}
+    public static native void ${nat("gpr_options_free")}(
+        ProjectOptions options
+    );
+
     /**
      * Function to load a GPR project.
      *
@@ -14,11 +31,7 @@ nat = c_api.get_name
      */
     @CompilerDirectives.TruffleBoundary
     public static native PointerWrapper ${nat("gpr_project_load")}(
-        String projectFile,
-        ScenarioVariable[] scenarioVariables,
-        String target,
-        String runtime,
-        String configFile,
+        ProjectOptions options,
         boolean adaOnly,
         List<String> diagnostics
     );

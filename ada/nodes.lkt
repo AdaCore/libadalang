@@ -3220,10 +3220,27 @@ class EnumRepClause: AspectClause {
     aggregate: BaseAggregate
 
     @with_dynvars(env, origin, entry_point)
-    fun xref_equation(): Equation = # TODO: resolve names in ``aggregate``
-        self
-        .type_name
-        .xref_type_equation()
+    fun xref_equation(): Equation = {
+        val enum_type = self.type_name.designated_type_impl();
+        val root_enum_type = enum_type.root_type().as[TypeDecl];
+        val enum_def = root_enum_type.type_def.as[EnumTypeDef];
+
+        self.type_name.xref_type_equation()
+        %and self.aggregate.assocs.logic_all((a) => a.as[AggregateAssoc].do(
+            (aa) => aa.designators.logic_all(
+                (d) => d.as[BaseId].do(
+                    (id) => id.ref_var() <- enum_def.enum_literals.find(
+                        (lit) => lit.name.name_is(id.symbol)
+                    ),
+                    default_val=%false
+                )
+            )
+            %and aa.r_expr.expected_type_var() <- self.universal_int_type()
+            %and aa.r_expr.sub_equation()
+            %and aa.r_expr.matches_expected_type(),
+            default_val=%false
+        ))
+    }
 
     |" Returns an array of pairs, associating enum literals to representation
     |" clause actuals.

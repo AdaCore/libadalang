@@ -1,0 +1,51 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <EnumRepClause test.adb:7:4-10:15>
+***********************************************************
+
+Expr: <Id "Enum" test.adb:7:8-7:12>
+  references:    <DefiningName "Enum" test.adb:4:9-4:13>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:8:6-10:14>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:8:7-8:8>
+  references:    <DefiningName "A" test.adb:4:18-4:19>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:8:12-8:13>
+  references:    <DefiningName "X" test.adb:6:4-6:5>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+Expr: <Id "B" test.adb:9:7-9:8>
+  references:    <DefiningName "B" test.adb:4:21-4:22>
+  type:          None
+  expected type: None
+Expr: <BinOp test.adb:9:12-9:17>
+  type:          <ConcreteTypeDecl ["root_integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+Expr: <Int test.adb:9:12-9:13>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+Expr: <OpPlus "+" test.adb:9:14-9:15>
+  references:    <SyntheticDefiningName ""+"" in Standard>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:9:16-9:17>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+Expr: <Id "C" test.adb:10:7-10:8>
+  references:    <DefiningName "C" test.adb:4:24-4:25>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:10:12-10:13>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+
+
+Done.

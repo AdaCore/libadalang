@@ -1,0 +1,49 @@
+Analyzing aa-bb-cc.ads
+######################
+
+Resolving xrefs for node <DefiningName "aa. bb.cc" aa-bb-cc.ads:1:9-1:18>
+*************************************************************************
+
+Expr: <DottedName aa-bb-cc.ads:1:9-1:15>
+  references:    <DefiningName "aa.bb" aa-bb.ads:1:9-1:14>
+  type:          None
+  expected type: None
+Expr: <Id "aa" aa-bb-cc.ads:1:9-1:11>
+  references:    <DefiningName "aa" aa.ads:1:9-1:11>
+  type:          None
+  expected type: None
+Expr: <Id "bb" aa-bb-cc.ads:1:13-1:15>
+  references:    <DefiningName "aa.bb" aa-bb.ads:1:9-1:14>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <EndName aa-bb-cc.ads:2:5-2:13>
+********************************************************
+
+Expr: <EndName aa-bb-cc.ads:2:5-2:13>
+  references:    <DefiningName "aa. bb.cc" aa-bb-cc.ads:1:9-1:18>
+  type:          None
+  expected type: None
+Expr: <DottedName aa-bb-cc.ads:2:5-2:13>
+  references:    <DefiningName "aa. bb.cc" aa-bb-cc.ads:1:9-1:18>
+  type:          None
+  expected type: None
+Expr: <DottedName aa-bb-cc.ads:2:5-2:10>
+  references:    <DefiningName "aa.bb" aa-bb.ads:1:9-1:14>
+  type:          None
+  expected type: None
+Expr: <Id "aa" aa-bb-cc.ads:2:5-2:7>
+  references:    <DefiningName "aa" aa.ads:1:9-1:11>
+  type:          None
+  expected type: None
+Expr: <Id "bb" aa-bb-cc.ads:2:8-2:10>
+  references:    <DefiningName "aa.bb" aa-bb.ads:1:9-1:14>
+  type:          None
+  expected type: None
+Expr: <Id "cc" aa-bb-cc.ads:2:11-2:13>
+  references:    <DefiningName "aa. bb.cc" aa-bb-cc.ads:1:9-1:18>
+  type:          None
+  expected type: None
+
+
+Done.

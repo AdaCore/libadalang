@@ -17,12 +17,12 @@ Expr: <Id "Base" test.adb:5:10-5:14>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:5:18-5:33>
-  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:40>
-  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:40>
+  type:          <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
+  expected type: <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
 Expr: <CallExpr test.adb:5:18-5:29>
   references:    <DefiningName "T" test.adb:2:9-2:10>
-  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:40>
-  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:40>
+  type:          <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
+  expected type: <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
 Expr: <AttributeRef test.adb:5:18-5:24>
   references:    <DefiningName "T" test.adb:2:9-2:10>
   type:          None
@@ -46,7 +46,7 @@ Expr: <OpPlus "+" test.adb:5:30-5:31>
 Expr: <Int test.adb:5:32-5:33>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:40>
+  expected type: <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
 
 Resolving xrefs for node <ObjectDecl ["Z"] test.adb:8:4-8:36>
 *************************************************************
@@ -75,6 +75,206 @@ Expr: <Id "Alignment" test.adb:8:26-8:35>
   references:    None
   type:          None
   expected type: None
+
+Resolving xrefs for node <ObjectDecl ["X_I"] test.adb:14:4-14:25>
+*****************************************************************
+
+Expr: <AttributeRef test.adb:14:10-14:18>
+  references:    <DefiningName "I_T" test.adb:11:9-11:12>
+  type:          None
+  expected type: None
+Expr: <Id "I_T" test.adb:14:10-14:13>
+  references:    <DefiningName "I_T" test.adb:11:9-11:12>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:14:14-14:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:14:22-14:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <DiscreteBaseSubtypeDecl ["I_T"] test.adb:11:4-11:30>
+
+Resolving xrefs for node <ObjectDecl ["X_I_D"] test.adb:16:4-16:29>
+*******************************************************************
+
+Expr: <AttributeRef test.adb:16:12-16:22>
+  references:    <DefiningName "I_D_T" test.adb:12:9-12:14>
+  type:          None
+  expected type: None
+Expr: <Id "I_D_T" test.adb:16:12-16:17>
+  references:    <DefiningName "I_D_T" test.adb:12:9-12:14>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:16:18-16:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:16:26-16:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <DiscreteBaseSubtypeDecl ["I_D_T"] test.adb:12:4-12:39>
+
+Resolving xrefs for node <ObjectDecl ["X_E"] test.adb:22:4-22:24>
+*****************************************************************
+
+Expr: <AttributeRef test.adb:22:10-22:18>
+  references:    <DefiningName "E_T" test.adb:19:9-19:12>
+  type:          None
+  expected type: None
+Expr: <Id "E_T" test.adb:22:10-22:13>
+  references:    <DefiningName "E_T" test.adb:19:9-19:12>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:22:14-22:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "C" test.adb:22:22-22:23>
+  references:    <DefiningName "C" test.adb:19:23-19:24>
+  type:          <ConcreteTypeDecl ["E_T"] test.adb:19:4-19:26>
+  expected type: <ConcreteTypeDecl ["E_T"] test.adb:19:4-19:26>
+
+Resolving xrefs for node <ObjectDecl ["X_E_D"] test.adb:24:4-24:28>
+*******************************************************************
+
+Expr: <AttributeRef test.adb:24:12-24:22>
+  references:    <DefiningName "E_D_T" test.adb:20:9-20:14>
+  type:          None
+  expected type: None
+Expr: <Id "E_D_T" test.adb:24:12-24:17>
+  references:    <DefiningName "E_D_T" test.adb:20:9-20:14>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:24:18-24:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "C" test.adb:24:26-24:27>
+  references:    <DefiningName "C" test.adb:19:23-19:24>
+  type:          <ConcreteTypeDecl ["E_D_T"] test.adb:20:4-20:39>
+  expected type: <DiscreteBaseSubtypeDecl ["E_D_T"] test.adb:20:4-20:39>
+
+Resolving xrefs for node <ObjectDecl ["X_M"] test.adb:30:4-30:24>
+*****************************************************************
+
+Expr: <AttributeRef test.adb:30:10-30:18>
+  references:    <DefiningName "M_T" test.adb:27:9-27:12>
+  type:          None
+  expected type: None
+Expr: <Id "M_T" test.adb:30:10-30:13>
+  references:    <DefiningName "M_T" test.adb:27:9-27:12>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:30:14-30:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:30:22-30:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["M_T"] test.adb:27:4-27:23>
+
+Resolving xrefs for node <ObjectDecl ["X_M_D"] test.adb:32:4-32:28>
+*******************************************************************
+
+Expr: <AttributeRef test.adb:32:12-32:22>
+  references:    <DefiningName "M_D_T" test.adb:28:9-28:14>
+  type:          None
+  expected type: None
+Expr: <Id "M_D_T" test.adb:32:12-32:17>
+  references:    <DefiningName "M_D_T" test.adb:28:9-28:14>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:32:18-32:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:32:26-32:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <DiscreteBaseSubtypeDecl ["M_D_T"] test.adb:28:4-28:39>
+
+Resolving xrefs for node <ObjectDecl ["X_FL"] test.adb:38:4-38:31>
+******************************************************************
+
+Expr: <AttributeRef test.adb:38:11-38:20>
+  references:    <DefiningName "FL_T" test.adb:35:9-35:13>
+  type:          None
+  expected type: None
+Expr: <Id "FL_T" test.adb:38:11-38:15>
+  references:    <DefiningName "FL_T" test.adb:35:9-35:13>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:38:16-38:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:38:24-38:30>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["FL_T"] test.adb:35:4-35:27>
+
+Resolving xrefs for node <ObjectDecl ["X_FL_D"] test.adb:40:4-40:35>
+********************************************************************
+
+Expr: <AttributeRef test.adb:40:13-40:24>
+  references:    <DefiningName "FL_D_T" test.adb:36:9-36:15>
+  type:          None
+  expected type: None
+Expr: <Id "FL_D_T" test.adb:40:13-40:19>
+  references:    <DefiningName "FL_D_T" test.adb:36:9-36:15>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:40:20-40:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:40:28-40:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <DiscreteBaseSubtypeDecl ["FL_D_T"] test.adb:36:4-36:47>
+
+Resolving xrefs for node <ObjectDecl ["X_FP"] test.adb:46:4-46:29>
+******************************************************************
+
+Expr: <AttributeRef test.adb:46:11-46:20>
+  references:    <DefiningName "FP_T" test.adb:43:9-43:13>
+  type:          None
+  expected type: None
+Expr: <Id "FP_T" test.adb:46:11-46:15>
+  references:    <DefiningName "FP_T" test.adb:43:9-43:13>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:46:16-46:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:46:24-46:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["FP_T"] test.adb:43:4-43:45>
+
+Resolving xrefs for node <ObjectDecl ["X_FP_D"] test.adb:48:4-48:33>
+********************************************************************
+
+Expr: <AttributeRef test.adb:48:13-48:24>
+  references:    <DefiningName "FP_D_T" test.adb:44:9-44:15>
+  type:          None
+  expected type: None
+Expr: <Id "FP_D_T" test.adb:48:13-48:19>
+  references:    <DefiningName "FP_D_T" test.adb:44:9-44:15>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:48:20-48:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:48:28-48:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <DiscreteBaseSubtypeDecl ["FP_D_T"] test.adb:44:4-44:45>
 
 
 Done.

@@ -6697,7 +6697,7 @@ class BasicDecl: AdaNode {
         name: Entity[Expr],
         @ignored instantiation: Entity[GenericInstantiation]
     ): Entity[BasicDecl] =
-        name.resolve_generic_actual().as[BasicDecl]
+        name?.resolve_generic_actual().as[BasicDecl]
 
     |" Retrieves the actual for this formal declaration by finding the generic
     |" formal part in which self lies in self's rebindings, and then resolving
@@ -6726,9 +6726,10 @@ class BasicDecl: AdaNode {
                 )
             );
 
-            inst.actual_for_formal(dn.node)
-            .do((name) => self.resolve_actual_name(name, inst))
-            .do((actual) =>
+            self.resolve_actual_name(
+                inst.actual_for_formal(dn.node),
+                inst
+            ).do((actual) =>
                 Entity[BasicDecl](
                     node=actual.node,
                     info=EntityInfo(
@@ -7452,7 +7453,6 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin=null[AdaNode])
     fun base_subtype(): Entity[BaseTypeDecl] = match self {
         case db: DiscreteBaseSubtypeDecl => db
-        case ft: FormalTypeDecl => ft.scalar_base_type()
         case st: BaseSubtypeDecl => st.get_type().base_subtype()
         case _ => self
     }
@@ -8115,9 +8115,6 @@ class BaseTypeDecl: BasicDecl {
     fun is_non_null_char_type(): Bool =
         not node.is_null and self.is_char_type()
 
-    fun scalar_base_type(): Entity[DiscreteBaseSubtypeDecl] =
-        node.scalar_base_subtype_node().as_entity
-
     |" Return whether this type is one of the three universal types (universal
     |" integer, universal fixed, or universal real).
     |"
@@ -8772,11 +8769,31 @@ class BaseTypeDecl: BasicDecl {
     fun classwide_type_node(): ClasswideTypeDecl =
         ClasswideTypeDecl(name=node.name)
 
-    |" Helper for scalar_base_type. Return the interned node for the
+    |" Helper for scalar_base_subtype. Return the interned node for the
     |" subtype entity.
     @memoized
     fun scalar_base_subtype_node(): DiscreteBaseSubtypeDecl =
         DiscreteBaseSubtypeDecl(name=node.name)
+
+    |" Return the base subtype for this type. Note that this is only legal for
+    |" scalar types.
+    fun scalar_base_subtype(): Entity[BaseTypeDecl] = match self {
+        case db: DiscreteBaseSubtypeDecl => db
+        case st: BaseSubtypeDecl => st.get_type().scalar_base_subtype()
+        case td: TypeDecl => match td.type_def {
+            case _: DerivedTypeDef =>
+                if td.is_scalar_type()
+                then node.scalar_base_subtype_node().as_entity
+                else self
+            case _: SignedIntTypeDef =>
+                node.scalar_base_subtype_node().as_entity
+            # For modular types, real types and enumeration types, the base
+            # subtype has the same range as the first subtype, so we reuse it.
+            case _ =>
+                self
+        }
+        case _ => self
+    }
 
     |" Returns the previous part for this type decl.
     @exported
@@ -9605,7 +9622,7 @@ class DiscreteBaseSubtypeDecl: BaseSubtypeDecl {
         val base_type = self.get_type()
             .corresponding_actual()
             .as[BaseTypeDecl]
-            .base_subtype();
+            .scalar_base_subtype();
         CorrespondingActual(
             decl=base_type,
             def_name=base_type.defining_name()
@@ -9735,6 +9752,19 @@ class ClasswideTypeDecl: BaseTypeDecl {
             # return a non-classwide type.
             (t) => t.classwide_type() or? t
         )
+
+    fun corresponding_actual_at(
+        @ignored name: Entity[DefiningName]
+    ): CorrespondingActual = {
+        val cw_type = self.type_decl()
+            .corresponding_actual()
+            .as[BaseTypeDecl]
+            .classwide_type();
+        CorrespondingActual(
+            decl=cw_type,
+            def_name=cw_type.defining_name()
+        )
+    }
 
     # We don't want to add the classwide type to the environment
     env_spec {
@@ -10680,7 +10710,10 @@ class FormalSubpDecl: ClassicSubpDecl {
     ): Entity[BasicDecl] = {
         bind origin = name.node;
 
-        if name is AttributeRef
+        if name.is_null
+        then self.designated_subprogram_from(instantiation)
+
+        elif name is AttributeRef
         then name.as[AttributeRef].attribute_subprogram()
 
         # We are inside an instantiation of formal package without
@@ -17316,7 +17349,7 @@ class Name: Expr {
                 elif ar.attribute.sym() == s"Base"
                 then
                     ar.ref_var()
-                    <- BaseTypeDecl.base_subtype%(ar.prefix.ref_var())
+                    <- BaseTypeDecl.scalar_base_subtype%(ar.prefix.ref_var())
                 else %true
             )
         case _ => %false
@@ -17747,7 +17780,7 @@ class AttributeRef: Name {
         if node.attribute.sym() == s"Class"
         then self.prefix.designated_type_impl()?.classwide_type()
         elif node.attribute.sym() == s"Base"
-        then self.prefix.designated_type_impl().base_subtype()
+        then self.prefix.designated_type_impl().scalar_base_subtype()
         else null[Entity[BaseTypeDecl]]
 
     fun has_context_free_type(): Bool = not node.is_access_attr()
@@ -23127,7 +23160,7 @@ class TypeAttributesRepository: AdaNode {
     @lazy
     scalar_base_type_expr: NodeBuilder[SyntheticTypeExpr] =
         SyntheticTypeExpr.builder(
-            target_type=node.base_type.as_bare_entity.base_subtype()
+            target_type=node.base_type.as_bare_entity.scalar_base_subtype()
         )
 
     @lazy

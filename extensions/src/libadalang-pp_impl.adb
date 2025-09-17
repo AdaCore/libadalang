@@ -25,6 +25,10 @@ with Libadalang.Lexer_Implementation; use Libadalang.Lexer_Implementation;
 
 package body Libadalang.PP_Impl is
 
+   Comment_Line : constant Text_Type := "--!" & Chars.LF;
+   --  Replacement for preprocessing and disabled lines when the line mode is
+   --  ``Empty_Comment_Lines``.
+
    Comment_Prefix : constant Text_Type := "--! ";
    --  Prefix to add to disabled lines when the line mode is ``Comment_Lines``
 
@@ -346,11 +350,15 @@ package body Libadalang.PP_Impl is
       --  token is disabled, there is no line feed before, so we will not have
       --  yet a chance to emit a comment prefix: do it now.
 
-      if Tokens'Length > 0
-         and then not Tokens (Tokens'First)
-         and then Cfg.Line_Mode = Comment_Lines
-      then
-         Append (Comment_Prefix);
+      if Tokens'Length > 0 and then not Tokens (Tokens'First) then
+         case Cfg.Line_Mode is
+            when Comment_Lines =>
+               Append (Comment_Prefix);
+            when Empty_Comment_Lines =>
+               Append (Comment_Line);
+            when others =>
+               null;
+         end case;
       end if;
 
       --  Go through all original tokens and emit the corresponding
@@ -404,8 +412,14 @@ package body Libadalang.PP_Impl is
                   --
                   --  If disabled lines should be deleted from the output, do
                   --  not emit this extra line feed.
+                  --
+                  --  Likewise if directives are replaced by empty comment
+                  --  lines, as we already emitted the line feed with the empty
+                  --  comment.
 
-                  if not Previous_Enabled and then Cfg.Line_Mode = Delete_Lines
+                  if not Previous_Enabled
+                     and then Cfg.Line_Mode
+                              in Delete_Lines | Empty_Comment_Lines
                   then
                      pragma Assert (Buffer (First) = Chars.LF);
                      First := First + 1;
@@ -441,9 +455,16 @@ package body Libadalang.PP_Impl is
                   --  Append the comment line and then the directive
                   --  indentation if the line mode requires it.
 
-                  if Disable_Next and then Cfg.Line_Mode = Comment_Lines then
-                     Append (Comment_Prefix);
-                     Append (Buffer (Last + 1 .. Tok.Source_Last));
+                  if Disable_Next then
+                     case Cfg.Line_Mode is
+                        when Comment_Lines =>
+                           Append (Comment_Prefix);
+                           Append (Buffer (Last + 1 .. Tok.Source_Last));
+                        when Empty_Comment_Lines =>
+                           Append (Comment_Line);
+                        when others =>
+                           null;
+                     end case;
                   end if;
                end;
 
@@ -455,8 +476,8 @@ package body Libadalang.PP_Impl is
 
          --  Depending on ``Cfg.Line_Mode``, disabled code needs to completely
          --  disappear (``Delete_Lines``), be replaced with blank lines
-         --  (``Blank_Lines``) or be forwarded as commented lines
-         --  (``Comment_Line``).
+         --  (``Blank_Lines``), empty comment lines (``Empty_Comment_Lines``)
+         --  or be forwarded as commented lines (``Comment_Lines``).
          --
          --  In Libadalang, all tokens fit on a single line except the
          --  whitespace token, so whitespaces are the only kind of disabled
@@ -496,16 +517,20 @@ package body Libadalang.PP_Impl is
                         when Blank_Lines =>
                            Append (String'(1 => ASCII.LF));
 
-                        when Comment_Lines =>
-
-                           Append (Buffer (Next .. I));
+                        when Comment_Lines | Empty_Comment_Lines =>
+                           if Cfg.Line_Mode = Comment_Lines then
+                              Append (Buffer (Next .. I));
+                           end if;
 
                            --  Do not add a prefix when processing a line feed
                            --  character that ends the file, as there is no
                            --  line after it.
 
                            if I < Buffer'Last then
-                              Append (Comment_Prefix);
+                              Append
+                                (if Cfg.Line_Mode = Comment_Lines
+                                 then Comment_Prefix
+                                 else Comment_Line);
                            end if;
                      end case;
                      Next := I + 1;

@@ -1,0 +1,82 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg"] test.adb:16:4-16:30>
+*************************************************************************************
+
+Expr: <Id "Pkg" test.adb:16:26-16:29>
+  references:    <DefiningName "Pkg" test.adb:4:12-4:15>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Pkg"] test.adb:2:4-6:12 [test.adb:16:4] |>
+******************************************************************************************
+
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] test.adb:3:12-3:32 [test.adb:16:4] |>
+************************************************************************************************
+
+Expr: <| BoxExpr test.adb:3:29-3:31 [test.adb:16:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec test.adb:3:12-3:25 [test.adb:16:4] |>
+**************************************************************************
+
+
+Resolving xrefs for node <| SubpSpec test.adb:5:7-5:20 [test.adb:16:4] |>
+*************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:6:8-6:11 [test.adb:16:4] |>
+************************************************************************
+
+Expr: <| EndName test.adb:6:8-6:11 [test.adb:16:4] |>
+  references:    <DefiningName "My_Pkg" test.adb:16:12-16:18>
+  type:          None
+  expected type: None
+Expr: <| Id "Pkg" test.adb:6:8-6:11 [test.adb:16:4] |>
+  references:    <DefiningName "My_Pkg" test.adb:16:12-16:18>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Pkg"] test.adb:8:4-13:12 [test.adb:16:4] |>
+************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:9:7-9:20 [test.adb:16:4] |>
+*************************************************************************
+
+
+Resolving xrefs for node <| CallStmt test.adb:11:10-11:14 [test.adb:16:4] |>
+****************************************************************************
+
+Expr: <| Id "Foo" test.adb:11:10-11:13 [test.adb:16:4] |>
+  references:    <DefiningName "Foo" test.adb:15:14-15:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:12:11-12:14 [test.adb:16:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:12:11-12:14 [test.adb:16:4] |>
+  references:    <| DefiningName "Bar" test.adb:9:17-9:20 [test.adb:16:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Bar" test.adb:12:11-12:14 [test.adb:16:4] |>
+  references:    <| DefiningName "Bar" test.adb:9:17-9:20 [test.adb:16:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:13:8-13:11 [test.adb:16:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:13:8-13:11 [test.adb:16:4] |>
+  references:    <| DefiningName "Pkg" test.adb:8:17-8:20 [test.adb:16:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Pkg" test.adb:13:8-13:11 [test.adb:16:4] |>
+  references:    <| DefiningName "Pkg" test.adb:8:17-8:20 [test.adb:16:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

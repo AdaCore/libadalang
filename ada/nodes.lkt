@@ -6670,24 +6670,23 @@ class BasicDecl: AdaNode {
     |" of its parent.
     fun child_decl_initial_env_name(private_part: Bool = false): Symbol = {
         val defining_name = node.as_bare_entity.defining_name();
-        val child_name = defining_name.name.as[DottedName];
 
         # The standard package is the only library item that does not have
         # a named parent.
         if defining_name.text.to_symbol == s"standard" then null[Symbol]
         elif node.is_library_item()
-        then
-            child_name.do(
-                (n) =>
-                # If this declaration's name is a dotted name, use the prefix
-                # to retrieve the name of its parent.
+        then defining_name.name.as[DottedName].do(
+            # If this declaration's name is a dotted name, use the prefix
+            # to retrieve the name of its parent.
+            (dn) => {
+                val prefix_sym = dn.prefix.canonical_text();
                 if private_part
-                then (n.prefix.text & ".__privatepart").to_symbol
-                else n.prefix.text.to_symbol,
-                default_val=s"standard"
-            )
-        # If it's not a dotted name, its parent is the standard package This
-        # declaration.
+                then (prefix_sym.image() & ".__privatepart").to_symbol
+                else prefix_sym
+            },
+            # If it's not a dotted name, its parent is the standard package
+            default_val=s"standard"
+        )
         else null[Symbol]
     }
 

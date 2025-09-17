@@ -75,6 +75,9 @@ begin
          elsif Arg = "-c" then
             Args.Line_Mode := Comment_Lines;
             Args.Line_Mode_Passed := True;
+         elsif Arg = "-e" then
+            Args.Line_Mode := Empty_Comment_Lines;
+            Args.Line_Mode_Passed := True;
          elsif Arg = "-u" then
             Args.Undefined_Is_False := True;
             Args.Undefined_Is_False_Passed := True;

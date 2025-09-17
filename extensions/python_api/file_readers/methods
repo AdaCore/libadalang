@@ -20,14 +20,22 @@
 
           Preserve these lines and emit a ``--!`` comment marker in front of
           them. This corresponds to GNATprep's ``-c`` option.
+
+        ``empty_comment_lines``
+
+          These lines are replaced with exactly ``--!``. This corresponds to
+          GNATprep's ``-e`` option.
         """
 
         delete_lines = "delete_lines"
         blank_lines = "blank_lines"
         comment_lines = "comment_lines"
+        empty_comment_lines = "empty_comment_lines"
 
         _name = "LineMode"
-        _c_to_py = [delete_lines, blank_lines, comment_lines]
+        _c_to_py = [
+            delete_lines, blank_lines, comment_lines, empty_comment_lines
+        ]
         _py_to_c = {name: index for index, name in enumerate(_c_to_py)}
 
     @classmethod

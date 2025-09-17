@@ -39,6 +39,7 @@ module GPRProject : sig
     | DeleteLines
     | BlankLines
     | CommentLines
+    | EmptyCommentLines
 
   val create_preprocessor : ?project:string -> ?line_mode:line_mode -> t -> FileReader.t
 

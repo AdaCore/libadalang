@@ -161,6 +161,7 @@ module GPRProject = struct
     | DeleteLines
     | BlankLines
     | CommentLines
+    | EmptyCommentLines
 
   let create_preprocessor ?(project = "") ?line_mode gpr_project =
     let line_mode_c =
@@ -171,6 +172,8 @@ module GPRProject = struct
           allocate int 1
       | Some CommentLines ->
           allocate int 2
+      | Some EmptyCommentLines ->
+          allocate int 3
       | None ->
          from_voidp int null
     in

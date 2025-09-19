@@ -6441,16 +6441,16 @@ class BasicDecl: AdaNode {
 
         # This is already the most visible part
         if np.is_null then self
-        # A null origin means any "find the most complete part"
 
+        # A null origin means any "find the most complete part"
         elif origin.is_null
         then np.most_visible_forward_part_for_name(sym, seq)
-        # The query is sequential and origin can't see the next part
 
+        # The query is sequential and origin can't see the next part
         elif (seq and origin.unit == np.unit) and origin <= np.node then self
+
         # If the entity is not a package declaration, we only need to check
         # if its lexical env is one of the parents of origin's env.
-
         elif not (np.is_in_private_part() or np.is_in_public_part())
         then
             if
@@ -6464,11 +6464,12 @@ class BasicDecl: AdaNode {
                 .contains(node.as_bare_entity)
             then np.most_visible_forward_part_for_name(sym, seq)
             else self
+
         # Otherwise this is a package declaration, so we can use the
         # is_visible property.
-
         elif np.is_visible(origin.as_bare_entity)
         then np.most_visible_forward_part_for_name(sym, seq)
+
         # Otherwise this was the most visible part
         else self
     }

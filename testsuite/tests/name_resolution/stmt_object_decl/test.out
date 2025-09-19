@@ -161,4 +161,62 @@ Expr: <Id "A" test.adb:34:18-34:19>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
+Analyzing exc_handler.adb
+#########################
+
+Resolving xrefs for node <CallStmt exc_handler.adb:7:7-7:23>
+************************************************************
+
+Expr: <CallExpr exc_handler.adb:7:7-7:22>
+  references:    <DefiningName "Assert" exc_handler.adb:2:14-2:20>
+  type:          None
+  expected type: None
+Expr: <Id "Assert" exc_handler.adb:7:7-7:13>
+  references:    <DefiningName "Assert" exc_handler.adb:2:14-2:20>
+  type:          None
+  expected type: None
+Expr: <RelationOp exc_handler.adb:7:15-7:21>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "A" exc_handler.adb:7:15-7:16>
+  references:    <DefiningName "A" exc_handler.adb:6:7-6:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpEq "=" exc_handler.adb:7:17-7:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int exc_handler.adb:7:19-7:21>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <CallStmt exc_handler.adb:13:10-13:26>
+***************************************************************
+
+Expr: <CallExpr exc_handler.adb:13:10-13:25>
+  references:    <DefiningName "Assert" exc_handler.adb:2:14-2:20>
+  type:          None
+  expected type: None
+Expr: <Id "Assert" exc_handler.adb:13:10-13:16>
+  references:    <DefiningName "Assert" exc_handler.adb:2:14-2:20>
+  type:          None
+  expected type: None
+Expr: <RelationOp exc_handler.adb:13:18-13:24>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "A" exc_handler.adb:13:18-13:19>
+  references:    <DefiningName "A" exc_handler.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpEq "=" exc_handler.adb:13:20-13:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int exc_handler.adb:13:22-13:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
 Done.

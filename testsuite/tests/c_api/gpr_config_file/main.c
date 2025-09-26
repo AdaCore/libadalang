@@ -9,12 +9,20 @@
 int
 main (void)
 {
+    ada_gpr_options opts;
     ada_gpr_project gpr;
     ada_string_array_ptr errors;
-    ada_gpr_project_scenario_variable scn_var_trail = {NULL, NULL};
 
-    ada_gpr_project_load ("simple/p.gpr", &scn_var_trail, NULL, NULL,
-			  "empty.cgpr", 0, &gpr, &errors);
+    opts = ada_gpr_options_create ();
+    abort_on_exception ();
+    ada_gpr_options_add_switch (opts, ADA_GPR_OPTION_P, "simple/p.gpr", NULL,
+				0);
+    abort_on_exception ();
+    ada_gpr_options_add_switch (opts, ADA_GPR_OPTION_CONFIG, "empty.cgpr",
+				NULL, 0);
+    abort_on_exception ();
+
+    ada_gpr_project_load (opts, 0, &gpr, &errors);
     if (print_exception (false))
       return 0;
 
@@ -33,6 +41,8 @@ main (void)
     ada_gpr_project_free (gpr);
     abort_on_exception ();
     ada_free_string_array (errors);
+    abort_on_exception ();
+    ada_gpr_options_free (opts);
     abort_on_exception ();
     return 0;
 }

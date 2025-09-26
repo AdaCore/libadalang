@@ -10,6 +10,45 @@ module TargetInformation : sig
   val set : AnalysisContext.t -> t -> unit
 end
 
+module GPROptions : sig
+  type t
+
+  type gpr_option =
+    | AP
+    | Autoconf
+    | Config
+    | Db
+    | DbMinus
+    | ImplicitWith
+    | ResolveLinks
+    | NoProject
+    | P
+    | PrintGPRRegistry
+    | RelocateBuildTree
+    | RootDir
+    | RTS
+    | SrcSubdirs
+    | Subdirs
+    | Target
+    | X
+
+  val create : unit -> t
+  val add_switch :
+    gpr_option
+    -> ?param:string
+    -> ?index:string
+    -> ?override:bool
+    -> t
+    -> unit
+
+  val quick_create :
+    ?scenario_vars:(string * string) list
+    -> ?target:string
+    -> ?runtime:string
+    -> string
+    -> t
+end
+
 module GPRProject : sig
   type t
 
@@ -25,13 +64,7 @@ module GPRProject : sig
     | WholeProjectWithRuntime
       (** sources in the whole project tree plus runtime sources *)
 
-  val load :
-    ?scenario_vars:(string * string) list
-    -> ?target:string
-    -> ?runtime:string
-    -> ?ada_only:bool
-    -> string
-    -> t
+  val load : ?ada_only:bool -> GPROptions.t -> t
 
   val source_files : ?mode:source_file_mode -> t -> string list
 

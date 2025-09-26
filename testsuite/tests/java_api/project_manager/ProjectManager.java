@@ -64,8 +64,8 @@ public class ProjectManager {
             null);
 
         try(
-           Libadalang.AnalysisContext context
-             = Libadalang.AnalysisContext.create(
+           Libadalang.AnalysisContext context =
+               Libadalang.AnalysisContext.create(
                    null,
                    null,
                    unitProvider,
@@ -75,8 +75,8 @@ public class ProjectManager {
                )
         ) {
             for(String file : files) {
-                Libadalang.AnalysisUnit unit
-                  = context.getUnitFromFile(file);
+                Libadalang.AnalysisUnit unit =
+                    context.getUnitFromFile(file);
                 System.out.println("File " + unit.getFileName(false));
                 System.out.println("  root = " + unit.getRoot());
                 System.out.println(
@@ -120,14 +120,14 @@ public class ProjectManager {
      * @param gprFile The gpr file
      * @param subproject The subproject to use. If null, use the root project
      *     in the given project path
-     * @param scenarioVariables Scenario variuables to apply during project
+     * @param scenarioVariables Scenario variables to apply during project
      *     opening
      * @param lookInProjectPath If the function should look for the GPR file
      */
     private static void openProject(
         String gprFile,
         String subproject,
-        Libadalang.ScenarioVariable[] scenarioVariables,
+        String[] scenarioVariables,
         boolean lookInProjectPath
     ) {
         openProject(
@@ -146,7 +146,7 @@ public class ProjectManager {
      * @param subproject The subproject to use. If null, use the root project
      *     in the given project path
      * @param configFile A configuration file to open the project with
-     * @param scenarioVariables Scenario variuables to apply during project
+     * @param scenarioVariables Scenario variables to apply during project
      *     opening
      * @param lookInProjectPath If the function should look for the GPR file
      */
@@ -154,7 +154,7 @@ public class ProjectManager {
         String gprFile,
         String subproject,
         String configFile,
-        Libadalang.ScenarioVariable[] scenarioVariables,
+        String[] scenarioVariables,
         boolean lookInProjectPath
     ) {
         openProject(
@@ -171,7 +171,7 @@ public class ProjectManager {
         String gprFile,
         String subproject,
         String configFile,
-        Libadalang.ScenarioVariable[] scenarioVariables,
+        String[] scenarioVariables,
         boolean lookInProjectPath,
         boolean adaOnly
     ) {
@@ -195,22 +195,33 @@ public class ProjectManager {
                 Paths.get(projectPath, configFile).toString();
         }
 
-        try(
-            Libadalang.ProjectManager project
-              = Libadalang.ProjectManager.create(
-                  gprFile,
-                  scenarioVariables,
-                  null,
-                  null,
-                  configFile,
-                  adaOnly
-              )
+        try (
+            Libadalang.ProjectOptions options =
+                new Libadalang.ProjectOptions();
         ) {
-            projectInfo(project, subproject);
-        } catch (Libadalang.ProjectManagerException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            footer(headerMsg);
+            options.addSwitch(Libadalang.ProjectOption.P, gprFile);
+            if (configFile != null) {
+                options.addSwitch(Libadalang.ProjectOption.CONFIG, configFile);
+            }
+            if (scenarioVariables != null) {
+                for (int i = 0; i < scenarioVariables.length; ++i) {
+                    options.addSwitch(
+                        Libadalang.ProjectOption.X,
+                        scenarioVariables[i]
+                    );
+                }
+            }
+
+            try(
+                Libadalang.ProjectManager project =
+                    new Libadalang.ProjectManager(options, adaOnly)
+            ) {
+                projectInfo(project, subproject);
+            } catch (Libadalang.ProjectManagerException e) {
+                System.out.println(e.getMessage());
+            } finally {
+                footer(headerMsg);
+            }
         }
     }
 
@@ -222,20 +233,37 @@ public class ProjectManager {
         openProject(
             "p2.gpr",
             null,
-            new Libadalang.ScenarioVariable[] {
-                Libadalang.ScenarioVariable.create("SRC_DIR", "src2_1"),
-                Libadalang.ScenarioVariable.create("USELESS", "useless")
+            new String[] {
+                "SRC_DIR=src2_1",
+                "USELESS=useless"
             },
             true
         );
         openProject(
             "p2.gpr",
             null,
-            new Libadalang.ScenarioVariable[] {
-                Libadalang.ScenarioVariable.create("SRC_DIR", "src2_2")
-            },
+            new String[] {"SRC_DIR=src2_2"},
             true
         );
+    }
+
+    /**
+     * Test loading a project with a null GPROptions argument.
+     */
+    private static void testNullOptions() {
+        final String headerMsg = "Null GPROptions argument";
+        header (headerMsg);
+        try(
+            Libadalang.ProjectManager project =
+                new Libadalang.ProjectManager(null, false);
+        ) {
+            System.out.println("... unexpected success...");
+        } catch (Libadalang.ProjectManagerException e) {
+            System.out.println("ProjectManagerException:");
+            System.out.println(e.getMessage());
+        } finally {
+            footer(headerMsg);
+        }
     }
 
     /**
@@ -271,14 +299,12 @@ public class ProjectManager {
     private static void testImplicit() {
         String headerMsg = "Open implicit project";
         header(headerMsg);
+
+        Libadalang.ProjectOptions options = new Libadalang.ProjectOptions();
+        options.addSwitch(Libadalang.ProjectOption.NO_PROJECT);
         try (
             Libadalang.ProjectManager project =
-                Libadalang.ProjectManager.createImplicit(
-                    null,
-                    null,
-                    null,
-                    false
-                )
+                new Libadalang.ProjectManager(options, false)
         ) {
             projectInfo(project, null);
         } catch (Libadalang.ProjectManagerException e) {
@@ -354,6 +380,7 @@ public class ProjectManager {
     public static void main(String[] args) {
         projectPath = args[0];
         testValid();
+        testNullOptions();
         testInvalid();
         testInexistant();
         testAggregate();

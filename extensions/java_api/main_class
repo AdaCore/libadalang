@@ -95,134 +95,224 @@ nat = c_api.get_name
     }
 
     /**
-     * This class represents a scenario variable for a GPR project file.
+     * Enum to represent a given project loading option.
      */
-    public static final class ScenarioVariable {
+    public static enum ProjectOption {
+
+        // ----- Enum values -----
+
+        AP(0),
+        AUTOCONF(1),
+        CONFIG(2),
+        DB(3),
+        DB_MINUS(4),
+        IMPLICIT_WITH(5),
+        RESOLVE_LINKS(6),
+        NO_PROJECT(7),
+        P(8),
+        PRINT_GPR_REGISTRY(9),
+        RELOCATE_BUILD_TREE(10),
+        ROOT_DIR(11),
+        RTS(12),
+        SRC_SUBDIRS(13),
+        SUBDIRS(14),
+        TARGET(15),
+        X(16),
+        ;
 
         // ----- Class attributes -----
 
-        /** Singleton that represents the none scenario variable. */
-        public static final ScenarioVariable NONE =
-            new ScenarioVariable(null, null);
+        /** The map from int to enum values */
+        private static final Map<Integer, ProjectOption> map = new HashMap<>();
 
         // ----- Instance attributes -----
 
-        /** The name of the variable. */
-        public final String name;
-
-        /** The value of the variable. */
-        public final String value;
+        /** The value of the instance */
+        private final int value;
 
         // ----- Constructors -----
 
         /**
-         * Create a new scenario variable with its name and value.
-         *
-         * @param name Name of the variable.
-         * @param value Value of the variable.
+         * The private constructor
          */
-        ScenarioVariable(
-            final String name,
-            final String value
+        private ProjectOption(
+            final int value
         ) {
-            this.name = name;
             this.value = value;
         }
 
-        /**
-         * Public method to create scenario variable.
-         * This method raise a runtime exception if name or value is null.
-         *
-         * @param name Name of the variable.
-         * @param value Value of the variable.
-         */
-        public static ScenarioVariable create(
-            final String name,
-            final String value
-        ) {
-            if(name == null) throw new RuntimeException("Scenario variable name cannot be null");
-            if(value == null) throw new RuntimeException("Scenario variable value cannot be null");
-            return new ScenarioVariable(name, value);
-        }
-
-        // ----- Graal C API methods -----
-
-        /**
-         * Wrap the given pointer to a native scenario variable.
-         *
-         * @param pointer The pointer to the native scenario variable.
-         * @return The wrapped scenario variable.
-         */
-        public static ScenarioVariable wrap(
-            final Pointer pointer
-        ) {
-            return wrap((ScenarioVariableNative) pointer.readWord(0));
-        }
-
-        /**
-         * Wrap the given native scenario variable.
-         *
-         * @param scenarioVariableNative The native scenario variable.
-         * @return The wrapped scenario variable.
-         */
-        public static ScenarioVariable wrap(
-            final ScenarioVariableNative scenarioVariableNative
-        ) {
-            final CCharPointer nameNative = scenarioVariableNative.get_name();
-            final CCharPointer valueNative = scenarioVariableNative.get_value();
-            return new ScenarioVariable(
-                nameNative.isNull() ?
-                    null :
-                    toJString(nameNative),
-                valueNative.isNull() ?
-                    null :
-                    toJString(valueNative)
-            );
-        }
-
-        /**
-         * Unwrap the scenario variable in the given native value.
-         *
-         * @param scenarioVariableNative The native value to fill.
-         */
-        public void unwrap(
-            final ScenarioVariableNative scenarioVariableNative
-        ) {
-            final CCharPointer nameNative = this.name == null ?
-                WordFactory.nullPointer() :
-                toCString(this.name);
-            final CCharPointer valueNative = this.value == null ?
-                WordFactory.nullPointer() :
-                toCString(this.value);
-            scenarioVariableNative.set_name(nameNative);
-            scenarioVariableNative.set_value(valueNative);
-        }
-
-        /**
-         * Release the given native scenario variable allocated strings.
-         *
-         * @param scenarioVariableNative The native scenario variable to release.
-         */
-        public static void release(
-            final ScenarioVariableNative scenarioVariableNative
-        ) {
-            if(scenarioVariableNative.get_name().isNonNull()) {
-                UnmanagedMemory.free(scenarioVariableNative.get_name());
-            }
-            if(scenarioVariableNative.get_value().isNonNull()) {
-                UnmanagedMemory.free(scenarioVariableNative.get_value());
+        static {
+            for(ProjectOption elem : ProjectOption.values()) {
+                map.put(elem.value, elem);
             }
         }
 
-        // ----- Override methods -----
+        // ----- Enum methods -----
 
-        /** @see java.lang.Object#toString() */
-        public String toString() {
-            return "ScenarioVariable(" +
-                this.name + " = " + this.value +
-                ")";
+        /**
+         * Get a project option from a native integer value.
+         *
+         * @param cValue The native value of the enum.
+         * @return The corresponding Java enum value.
+         * @throws EnumException If the given native value doesn't correspond
+         * to an actual enum value.
+         */
+        public static ProjectOption fromC(
+            final int cValue
+        ) throws EnumException {
+            if(!map.containsKey(cValue))
+                throw new EnumException(
+                    "Cannot get ProjectOption from " + cValue
+                );
+            return (ProjectOption) map.get(cValue);
         }
 
+        /**
+         * Get the native integer value of the enum instance.
+         *
+         * @return The native C value.
+         */
+        public int toC() {
+            return this.value;
+        }
+    }
+
+    ${java_doc("libadalang.gpr_options", 4)}
+    public static final class ProjectOptions implements AutoCloseable {
+
+        // ----- Instance attributes -----
+
+        /**
+         * Reference to the native value.
+         *
+         * It is package visible so that binding code in the ProjectManager can
+         * convert ProjectOptions arguments down to the C value.  */
+        final PointerWrapper reference;
+
+        // ----- Constructors -----
+
+        /**
+         * Create a new project loading options holder.
+         *
+         * @param reference The reference to the native options holder.
+         */
+        private ProjectOptions(
+            final PointerWrapper reference
+        ) {
+            this.reference = reference;
+        }
+
+        /**
+         * Create a new project loading options holder.
+         */
+        public ProjectOptions() {
+            if(ImageInfo.inImageCode()) {
+                ProjectOptionsNative res =
+                    NI_LIB.${nat("gpr_options_create")}();
+                this.reference = new PointerWrapper(res);
+            } else {
+                this.reference = JNI_LIB.${nat("gpr_options_create")}();
+            }
+        }
+
+        /**
+         * Add a switch to the given options.
+         *
+         * See the Ada API for `GPR2.Options.Add_Switch`.
+         */
+        public void addSwitch(
+            ProjectOption switch_,
+            String param,
+            String index,
+            boolean overwrite
+        ) {
+            if(ImageInfo.inImageCode()) {
+                final CCharPointer paramNative =
+                    param == null ?
+                    WordFactory.nullPointer() :
+                    toCString(param);
+                final CCharPointer indexNative =
+                    index == null ?
+                    WordFactory.nullPointer() :
+                    toCString(index);
+
+                NI_LIB.${nat("gpr_options_add_switch")}(
+                    this.reference.ni(),
+                    switch_.toC(),
+                    paramNative,
+                    indexNative,
+                    overwrite ? 1 : 0
+                );
+
+                if (param != null) {
+                    UnmanagedMemory.free(paramNative);
+                }
+                if (index != null) {
+                    UnmanagedMemory.free(indexNative);
+                }
+            } else {
+                JNI_LIB.${nat("gpr_options_add_switch")}(
+                    this,
+                    switch_.toC(),
+                    param,
+                    index,
+                    overwrite
+                );
+            }
+
+            try {
+                checkException();
+            } catch (LangkitException e) {
+                throw new ProjectManagerException(e.getMessage());
+            }
+        }
+
+        /**
+         * Add a switch to the given options.
+         *
+         * See the Ada API for `GPR2.Options.Add_Switch`.
+         */
+        public void addSwitch(
+            ProjectOption switch_,
+            String param,
+            String index
+        ) {
+            this.addSwitch(switch_, param, index, false);
+        }
+
+        /**
+         * Add a switch to the given options.
+         *
+         * See the Ada API for `GPR2.Options.Add_Switch`.
+         */
+        public void addSwitch(
+            ProjectOption switch_,
+            String param
+        ) {
+            this.addSwitch(switch_, param, null, false);
+        }
+
+        /**
+         * Add a switch to the given options.
+         *
+         * See the Ada API for `GPR2.Options.Add_Switch`.
+         */
+        public void addSwitch(
+            ProjectOption switch_
+        ) {
+            this.addSwitch(switch_, null, null, false);
+        }
+
+        /** @see java.lang.AutoCloseable#close() */
+        @Override
+        public void close() {
+            if(ImageInfo.inImageCode()) {
+                NI_LIB.${nat("gpr_options_free")}(this.reference.ni());
+            } else {
+                JNI_LIB.${nat("gpr_options_free")}(this);
+            }
+
+        }
     }
 
     /**
@@ -262,168 +352,40 @@ nat = c_api.get_name
         }
 
         /**
-         * Create a project manager for the given project file.
+         * Create a new project manager.
          *
-         * @param projectFile The GPR project file to load.
-         */
-        public static ProjectManager create(
-            final String projectFile
-        ) {
-            return internalCreate(
-                projectFile,
-                null,
-                null,
-                null,
-                null,
-                false
-            );
-        }
-
-        /**
-         * Create a project manager from a project file, target and runtime. If the
-         * project file is null, then an implicit project is loaded.
-         *
-         * @param projectFile The GPR project file to use, if any. If null, an
-         *     implicit project will be loaded.
-         * @param scenarioVariables Scenario variables to use during the
-         *     project loading. This can be null.
-         * @param target Ada target to use. This can be null.
-         * @param runtime Ada runtime to use. This can be null.
-         * @param configFile The absolute path to a .cgpr file to use during
-         *     the project loading. This can be null.
+         * @param options The GPR loading options.
          * @param adaOnly Restrict project loading to the Ada language.
          */
-        public static ProjectManager create(
-            final String projectFile,
-            final ScenarioVariable[] scenarioVariables,
-            final String target,
-            final String runtime,
-            final String configFile,
+        public ProjectManager(
+            final ProjectOptions options,
             final boolean adaOnly
         ) {
-            return internalCreate(
-                projectFile,
-                scenarioVariables,
-                target,
-                runtime,
-                configFile,
-                adaOnly
-            );
-        }
-
-        /**
-         * Create a project manager for an implicit project. The current directory
-         * is used as project source directory.
-         *
-         * @param target Ada target to use. This can be null.
-         * @param runtime Ada runtime to use. This can be null.
-         * @param configFile The absolute path to a .cgpr file to use during
-         *     the project loading. This can be null.
-         * @param adaOnly Restrict project loading to the Ada language.
-         */
-        public static ProjectManager createImplicit(
-            final String target,
-            final String runtime,
-            final String configFile,
-            final boolean adaOnly
-        ) {
-            return internalCreate(
-                null,
-                null,
-                target,
-                runtime,
-                configFile,
-                adaOnly
-            );
-        }
-
-        /**
-         * Internal creation method to generalize project creation while
-         * presenting different API endpoints to the user.
-         *
-         * @param projectFile The GPR project file to use, if any. If null, an
-         *     implicit project will be loaded.
-         * @param scenarioVariables Scenario variables to use during the
-         *     project loading. This can be null.
-         * @param target Ada target to use. This can be null.
-         * @param runtime Ada runtime to use. This can be null.
-         * @param configFile The absolute path to a .cgpr file to use during
-         *     the project loading. This can be null.
-         * @param adaOnly Restrict project loading to the Ada language.
-         */
-        private static ProjectManager internalCreate(
-            final String projectFile,
-            final ScenarioVariable[] scenarioVariables,
-            final String target,
-            final String runtime,
-            final String configFile,
-            final boolean adaOnly
-        ) {
+            if (options == null) {
+                throw new ProjectManagerException(
+                    "non-null `options` argument required"
+                );
+            }
 
             if(ImageInfo.inImageCode()) {
                 // Declare native values
-                final Pointer scenarioVariablesNative;
-                final CCharPointer targetNative;
-                final CCharPointer runtimeNative;
-                final CCharPointer configFileNative;
+                final ProjectOptionsNative optionsPointer;
                 final Pointer errorsPointer;
-
-                // Create the scenario variable array
-                final int scenarioVariableNativeSize = SizeOf.get(ScenarioVariableNative.class);
-                if(scenarioVariables != null && scenarioVariables.length > 0) {
-                    final int size = scenarioVariables.length + 1;
-                    scenarioVariablesNative = UnmanagedMemory.calloc(
-                        size * scenarioVariableNativeSize
-                    );
-                    for(int i = 0 ; i < scenarioVariables.length ; i++) {
-                        final ScenarioVariableNative scenarioVariableNative = (ScenarioVariableNative)
-                            scenarioVariablesNative.add(i * scenarioVariableNativeSize);
-                        scenarioVariables[i].unwrap(scenarioVariableNative);
-                    }
-                } else {
-                    scenarioVariablesNative = WordFactory.nullPointer();
-                }
 
                 // Prepare the result pointer
                 final Pointer projectPointer = StackValue.get(SizeOf.get(VoidPointer.class));
                 projectPointer.writeWord(0, WordFactory.nullPointer());
 
-                // Fill the native arguments
-                targetNative = target == null ? WordFactory.nullPointer() : toCString(target);
-                runtimeNative = runtime == null ? WordFactory.nullPointer() : toCString(runtime);
-                configFileNative = configFile == null ? WordFactory.nullPointer() : toCString(configFile);
+                optionsPointer = options.reference.ni();
                 errorsPointer = StackValue.get(SizeOf.get(WordPointer.class));
                 errorsPointer.writeWord(0, WordFactory.nullPointer());
 
-                // If the provided project file is null, call the implicit project loading.
-                // Otherwise, call the standard project loading.
-                if (projectFile == null) {
-                    NI_LIB.${nat("gpr_project_load_implicit")}(
-                        targetNative,
-                        runtimeNative,
-                        configFileNative,
-                        projectPointer,
-                        errorsPointer
-                    );
-                } else {
-                    final CCharPointer projectFileNative = toCString(projectFile);
-                    NI_LIB.${nat("gpr_project_load")}(
-                        projectFileNative,
-                        scenarioVariablesNative,
-                        targetNative,
-                        runtimeNative,
-                        configFileNative,
-                        adaOnly ? 1 : 0,
-                        projectPointer,
-                        errorsPointer
-                    );
-                    UnmanagedMemory.free(projectFileNative);
-                }
-
-                // Free the allocated strings
-                if (target != null) UnmanagedMemory.free(targetNative);
-                if (runtime != null) UnmanagedMemory.free(runtimeNative);
-                if (configFile != null) UnmanagedMemory.free(configFileNative);
+                NI_LIB.${nat("gpr_project_load")}(
+                    optionsPointer,
+                    adaOnly ? 1 : 0,
+                    projectPointer,
+                    errorsPointer
+                );
 
                 // Check the langkit exception and cast it into a project manager error
                 try {
@@ -435,16 +397,6 @@ nat = c_api.get_name
                 // Get the result of modified values
                 final ProjectManagerNative projectManagerNative = (ProjectManagerNative) projectPointer.readWord(0);
                 final StringArrayNative errorArrayNative = (StringArrayNative) errorsPointer.readWord(0);
-
-                // Free the scenario variables
-                if(scenarioVariablesNative.isNonNull()) {
-                    for(int i = 0 ; i < scenarioVariables.length ; i++) {
-                        final ScenarioVariableNative scenarioVariableNative = (ScenarioVariableNative)
-                            scenarioVariablesNative.add(i * scenarioVariableNativeSize);
-                        ScenarioVariable.release(scenarioVariableNative);
-                    }
-                    UnmanagedMemory.free(scenarioVariablesNative);
-                }
 
                 // `errorsPointer` is not allocated if an exception was raised during project file loading
                 String[] errors = new String[0];
@@ -464,24 +416,17 @@ nat = c_api.get_name
                 }
 
                 // Create the result project manager and add diagnostics if any
-                final ProjectManager res = wrap(projectManagerNative);
-                if (errors.length > 0) {
-                    res.diagnostics.addAll(List.of(errors));
-                }
-                return res;
+                this.reference = new PointerWrapper(projectManagerNative);
+                this.diagnostics = List.of(errors);
             } else {
                 // Call the native function from the stubs
                 final List<String> diagnostics = new ArrayList<>();
-                final PointerWrapper reference;
-                reference = JNI_LIB.${nat("gpr_project_load")}(
-                    projectFile,
-                    scenarioVariables,
-                    target,
-                    runtime,
-                    configFile,
-                    adaOnly,
-                    diagnostics
-                );
+                final PointerWrapper reference =
+                    JNI_LIB.${nat("gpr_project_load")}(
+                        options,
+                        adaOnly,
+                        diagnostics
+                    );
 
                 // Check the langkit exceptions
                 try {
@@ -491,9 +436,8 @@ nat = c_api.get_name
                 }
 
                 // Return the project manager
-                final ProjectManager res = new ProjectManager(reference);
-                res.diagnostics.addAll(diagnostics);
-                return res;
+                this.reference = reference;
+                this.diagnostics = diagnostics;
             }
 
         }

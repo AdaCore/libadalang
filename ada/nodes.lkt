@@ -12491,7 +12491,28 @@ class ExceptionHandler: BasicDecl {
 
     fun is_constant_object(): Bool = true
 
+    fun initial_env(): DesignatedEnv =
+        # If this is an exception handler of a begin block, parent env should
+        # be the parent's env of the begin block since no declarations are
+        # allowed in a begin block (except when using the gnat experimental
+        # feature allowing local declarations without blocks, in which case
+        # visibility rules doesn't change, i.e.: local declarations in the
+        # begin block are not visible in the exception handler).
+        node.parent.parent.parent.as[BeginBlock].do((bb) =>
+            DesignatedEnv(
+                kind=DesignatedEnvKind.direct_env,
+                env_name=null[Symbol],
+                direct_env=bb.default_initial_env()
+            ),
+            default_val=DesignatedEnv(
+                kind=DesignatedEnvKind.current_env,
+                env_name=null[Symbol],
+                direct_env=null[LexicalEnv]
+            )
+        )
+
     env_spec {
+        set_initial_env(node.initial_env())
         add_env()
         add_all_to_env(
             self.exception_name.do(

@@ -5856,8 +5856,8 @@ class BasicDecl: AdaNode {
         # Unhandled case: raise PropertyError
         else
             raise[Bool] PropertyError(
-                |" Only package-level declaration support visibility checks for
-                |" now."
+                "Only package-level declarations support visibility checks " &
+                "for now."
             )
 
     @with_dynvars(origin)

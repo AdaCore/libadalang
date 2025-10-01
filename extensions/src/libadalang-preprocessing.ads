@@ -265,7 +265,8 @@ package Libadalang.Preprocessing is
    --
    --  See GNATprep's documentation for a description of this file.
 
-   type Any_Line_Mode is (Delete_Lines, Blank_Lines, Comment_Lines);
+   type Any_Line_Mode is
+     (Delete_Lines, Blank_Lines, Comment_Lines, Empty_Comment_Lines);
    --  Determine how the preprocessor treats directives and disabled lines in
    --  the output.
    --
@@ -284,6 +285,11 @@ package Libadalang.Preprocessing is
    --
    --    Preserve these lines and emit a ``--!`` comment marker in front of
    --    them. This corresponds to GNATprep's ``-c`` option.
+   --
+   --  ``Empty_Comment_Lines``
+   --
+   --    These lines are replaced with exactly ``--!``. This corresponds to
+   --    GNATprep's ``-e`` option.
 
    type File_Config (Enabled : Boolean := False) is record
       case Enabled is

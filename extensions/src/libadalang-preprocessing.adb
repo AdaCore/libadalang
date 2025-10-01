@@ -445,6 +445,9 @@ package body Libadalang.Preprocessing is
          elsif Switch = "-c" then
             Cfg.Line_Mode := Comment_Lines;
 
+         elsif Switch = "-e" then
+            Cfg.Line_Mode := Empty_Comment_Lines;
+
          elsif Switch = "-s" then
             Cfg.Print_Symbols := True;
 
@@ -882,6 +885,8 @@ package body Libadalang.Preprocessing is
                Put (F, " -b");
             when Comment_Lines =>
                Put (F, " -c");
+            when Empty_Comment_Lines =>
+               Put (F, " -e");
          end case;
 
          if Config.Print_Symbols then
@@ -1123,6 +1128,8 @@ package body Libadalang.Preprocessing is
             Put_Line (Prefix & "  -b");
          when Comment_Lines  =>
             Put_Line (Prefix & "  -c");
+         when Empty_Comment_Lines  =>
+            Put_Line (Prefix & "  -e");
       end case;
       if Config.Print_Symbols then
          Put_Line (Prefix & "  -s");

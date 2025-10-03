@@ -246,6 +246,8 @@ class JavaDriver(BaseDriver):
             '--no-fallback',
             "-Ob",
             "--silent",
+            "-H:+UnlockExperimentalVMOptions",
+            "-H:-StrictQueryCodeCompilation",
             *os_specific_options,
             'NativeImageMain',
             ni_bin,

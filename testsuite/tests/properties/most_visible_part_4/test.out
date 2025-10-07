@@ -1,0 +1,17 @@
+Working on node <SubpDecl ["P"] pkg.ads:5:4-5:16>
+=================================================
+
+Eval 'node.p_defining_name.p_most_visible_part(node)'
+Result: <DefiningName "P" pkg.ads:5:14-5:15>
+
+Eval 'node.p_defining_name.p_most_visible_part(node.p_body_part())'
+Result: <DefiningName "P" pkg.adb:2:14-2:15>
+
+Working on node <SubpDecl ["P"] proc.adb:6:7-6:19>
+==================================================
+
+Eval 'node.p_defining_name.p_most_visible_part(node)'
+Result: <DefiningName "P" proc.adb:6:17-6:18>
+
+Eval 'node.p_defining_name.p_most_visible_part(node.p_body_part())'
+Result: <DefiningName "P" proc.adb:11:17-11:18>

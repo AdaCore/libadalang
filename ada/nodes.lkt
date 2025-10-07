@@ -6439,19 +6439,36 @@ class BasicDecl: AdaNode {
     ): Entity[BasicDecl] = {
         val np = self.next_part_for_name(sym);
 
+        # Get next_part top declaration in case this is a param declaration.
+        # This will be useful to check whether the next part is visible at the
+        # point of origin.
+        val np_top_decl = np.do((np) =>
+            match np {
+                case bfpd: BaseFormalParamDecl => bfpd.parent_decl()
+                case others => others
+            }
+        );
+
         # This is already the most visible part
-        if np.is_null then self
+        if np_top_decl.is_null then self
 
         # A null origin means any "find the most complete part"
         elif origin.is_null
-        then np.most_visible_forward_part_for_name(sym, seq)
+        then np_top_decl.most_visible_forward_part_for_name(sym, seq)
 
         # The query is sequential and origin can't see the next part
-        elif (seq and origin.unit == np.unit) and origin <= np.node then self
+        elif (seq and origin.unit == np_top_decl.unit)
+            and origin < np_top_decl.node
+        then self
 
-        # If the entity is not a package declaration, we only need to check
-        # if its lexical env is one of the parents of origin's env.
-        elif not (np.is_in_private_part() or np.is_in_public_part())
+        # If the next part is not a package declaration (i.e.: it is not in a
+        # public, private, or body part of a package), we only need to check if
+        # its lexical env is one of the parents of origin's env.
+        elif
+            not (np_top_decl.is_in_private_part()
+                or np_top_decl.is_in_public_part()
+            or np_top_decl.parent.parent.as[DeclarativePart].do(
+                (n) => n.parent is PackageBody))
         then
             if
                 origin.node_env.get(
@@ -6461,13 +6478,13 @@ class BasicDecl: AdaNode {
                         _=true
                     )
                 )
-                .contains(node.as_bare_entity)
+                .contains(np_top_decl)
             then np.most_visible_forward_part_for_name(sym, seq)
             else self
 
         # Otherwise this is a package declaration, so we can use the
         # is_visible property.
-        elif np.is_visible(origin.as_bare_entity)
+        elif np_top_decl.is_visible(origin.as_bare_entity)
         then np.most_visible_forward_part_for_name(sym, seq)
 
         # Otherwise this was the most visible part

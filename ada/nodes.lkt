@@ -21294,6 +21294,10 @@ class TargetName: Name {
         node.bind_to_non_local(node.type_var(), dest, dest.type_var())
         %and node.bind_to_non_local(node.ref_var(), dest, dest.ref_var())
     }
+
+    @with_dynvars(env)
+    fun env_elements_impl(): Array[Entity[AdaNode]] =
+        self.assign_statement().dest.as_entity.env_elements_impl()
 }
 
 |" Reference to the ``Update`` attribute, which is a non standard GNAT

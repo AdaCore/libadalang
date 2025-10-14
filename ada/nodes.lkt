@@ -701,7 +701,7 @@ class AdaNode implements Node[AdaNode] {
         else {
             val gen_decl = self.as[GenericDecl];
             val gen_body =
-                self.as[Body]?.decl_part().do(
+                self.as[Body]?.decl_part_internal().do(
                     (dp) => dp.as[GenericDecl] or? dp.parent.as[GenericDecl]
                 );
             (gen_decl or? gen_body).do((gd) => gd.decl().get_instantiation())
@@ -7050,7 +7050,7 @@ class BaseFormalParamDecl: BasicDecl {
     fun decl_param(param: Entity[DefiningName]): Entity[DefiningName] =
         self.get_param(
             match self.semantic_parent() {
-                case body: BaseSubpBody => body.decl_part()
+                case body: BaseSubpBody => body.decl_part_internal()
                 case accept: AcceptStmt => accept.corresponding_entry()
                 case _ => null[Entity[BasicDecl]]
             },
@@ -11374,6 +11374,16 @@ class Body: BasicDecl {
     @exported
     @with_dynvars(imprecise_fallback=false)
     fun decl_part(): Entity[BasicDecl] =
+        self.decl_part_internal().do((part) =>
+            match part {
+                case gsi: GenericSubpInternal => gsi.parent.as[BasicDecl]
+                case gpi: GenericPackageInternal => gpi.parent.as[BasicDecl]
+                case other => other
+            }
+        )
+
+    @with_dynvars(imprecise_fallback=false)
+    fun decl_part_internal(): Entity[BasicDecl] =
         self.previous_part_internal().do(
             (prev_part) =>
             match prev_part {
@@ -11390,7 +11400,10 @@ class Body: BasicDecl {
         bind imprecise_fallback = false;
 
         if node is PackageBody
-        then self.decl_part().do((d) => d.parent.as[GenericPackageDecl])
+        then
+            self.decl_part_internal().do(
+                (d) => d.parent.as[GenericPackageDecl]
+            )
         elif node is BaseSubpBody | SubpBodyStub
         then (
             # We're only searching for generics. We look at index 1 and
@@ -11488,7 +11501,7 @@ class Body: BasicDecl {
     |" Get all ``GNATprove`` annotations specified for that body.
     @memoized
     fun gnatprove_annotations(): Array[Entity[Expr]] = {
-        val subp_decl_part = self.decl_part();
+        val subp_decl_part = self.decl_part_internal();
         # GNATprove annotations are specified in the specification, or else on
         # the body if it doesn't have a specification.
         val aspects =
@@ -12142,7 +12155,7 @@ class PackageBody: Body {
         {
             bind imprecise_fallback = false;
 
-            self.decl_part().as![BasePackageDecl]
+            self.decl_part_internal().as![BasePackageDecl]
         }
         .do(
             (pd) =>
@@ -12322,7 +12335,7 @@ class TaskBody: Body {
     fun task_type(): Entity[TaskTypeDecl] = {
         bind imprecise_fallback = false;
 
-        match self.decl_part() {
+        match self.decl_part_internal() {
             case t: TaskTypeDecl => t
             case t: SingleTaskDecl => t.task_type
             case _ =>
@@ -12811,7 +12824,7 @@ class GenericInstantiation: BasicDecl {
                     {
                         bind imprecise_fallback = false;
 
-                        b.decl_part()
+                        b.decl_part_internal()
                     }
                 case rd: GenericRenamingDecl =>
                     if follow_renaming then rd.resolve() else rd
@@ -14092,7 +14105,7 @@ class CompilationUnit: AdaNode {
                     .does_aspects_make_preelaborable(from_body=false)
                     # Otherwise recurse on the corresponding procedure spec (if
                     # any).
-                    or subp_body.decl_part().do(
+                    or subp_body.decl_part_internal().do(
                         (dp) =>
                         dp
                         .parent

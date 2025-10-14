@@ -8,6 +8,6 @@ foo.adb
 #######
 
 Body previous part of <PackageBody ["Foo"] foo.adb:1:1-6:9> is <GenericPackageInternal ["Foo"] foo.ads:3:1-5:9> [foo.ads]
-Decl of <PackageBody ["Foo"] foo.adb:1:1-6:9> is <GenericPackageInternal ["Foo"] foo.ads:3:1-5:9> [foo.ads]
+Decl of <PackageBody ["Foo"] foo.adb:1:1-6:9> is <GenericPackageDecl ["Foo"] foo.ads:1:1-5:9> [foo.ads]
 
 Done.

@@ -166,10 +166,10 @@ Result: [<CompletionItem decl=<ParamSpec ["D"] case.adb:20:18-20:26> is_dot_call
          <CompletionItem decl=<ConcreteTypeDecl ["Wide_Wide_String"] in Standard> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<PackageDecl ["Standard"] in Standard> is_dot_call=False is_visible=True weight=0>]
 
-Working on node <CaseStmtAlternative case.adb:31:10-33:7>
-=========================================================
+Working on node <OpDoubleDot ".." case.adb:31:17-31:19>
+=======================================================
 
-Eval 'list(node.f_choices.p_complete)'
+Eval 'list(node.parent.parent.p_complete)'
 Result: [<CompletionItem decl=<ParamSpec ["D"] case.adb:28:18-28:26> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<EnumLiteralDecl ["F"] case.adb:2:32-2:33> is_dot_call=False is_visible=True weight=100>,
          <CompletionItem decl=<EnumLiteralDecl ["M"] case.adb:2:18-2:19> is_dot_call=False is_visible=True weight=100>,

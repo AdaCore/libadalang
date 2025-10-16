@@ -1,12 +1,32 @@
+test_1.adb:6:4: Cannot parse <name>
+test_1.adb:7:4: Expected Char, got 'null'
 test_1.adb:7:4: Missing ';'
+test_1.adb:8:4: Cannot parse <name>
+test_1.adb:9:1: Expected Char, got 'end'
 test_1.adb:9:1: Missing ';'
+test_2.adb:7:4: Cannot parse <name>
+test_2.adb:8:4: Expected Char, got 'null'
 test_2.adb:8:4: Missing ';'
+test_2.adb:9:4: Cannot parse <name>
+test_2.adb:10:1: Expected Char, got 'end'
 test_2.adb:10:1: Missing ';'
+test_3.adb:9:4: Cannot parse <name>
+test_3.adb:10:4: Expected Char, got 'null'
 test_3.adb:10:4: Missing ';'
+test_3.adb:11:4: Cannot parse <name>
+test_3.adb:12:1: Expected Char, got 'end'
 test_3.adb:12:1: Missing ';'
+test_4.adb:8:4: Cannot parse <name>
+test_4.adb:9:1: Expected Char, got 'end'
 test_4.adb:9:1: Missing ';'
+test_5.adb:6:4: Cannot parse <name>
+test_5.adb:7:4: Expected Char, got 'null'
 test_5.adb:7:4: Missing ';'
+test_5.adb:8:4: Cannot parse <name>
+test_5.adb:9:1: Expected Char, got 'end'
 test_5.adb:9:1: Missing ';'
+test_6.adb:9:4: Cannot parse <name>
+test_6.adb:10:1: Expected Char, got 'end'
 test_6.adb:10:1: Missing ';'
 Working on node <DottedName test_1.adb:6:4-7:4>
 ===============================================

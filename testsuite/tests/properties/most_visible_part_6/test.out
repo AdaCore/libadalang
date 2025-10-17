@@ -1,0 +1,20 @@
+Working on node <SubpBody ["Constructor"] test.adb:2:4-5:20>
+============================================================
+
+Set 'p' to 'node.f_subp_spec.p_params[0].p_defining_names[0]'
+Result: <DefiningName "Param" test.adb:2:26-2:31>
+
+Eval 'p.p_most_visible_part(p)'
+Result: <DefiningName "Param" test.adb:2:26-2:31>
+
+Working on node <SubpDecl ["Constructor"] test.ads:2:4-2:58>
+============================================================
+
+Set 'p' to 'node.f_subp_spec.p_params[0].p_defining_names[0]'
+Result: <DefiningName "Param" test.ads:2:26-2:31>
+
+Eval 'p.p_most_visible_part(node)'
+Result: <DefiningName "Param" test.ads:2:26-2:31>
+
+Eval 'p.p_most_visible_part(node.p_body_part())'
+Result: <DefiningName "Param" test.adb:2:26-2:31>

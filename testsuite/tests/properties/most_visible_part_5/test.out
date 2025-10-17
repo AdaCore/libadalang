@@ -1,0 +1,14 @@
+Working on node <ObjectDecl ["X"] test.ads:4:4-4:30>
+====================================================
+
+Set 'dn' to 'node.p_defining_names[0]'
+Result: <DefiningName "X" test.ads:4:4-4:5>
+
+Set 'cp' to 'dn.p_canonical_part()'
+Result: <DefiningName "X" test.ads:2:4-2:5>
+
+Eval 'cp.p_most_visible_part(cp)'
+Result: <DefiningName "X" test.ads:2:4-2:5>
+
+Eval 'cp.p_most_visible_part(dn)'
+Result: <DefiningName "X" test.ads:4:4-4:5>

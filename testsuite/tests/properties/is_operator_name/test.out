@@ -21,3 +21,117 @@ Working on node <NumberDecl ["D"] foo.ads:14:4-14:36>
 
 Eval 'node.f_expr.p_is_operator_name'
 Result: False
+
+Working on node <NumberDecl ["E"] foo.ads:19:4-19:24>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["F"] foo.ads:22:4-22:25>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["G"] foo.ads:25:4-25:24>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["H"] foo.ads:28:4-28:25>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["I"] foo.ads:31:4-31:24>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["J"] foo.ads:34:4-34:25>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["K"] foo.ads:37:4-37:26>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["L"] foo.ads:40:4-40:25>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["M"] foo.ads:43:4-43:26>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["N"] foo.ads:46:4-46:26>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["O"] foo.ads:49:4-49:24>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["P"] foo.ads:52:4-52:25>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["Q"] foo.ads:55:4-55:24>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["R"] foo.ads:58:4-58:26>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["S"] foo.ads:61:4-61:26>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["T"] foo.ads:64:4-64:24>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["U"] foo.ads:67:4-67:24>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["V"] foo.ads:70:4-70:24>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True
+
+Working on node <NumberDecl ["W"] foo.ads:73:4-73:26>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
+Result: True

@@ -17438,15 +17438,14 @@ class Name: Expr {
             | s"\"xor\""
             | s"\"abs\""
             | s"\"*\""
+            | s"\"**\""
             | s"\"/\""
             | s"\"mod\""
             | s"\"rem\""
             | s"\"+\""
             | s"\"-\""
-            | s"\"&\"\"+\""
-            | s"\"-\""
+            | s"\"&\""
             | s"\"not\""
-            | s"\"abs\""
 
     |" Whether this name is a write reference.
     |"

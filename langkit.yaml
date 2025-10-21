@@ -9,6 +9,12 @@ library:
     charset: iso-8859-1
     unit_provider: Libadalang.Internal_Default_Provider.Create
     unparsing_config: default_unparsing_config.json
+    format_options:
+      line_width: 80
+      indentation_kind: spaces
+      indentation_width: 3
+      indentation_continuation: 2
+      end_of_line_kind: LF
   symbol_canonicalizer: Libadalang.Sources.Canonicalize
   external_exceptions:
     - exception: GPR2.Project_Error

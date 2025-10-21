@@ -269,7 +269,8 @@
             }
           ]
         }
-      }
+      },
+      "independent_lines": true
     },
     "Aggregate": {
       "node": {
@@ -1986,7 +1987,8 @@
           "empty_line"
         ],
         "must_break": true
-      }
+      },
+      "independent_lines": true
     },
     "DeclarativePart": {
       "node": {
@@ -6530,7 +6532,8 @@
         "recurse",
         "hardline"
       ],
-      "table": null
+      "table": null,
+      "independent_lines": true
     },
     "StringLiteral": {},
     "SubpBody": {

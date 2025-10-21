@@ -6964,6 +6964,24 @@ class BasicDecl: AdaNode {
         raise[Bool] PropertyError(
             "Property BasicDecl.is_constant_object not implemented"
         )
+
+    |" Return the corresponding ``"/="`` synthesized subprogram of a ``"="``
+    |" subprogram.
+    |"
+    |" .. note:: This property should only be called on a subprogram with the
+    |"     name ``"="``, otherwise a ``PreconditionFailure`` will be raised.
+    @exported
+    fun corresponding_neq_subprogram(): BasicSubpDecl =
+        self.subp_spec_or_null().as[SubpSpec].do(
+            (spec) => if spec.name().name_symbol() == s"\"=\""
+                then spec.synthetic_neq_subprogram
+                else raise[BasicSubpDecl] PreconditionFailure(
+                    "The declaration does not define the ``\"=\"`` operator"
+                ),
+            default_val = raise[BasicSubpDecl] PreconditionFailure(
+                "Not a subprogram"
+            )
+        )
 }
 
 |" Contained (directly or indirectly) in an AbstractStateDeclExpr, and is used

@@ -1,0 +1,17 @@
+Working on node <SubpDecl [""=""] foo.ads:2:4-2:58>
+===================================================
+
+Eval 'node.p_corresponding_neq_subprogram'
+Result: <SyntheticSubpDecl [""/=""] foo.ads:2:4-2:58>
+
+Working on node <SubpDecl ["Func"] foo.ads:5:4-5:33>
+====================================================
+
+Eval 'node.p_corresponding_neq_subprogram'
+Exception: The declaration does not define the ``"="`` operator
+
+Working on node <ObjectDecl ["C"] foo.ads:8:4-8:30>
+===================================================
+
+Eval 'node.p_corresponding_neq_subprogram'
+Exception: Not a subprogram

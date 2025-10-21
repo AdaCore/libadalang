@@ -36,11 +36,11 @@ lexer ada_lexer {
 
     @unparsing_spacing(with=alphanumericals)
     family alphanumericals {
-        Access
-        Delta
-        Digits
-        Mod
-        Range
+        Access <- null
+        Delta <- null
+        Digits <- null
+        Mod <- null
+        Range <- null
     }
 
     # Blanks and trivia

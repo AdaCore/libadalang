@@ -178,6 +178,3 @@ generated from the Langkit language specification that you can find in
 [ada/](ada/). This language specification, while embedded in Python syntax, is
 mostly its own language, the Langkit DSL, that is used to specify the part of
 Ada syntax and semantics that are of interest to us.
-
-See the [Developer Manual](dev_manual) for more information about Libadalang's
-development.

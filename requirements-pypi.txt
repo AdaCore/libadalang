@@ -3,7 +3,7 @@ coverage==7.6.8
 docutils
 funcy==2.0
 Mako==1.3.6
-sphinx-rtd-theme==0.4.3
+sphinx-rtd-theme
 yapf==0.30.0
 pycodestyle
 jsonschema

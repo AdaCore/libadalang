@@ -7,7 +7,7 @@ SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
 LAL_BUILD_DIR = ../build
-LANGKIT_DIR = ../langkit
+LANGKIT_DIR = ../../langkit
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)

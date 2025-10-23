@@ -34,10 +34,8 @@ extensions = [
     'sphinx.ext.extlinks',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinxcontrib.adadomain'
 ]
-
-if tags.has('new_laldoc'):
-    extensions.append('sphinxcontrib.adadomain')
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -366,10 +364,6 @@ def setup(app):
     except:
         print('ERROR: could not import Libadalang')
         raise
-
-    if tags.has('legacy_laldoc'):
-        import laldoc
-        app.add_directive('ada_auto_package', laldoc.AutoPackage)
 
     from sphinxcontrib import adadomain
     # Register the rmlink role at the toplevel, so that we can reference the RM

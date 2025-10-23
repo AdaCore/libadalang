@@ -12,9 +12,9 @@ LANGKIT_DIR = ../../langkit
 # Internal variables.
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: clean html newhtml
+.PHONY: clean html
 
-newhtml:
+html:
 	python -m laldoc.generate_rst -P $(LAL_BUILD_DIR)/libadalang.gpr \
 		$(LAL_BUILD_DIR)/src/libadalang-analysis.ads \
 		../extensions/src/libadalang-auto_provider.ads \
@@ -44,15 +44,10 @@ newhtml:
 		$(LANGKIT_DIR)/langkit/support/langkit_support-text.ads \
 		-O generated
 
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -t new_laldoc $(BUILDDIR)/html
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 clean:
 	rm -rf generated/*
 	rm -rf $(BUILDDIR)/*
-
-html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -t legacy_laldoc $(BUILDDIR)/html
-	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."

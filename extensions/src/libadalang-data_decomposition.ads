@@ -538,7 +538,7 @@ package Libadalang.Data_Decomposition is
      (Name_Pattern : GNAT.Regexp.Regexp := Default_JSON_Filename_Regexp;
       Directory    : String) return Repinfo_Collection;
    --  Like ``Load``, but using automatically loading all files whose name
-   --  matches ``Name_Pattern`` in the given ``Directory`.
+   --  matches ``Name_Pattern`` in the given ``Directory``.
 
    Gprbuild_Error : exception;
    --  See ``Load_From_Project``

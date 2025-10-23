@@ -39,6 +39,7 @@ newhtml:
 		$(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-unparsing.ads \
 		$(LANGKIT_DIR)/langkit/support/langkit_support-names.ads \
 		$(LANGKIT_DIR)/langkit/support/langkit_support-names-maps.ads \
+		$(LANGKIT_DIR)/langkit/support/langkit_support-slocs.ads \
 		$(LANGKIT_DIR)/langkit/support/langkit_support-symbols.ads \
 		$(LANGKIT_DIR)/langkit/support/langkit_support-text.ads \
 		-O generated

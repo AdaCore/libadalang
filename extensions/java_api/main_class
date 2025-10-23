@@ -227,28 +227,27 @@ nat = c_api.get_name
             boolean overwrite
         ) {
             if(ImageInfo.inImageCode()) {
-                final CCharPointer paramNative =
-                    param == null ?
-                    WordFactory.nullPointer() :
-                    toCString(param);
-                final CCharPointer indexNative =
-                    index == null ?
-                    WordFactory.nullPointer() :
-                    toCString(index);
-
-                NI_LIB.${nat("gpr_options_add_switch")}(
-                    this.reference.ni(),
-                    switch_.toC(),
-                    paramNative,
-                    indexNative,
-                    overwrite ? 1 : 0
-                );
-
-                if (param != null) {
-                    UnmanagedMemory.free(paramNative);
-                }
-                if (index != null) {
-                    UnmanagedMemory.free(indexNative);
+                try (
+                    CCharPointerHolder paramNative =
+                        param == null ?
+                        null :
+                        CTypeConversion.toCString(param);
+                    CCharPointerHolder indexNative =
+                        index == null ?
+                        null :
+                        CTypeConversion.toCString(index);
+                ) {
+                    NI_LIB.${nat("gpr_options_add_switch")}(
+                        this.reference.ni(),
+                        switch_.toC(),
+                        (param == null ?
+                            WordFactory.nullPointer() :
+                            paramNative.get()),
+                        (index == null ?
+                            WordFactory.nullPointer() :
+                            indexNative.get()),
+                        overwrite ? 1 : 0
+                    );
                 }
             } else {
                 JNI_LIB.${nat("gpr_options_add_switch")}(
@@ -524,19 +523,21 @@ nat = c_api.get_name
         public UnitProvider getProvider(final String subproject) {
             final UnitProvider result;
             if(ImageInfo.inImageCode()) {
-                final CCharPointer subprojectNative =
-                    subproject == null ?
-                    WordFactory.nullPointer() :
-                    toCString(subproject);
-
-                UnitProviderNative unitProviderNative = NI_LIB.${nat('gpr_project_create_unit_provider')}(
-                    this.reference.ni(),
-                    subprojectNative
-                );
-                result = UnitProvider.wrap(unitProviderNative);
-                if (subproject != null) {
-                    UnmanagedMemory.free(subprojectNative);
+                try (
+                    CCharPointerHolder subprojectNative =
+                        subproject == null ?
+                        null :
+                        CTypeConversion.toCString(subproject);
+                ) {
+                    UnitProviderNative unitProviderNative = NI_LIB.${nat('gpr_project_create_unit_provider')}(
+                        this.reference.ni(),
+                        (subproject == null ?
+                            WordFactory.nullPointer() :
+                            subprojectNative.get())
+                    );
+                    result = UnitProvider.wrap(unitProviderNative);
                 }
+
             } else {
                 result = JNI_LIB.${nat("gpr_project_create_unit_provider")}(
                     this,
@@ -561,55 +562,55 @@ nat = c_api.get_name
             int tabStop
         ) {
             if(ImageInfo.inImageCode()) {
-                // Prepare C values for native calls
-                final CCharPointer subproject_c =
-                  subproject == null
-                  ? WordFactory.nullPointer()
-                  : toCString(subproject);
-                EventHandlerNative eventHandler_c =
-                  eventHandler == null
-                  ? WordFactory.nullPointer()
-                  : eventHandler.reference.ni();
+                try (
+                    CCharPointerHolder subproject_c =
+                        subproject == null ?
+                        null :
+                        CTypeConversion.toCString(subproject);
+                ) {
+                    // Manually allocate a C-level analysis context so that we can
+                    // initialize it ourselves.
+                    final PointerWrapper context = new PointerWrapper(
+                        NI_LIB.${nat("allocate_analysis_context")}()
+                    );
 
-                // Manually allocate a C-level analysis context so that we can
-                // initialize it ourselves.
-                final PointerWrapper context = new PointerWrapper(
-                    NI_LIB.${nat("allocate_analysis_context")}()
-                );
+                    // Create the Java wrapper, so that we have one ready for
+                    // event handler callbacks triggered during context
+                    // initialization.
+                    AnalysisContext result =
+                        AnalysisContext.fromReference(context, eventHandler, true);
 
-                // Create the Java wrapper, so that we have one ready for
-                // event handler callbacks triggered during context
-                // initialization.
-                AnalysisContext result =
-                    AnalysisContext.fromReference(context, eventHandler, true);
-
-                // "result" has its own ownership share: release ours
-                NI_LIB.${nat("context_decref")}(context.ni());
-
-                // TODO: attach "this" to "result" so that the former lives at
-                // least as long as the former.
-
-                // Finally, initialize the analysis context. Note that this
-                // step may raise an exception: in that case, the analysis
-                // context is considered not initialized: release it.
-                NI_LIB.${nat("gpr_project_initialize_context")}(
-                    this.reference.ni(),
-                    context.ni(),
-                    subproject_c,
-                    eventHandler_c,
-                    withTrivia ? 1 : 0,
-                    tabStop
-                );
-                UnmanagedMemory.free(subproject_c);
-                final LangkitExceptionNative exc_c =
-                    NI_LIB.${nat("get_last_exception")}();
-                if (exc_c.isNonNull()) {
-                    LangkitException exc = wrapException(exc_c);
+                    // "result" has its own ownership share: release ours
                     NI_LIB.${nat("context_decref")}(context.ni());
-                    throw exc;
-                }
 
-                return result;
+                    // TODO: attach "this" to "result" so that the former lives at
+                    // least as long as the former.
+
+                    // Finally, initialize the analysis context. Note that this
+                    // step may raise an exception: in that case, the analysis
+                    // context is considered not initialized: release it.
+                    NI_LIB.${nat("gpr_project_initialize_context")}(
+                        this.reference.ni(),
+                        context.ni(),
+                        (subproject == null ?
+                            WordFactory.nullPointer() :
+                            subproject_c.get()),
+                        (eventHandler == null ?
+                            WordFactory.nullPointer() :
+                            eventHandler.reference.ni()),
+                        withTrivia ? 1 : 0,
+                        tabStop
+                    );
+                    final LangkitExceptionNative exc_c =
+                        NI_LIB.${nat("get_last_exception")}();
+                    if (exc_c.isNonNull()) {
+                        LangkitException exc = wrapException(exc_c);
+                        NI_LIB.${nat("context_decref")}(context.ni());
+                        throw exc;
+                    }
+
+                    return result;
+                }
             } else {
                 return JNI_LIB.${nat("gpr_project_create_context")}(
                     this,
@@ -640,50 +641,31 @@ nat = c_api.get_name
             LangkitException exc;
 
             if(ImageInfo.inImageCode()) {
-                // Convert the Java array of subprojects ("subprojects"
-                // argument) into the required C array
-                // (subprojectCount/subprojectsNative).
-                final int subprojectCount;
-                final CCharPointerPointer subprojectsNative;
-
-                if (subprojects != null && subprojects.length > 0) {
-                    subprojectCount = subprojects.length;
-                    subprojectsNative =
-                        UnmanagedMemory.calloc(
-                            subprojectCount * SizeOf.get(CCharPointerPointer.class)
+                try (
+                    CCharPointerPointerHolder subprojectsNative =
+                        subprojects == null ?
+                        null :
+                        CTypeConversion.toCStrings(subprojects);
+                ) {
+                    // Call the C API. Keep track of a potential native
+                    // ²exception.
+                    StringArrayNative sourceFileArray =
+                        NI_LIB.${nat('gpr_project_source_files')}(
+                            this.reference.ni(),
+                            mode.toC(),
+                            (subprojects == null ?
+                                WordFactory.nullPointer() :
+                                subprojectsNative.get()),
+                            (subprojects == null ? 0 : subprojects.length)
                         );
-                } else {
-                    subprojectCount = 0;
-                    subprojectsNative = WordFactory.nullPointer();
-                }
+                    exc = getLastException();
 
-                for (int i = 0; i < subprojectCount; ++i) {
-                    subprojectsNative.write(i, toCString(subprojects[i]));
-                }
-
-                // Call the C API. Keep track of a potential native exception.
-                StringArrayNative sourceFileArray =
-                    NI_LIB.${nat('gpr_project_source_files')}(
-                        this.reference.ni(),
-                        mode.toC(),
-                        subprojectsNative,
-                        subprojectCount
-                    );
-                exc = getLastException();
-
-                // If the call was successful, create the Java array result and
-                // initialize it, and free the C array result.
-                if(exc == null) {
-                    result = toJStringArray(sourceFileArray);
-                    NI_LIB.${nat("free_string_array")}(sourceFileArray);
-                }
-
-                // Release subprojectsNative
-                for (int i = 0; i < subprojectCount; ++i) {
-                    UnmanagedMemory.free(subprojectsNative.read(i));
-                }
-                if (subprojectCount > 0) {
-                    UnmanagedMemory.free(subprojectsNative);
+                    // If the call was successful, create the Java array result
+                    // and initialize it, and free the C array result.
+                    if(exc == null) {
+                        result = toJStringArray(sourceFileArray);
+                        NI_LIB.${nat("free_string_array")}(sourceFileArray);
+                    }
                 }
             } else {
                 result = JNI_LIB.${nat("gpr_project_source_files")}(
@@ -734,42 +716,28 @@ nat = c_api.get_name
         final String charset
     ) {
         if (ImageInfo.inImageCode()) {
-            final CCharPointer charsetNative =
-                charset == null ?
-                WordFactory.nullPointer() :
-                toCString(charset);
-
-            // Allocate the C array of C strings that will contain decoded
-            // source file names. Make room for one additional null pointer
-            // to mark the end of the array.
-            final CCharPointerPointer sourceFilesNative =
-                UnmanagedMemory.calloc(
-                    (sourceFiles.length + 1) * SizeOf.get(CCharPointerPointer.class)
-                );
-
-            for (int i = 0; i < sourceFiles.length; ++i) {
-                sourceFilesNative.write(i, toCString(sourceFiles[i]));
+            try (
+                CCharPointerPointerHolder sourceFilesNative =
+                    sourceFiles == null ?
+                    null :
+                    CTypeConversion.toCStrings(sourceFiles);
+                CCharPointerHolder charsetNative =
+                    charset == null ?
+                    null :
+                    CTypeConversion.toCString(charset);
+            ) {
+                final UnitProviderNative unitProviderNative =
+                    NI_LIB.${nat('create_auto_provider')}(
+                        (sourceFiles == null ?
+                            WordFactory.nullPointer() :
+                            sourceFilesNative.get()),
+                        (charset == null ?
+                            WordFactory.nullPointer() :
+                            charsetNative.get())
+                    );
+                return UnitProvider.wrap(unitProviderNative);
             }
 
-            // Create the auto provider
-            final UnitProviderNative unitProviderNative =
-                NI_LIB.${nat('create_auto_provider')}(
-                    sourceFilesNative,
-                    charsetNative
-                );
-
-            // Release all temporarily allocated memory
-            for (int i = 0; i < sourceFiles.length; ++i) {
-                UnmanagedMemory.free(sourceFilesNative.read(i));
-            }
-
-            UnmanagedMemory.free(sourceFilesNative);
-
-            if (charset != null) {
-                UnmanagedMemory.free(charsetNative);
-            }
-
-            return UnitProvider.wrap(unitProviderNative);
         } else {
             return JNI_LIB.${nat("create_auto_provider")}(
                 sourceFiles,

@@ -13,30 +13,37 @@ let format_exc_message msg =
   Str.replace_first (Str.regexp "\\([a-z_-]+\\.adb\\):[0-9]+") "\\1:XXX" msg
 
 let () =
-  let load_project
+  let try_load
         ?(project = "")
         ?(scenario_vars = [])
         ?(target = "")
         ?(runtime = "")
+        ?(ada_only = false)
         project_file
   =
     try ignore (GPRProject.load
-                  ~scenario_vars:scenario_vars
-                  ~target:target
-                  ~runtime:runtime
-                  project_file |> GPRProject.create_unit_provider ~project : UnitProvider.t) ;
-    (* These exceptions come from GNATCOLL and contain no message but a
-     *  reference to a sloc in gnatcoll-project.adb, so not worth testing. *)
+                  ~ada_only
+                  (GPROptions.quick_create
+                   ~scenario_vars
+                   ~target
+                   ~runtime
+                   project_file)
+                |> GPRProject.create_unit_provider ~project : UnitProvider.t) ;
+    (* These exceptions come from GPR2 and contain no message but a
+     * reference to a sloc in gnatcoll-project.adb, so not worth testing. *)
     with
       | ProjectError s ->
         Format.printf "@[<v>got ProjectError %s@ @ @]" (format_exc_message s)
+      | UsageError s ->
+        Format.printf "@[<v>got UsageError %s@ @ @]" (format_exc_message s)
   in
+
   (* Try to load a project file that is not valid *)
-  load_project "invalid.gpr" ;
+  try_load "invalid.gpr" ;
   (* Try to load a project file that does not exist *)
-  load_project "does_not_exist.gpr" ;
+  try_load "does_not_exist.gpr" ;
   (* Try to load a project that does not exist in the loaded tree *)
-  load_project
+  try_load
     ~project:"does_not_exist"
     ~scenario_vars:[("SRC_DIR", "src1")]
     "p.gpr"
@@ -44,7 +51,8 @@ let () =
 (* Test loading GPR files with unavailable toolchain *)
 let () =
   let check ada_only =
-    ignore (GPRProject.load ~ada_only:ada_only "foo.gpr");
+    ignore
+      (GPRProject.load ~ada_only:ada_only (GPROptions.quick_create "foo.gpr"));
   in
     Format.printf "@[<v>foo.gpr: All languages@ @]";
     check false;
@@ -56,8 +64,9 @@ let () =
 
 let test_src src_dir =
   let unit_provider =
-    GPRProject.(load ~scenario_vars:[("SRC_DIR", src_dir)] "p.gpr"
-                |> create_unit_provider)
+    GPRProject.load
+      (GPROptions.quick_create ~scenario_vars:[("SRC_DIR", src_dir)] "p.gpr")
+      |> GPRProject.create_unit_provider
   in
   let ctx = AnalysisContext.create ~unit_provider () in
   let filename = "p2.ads" in
@@ -86,7 +95,9 @@ let test_src src_dir =
 
 let analysis_context () =
   let open GPRProject in
-  let gpr = load ~scenario_vars:[("SRC_DIR", "src3")] "p.gpr" in
+  let gpr =
+    load (GPROptions.quick_create ~scenario_vars:[("SRC_DIR", "src3")] "p.gpr")
+  in
   create_analysis_context gpr
 
 let test_gpr_project_context () =

@@ -18,7 +18,7 @@ check (const char *label,
        int with_trivia,
        int tab_stop)
 {
-  ada_gpr_project_scenario_variable scn_var_trail = {NULL, NULL};
+  ada_gpr_options opts;
   ada_gpr_project gpr;
   ada_string_array_ptr errors;
   ada_analysis_context ctx;
@@ -35,10 +35,15 @@ check (const char *label,
   printf("== %s ==\n\n", label);
 
   /* Load the requested project tree.  */
-  ada_gpr_project_load (root_project, &scn_var_trail, NULL, NULL, NULL, 0,
-			&gpr, &errors);
+  opts = ada_gpr_options_create ();
+  abort_on_exception ();
+  ada_gpr_options_add_switch (opts, ADA_GPR_OPTION_P, root_project, NULL, 0);
+  abort_on_exception ();
+  ada_gpr_project_load (opts, 0, &gpr, &errors);
   abort_on_exception ();
 
+  ada_gpr_options_free (opts);
+  abort_on_exception ();
   ada_free_string_array (errors);
   abort_on_exception ();
 

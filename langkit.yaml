@@ -13,6 +13,8 @@ library:
   external_exceptions:
     - exception: GPR2.Project_Error
       doc_section: libadalang.project_provider
+    - exception: GPR2.Options.Usage_Error
+      doc_section: libadalang.project_provider
     - exception: Libadalang.Project_Provider.Unsupported_View_Error
       doc_section: libadalang.project_provider
   property_exceptions:
@@ -118,11 +120,28 @@ mains:
     - navigate
 
 extra_docs:
+    libadalang.gpr_options: |
+        Holder for GPR loading options.
+
+    libadalang.gpr_options_create: |
+        Create a new holder for GPR loading options.
+
+    libadalang.gpr_options_add_switch: |
+      Add a switch to the given options.
+
+      ``Switch`` is the position of the ``GPR2.Options.Option`` enumeration
+      value for the switch to add.
+
+      ``Param`` and ``Index`` are the strings to pass to
+      ``GPR2.Options.Add_Switch``, and can be null to designate empty strings.
+
+      ``Override`` encodes False as zero and True as any other value.
+
+    libadalang.gpr_options_free: |
+        Dellocate the given holder for GPR loading options.
+
     libadalang.gpr_project: |
         Loaded GPR project file.
-
-    libadalang.gpr_scenario_variable: |
-        Couple name/value to define a scenario variable for a project.
 
     libadalang.string_array: |
         List of strings.
@@ -131,8 +150,7 @@ extra_docs:
         Free the given list of strings.
 
     libadalang.gpr_project_load: |
-        Load the ``Project_File`` GPR file with the given scenario variables,
-        target, runtime and GPR configuration file (all optional).
+        Load the ``Project_File`` GPR file with the given options.
 
         If ``Ada_Only`` is true, call ``Restrict_Autoconf_To_Languages`` to
         make GPR only consider the Ada language.
@@ -140,11 +158,6 @@ extra_docs:
         On success, set ``Project`` to a newly allocated ``ada_gpr_project``,
         as well as a possibly empty list of error messages in ``Errors``.
         Raise an ``Invalid_Project`` exception on failure.
-
-    libadalang.gpr_project_load_implicit: |
-        Load an implicit project in the current directory. This function uses
-        ``GNATCOLL.Projects.Load_Implicit_Project`` to load the
-        ``_default.gpr`` project file.
 
     libadalang.gpr_project_free: |
         Free resources allocated for ``Self``.
@@ -331,6 +344,9 @@ extra_docs:
     libadalang.project_provider.unsupported_view_error: |
         Raised when creating a project unit provider for an unsupported project
         view (for instance, a view with conflicting aggregated projects).
+
+    libadalang.project_provider.usage_error: |
+        Raised when a wrong usage of project file loading options is detected.
 
     libadalang.create_auto_provider: |
         Return a unit provider that knows which compilation units are to be

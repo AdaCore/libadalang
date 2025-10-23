@@ -1,5 +1,9 @@
 ## vim: filetype=makopython
 
+import enum
+from typing import overload
+
+
 def token_match(self, other):
     """
     Helper for the finditer/find/findall methods, so that a token matches
@@ -139,6 +143,71 @@ class SourceFilesMode(enum.Enum):
     whole_project_with_runtime = 3
 
 
+class GPROptions:
+    ${py_doc("libadalang.gpr_options", 4)}
+
+    class Option(enum.IntEnum):
+        AP = 0
+        AUTOCONF = 1
+        CONFIG = 2
+        DB = 3
+        DB_MINUS = 4
+        IMPLICIT_WITH = 5
+        RESOLVE_LINKS = 6
+        NO_PROJECT = 7
+        P = 8
+        PRINT_GPR_REGISTRY = 9
+        RELOCATE_BUILD_TREE = 10
+        ROOT_DIR = 11
+        RTS = 12
+        SRC_SUBDIRS = 13
+        SUBDIRS = 14
+        TARGET = 15
+        X = 16
+
+    def __init__(self) -> None:
+        self._c_value = self._c_create()
+
+    def add_switch(
+        self,
+        switch: GPROptions.Option,
+        param: str = "",
+        index: str = "",
+        override: bool = False,
+    ) -> None:
+        ${py_doc("libadalang.gpr_options_add_switch", 8)}
+        assert isinstance(switch, GPROptions.Option)
+        c_param = _coerce_bytes("param", param, or_none=True)
+        c_index = _coerce_bytes("index", index, or_none=True)
+        c_override = bool(override)
+        self._c_add_switch(self._c_value, switch, c_param, c_index, c_override)
+
+    def __del__(self):
+        if self._c_value is not None:
+            self._c_free(self._c_value)
+
+    _c_type = _hashable_c_pointer()
+    _c_create = staticmethod(
+        _import_func("ada_gpr_options_create", [], _c_type)
+    )
+    _c_add_switch = staticmethod(
+        _import_func(
+            "ada_gpr_options_add_switch",
+            [
+                _c_type,
+                ctypes.c_int,
+                ctypes.c_char_p,
+                ctypes.c_char_p,
+                ctypes.c_int,
+            ],
+            None,
+        )
+    )
+    _c_free = staticmethod(
+        _import_func("ada_gpr_options_free", [_c_type], None)
+    )
+
+
 class GPRProject:
     """
     Load a GPR project file.
@@ -153,21 +222,22 @@ class GPRProject:
             # long as the unit provider.
             self._project = project
 
-    def __init__(self,
-                 project_file: str,
-                 scenario_vars: Dict[str, str] = {},
-                 target: Opt[str] = None,
-                 runtime: Opt[str] = None,
-                 config_file: Opt[str] = None,
-                 ada_only: bool = False,
-                 print_errors: bool = True):
+    def __init__(
+        self,
+        project_file: str | GPROptions,
+        scenario_vars: Dict[str, str] = {},
+        target: Opt[str] = None,
+        runtime: Opt[str] = None,
+        config_file: Opt[str] = None,
+        ada_only: bool = False,
+        print_errors: bool = True):
         """
         Load a GPR project file.
 
         This may raise an ``InvalidProjectError`` exception if an error occurs
         when loading the project.
 
-        :param project_file: Filename for the project to load.
+        :param project_file: Filename for the project to load, or GPR options.
         :param screnario_vars: External variables for the project to load.
         :param target: Name of the target for the project to load. Assume the
             native platform if left to None.
@@ -186,38 +256,34 @@ class GPRProject:
         # constructor aborts later on because of an exception.
         self._c_value = None
 
-        # Turn arguments into C API values
-        c_project_file = _coerce_bytes('project_file', project_file)
-        c_target = _coerce_bytes('target', target, or_none=True)
-        c_runtime = _coerce_bytes('runtime', runtime, or_none=True)
-        c_config_file = _coerce_bytes('config_file', config_file, or_none=True)
-
-        if scenario_vars:
-            items = scenario_vars.items()
-            scn_vars_array_type = (
-                self._c_scenario_variable * (len(items) + 1)
+        # Collect GPR lodaing options
+        if isinstance(project_file, GPROptions):
+            opts = project_file
+        else:
+            opts = GPROptions()
+            opts.add_switch(
+                GPROptions.Option.P,
+                _coerce_bytes("project_file", project_file),
             )
-            c_scenario_vars = scn_vars_array_type()
-            for i, (name, value) in enumerate(items):
+
+        if target:
+            opts.add_switch(GPROptions.Option.TARGET, target)
+        if runtime:
+            opts.add_switch(GPROptions.Option.RTS, runtime)
+        if config_file:
+            opts.add_switch(GPROptions.Option.CONFIG, config_file)
+        if scenario_vars:
+            for name, value in scenario_vars.items():
                 what = 'a dict mapping bytes strings to bytes strings'
                 name = _coerce_bytes('scenario_vars', name, what)
                 value = _coerce_bytes('scenario_vars', value, what)
-                c_scenario_vars[i] = self._c_scenario_variable(
-                    name, value
-                )
-            c_scenario_vars[-1] = self._c_scenario_variable(None, None)
-        else:
-            c_scenario_vars = None
+                opts.add_switch(GPROptions.Option.X, name + b"=" + value)
 
         # Load the project
         c_errors = _c_string_array_ptr()
         c_project = self._c_type()
         self._c_load(
-            c_project_file,
-            c_scenario_vars,
-            c_target,
-            c_runtime,
-            c_config_file,
+            opts._c_value,
             int(ada_only),
             ctypes.byref(c_project),
             ctypes.byref(c_errors),
@@ -414,11 +480,7 @@ class GPRProject:
 
     _c_load = staticmethod(_import_func(
         "ada_gpr_project_load",
-        [ctypes.c_char_p,
-         ctypes.POINTER(_c_scenario_variable),
-         ctypes.c_char_p,
-         ctypes.c_char_p,
-         ctypes.c_char_p,
+        [GPROptions._c_type,
          ctypes.c_int,
          ctypes.POINTER(_c_type),
          ctypes.POINTER(_c_string_array_ptr)],

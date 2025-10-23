@@ -44,14 +44,22 @@ package body Libadalang.Implementation.C.Extensions is
    function Unwrap is new Ada.Unchecked_Conversion
      (ada_gpr_project, GPR2_Tree_Access);
 
+   type GPR2_Options_Access is access all GPR2.Options.Object;
+   pragma No_Strict_Aliasing (GPR2_Options_Access);
+   procedure Free is new Ada.Unchecked_Deallocation
+     (GPR2.Options.Object, GPR2_Options_Access);
+   function Wrap is new Ada.Unchecked_Conversion
+     (GPR2_Options_Access, ada_gpr_options);
+   function Unwrap is new Ada.Unchecked_Conversion
+     (ada_gpr_options, GPR2_Options_Access);
+
+   function From_C (Switch : int) return GPR2.Options.Option;
+   --  Convert a C-level GPR2 option to the corresponding Ada-level value.
+   --  Raises a ``Constraint_Error`` in case the conversion cannot be done.
+
    function To_C_Provider
      (Provider : Unit_Provider_Reference) return ada_unit_provider
    is (Wrap_Private_Provider (Wrap_Public_Provider (Provider)));
-
-   function Scenario_Vars_Count
-     (Scenario_Vars : System.Address) return Natural;
-   --  Return the number of scenario variables in the Scenario_Vars C-style
-   --  array. This counts the number of entries before the first NULL entry.
 
    package String_Vectors is new Ada.Containers.Vectors
      (Positive, Unbounded_String);
@@ -60,17 +68,13 @@ package body Libadalang.Implementation.C.Extensions is
    --  Convert a list of strings to the corresponding C value
 
    procedure Load_Project
-     (Project_File                 : chars_ptr;
-      Scenario_Vars                : System.Address;
-      Target, Runtime, Config_File : chars_ptr;
-      Tree                         : out GPR2.Project.Tree.Object;
-      Errors                       : out String_Vectors.Vector;
-      Exc                          : out Exception_Occurrence);
+     (Options : GPR2.Options.Object;
+      Tree    : out GPR2.Project.Tree.Object;
+      Errors  : out String_Vectors.Vector;
+      Exc     : out Exception_Occurrence);
    --  Helper to load a project file from C arguments. May set Exc to a
    --  ``GPR2.Project_Error`` exception if the project cannot be loaded: in
    --  this case it is up to the caller to re-raise it.
-   --  If ``Project_File`` is a null pointer or an empty string, set the
-   --  ``GPR2.Options.No_Project`` switch.
 
    function Fetch_Project
      (Tree         : GPR2.Project.Tree.Object;
@@ -101,23 +105,38 @@ package body Libadalang.Implementation.C.Extensions is
      (Self : GPR2_Reporter_Type) return GPR2.Reporter.Verbosity_Level
    is (GPR2.Reporter.Regular);
 
-   -------------------------
-   -- Scenario_Vars_Count --
-   -------------------------
+   ------------
+   -- From_C --
+   ------------
 
-   function Scenario_Vars_Count (Scenario_Vars : System.Address) return Natural
-   is
-      Result : Natural := 1;
-      SV     : ada_gpr_project_scenario_variable_array (Positive)
-         with Import  => True,
-              Address => Scenario_Vars;
+   function From_C (Switch : int) return GPR2.Options.Option is
    begin
-      loop
-         exit when SV (Result).Name = Null_Ptr;
-         Result := Result + 1;
-      end loop;
-      return Result - 1;
-   end Scenario_Vars_Count;
+      --  Do not use GPR2.Options.Option'Val because that would tie the C API
+      --  to the GPR2.Options.Option, which would mean that new enumeration
+      --  values in GPR2 would change the integer values in the C API, thus
+      --  breaking the C API automatically.
+
+      return (case Switch is
+              when 0      => GPR2.Options.AP,
+              when 1      => GPR2.Options.Autoconf,
+              when 2      => GPR2.Options.Config,
+              when 3      => GPR2.Options.Db,
+              when 4      => GPR2.Options.Db_Minus,
+              when 5      => GPR2.Options.Implicit_With,
+              when 6      => GPR2.Options.Resolve_Links,
+              when 7      => GPR2.Options.No_Project,
+              when 8      => GPR2.Options.P,
+              when 9      => GPR2.Options.Print_GPR_Registry,
+              when 10     => GPR2.Options.Relocate_Build_Tree,
+              when 11     => GPR2.Options.Root_Dir,
+              when 12     => GPR2.Options.RTS,
+              when 13     => GPR2.Options.Src_Subdirs,
+              when 14     => GPR2.Options.Subdirs,
+              when 15     => GPR2.Options.Target,
+              when 16     => GPR2.Options.X,
+              when others => raise Constraint_Error
+                             with "invalid GPR2 loading option");
+   end From_C;
 
    ----------
    -- To_C --
@@ -143,61 +162,11 @@ package body Libadalang.Implementation.C.Extensions is
    ------------------
 
    procedure Load_Project
-     (Project_File                 : chars_ptr;
-      Scenario_Vars                : System.Address;
-      Target, Runtime, Config_File : chars_ptr;
-      Tree                         : out GPR2.Project.Tree.Object;
-      Errors                       : out String_Vectors.Vector;
-      Exc                          : out Exception_Occurrence)
-   is
-      Project_File_Value : constant String :=
-        (if Project_File = Null_Ptr then "" else Value (Project_File));
-      Target_Value       : constant String :=
-        (if Target = Null_Ptr then "" else Value (Target));
-      Runtime_Value      : constant String :=
-        (if Runtime = Null_Ptr then "" else Value (Runtime));
-      Config_File_Value  : constant String :=
-        (if Config_File = Null_Ptr then "" else Value (Config_File));
-
-      Options : GPR2.Options.Object;
+     (Options : GPR2.Options.Object;
+      Tree    : out GPR2.Project.Tree.Object;
+      Errors  : out String_Vectors.Vector;
+      Exc     : out Exception_Occurrence) is
    begin
-      if Project_File_Value = "" then
-         Options.Add_Switch (GPR2.Options.No_Project);
-      else
-         Options.Add_Switch (GPR2.Options.P, Project_File_Value);
-      end if;
-
-      if Target_Value /= "" then
-         Options.Add_Switch (GPR2.Options.Target, Target_Value);
-      end if;
-
-      if Runtime_Value /= "" then
-         Options.Add_Switch (GPR2.Options.RTS, Runtime_Value);
-      end if;
-
-      if Config_File_Value /= "" then
-         Options.Add_Switch (GPR2.Options.Config, Config_File_Value);
-      end if;
-
-      if Scenario_Vars /= System.Null_Address then
-         declare
-            Vars : ada_gpr_project_scenario_variable_array
-                     (1 .. Scenario_Vars_Count (Scenario_Vars))
-               with Import  => True,
-                    Address => Scenario_Vars;
-         begin
-            for V of Vars loop
-               declare
-                  Var_Name  : constant String := Value (V.Name);
-                  Var_Value : constant String := Value (V.Value);
-               begin
-                  Options.Add_Switch
-                    (GPR2.Options.X, Var_Name & "=" & Var_Value);
-               end;
-            end loop;
-         end;
-      end if;
-
       --  Load the project tree and include source information.
       --
       --  Never complain about missing directories: most of the time for
@@ -272,17 +241,77 @@ package body Libadalang.Implementation.C.Extensions is
       Free (Value);
    end ada_free_string_array;
 
+   ----------------------------
+   -- ada_gpr_options_create --
+   ----------------------------
+
+   function ada_gpr_options_create return ada_gpr_options is
+      Result : GPR2_Options_Access;
+   begin
+      Clear_Last_Exception;
+      Result := new GPR2.Options.Object;
+      return Wrap (Result);
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+         return Wrap (null);
+   end ada_gpr_options_create;
+
+   --------------------------------
+   -- ada_gpr_options_add_switch --
+   --------------------------------
+
+   procedure ada_gpr_options_add_switch
+     (Options  : ada_gpr_options;
+      Switch   : int;
+      Param    : chars_ptr;
+      Index    : chars_ptr;
+      Override : int) is
+   begin
+      Clear_Last_Exception;
+
+      declare
+         Opts : constant GPR2_Options_Access := Unwrap (Options);
+         S    : constant GPR2.Options.Option := From_C (Switch);
+         P    : constant String :=
+           (if Param = Null_Ptr then "" else Value (Param));
+         I    : constant String :=
+           (if Index = Null_Ptr then "" else Value (Index));
+         O    : constant Boolean := Override /= 0;
+      begin
+         Opts.Add_Switch (S, P, I, O);
+      end;
+
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+   end ada_gpr_options_add_switch;
+
+   --------------------------
+   -- ada_gpr_options_free --
+   --------------------------
+
+   procedure ada_gpr_options_free (Options : ada_gpr_options) is
+      O : GPR2_Options_Access;
+   begin
+      Clear_Last_Exception;
+      O := Unwrap (Options);
+      Free (O);
+
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+   end ada_gpr_options_free;
+
    --------------------------
    -- ada_gpr_project_load --
    --------------------------
 
    procedure ada_gpr_project_load
-     (Project_File                 : chars_ptr;
-      Scenario_Vars                : System.Address;
-      Target, Runtime, Config_File : chars_ptr;
-      Ada_Only                     : int;
-      Project                      : access ada_gpr_project;
-      Errors                       : access ada_string_array_ptr)
+     (Options  : ada_gpr_options;
+      Ada_Only : int;
+      Project  : access ada_gpr_project;
+      Errors   : access ada_string_array_ptr)
    is
       P   : GPR2_Tree_Access;
       Err : String_Vectors.Vector;
@@ -300,11 +329,7 @@ package body Libadalang.Implementation.C.Extensions is
          end;
       end if;
       Load_Project
-        (Project_File,
-         Scenario_Vars,
-         Target,
-         Runtime,
-         Config_File,
+        (Unwrap (Options).all,
          P.all,
          Err,
          Exc);
@@ -337,27 +362,6 @@ package body Libadalang.Implementation.C.Extensions is
       Project.all := Wrap (P);
       Errors.all := To_C (Err);
    end ada_gpr_project_load;
-
-   -----------------------------------
-   -- ada_gpr_project_load_implicit --
-   -----------------------------------
-
-   procedure ada_gpr_project_load_implicit
-     (Target, Runtime, Config_File : chars_ptr;
-      Project                      : access ada_gpr_project;
-      Errors                       : access ada_string_array_ptr)
-   is
-   begin
-      ada_gpr_project_load
-        (Null_Ptr,
-         System.Null_Address,
-         Target,
-         Runtime,
-         Config_File,
-         0,
-         Project,
-         Errors);
-   end ada_gpr_project_load_implicit;
 
    --------------------------
    -- ada_gpr_project_free --
@@ -511,57 +515,6 @@ package body Libadalang.Implementation.C.Extensions is
          return New_String (Default_Charset_From_Project (Tree, Prj));
       end;
    end ada_gpr_project_default_charset;
-
-   --------------------------------------
-   -- ada_create_project_unit_provider --
-   --------------------------------------
-
-   function ada_create_project_unit_provider
-     (Project_File, Project : chars_ptr;
-      Scenario_Vars         : System.Address;
-      Target, Runtime       : chars_ptr) return ada_unit_provider
-   is
-      Tree : GPR2.Project.Tree.Object;
-      View : GPR2.Project.View.Object;
-
-      Exc          : Exception_Occurrence;
-      Dummy_Errors : String_Vectors.Vector;
-
-      Project_Value : constant String :=
-        (if Project = Null_Ptr then "" else Value (Project));
-   begin
-      Clear_Last_Exception;
-
-      --  Load the project tree
-
-      Load_Project
-        (Project_File,
-         Scenario_Vars,
-         Target,
-         Runtime,
-         Null_Ptr,
-         Tree,
-         Dummy_Errors,
-         Exc);
-      if Exception_Identity (Exc) /= Null_Id then
-         Reraise_Occurrence (Exc);
-      end if;
-
-      --  Fetch the requested sub-project, if any
-
-      if Project_Value /= "" then
-         View := Lookup (Tree, Project_Value);
-      end if;
-
-      --  Create the unit provider
-
-      return To_C_Provider (Create_Project_Unit_Provider (Tree, View));
-
-   exception
-      when Exc : Unsupported_View_Error | GPR2.Project_Error =>
-         Set_Last_Exception (Exc);
-         return ada_unit_provider (System.Null_Address);
-   end ada_create_project_unit_provider;
 
    ----------------------------------------
    -- ada_gpr_project_initialize_context --

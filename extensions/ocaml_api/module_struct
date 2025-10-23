@@ -28,46 +28,110 @@ module TargetInformation = struct
   let set ctx info = c_set ctx.c_value info
 end
 
+module GPROptionsStruct : sig
+  type t
+  val c_type : t typ
+  val create : unit -> t
+  val add_switch : t -> int -> string -> string -> bool -> unit
+end = struct
+  type t = unit ptr ptr
+
+  let c_free =
+    foreign ~from:c_lib "ada_gpr_options_free"
+      (ptr void @-> raisable void)
+
+  let read c_value =
+    let finalise arg =
+      c_free (!@ arg)
+    in
+    allocate ~finalise (ptr void) c_value
+
+  let write value = (!@ value)
+
+  let c_type = view (ptr void) ~read ~write
+
+  let create =
+    foreign ~from:c_lib "${capi.get_name('gpr_options_create')}"
+      (void @-> raisable c_type)
+
+  let add_switch =
+    foreign ~from:c_lib "${capi.get_name('gpr_options_add_switch')}"
+      (c_type @-> int @-> string @-> string @-> bool @-> raisable void)
+end
+
+module GPROptions = struct
+  type t = GPROptionsStruct.t
+
+  type gpr_option =
+    | AP
+    | Autoconf
+    | Config
+    | Db
+    | DbMinus
+    | ImplicitWith
+    | ResolveLinks
+    | NoProject
+    | P
+    | PrintGPRRegistry
+    | RelocateBuildTree
+    | RootDir
+    | RTS
+    | SrcSubdirs
+    | Subdirs
+    | Target
+    | X
+
+  let c_gpr_option = function
+    | AP -> 0
+    | Autoconf -> 1
+    | Config -> 2
+    | Db -> 3
+    | DbMinus -> 4
+    | ImplicitWith -> 5
+    | ResolveLinks -> 6
+    | NoProject -> 7
+    | P -> 8
+    | PrintGPRRegistry -> 9
+    | RelocateBuildTree -> 10
+    | RootDir -> 11
+    | RTS -> 12
+    | SrcSubdirs -> 13
+    | Subdirs -> 14
+    | Target -> 15
+    | X -> 16
+
+  let create () = GPROptionsStruct.create ()
+
+  let add_switch
+        switch
+        ?(param = "")
+        ?(index = "")
+        ?(override = false)
+        gpr_options =
+    GPROptionsStruct.add_switch
+      gpr_options (c_gpr_option switch) param index override
+
+  let quick_create
+        ?(scenario_vars=[])
+        ?target
+        ?runtime
+        project =
+    let opts = GPROptionsStruct.create () in
+    add_switch P ~param:project opts;
+    List.iter
+      (fun (k, v) -> add_switch X ~param:(k ^ "=" ^ v) opts)
+      scenario_vars ;
+    ( match target with
+      | Some "" | None -> ()
+      | Some target -> add_switch Target ~param:target opts ) ;
+    ( match runtime with
+      | Some "" | None -> ()
+      | Some rts -> add_switch RTS ~param:rts opts) ;
+    opts
+
+end
+
 module GPRProject = struct
-  type project_scenario_variable
-
-  let c_project_scenario_variable : project_scenario_variable structure typ =
-    structure "project_scenario_variable"
-
-  let scenario_var_name = field c_project_scenario_variable "name" (ptr char)
-
-  let scenario_var_value = field c_project_scenario_variable "value" (ptr char)
-
-  let () = seal c_project_scenario_variable
-
-  let create_scenario_variable scenario_vars =
-    (* One more to store (null, null) *)
-    let scenario_vars_len = List.length scenario_vars + 1 in
-    let c_scenario_vars =
-      (* Allocates a fresh array with given size, fill with zeros. Thus,
-         the last cell is already (null, null) *)
-      allocate_n c_project_scenario_variable ~count:scenario_vars_len
-    in
-    let fill_scenario_vars i (name, value) =
-      let c_struct = make c_project_scenario_variable in
-      let name = char_ptr_of_string name in
-      let value = char_ptr_of_string value in
-      setf c_struct scenario_var_name name ;
-      add_gc_link ~from:c_scenario_vars ~to_:name ;
-      setf c_struct scenario_var_value value ;
-      add_gc_link ~from:c_scenario_vars ~to_:value ;
-      c_scenario_vars +@ i <-@ c_struct
-    in
-    List.iteri fill_scenario_vars scenario_vars ;
-    c_scenario_vars
-
-  (* project_scenario_variable is never wrapped *)
-  let project_scenario_variable =
-    view
-      (ptr c_project_scenario_variable)
-      ~read:(fun _ -> assert false)
-      ~write:create_scenario_variable
-
   type string_array
 
   let c_string_array : string_array structure typ =
@@ -116,25 +180,18 @@ module GPRProject = struct
 
   let gpr_project_load =
     foreign ~from:c_lib "${capi.get_name("gpr_project_load")}"
-    (string @-> project_scenario_variable @-> string
-     @-> string @-> string @-> bool @-> ptr c_type @-> ptr string_array
+    (GPROptionsStruct.c_type @-> bool @-> ptr c_type @-> ptr string_array
      @-> raisable void)
 
   let gpr_project_create_preprocessor =
     foreign ~from:c_lib "${capi.get_name("gpr_project_create_preprocessor")}"
       (c_type @-> string @-> ptr int @-> raisable FileReader.c_type)
 
-  let load
-      ?(scenario_vars = [])
-      ?(target = "")
-      ?(runtime = "")
-      ?(ada_only = false)
-      project_file : t =
+  let load ?(ada_only = false) options : t =
     (* Use allocate_n to avoid having to give it an initial value *)
     let result = allocate_n ~count:1 c_type in
     let errors = allocate_n ~count:1 string_array in
-    gpr_project_load
-      project_file scenario_vars target runtime "" ada_only result errors ;
+    gpr_project_load options ada_only result errors ;
     (* Not sure what to do with errors here as we already have an exception *)
     !@ result
 

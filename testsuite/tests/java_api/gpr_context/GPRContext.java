@@ -22,25 +22,35 @@ public class GPRContext {
         System.out.println("");
 
         // Load the requested project and create the analysis context from it.
-        Libadalang.ProjectManager gpr = Libadalang.ProjectManager.create(
-            root_project
-        );
-
         Libadalang.AnalysisContext ctx;
-        try {
-            ctx = gpr.createContext(
-                project,
-                eventHandler,
-                withTrivia,
-                tabStop
-            );
-        } catch (Libadalang.LangkitException e) {
-            if (e.kind
-                != Libadalang.ExceptionKind.UNSUPPORTED_VIEW_ERROR)
-                throw new RuntimeException();
-            System.out.println("Unsupported_View_Error: " + e.getMessage());
-            System.out.println("");
-            return;
+        try (
+            Libadalang.ProjectOptions opts = new Libadalang.ProjectOptions();
+        ) {
+            opts.addSwitch(Libadalang.ProjectOption.P, root_project);
+            try (
+                Libadalang.ProjectManager gpr =
+                    new Libadalang.ProjectManager(opts, false);
+            ) {
+                try {
+                    ctx = gpr.createContext(
+                        project,
+                        eventHandler,
+                        withTrivia,
+                        tabStop
+                    );
+                } catch (Libadalang.LangkitException e) {
+                    if (
+                        e.kind
+                        != Libadalang.ExceptionKind.UNSUPPORTED_VIEW_ERROR
+                    )
+                        throw new RuntimeException();
+                    System.out.println(
+                        "Unsupported_View_Error: " + e.getMessage()
+                    );
+                    System.out.println("");
+                    return;
+                }
+            }
         }
 
         Libadalang.AnalysisUnit u = ctx.getUnitFromProvider(

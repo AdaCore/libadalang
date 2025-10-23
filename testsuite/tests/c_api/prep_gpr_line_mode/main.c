@@ -97,6 +97,9 @@ main(void)
   line_mode = 2;
   run_test (line_mode_ref);
 
+  line_mode = 3;
+  run_test (line_mode_ref);
+
   run_test (NULL);
 
   puts("Done.");

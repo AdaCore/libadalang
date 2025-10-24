@@ -175,23 +175,19 @@ properly generate Sphinx that documents Ada API:
 
 .. code-block:: sh
 
-   $ pip install contrib/laldoc
-   $ pip install git+https://github.com/AdaCore/sphinxcontrib-adadomain
+   $ git clone git+https://github.com/AdaCore/sphinxcontrib-adadomain
+   $ cd sphinxcontrib-adadomain
+   $ make
+   $ pip install wheels/sphinxcontrib_adadomain-*.whl
+   $ pip install laldoc/wheels/laldoc-*.whl
 
 From there, building this documentation as a set of static HTML pages is as
 easy as running the following command from the ``user_manual`` directory:
 
 .. code-block:: sh
 
-   $ make newhtml
+   $ make html
 
 Assuming successful completion, the documentation is then available in
 the ``user_manual/_build/html`` directory: you can start reading it from the
 ``index.html`` page.
-
-Note that on Mac OS X, security features require you to explicitly pass the
-``LD_LIBRARY_PATH`` environment variable:
-
-.. code-block:: sh
-
-   $ make newhtml LD_LIBRARY_PATH="$LD_LIBRARY_PATH"

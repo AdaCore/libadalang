@@ -3,7 +3,7 @@ Building Libadalang
 
 First, note that if you have access to a pre-built Libadalang package, bundled
 with GNAT Pro if you have a GNAT Pro subscription (for community users, we have
-a Libadalang crate on `Alire <https://alire.ada.dev/crates/libadalang>`_), then
+a Libadalang crate on `Alire <https://alire.ada.dev/crates/libadalang>`__), then
 you do not need to go through the following steps: just follow the instructions
 in the ``README`` file that comes with this pre-built package.
 
@@ -17,7 +17,7 @@ following steps:
 * Install the GNAT tools and compiler. If do not have access to GNAT Pro, you
   can find public editions of the Ada toolchain on your distribution repository
   (as for example `here <https://packages.debian.org/sid/gnat>`_ for Debian) or
-  by installing it from `Alire <https://alire.ada.dev/docs/>`_.
+  by installing it from `Alire <https://alire.ada.dev/docs/>`__.
 
 * Build and install the GNATcoll library (core, plus Iconv and GMP bindings).
   You can find its source release on `AdaCore's website
@@ -175,23 +175,19 @@ properly generate Sphinx that documents Ada API:
 
 .. code-block:: sh
 
-   $ pip install contrib/laldoc
-   $ pip install git+https://github.com/AdaCore/sphinxcontrib-adadomain
+   $ git clone git+https://github.com/AdaCore/sphinxcontrib-adadomain
+   $ cd sphinxcontrib-adadomain
+   $ make
+   $ pip install wheels/sphinxcontrib_adadomain-*.whl
+   $ pip install laldoc/wheels/laldoc-*.whl
 
 From there, building this documentation as a set of static HTML pages is as
 easy as running the following command from the ``user_manual`` directory:
 
 .. code-block:: sh
 
-   $ make newhtml
+   $ make html
 
 Assuming successful completion, the documentation is then available in
 the ``user_manual/_build/html`` directory: you can start reading it from the
 ``index.html`` page.
-
-Note that on Mac OS X, security features require you to explicitly pass the
-``LD_LIBRARY_PATH`` environment variable:
-
-.. code-block:: sh
-
-   $ make newhtml LD_LIBRARY_PATH="$LD_LIBRARY_PATH"

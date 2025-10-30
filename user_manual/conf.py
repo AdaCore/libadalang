@@ -34,10 +34,8 @@ extensions = [
     'sphinx.ext.extlinks',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinxcontrib.adadomain'
 ]
-
-if tags.has('new_laldoc'):
-    extensions.append('sphinxcontrib.adadomain')
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -53,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Libadalang User Manual'
-copyright = u'2014-2023, AdaCore'
+copyright = u'2014-2025, AdaCore'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -115,7 +113,6 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 html_theme = "sphinx_rtd_theme"
-html_theme_path = sphinx_rtd_theme.get_html_theme_path()
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -147,7 +144,7 @@ html_favicon = "favicon.ico"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -284,7 +281,7 @@ texinfo_documents = [
 epub_title = u'libadalang'
 epub_author = u'AdaCore'
 epub_publisher = u'AdaCore'
-epub_copyright = u'2014-2023, AdaCore'
+epub_copyright = u'2014-2025, AdaCore'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'libadalang'
@@ -367,10 +364,6 @@ def setup(app):
     except:
         print('ERROR: could not import Libadalang')
         raise
-
-    if tags.has('legacy_laldoc'):
-        import laldoc
-        app.add_directive('ada_auto_package', laldoc.AutoPackage)
 
     from sphinxcontrib import adadomain
     # Register the rmlink role at the toplevel, so that we can reference the RM

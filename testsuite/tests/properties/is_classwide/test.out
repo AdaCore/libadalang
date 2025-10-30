@@ -1,0 +1,29 @@
+Working on node <ConcreteTypeDecl ["A"] test.adb:2:4-2:33>
+==========================================================
+
+Eval 'node.p_is_classwide'
+Result: False
+
+Working on node <SubtypeDecl ["B"] test.adb:5:4-5:25>
+=====================================================
+
+Eval 'node.p_is_classwide'
+Result: True
+
+Working on node <SubtypeDecl ["C"] test.adb:8:4-8:19>
+=====================================================
+
+Eval 'node.p_is_classwide'
+Result: True
+
+Working on node <SubpDecl ["D"] test.adb:11:4-11:32>
+====================================================
+
+Eval 'node.f_subp_spec.p_params[0].p_formal_type().p_is_classwide'
+Result: True
+
+Working on node <ConcreteTypeDecl ["E"] test.adb:14:4-14:27>
+============================================================
+
+Eval 'node.p_is_classwide'
+Result: False

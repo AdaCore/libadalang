@@ -9352,6 +9352,8 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin=null[AdaNode])
     fun is_enum_type(): Bool = false
 
+    |" Whether self is a classwide type.
+    @exported
     fun is_classwide(): Bool = false
 
     |" Whether self is an access type or not

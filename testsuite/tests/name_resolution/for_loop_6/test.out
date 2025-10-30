@@ -5,7 +5,7 @@ Resolving xrefs for node <ForLoopSpec test.adb:13:8-13:41>
 **********************************************************
 
 Expr: <DottedName test.adb:13:14-13:23>
-  references:    <| DefiningName "Iterate" a-cohama.ads:407:13-407:20 [test.adb:6:4] |>
+  references:    <| DefiningName "Iterate" a-cohama.ads:408:13-408:20 [test.adb:6:4] |>
   type:          <| ClasswideTypeDecl ["Forward_Iterator"] a-iteint.ads:24:4-24:66 [test.adb:6:4, a-cohama.ads:135:4] |>
   expected type: None
 Expr: <Id "V" test.adb:13:14-13:15>
@@ -13,7 +13,7 @@ Expr: <Id "V" test.adb:13:14-13:15>
   type:          <| ConcreteTypeDecl ["Map"] a-cohama.ads:99:4-107:36 [test.adb:6:4] |>
   expected type: <| ConcreteTypeDecl ["Map"] a-cohama.ads:99:4-107:36 [test.adb:6:4] |>
 Expr: <Id "Iterate" test.adb:13:16-13:23>
-  references:    <| DefiningName "Iterate" a-cohama.ads:407:13-407:20 [test.adb:6:4] |>
+  references:    <| DefiningName "Iterate" a-cohama.ads:408:13-408:20 [test.adb:6:4] |>
   type:          <| ClasswideTypeDecl ["Forward_Iterator"] a-iteint.ads:24:4-24:66 [test.adb:6:4, a-cohama.ads:135:4] |>
   expected type: None
 

@@ -25,7 +25,7 @@ procedure Test is
          for I in SEA'Range loop
             Stream.Blocks (Stream.Current_Block) (Offset + I - SEA'First)
               := SEA (I);
-            pragma Test_Statement;
+            pragma Test_Statement_UID;
          end loop;
       end Fill_Block;
    begin

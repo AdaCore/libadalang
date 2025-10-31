@@ -1914,6 +1914,15 @@ class AdaNode implements Node[AdaNode] {
             elif me.eval_as_int() == 1b then [base]
             else null[Array[EvalDiscreteRange]]
 
+        case ne: UnOp =>
+            if ne.op is Op.Not
+            then self.subtract_ranges(
+                [base], self.constrain_range(base, ne.expr)
+            )
+            else raise[Array[EvalDiscreteRange]] PropertyError(
+                "unhandled unary operator"
+            )
+
         case _ => raise[Array[EvalDiscreteRange]] PropertyError(
             "unhandled expression"
         )
@@ -9404,6 +9413,7 @@ class BaseTypeDecl: BasicDecl {
     |" If applicable, return the values that this discrete subtype can take
     |" as an array of concrete ranges, by taking into account static predicates
     |" that apply to this subtype.
+    @exported
     fun discrete_static_values(): Array[EvalDiscreteRange] = {
         val base_range = self.eval_discrete_range(self.discrete_range());
         self.static_predicate().do(

@@ -8215,8 +8215,14 @@ class BaseTypeDecl: BasicDecl {
         or self.has_aspect(s"Static_Predicate")
         or self.has_aspect(s"Dynamic_Predicate")
 
-    |" Return whether this type is statically predicated, either from a
-    |" Static_Predicate aspect or from a Predicate pragma.
+    |" Return whether a static predicate is defined for this type. The static
+    |" predicate can be defined either by a ``Static_Predicate`` aspect or by
+    |" a ``Predicate`` pragma whose expression is static.
+    |"
+    |" This property considers all parts of the type, as well as all its
+    |" parent subtypes, in order to determine if a static predicate applies
+    |" to it.
+    @exported
     @with_dynvars(origin=null[AdaNode])
     fun is_statically_predicated(): Bool = {
         # Subtype predicates are inherited as expected on derivation. Thus all

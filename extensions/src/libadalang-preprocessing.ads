@@ -446,7 +446,7 @@ package Libadalang.Preprocessing is
    --
    --  This operation may need to create definition files: they are created in
    --  ``Definition_Files_Directory``, which must be a writeable directory.
-   --  Note that all created definition files will be named "`defs-*.txt`", so
+   --  Note that all created definition files will be named ``defs-*.txt``, so
    --  it is safe to write the preprocessor data file in the same directory
    --  with a different name.
    --

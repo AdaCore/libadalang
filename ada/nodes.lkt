@@ -8956,8 +8956,8 @@ class BaseTypeDecl: BasicDecl {
     |" Returns whether this is a statically constained subtype (i.e., its size
     |" is known at compile time).
     |"
-    |" All types are statically constrained, expect for records and arrays
-    |" when they are unconstrained.
+    |" All types are statically constrained, except for records and arrays
+    |" when they are either unconstrained or dynamically constrained.
     |"
     |" For convenience, this will return ``False`` for incomplete types, even
     |" though the correct answer is more akin to "non applicable".

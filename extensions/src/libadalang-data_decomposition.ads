@@ -544,6 +544,7 @@ package Libadalang.Data_Decomposition is
    --  representation information.
 
    type Filename_Array is array (Positive range <>) of Unbounded_String;
+   --  Array of filenames
 
    function Load (Filenames : Filename_Array) return Repinfo_Collection;
    --  Load type representation information from all the given ``Filenames``

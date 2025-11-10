@@ -161,10 +161,12 @@ package Libadalang.Data_Decomposition is
    --
    --  Each numerical expression requires a specific number of integer
    --  parameters to be evaluated, each integer corresponding to a record
-   --  discriminant. See the ``Discriminant_Count`` and ``Evaluate`` primitives
-   --  below.
+   --  discriminant. See the
+   --  :ada:ref:`Libadalang.Data_Decomposition.Discriminant_Count` and
+   --  :ada:ref:`Libadalang.Data_Decomposition.Evaluate` primitives.
    --
-   --  Note that for record types, the ``Resolved_Record`` function below
+   --  Note that for record types, the
+   --  :ada:ref:`Libadalang.Data_Decomposition.Resolved_Record` function below
    --  resolves all attributes/components at once for a given record type given
    --  values for its discriminants. This may be more convenient than going
    --  through the evaluation of numerical expressions manually.
@@ -174,8 +176,9 @@ package Libadalang.Data_Decomposition is
    function Is_Null (Self : Numerical_Expression) return Boolean;
 
    Unsupported_Expression : exception;
-   --  Exception raised in a function that returns ``Numerical_Expression``
-   --  when the expression is unsupported. For now, this happens only when the
+   --  Exception raised in a function that returns
+   --  :ada:ref:`Libadalang.Data_Decomposition.Numerical_Expression` when the
+   --  expression is unsupported. For now, this happens only when the
    --  expression depends on dynamic variables that are not discriminants.
 
    type Type_Kind is
@@ -248,14 +251,14 @@ package Libadalang.Data_Decomposition is
      (Self : Type_Representation) return Numerical_Expression
    with Pre => not Is_Null (Self);
    --  Number of bits used to hold objects whose type is ``Self`` (See GNAT RM
-   --  9.6. Value_Size and Object_Size Clauses).
+   --  9.6. ``Value_Size`` and ``Object_Size`` Clauses).
 
    function Value_Size
      (Self : Type_Representation) return Numerical_Expression
    with Pre => not Is_Null (Self);
    --  Number of bits required to represent a value whose type is ``Self``.
    --  This corresponds to the RM defined ``'Size`` attribute (See GNAT RM 9.6.
-   --  Value_Size and Object_Size Clauses).
+   --  ``Value_Size`` and ``Object_Size`` Clauses).
 
    function Scalar_Storage_Order
      (Self : Type_Representation) return System.Bit_Order
@@ -323,14 +326,16 @@ package Libadalang.Data_Decomposition is
    function Declaration
      (Self : Component_Representation) return Defining_Name
    with Pre => not Is_Null (Self);
-   --  Declaration for this component. This returns ``No_Defining_Name`` for
-   --  artificial components, i.e. components not defined in the source, but
-   --  introduced by the compiler (for instance the tag for tagged types).
+   --  Declaration for this component. This returns
+   --  :ada:ref:`Libadalang.Analysis.No_Defining_Name` for artificial
+   --  components, i.e. components not defined in the source, but introduced by
+   --  the compiler (for instance the tag for tagged types).
 
    function Component_Name (Self : Component_Representation) return Text_Type
    with Pre => not Is_Null (Self);
    --  Name for this component. The casing of the result is not specified. This
-   --  is useful as a complement to the ``Declaration`` function above for
+   --  is useful as a complement to the
+   --  :ada:ref:`Libadalang.Data_Decomposition.Declaration` function above for
    --  artificial components, which have no declaration.
 
    function Discriminant_Number
@@ -347,8 +352,9 @@ package Libadalang.Data_Decomposition is
 
    function First_Bit (Self : Component_Representation) return Natural
    with Pre => not Is_Null (Self);
-   --  First bit in the byte at ``Position`` that is used to represent this
-   --  component.
+   --  First bit in the byte at
+   --  :ada:ref:`Libadalang.Data_Decomposition.Position` that is used to
+   --  represent this component.
 
    function Size (Self : Component_Representation) return Numerical_Expression
    with Pre => not Is_Null (Self);
@@ -397,20 +403,23 @@ package Libadalang.Data_Decomposition is
    --  For discriminants that are integers, the value must be the corresponding
    --  number. For discriminants that are enumerations, the value must be the
    --  code used to represent the enumeration literal (i.e. the equivalent of
-   --  GNAT's ``Enum_Rep`` attribute). The ``Discriminant_Value`` function
+   --  GNAT's ``Enum_Rep`` attribute). The
+   --  :ada:ref:`Libadalang.Data_Decomposition.Discriminant_Value` function
    --  below can be used to turn a discriminant value into the expected integer
    --  value.
 
    No_Discriminant_Value : constant Discriminant_Values := (1 .. 0 => <>);
 
    Invalid_Discriminant : exception;
-   --  See the ``Discriminant_Value`` function
+   --  See the :ada:ref:`Libadalang.Data_Decomposition.Discriminant_Value`
+   --  function.
 
    function Discriminant_Value
      (Result : Eval_Result) return GMP_Int.Big_Integer;
    --  Return the discriminant value corresponding to the given evaluated
-   --  static expression. Raise an ``Invalid_Discriminant`` exception if
-   --  ``Result`` is not an enum literal nor an integer.
+   --  static expression. Raise an
+   --  :ada:ref:`Libadalang.Data_Decomposition.Invalid_Discriminant` exception
+   --  if ``Result`` is not an enum literal nor an integer.
 
    function Evaluate
      (Self          : Numerical_Expression;
@@ -443,42 +452,63 @@ package Libadalang.Data_Decomposition is
       --  component), name for that component. The casing is not specified.
 
       Position : Size_Type;
-      --  See the corresponding ``Component_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Component_Representation`
+      --  primitive.
 
       First_Bit : Natural;
-      --  See the corresponding ``Component_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Component_Representation`
+      --  primitive.
 
       Size : Size_Type;
-      --  See the corresponding ``Component_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Component_Representation`
+      --  primitive.
+
    end record;
    --  Description of a record component once the record discriminants are
    --  resolved.
 
    type Resolved_Component_Array is
      array (Positive range <>) of Resolved_Component;
+   --  Array of :ada:ref:`Libadalang.Data_Decomposition.Resolved_Component`
 
    type Resolved_Record_Type (Component_Count : Natural) is record
       Alignment : Positive;
-      --  See the corresponding ``Type_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Type_Representation`
+      --  primitive.
 
       Object_Size : Size_Type;
-      --  See the corresponding ``Type_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Type_Representation`
+      --  primitive.
 
       Value_Size : Size_Type;
-      --  See the corresponding ``Type_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Type_Representation`
+      --  primitive.
 
       Bit_Order : System.Bit_Order;
-      --  See the corresponding ``Type_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Type_Representation`
+      --  primitive.
 
       Scalar_Storage_Order : System.Bit_Order;
-      --  See the corresponding ``Type_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Type_Representation`
+      --  primitive.
 
       Components : Resolved_Component_Array (1 ..  Component_Count);
-      --  See the corresponding ``Type_Representation`` primitive
+      --  See the corresponding
+      --  :ada:ref:`Libadalang.Data_Decomposition.Type_Representation`
+      --  primitive.
    end record;
 
    Resolution_Error : exception;
-   --  See the ``Resolved_Record`` function
+   --  See the corresponding
+   --  :ada:ref:`Libadalang.Data_Decomposition.Resolved_Record` function.
 
    function Resolved_Record
      (Self          : Type_Representation;
@@ -487,9 +517,9 @@ package Libadalang.Data_Decomposition is
    --  Resolve all components in record type ``Self`` according to the values
    --  of its discriminants.
    --
-   --  Raise a ``Resolution_Error`` when resolution for the given discriminants
-   --  yields nonsensical sizes or positions (usually because the discriminants
-   --  are invalid).
+   --  Raise a :ada:ref:`Libadalang.Data_Decomposition.Resolution_Error` when
+   --  resolution for the given discriminants yields nonsensical sizes or
+   --  positions (usually because the discriminants are invalid).
 
    -------------------------------------------
    -- Representation information collection --
@@ -502,8 +532,10 @@ package Libadalang.Data_Decomposition is
      (Self : Repinfo_Collection;
       Decl : Base_Type_Decl'Class) return Type_Representation;
    --  Look for the type representation corresponding to the given type
-   --  declaration. Return ``No_Type_Representation`` if nothing in ``Self``
-   --  matches ``Type_Name``, and raise a ``Type_Mismatch_Error`` if an
+   --  declaration. Return
+   --  :ada:ref:`Libadalang.Data_Decomposition.No_Type_Representation` if
+   --  nothing in ``Self`` matches ``Decl``, and raise a
+   --  :ada:ref:`Libadalang.Data_Decomposition.Type_Mismatch_Error` if an
    --  inconsistency is found between ``Decl`` and the type representation
    --  found for it.
 
@@ -520,7 +552,8 @@ package Libadalang.Data_Decomposition is
    --  All files are supposed to be generated running GNAT on compilation units
    --  with the ``-gnatR4js`` switch.
    --
-   --  Raise a ``Loading_Error`` exception if unsuccessful.
+   --  Raise a :ada:ref:`Libadalang.Data_Decomposition.Loading_Error` exception
+   --  if unsuccessful.
    --
    --% belongs-to: Repinfo_Collection
 
@@ -533,16 +566,18 @@ package Libadalang.Data_Decomposition is
    function Load_From_Directories
      (Name_Pattern : GNAT.Regexp.Regexp := Default_JSON_Filename_Regexp;
       Directories  : Filename_Array) return Repinfo_Collection;
-   --  Like ``Load``, but using automatically loading all files in any of the
-   --  given ``Directories`` whose file name matches ``Name_Pattern``.
+   --  Like :ada:ref:`Libadalang.Data_Decomposition.Load`, but using
+   --  automatically loading all files in any of the given ``Directories``
+   --  whose file name matches ``Name_Pattern``.
    --
    --% belongs-to: Repinfo_Collection
 
    function Load_From_Directory
      (Name_Pattern : GNAT.Regexp.Regexp := Default_JSON_Filename_Regexp;
       Directory    : String) return Repinfo_Collection;
-   --  Like ``Load``, but using automatically loading all files whose name
-   --  matches ``Name_Pattern`` in the given ``Directory``.
+   --  Like :ada:ref:`Libadalang.Data_Decomposition.Load`, but using
+   --  automatically loading all files whose name matches ``Name_Pattern`` in
+   --  the given ``Directory``.
    --
    --% belongs-to: Repinfo_Collection
 
@@ -566,9 +601,10 @@ package Libadalang.Data_Decomposition is
    --  If ``Force`` is ``True``, pass ``-f`` to gprbuild to force the build of
    --  compilation units.
    --
-   --  Raise a ``Gprbuild_Error`` exception if ``gprbuild`` exits with a
-   --  non-zero status code. Raise a ``Loading_Error`` exception if the loading
-   --  of JSON files fails.
+   --  Raise a :ada:ref:`Libadalang.Data_Decomposition.Gprbuild_Error`
+   --  exception if ``gprbuild`` exits with a non-zero status code. Raise a
+   --  :ada:ref:`Libadalang.Data_Decomposition.Loading_Error` exception if the
+   --  loading of JSON files fails.
    --
    --% belongs-to: Repinfo_Collection
 

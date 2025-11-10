@@ -241,7 +241,7 @@ package Libadalang.Data_Decomposition is
 
    function Kind (Self : Type_Representation) return Type_Kind
    with Pre => not Is_Null (Self);
-   --  Return the kind of type ``Self`` is
+   --  Return the kind of type ``Self``
 
    function Alignment (Self : Type_Representation) return Positive
    with Pre => not Is_Null (Self);

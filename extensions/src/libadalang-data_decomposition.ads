@@ -521,6 +521,8 @@ package Libadalang.Data_Decomposition is
    --  with the ``-gnatR4js`` switch.
    --
    --  Raise a ``Loading_Error`` exception if unsuccessful.
+   --
+   --% belongs-to: Repinfo_Collection
 
    Default_JSON_Filename_Regexp : constant GNAT.Regexp.Regexp :=
      GNAT.Regexp.Compile (".*\.(ad.|a|spc|bdy)\.json");
@@ -533,12 +535,16 @@ package Libadalang.Data_Decomposition is
       Directories  : Filename_Array) return Repinfo_Collection;
    --  Like ``Load``, but using automatically loading all files in any of the
    --  given ``Directories`` whose file name matches ``Name_Pattern``.
+   --
+   --% belongs-to: Repinfo_Collection
 
    function Load_From_Directory
      (Name_Pattern : GNAT.Regexp.Regexp := Default_JSON_Filename_Regexp;
       Directory    : String) return Repinfo_Collection;
    --  Like ``Load``, but using automatically loading all files whose name
-   --  matches ``Name_Pattern`` in the given ``Directory`.
+   --  matches ``Name_Pattern`` in the given ``Directory``.
+   --
+   --% belongs-to: Repinfo_Collection
 
    Gprbuild_Error : exception;
    --  See ``Load_From_Project``
@@ -563,6 +569,8 @@ package Libadalang.Data_Decomposition is
    --  Raise a ``Gprbuild_Error`` exception if ``gprbuild`` exits with a
    --  non-zero status code. Raise a ``Loading_Error`` exception if the loading
    --  of JSON files fails.
+   --
+   --% belongs-to: Repinfo_Collection
 
 private
 

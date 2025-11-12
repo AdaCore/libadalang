@@ -1,2 +1,2 @@
 driver: dda
-input_sources: [pkg.ads]
+input_sources: [pkg.ads, formal_type.ads]

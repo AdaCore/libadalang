@@ -19,4 +19,9 @@ Object_Size | Value_Size: 32 | 32
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * <| DefiningName "Value" pkg.ads:9:10-9:15 [pkg.ads:17:4] |> at 0, size: 32
 
+Analyzing formal_type.ads
+#########################
+
+No representation information for <FormalTypeDecl ["T"] formal_type.ads:5:4-5:19>
+
 Done.

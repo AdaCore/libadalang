@@ -1007,18 +1007,29 @@ package body Libadalang.Data_Decomposition is
       --  The kind of type that is loaded is inferred from the JSON fields
       --  present, hence the heuristics below.
       --
-      --  First try to load common attributes. If Alignment is missing, this is
-      --  probably not an entity we are interested in.
+      --  First try to load common attributes. If Alignment is missing/invalid,
+      --  this is probably not an entity we are interested in.
 
-      if not Entity.Has_Field (Key_Alignment) then
-         Trace.Trace
-           ("Missing mandatory attribute ("
-            & Key_Alignment & "): skipping type");
-         return null;
-      elsif Entity.Get (Key_Alignment).Kind /= JSON_Int_Type then
-         raise Loading_Error with Name & ": invalid alignment";
-      end if;
-      Alignment := Entity.Get (Key_Alignment);
+      declare
+         Field : constant JSON_Value := Entity.Get (Key_Alignment);
+      begin
+         case Field.Kind is
+            when JSON_Null_Type =>
+               Trace.Trace
+                 ("Missing mandatory attribute (" & Key_Alignment
+                  & "): skipping type");
+               return null;
+
+            when JSON_Int_Type =>
+               Alignment := Field.Get;
+
+            when others =>
+               Trace.Trace
+                 ("Unexpected kind (" & Field.Kind'Image & ") for attribute "
+                  & Key_Alignment & ": skipping type");
+               return null;
+         end case;
+      end;
 
       --  All types provide either:
       --

@@ -1,0 +1,9 @@
+[
+{
+  "name": "Gen_Array.Array_Type",
+  "location": "gen_array.ads:7:9",
+  "Alignment": "??",
+  "Component_Size": "??",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

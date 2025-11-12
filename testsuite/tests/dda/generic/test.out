@@ -24,4 +24,11 @@ Analyzing formal_type.ads
 
 No representation information for <FormalTypeDecl ["T"] formal_type.ads:5:4-5:19>
 
+Analyzing gen_array.ads
+#######################
+
+No representation information for <FormalTypeDecl ["T"] gen_array.ads:5:4-5:22>
+
+No representation information for <ConcreteTypeDecl ["Array_Type"] gen_array.ads:7:4-7:53>
+
 Done.

@@ -932,6 +932,15 @@ package body Libadalang.Expr_Eval is
             elsif Target_Type.F_Name.P_Name_Is (+"Long_Long_Long_Integer") then
                Result := TI.Long_Long_Long_Size;
             end if;
+         else
+            declare
+               Size_Aspect : constant Aspect :=
+                 Target_Type.P_Get_Aspect (+"Size");
+            begin
+               if Size_Aspect.Exists then
+                  return Expr_Eval (Value (Size_Aspect).As_Expr);
+               end if;
+            end;
          end if;
 
          if Result /= 0 then

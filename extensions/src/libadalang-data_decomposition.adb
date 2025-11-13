@@ -2718,7 +2718,9 @@ package body Libadalang.Data_Decomposition is
             Inserted : Boolean;
          begin
             Result.Map.Insert (Key, Repinfo, Position, Inserted);
-            if not Inserted then
+            if Inserted then
+               Repinfo.Next := null;
+            else
                Repinfo.Next := Repinfo_Maps.Element (Position);
                Result.Map.Replace_Element (Position, Repinfo);
             end if;

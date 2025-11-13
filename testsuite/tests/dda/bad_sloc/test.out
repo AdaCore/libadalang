@@ -1,0 +1,6 @@
+Analyzing foo.ads
+#################
+
+No representation information for <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+
+Done.

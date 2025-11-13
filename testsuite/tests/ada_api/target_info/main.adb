@@ -199,12 +199,22 @@ begin
 
 
    --  Check that Standard attributes are also correctly evaluated
+
    Check_Standard
      ("std_attrs_linux_32", ATP_File => "linux_32.txt");
    Check_Standard
      ("std_attrs_linux_64", ATP_File => "linux_64.txt");
    Check_Standard
      ("std_attrs_missing_llli", ATP_File => "missing_llli_32.txt");
+
+   --  Check that 'Size can be evaluated on standard types
+
+   Check_Standard
+     ("std_sizes_linux_32", ATP_File => "linux_32.txt");
+   Check_Standard
+     ("std_sizes_linux_64", ATP_File => "linux_64.txt");
+   Check_Standard
+     ("std_sizes_missing_llli_32", ATP_File => "missing_llli_32.txt");
 
    Put_Line ("Done.");
 end Main;

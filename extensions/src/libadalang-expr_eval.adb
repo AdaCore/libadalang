@@ -254,6 +254,11 @@ package body Libadalang.Expr_Eval is
       --  Helper to evaluate Standard attribute references, such as
       --  `Standard'Max_Integer_Size`.
 
+      function Eval_Size_Attr
+        (AR : LAL.Attribute_Ref) return Eval_Result;
+      --  Helper to attempt evaluating the given 'Size attribute. Right now
+      --  this only supports the types predefined in Standard.
+
       function Eval_Array_Index
         (Call_Expr : LAL.Call_Expr; Index : LAL.Expr) return Eval_Result;
       --  Helper to evaluate array indexes
@@ -870,6 +875,61 @@ package body Libadalang.Expr_Eval is
          end if;
       end Eval_Standard_Attr;
 
+      --------------------
+      -- Eval_Size_Attr --
+      --------------------
+
+      function Eval_Size_Attr
+        (AR : LAL.Attribute_Ref) return Eval_Result
+      is
+         use Libadalang.Target_Info;
+
+         TI : constant Target_Information :=
+           Get_Target_Information (AR.Unit.Context);
+
+         Target_Type : constant Base_Type_Decl :=
+            AR.F_Prefix.P_Name_Designated_Type;
+
+         Result : Natural := 0;
+      begin
+         if Target_Type.Is_Null then
+            raise Property_Error
+              with "Evaluation of 'Size is only supported on types";
+         end if;
+
+         if Target_Type.Unit = AR.P_Standard_Unit then
+            if Target_Type.F_Name.P_Name_Is (+"Boolean") then
+               Result := 1;
+            elsif Target_Type.F_Name.P_Name_Is (+"Character") then
+               Result := TI.Char_Size;
+            elsif Target_Type.F_Name.P_Name_Is (+"Float") then
+               Result := TI.Float_Size;
+            elsif Target_Type.F_Name.P_Name_Is (+"Long_Float") then
+               Result := TI.Double_Size;
+            elsif Target_Type.F_Name.P_Name_Is (+"Long_Long_Float") then
+               Result := TI.Long_Double_Size;
+            elsif Target_Type.F_Name.P_Name_Is (+"Short_Integer") then
+               Result := TI.Short_Size;
+            elsif Target_Type.F_Name.P_Name_Is (+"Integer") then
+               Result := TI.Int_Size;
+            elsif Target_Type.F_Name.P_Name_Is (+"Long_Integer") then
+               Result := TI.Long_Size;
+            elsif Target_Type.F_Name.P_Name_Is (+"Long_Long_Integer") then
+               Result := TI.Long_Long_Size;
+            elsif Target_Type.F_Name.P_Name_Is (+"Long_Long_Long_Integer") then
+               Result := TI.Long_Long_Long_Size;
+            end if;
+         end if;
+
+         if Result /= 0 then
+            return Create_Int_Result
+              (AR.P_Universal_Int_Type.As_Base_Type_Decl, Result);
+         else
+            raise Property_Error with "Cannot compute 'Size on: "
+              & Image (AR.F_Prefix.Text);
+         end if;
+      end Eval_Size_Attr;
+
       ----------------------
       -- Eval_Array_Index --
       ----------------------
@@ -1377,6 +1437,8 @@ package body Libadalang.Expr_Eval is
                elsif AR.F_Prefix.P_Name_Is (To_Unbounded_Text ("standard"))
                then
                   return Eval_Standard_Attr (AR);
+               elsif Name = "size" then
+                  return Eval_Size_Attr (AR);
                else
                   return Eval_Function_Attr (AR, LAL.No_Assoc_List);
                end if;

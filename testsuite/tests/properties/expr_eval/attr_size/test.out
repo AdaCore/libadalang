@@ -1,0 +1,23 @@
+Working on node <ObjectDecl ["A"] test.adb:7:4-7:71>
+====================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["B"] test.adb:12:4-12:52>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: Cannot compute 'Size on: Non_Standard_Type
+
+Working on node <ObjectDecl ["C"] test.adb:17:4-17:41>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: Cannot compute 'Size on: String
+
+Working on node <ObjectDecl ["D"] test.adb:22:4-22:36>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: Evaluation of 'Size is only supported on types

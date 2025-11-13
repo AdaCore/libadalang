@@ -330,4 +330,35 @@ OK   "Standard'Wchar_T_Size"
 
 OK   "Standard'Max_Integer_Size"
 
+== std_sizes_linux_32 ==
+
+OK   "Boolean'Size"
+OK   "Character'Size"
+OK   "Float'Size"
+OK   "Long_Float'Size"
+OK   "Long_Long_Float'Size"
+OK   "Short_Integer'Size"
+OK   "Integer'Size"
+OK   "Long_Integer'Size"
+OK   "Long_Long_Integer'Size"
+OK   "Long_Long_Long_Integer'Size"
+
+== std_sizes_linux_64 ==
+
+OK   "Boolean'Size"
+OK   "Character'Size"
+OK   "Float'Size"
+OK   "Long_Float'Size"
+OK   "Long_Long_Float'Size"
+OK   "Short_Integer'Size"
+OK   "Integer'Size"
+OK   "Long_Integer'Size"
+OK   "Long_Long_Integer'Size"
+OK   "Long_Long_Long_Integer'Size"
+
+== std_sizes_missing_llli_32 ==
+
+OK   "Long_Long_Integer'Size"
+OK   "Long_Long_Long_Integer'Size"
+
 Done.

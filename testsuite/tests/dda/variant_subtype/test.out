@@ -1,0 +1,98 @@
+Analyzing pkg.ads
+#################
+
+Representation information for <ConcreteTypeDecl ["Rec_Type"] pkg.ads:7:4-18:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* Variant part
+  | * <DefiningName "XB" pkg.ads:10:13-10:15> at 4, size: 8
+
+  | * <DefiningName "XC" pkg.ads:13:13-13:15> at 4, size: 8
+
+  | * <DefiningName "XI" pkg.ads:16:13-16:15> at 4, size: 32
+
+Representation information for <SubtypeDecl ["S_Cons_0"] pkg.ads:22:4-22:37>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | 40
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* <DefiningName "XC" pkg.ads:13:13-13:15> at 4, size: 8
+
+Representation information for <SubtypeDecl ["S_Indirect_0"] pkg.ads:26:4-26:37>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* Variant part
+  | * <DefiningName "XB" pkg.ads:10:13-10:15> at 4, size: 8
+
+  | * <DefiningName "XC" pkg.ads:13:13-13:15> at 4, size: 8
+
+  | * <DefiningName "XI" pkg.ads:16:13-16:15> at 4, size: 32
+
+Representation information for <SubtypeDecl ["S_Indirect_1"] pkg.ads:27:4-27:45>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | 64
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* <DefiningName "XI" pkg.ads:16:13-16:15> at 4, size: 32
+
+Representation information for <SubtypeDecl ["S_Indirect_2"] pkg.ads:28:4-28:41>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | 64
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* <DefiningName "XI" pkg.ads:16:13-16:15> at 4, size: 32
+
+Representation information for <SubtypeDecl ["S_Indirect"] pkg.ads:29:4-29:39>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | 64
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* <DefiningName "XI" pkg.ads:16:13-16:15> at 4, size: 32
+
+Representation information for <ConcreteTypeDecl ["D_Direct"] pkg.ads:33:4-33:39>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | 40
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* Variant part
+  | * <DefiningName "XB" pkg.ads:10:13-10:15> at 4, size: 8
+
+  | * <DefiningName "XC" pkg.ads:13:13-13:15> at 4, size: 8
+
+  | * <DefiningName "XI" pkg.ads:16:13-16:15> at 4, size: 32
+
+Representation information for <SubtypeDecl ["S_Pred_Nat"] pkg.ads:37:4-38:54>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* Variant part
+  | * <DefiningName "XB" pkg.ads:10:13-10:15> at 4, size: 8
+
+  | * <DefiningName "XC" pkg.ads:13:13-13:15> at 4, size: 8
+
+  | * <DefiningName "XI" pkg.ads:16:13-16:15> at 4, size: 32
+
+Representation information for <SubtypeDecl ["S_Cons_Dyn"] pkg.ads:43:4-43:49>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | <unsupported>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:7:19-7:20> (discriminant 1) at 0, size: 32
+* <DefiningName "XB" pkg.ads:10:13-10:15> at 4, size: 8
+* <DefiningName "XC" pkg.ads:13:13-13:15> at 4, size: 8
+* <DefiningName "XI" pkg.ads:16:13-16:15> at 4, size: 32
+
+Done.

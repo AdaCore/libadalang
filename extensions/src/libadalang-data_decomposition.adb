@@ -41,6 +41,10 @@ package body Libadalang.Data_Decomposition is
    --  ``Type_Mimatch_Error`` exception if it is not possible to determine this
    --  type kind.
 
+   function Is_Constrained (Decl : Base_Type_Decl'Class) return Boolean;
+   --  Return whether the given ``Decl`` is a constrained subtype of a record
+   --  declaration or a constrained derived type.
+
    function Wrap
      (Self       : Numerical_Expression_Access;
       Collection : Repinfo_Collection)
@@ -69,13 +73,17 @@ package body Libadalang.Data_Decomposition is
      (Collection : Repinfo_Collection;
       Decl       : Base_Type_Decl'Class;
       Repr       : Repinfo_Access;
-      Process    : access procedure (Decl : Concrete_Type_Decl;
-                                     Def  : Type_Def;
-                                     Repr : Repinfo_Access));
+      Process    : access procedure (Decl           : Concrete_Type_Decl;
+                                     Def            : Type_Def;
+                                     Repr           : Repinfo_Access;
+                                     Is_Constrained : Boolean));
    --  Assuming that ``Self`` is a record type declaration and ``Repr`` the
    --  corresponding representation data, call ``Process`` on all types whose
-   --  derivations yield to ``Self`` plus their corresponding representation
-   --  data.
+   --  derivations yield to ``Self``.
+   --
+   --  Each call to ``Process`` is passed the record type
+   --  declaration/definition as well as the recorresponding representation
+   --  data, and whether the record has discriminants and is constrained.
 
    function Get_Component_List (Def : Type_Def) return Component_List;
    --  Assuming that ``Self`` is a record type declaration, return its root
@@ -354,6 +362,38 @@ package body Libadalang.Data_Decomposition is
       end loop Def_Loop;
    end Type_Kind_For;
 
+   --------------------
+   -- Is_Constrained --
+   --------------------
+
+   function Is_Constrained (Decl : Base_Type_Decl'Class) return Boolean is
+   begin
+      case Decl.Kind is
+         when Ada_Subtype_Decl =>
+            return not Decl
+                         .As_Subtype_Decl
+                         .F_Subtype
+                         .P_Subtype_Constraint
+                         .Is_Null;
+
+         when Ada_Concrete_Type_Decl =>
+            declare
+               CTD : constant Concrete_Type_Decl := Decl.As_Concrete_Type_Decl;
+            begin
+               return CTD.F_Type_Def.Kind = Ada_Derived_Type_Def
+                      and then not CTD
+                                     .F_Type_Def
+                                     .As_Derived_Type_Def
+                                     .F_Subtype_Indication
+                                     .P_Subtype_Constraint
+                                     .Is_Null;
+            end;
+
+         when others =>
+            return False;
+      end case;
+   end Is_Constrained;
+
    ----------
    -- Wrap --
    ----------
@@ -384,7 +424,10 @@ package body Libadalang.Data_Decomposition is
       Variants          : Variant_Representation_Access_Array_Access;
 
       procedure Process
-        (Decl : Concrete_Type_Decl; Def : Type_Def; Repr : Repinfo_Access);
+        (Decl           : Concrete_Type_Decl;
+         Def            : Type_Def;
+         Repr           : Repinfo_Access;
+         Is_Constrained : Boolean);
       --  Ensure that ``Decl``/``Def`` and ``Repr`` are consistent regarding
       --  variant parts (either both have one, either one have it). Update the
       --  ``Variant_Part_Node`` and ``Variants`` local variables above
@@ -397,7 +440,10 @@ package body Libadalang.Data_Decomposition is
       -------------
 
       procedure Process
-        (Decl : Concrete_Type_Decl; Def : Type_Def; Repr : Repinfo_Access)
+        (Decl           : Concrete_Type_Decl;
+         Def            : Type_Def;
+         Repr           : Repinfo_Access;
+         Is_Constrained : Boolean)
       is
          Comps : constant Component_List := Get_Component_List (Def);
          VP    : constant Variant_Part :=
@@ -414,15 +460,31 @@ package body Libadalang.Data_Decomposition is
 
          else
             if Repr.Variants = null then
-               raise Type_Mismatch_Error with
-                 Decl.Image & " has a variant, repinfo inconsistent";
 
-            --  Also make sure we have a single variant part in the whole
-            --  extension chain.
+               --  Because constraints can appear in subtypes, the record
+               --  discriminant may be constrained (even when the constraints
+               --  are not compile time known): in that case the repinfo is
+               --  expected not to have variants.
 
-            elsif not Variant_Part_Node.Is_Null then
-               raise Type_Mismatch_Error with
-                 VP.Image & " conflicts with " & Variant_Part_Node.Image;
+               if not Is_Constrained then
+                  raise Type_Mismatch_Error with
+                    Decl.Image & " has a variant, repinfo inconsistent";
+               end if;
+
+            else
+               if Is_Constrained then
+                  raise Type_Mismatch_Error with
+                    Declaration.Image
+                    & " is constrained, but repinfo has a variant";
+               end if;
+
+               --  Also make sure we have a single variant part in the whole
+               --  extension chain.
+
+               if not Variant_Part_Node.Is_Null then
+                  raise Type_Mismatch_Error with
+                    VP.Image & " conflicts with " & Variant_Part_Node.Image;
+               end if;
             end if;
 
             Variant_Part_Node := VP;
@@ -503,9 +565,10 @@ package body Libadalang.Data_Decomposition is
      (Collection : Repinfo_Collection;
       Decl       : Base_Type_Decl'Class;
       Repr       : Repinfo_Access;
-      Process    : access procedure (Decl : Concrete_Type_Decl;
-                                     Def  : Type_Def;
-                                     Repr : Repinfo_Access))
+      Process    : access procedure (Decl           : Concrete_Type_Decl;
+                                     Def            : Type_Def;
+                                     Repr           : Repinfo_Access;
+                                     Is_Constrained : Boolean))
    is
       --  Get the full view of ``Decl``'s canonical type and ensure it is a
       --  record type, as well as the type that ``Repr`` describes.
@@ -575,7 +638,7 @@ package body Libadalang.Data_Decomposition is
          end;
       end if;
 
-      Process.all (CTD, Def, Repr);
+      Process.all (CTD, Def, Repr, Is_Constrained (Decl));
    end Iterate_Derivations;
 
    ------------------------
@@ -635,7 +698,10 @@ package body Libadalang.Data_Decomposition is
       --  in all other cases.
 
       procedure Process
-        (Decl : Concrete_Type_Decl; Def : Type_Def; Repr : Repinfo_Access);
+        (Decl           : Concrete_Type_Decl;
+         Def            : Type_Def;
+         Repr           : Repinfo_Access;
+         Is_Constrained : Boolean);
       --  Process a record type declaration
 
       -------------------------
@@ -674,7 +740,10 @@ package body Libadalang.Data_Decomposition is
       -------------
 
       procedure Process
-        (Decl : Concrete_Type_Decl; Def : Type_Def; Repr : Repinfo_Access)
+        (Decl           : Concrete_Type_Decl;
+         Def            : Type_Def;
+         Repr           : Repinfo_Access;
+         Is_Constrained : Boolean)
       is
          Comps : Component_Representation_Access_Array renames
            Repr.Components.all;
@@ -702,8 +771,16 @@ package body Libadalang.Data_Decomposition is
          --  and increment ``Repr_Index``, or raise a ``Type_Mismatch_Error``
          --  exception if there is no component left.
 
-         procedure Append (Decl : Base_Formal_Param_Decl);
-         --  Append entries to ``Result`` for all defining names in ``Decl``
+         procedure Append (Decl : Base_Formal_Param_Decl; Mandatory: Boolean);
+         --  Append entries to ``Result`` for all defining names in ``Decl``.
+         --
+         --  If ``Mandatory``, skip component representation info entries that
+         --  are found but that does not correspond to names in ``Decl``.
+         --  Otherwise, just skip the defining name.
+
+         procedure Append_Components
+           (Comps : Component_List; Mandatory : Boolean);
+         --  Call ``Append`` on all component declarations in ``Comps``
 
          -------------------------
          -- Next_Component_Repr --
@@ -716,23 +793,29 @@ package body Libadalang.Data_Decomposition is
                raise Type_Mismatch_Error with
                  "cannot find repinfo for " & For_Comp.Image;
             end if;
-            return Result : constant Component_Representation_Access :=
-              Comps (Repr_Index)
-            do
-               Repr_Index := Repr_Index + 1;
-            end return;
+            return Comps (Repr_Index);
          end Next_Component_Repr;
 
          ------------
          -- Append --
          ------------
 
-         procedure Append (Decl : Base_Formal_Param_Decl) is
+         procedure Append (Decl : Base_Formal_Param_Decl; Mandatory: Boolean)
+         is
          begin
             --  For each defining name in ``Decl``, look for a corresponding
             --  component representation info.
 
             Defining_Names : for DN of Decl.P_Defining_Names loop
+
+               --  There is nothing left to do if the components are not
+               --  mandatory and there are no representation info entries left
+               --  to process.
+
+               if not Mandatory and then Repr_Index > Comps'Last then
+                  return;
+               end if;
+
                Search : loop
                   declare
                      Repr : constant Component_Representation_Access :=
@@ -743,19 +826,47 @@ package body Libadalang.Data_Decomposition is
                      --  for a repinfo for ``DN``.
 
                      if Register_Artificial (Repr) then
+                        Repr_Index := Repr_Index + 1;
                         null;
 
                      --  Otherwise, skip entries until we find a match for
                      --  ``DN``.
 
                      elsif Symbolize (Coll, DN.Text) = Repr.Name then
+                        Repr_Index := Repr_Index + 1;
                         Result.Append (Component_Association'(DN, Repr));
+                        exit Search;
+
+                     --  Past this point: ``Repr`` does not correspond to an
+                     --  artificial component, and it does not correspond to
+                     --  ``DN``. Keep looking for a repinfo entry for it
+                     --  (``Mandatory`` ) or give up for this defining name
+                     --  (``not Mandatory``).
+
+                     elsif Mandatory then
+                        Repr_Index := Repr_Index + 1;
+
+                     else
                         exit Search;
                      end if;
                   end;
                end loop Search;
             end loop Defining_Names;
          end Append;
+
+         ------------------------
+         --- Append_Components --
+         ------------------------
+
+         procedure Append_Components
+           (Comps : Component_List; Mandatory : Boolean) is
+         begin
+            for Comp of Comps.F_Components loop
+               if Comp.Kind = Ada_Component_Decl then
+                  Append (Comp.As_Base_Formal_Param_Decl, Mandatory);
+               end if;
+            end loop;
+         end Append_Components;
 
          --  Collect discriminants, if any. Note that when there are
          --  discriminants, the full view should always have a list of known
@@ -766,7 +877,7 @@ package body Libadalang.Data_Decomposition is
       begin
          if not DP.Is_Null then
             for D of DP.As_Known_Discriminant_Part.F_Discr_Specs loop
-               Append (D.As_Base_Formal_Param_Decl);
+               Append (D.As_Base_Formal_Param_Decl, Mandatory => True);
             end loop;
          end if;
 
@@ -774,13 +885,20 @@ package body Libadalang.Data_Decomposition is
 
          declare
             Comps : constant Component_List := Get_Component_List (Def);
+            VP    : Variant_Part;
          begin
             if not Comps.Is_Null then
-               for Comp of Comps.F_Components loop
-                  if Comp.Kind = Ada_Component_Decl then
-                     Append (Comp.As_Base_Formal_Param_Decl);
-                  end if;
-               end loop;
+               Append_Components (Comps, Mandatory => true);
+
+               --  If this is a constrained record, we also need to process
+               --  components in the variant part (if present).
+
+               if Is_Constrained and then not Comps.F_Variant_Part.Is_Null then
+                  for Variant of Comps.F_Variant_Part.F_Variant loop
+                     Append_Components
+                       (Variant.F_Components, Mandatory => False);
+                  end loop;
+               end if;
             end if;
          end;
 
@@ -789,11 +907,11 @@ package body Libadalang.Data_Decomposition is
 
          while Repr_Index in Repr.Components'Range loop
             declare
-               Repr : constant Component_Representation_Access :=
+               Repr  : constant Component_Representation_Access :=
                  Next_Component_Repr (No_Defining_Name);
                Dummy : constant Boolean := Register_Artificial (Repr);
             begin
-               null;
+               Repr_Index := Repr_Index + 1;
             end;
          end loop;
       end Process;

@@ -659,14 +659,11 @@ package body Libadalang.Expr_Eval is
                case Val.Kind is
                when Int =>
                   --  TODO??? Properly handle modular types
-                  declare
-                     Int_Result : constant Big_Integer :=
-                       (if Name = "succ"
-                        then Val.Int_Result + 1
-                        else Val.Int_Result - 1);
-                  begin
-                     return Create_Int_Result (Typ, Int_Result);
-                  end;
+                  return Create_Int_Result
+                    (Typ,
+                     (if Name = "succ"
+                      then Val.Int_Result + 1
+                      else Val.Int_Result - 1));
                when Real =>
                   raise Property_Error with
                      "'Pred/'Succ not applicable to reals";

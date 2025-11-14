@@ -783,7 +783,7 @@ package body Libadalang.Expr_Eval is
                      --  This case allows to support Character enum literals
                   when Enum_Lit =>
                      return Create_Int_Result
-                       (Ret_Typ, Val.Enum_Result.P_Enum_Rep);
+                       (Ret_Typ, Val.Enum_Result.Child_Index);
                   when others =>
                      raise Property_Error with
                         "'Pos expects an argument of a discrete type";

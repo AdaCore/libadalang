@@ -1,6 +1,8 @@
 procedure Test is
    type My_Enum is (Enum1, Enum2, Enum3);
 
+   for My_Enum use (Enum1 => 2, Enum2 => 4, Enum3 => 6);
+
    type Int is range -10 .. 10;
 
    E : constant := My_Enum'Pos (Enum3);

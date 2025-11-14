@@ -1,0 +1,5 @@
+driver: dda
+description: |
+    Check that Libadalang does not crash when looking for an entry with the
+    wrong sloc.
+input_sources: [foo.ads]

@@ -41,6 +41,12 @@ procedure Test is
    --% node.f_default_expr.p_eval_as_int
    --  Even if the aspect was defined not on the designated type but one of
    --  its parent types, as this aspect is inherited.
+
+   type New_Standard_Type is new Integer;
+
+   G : constant Positive := New_Standard_Type'Size;
+   --% node.f_default_expr.p_eval_as_int
+   --  We can also answer that for types that derive from standard types
 begin
    null;
 end Test;

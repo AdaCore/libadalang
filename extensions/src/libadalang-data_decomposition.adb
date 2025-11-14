@@ -341,7 +341,7 @@ package body Libadalang.Data_Decomposition is
             when Ada_Decimal_Fixed_Point_Def  => return Decimal_Type;
             when Ada_Ordinary_Fixed_Point_Def => return Ordinary_Type;
             when Ada_Array_Type_Def           => return Array_Type;
-            when Ada_Interface_Type_Def       => return Interface_Type;
+            when Ada_Interface_Type_Def       => return Record_Type;
             when Ada_Record_Type_Def          => return Record_Type;
 
             when Ada_Private_Type_Def =>
@@ -586,7 +586,7 @@ package body Libadalang.Data_Decomposition is
       end if;
 
       CTD := TD.As_Concrete_Type_Decl;
-      if not CTD.P_Is_Record_Type then
+      if not CTD.P_Is_Record_Type and then not CTD.P_Is_Interface_Type then
          raise Type_Mismatch_Error with
            "record type expected, got " & TD.Image;
       end if;
@@ -659,6 +659,9 @@ package body Libadalang.Data_Decomposition is
                return
                  (if Ext.Is_Null then No_Component_List else Ext.F_Components);
             end;
+
+         when Ada_Interface_Type_Def =>
+            return No_Component_List;
 
          when others =>
             raise Program_Error;

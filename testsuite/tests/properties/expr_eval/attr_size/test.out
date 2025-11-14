@@ -39,3 +39,9 @@ Working on node <ObjectDecl ["G"] test.adb:47:4-47:52>
 
 Eval 'node.f_default_expr.p_eval_as_int'
 Result: 32
+
+Working on node <ObjectDecl ["H"] test.adb:55:4-58:35>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 96

@@ -47,6 +47,17 @@ procedure Test is
    G : constant Positive := New_Standard_Type'Size;
    --% node.f_default_expr.p_eval_as_int
    --  We can also answer that for types that derive from standard types
+
+   subtype Standard_Subtype is Integer range 1 .. 10;
+   subtype Specific_Size_2_Subtype is Specific_Size_2 range 1 .. 10;
+   subtype New_Standard_Subtype is New_Standard_Type range 1 .. 10;
+
+   H : constant Positive :=
+      Standard_Subtype'Size
+      + Specific_Size_2_Subtype'Size
+      + New_Standard_Subtype'Size;
+   --% node.f_default_expr.p_eval_as_int
+   --  It should also automatically work on subtypes of supported types
 begin
    null;
 end Test;

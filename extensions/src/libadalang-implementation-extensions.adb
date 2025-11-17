@@ -614,9 +614,9 @@ package body Libadalang.Implementation.Extensions is
       return Sources.Decode_Character_Literal (N_Text);
    end Char_Literal_P_Denoted_Value;
 
-   ----------------------------------------
+   ------------------------------------------------
    -- Compilation_Unit_P_External_Config_Pragmas --
-   ----------------------------------------
+   ------------------------------------------------
 
    function Compilation_Unit_P_External_Config_Pragmas
      (Node : Bare_Compilation_Unit) return Bare_Pragma_Node_Array_Access

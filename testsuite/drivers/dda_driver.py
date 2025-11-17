@@ -3,7 +3,8 @@ import os
 import os.path
 from typing import Dict, List
 
-from e3.fs import cp
+from e3.fs import cp, find
+from e3.testsuite.driver.classic import TestAbortWithError
 
 from drivers.base_driver import BaseDriver
 
@@ -43,6 +44,36 @@ class DDADriver(BaseDriver):
         # List of source files to process and unit provider
         input_sources = self.test_env.get("input_sources", [])
 
+        # Command line arguments to run the "lal_dda" program
+        args: List[str] = ["lal_dda"]
+
+        # Additional environment variables for the subprocess
+        env: Dict[str, str] = {}
+
+        # Collect arguments common to all GPR tools
+        gpr_args = []
+
+        project_file = self.test_env.get("project_file", None)
+        if project_file:
+            gpr_args.append(f"-P{project_file}")
+
+        for name, value in sorted(
+            self.test_env.get("project_vars", {}).items()
+        ):
+            gpr_args.append(f"-X{name}={value}")
+
+        args.extend(gpr_args)
+
+        # Path for project files: make directories from the "project_path" key
+        # prioritary and append existing paths from the environment.
+        env["GPR_PROJECT_PATH"] = os.path.pathsep.join(
+            [
+                os.path.join(self.env.root_dir, p)
+                for p in self.test_env.get("project_path", [])
+            ]
+            + os.environ.get("GPR_PROJECT_PATH", "").split(os.path.pathsep)
+        )
+
         # If requested, compile requested sources (compiled_sources if present,
         # otherwise input_sources) to regenerate the JSON files.  Do the
         # compilation in the working directory (for use in this testsuite run),
@@ -63,30 +94,38 @@ class DDADriver(BaseDriver):
 
                 cp(self.working_dir(json_file), self.test_dir(json_file))
 
-        # Command line arguments to run the "lal_dda" program
-        args: List[str] = ["lal_dda"]
+            # If all sources are supposed to be found through the project file,
+            # run the compilation on the project file.
+            if not compiled_sources:
+                assert gpr_args
 
-        # Additional environment variables for the subprocess
-        env: Dict[str, str] = {}
+                self.run_and_check(
+                    argv=[
+                        "gprbuild",
+                        *gpr_args,
+                        "-c",
+                        "-k",
+                        "-cargs:Ada",
+                        "-gnatR4js",
+                    ],
+                    append_output=False,
+                    env=env,
+                )
 
-        # Path for project files: make directories from the "project_path" key
-        # prioritary and append existing paths from the environment.
-        env["GPR_PROJECT_PATH"] = os.path.pathsep.join(
-            [
-                os.path.join(self.env.root_dir, p)
-                for p in self.test_env.get("project_path", [])
-            ]
-            + os.environ.get("GPR_PROJECT_PATH", "").split(os.path.pathsep)
-        )
+                # Locate the project file: we will look for all the JSON files
+                # under its containing directory.
+                for dirname in env["GPR_PROJECT_PATH"].split(os.path.pathsep):
+                    candidate = os.path.join(dirname, project_file)
+                    if os.path.exists(candidate):
+                        abs_project_file = candidate
+                        break
+                else:
+                    raise TestAbortWithError(f"could not find {project_file}")
 
-        project_file = self.test_env.get("project_file", None)
-        if project_file:
-            args.append(f"-P{project_file}")
-
-        for name, value in sorted(
-            self.test_env.get("project_vars", {}).items()
-        ):
-            args.append(f"-X{name}={value}")
+                for json_file in find(
+                    os.path.dirname(abs_project_file), "*.json"
+                ):
+                    cp(json_file, self.test_dir(os.path.basename(json_file)))
 
         if self.test_env.get("batch"):
             args.append("--only-show-failures")

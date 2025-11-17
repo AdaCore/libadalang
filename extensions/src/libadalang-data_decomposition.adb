@@ -36,6 +36,9 @@ package body Libadalang.Data_Decomposition is
    Size_Last : constant GMP_Int.Big_Integer :=
      GMP_Int.Make (Size_Type'Last'Image);
 
+   Unchecked_Union_Id : constant Unbounded_Text_Type :=
+     To_Unbounded_Text ("Unchecked_Union");
+
    function Type_Kind_For (Decl : Base_Type_Decl'Class) return Type_Kind;
    --  Return the type kind for the given type declaration parse tree. Raise a
    --  ``Type_Mimatch_Error`` exception if it is not possible to determine this
@@ -878,7 +881,11 @@ package body Libadalang.Data_Decomposition is
          DP : constant Discriminant_Part := Decl.F_Discriminants;
 
       begin
-         if not DP.Is_Null then
+         --  Discriminants are not actually stored for unchecked union: there
+         --  is no representation information for them in this case.
+
+         if not DP.Is_Null and then not Decl.P_Has_Aspect (Unchecked_Union_Id)
+         then
             for D of DP.As_Known_Discriminant_Part.F_Discr_Specs loop
                Append (D.As_Base_Formal_Param_Decl, Mandatory => True);
             end loop;

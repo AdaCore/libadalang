@@ -1,0 +1,47 @@
+[
+{
+  "name": "Pkg.Rec_Type",
+  "location": "pkg.ads:5:9",
+  "Size": 32,
+  "Alignment": 4,
+  "record": [
+  ],
+  "variant" : [
+    {
+      "present": { "code": "and", "operands": [ { "code": ">=", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 2147483648 ] } ] }, { "code": "<=", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 1 ] } ] } ] },
+      "record": [
+        {
+          "name": "Xb",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+        {
+          "name": "Xc",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "Xi",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

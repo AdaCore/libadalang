@@ -1,0 +1,376 @@
+[
+{
+  "name": "Pkg.Rec_Type",
+  "location": "pkg.ads:7:9",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": "or", "operands": [ { "code": "<", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 2147483648 ] } ] }, { "code": ">", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 1 ] } ] } ] }, { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, 40, 64 ] }, 40 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "and", "operands": [ { "code": ">=", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 2147483648 ] } ] }, { "code": "<=", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 1 ] } ] } ] },
+      "record": [
+        {
+          "name": "Xb",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+        {
+          "name": "Xc",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "Xi",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.S_Cons_0",
+  "location": "pkg.ads:22:12",
+  "Object_Size": 64,
+  "Value_Size": 40,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Xc",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.S_Indirect_0",
+  "location": "pkg.ads:26:12",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": "or", "operands": [ { "code": "<", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 2147483648 ] } ] }, { "code": ">", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 1 ] } ] } ] }, { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, 40, 64 ] }, 40 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "and", "operands": [ { "code": ">=", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 2147483648 ] } ] }, { "code": "<=", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 1 ] } ] } ] },
+      "record": [
+        {
+          "name": "Xb",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+        {
+          "name": "Xc",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "Xi",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.S_Indirect_1",
+  "location": "pkg.ads:27:12",
+  "Size": 64,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Xi",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.S_Indirect_2",
+  "location": "pkg.ads:28:12",
+  "Size": 64,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Xi",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.S_Indirect",
+  "location": "pkg.ads:29:12",
+  "Size": 64,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Xi",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.D_Direct",
+  "location": "pkg.ads:33:9",
+  "Object_Size": 64,
+  "Value_Size": 40,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Xb",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.Td_Directb",
+  "location": "pkg.ads:33:4",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": ">=", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, 40, 64 ] }, 40 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "<", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+        {
+          "name": "Xb",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+        {
+          "name": "Xc",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "Xi",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.S_Pred_Nat",
+  "location": "pkg.ads:37:12",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": "or", "operands": [ { "code": "<", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 2147483648 ] } ] }, { "code": ">", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 1 ] } ] } ] }, { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, 40, 64 ] }, 40 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "and", "operands": [ { "code": ">=", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 2147483648 ] } ] }, { "code": "<=", "operands": [ { "code": "#", "operands": [ 1 ] }, { "code": "-", "operands": [ 1 ] } ] } ] },
+      "record": [
+        {
+          "name": "Xb",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+        {
+          "name": "Xc",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "Xi",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.S_Cons_Dyn",
+  "location": "pkg.ads:43:12",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": ">=", "operands": [ { "code": "var", "operands": [ 1 ] }, 0 ] }, { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "var", "operands": [ 1 ] }, 0 ] }, 40, 64 ] }, 40 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Xb",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Xc",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Xi",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

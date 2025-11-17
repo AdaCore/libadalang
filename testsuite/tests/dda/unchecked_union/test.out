@@ -1,0 +1,16 @@
+Analyzing pkg.ads
+#################
+
+Representation information for <ConcreteTypeDecl ["Rec_Type"] pkg.ads:5:4-17:25>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 32 | 32
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* Variant part
+  | * <DefiningName "XB" pkg.ads:8:13-8:15> at 0, size: 8
+
+  | * <DefiningName "XC" pkg.ads:11:13-11:15> at 0, size: 8
+
+  | * <DefiningName "XI" pkg.ads:14:13-14:15> at 0, size: 32
+
+Done.

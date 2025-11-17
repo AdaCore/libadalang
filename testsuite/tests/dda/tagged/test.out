@@ -228,4 +228,22 @@ Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: 16
 * <DefiningName "X2" p2.ads:40:7-40:9> at 16, size: 32
 
+Analyzing ifaces.ads
+####################
+
+Representation information for <ConcreteTypeDecl ["Iface"] ifaces.ads:2:4-2:28>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 64 | 64
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* Artificial component "_tag" at 0, size: 64
+
+Representation information for <ConcreteTypeDecl ["T"] ifaces.ads:5:4-7:15>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 128 | 128
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* Artificial component "_tag" at 0, size: 64
+* <DefiningName "B" ifaces.ads:6:7-6:8> at 8, size: 8
+
 Done.

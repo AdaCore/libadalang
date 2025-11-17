@@ -184,7 +184,6 @@ package Libadalang.Data_Decomposition is
       Decimal_Type,
       Ordinary_Type,
       Array_Type,
-      Interface_Type,
       Record_Type,
       Protected_Type,
       Task_Type);

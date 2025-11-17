@@ -1,0 +1,41 @@
+[
+{
+  "name": "Ifaces.Iface",
+  "location": "ifaces.ads:2:9",
+  "Size": 64,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "_Tag",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Ifaces.T",
+  "location": "ifaces.ads:5:9",
+  "Size": 128,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "_Tag",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "B",
+      "Position": 8,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

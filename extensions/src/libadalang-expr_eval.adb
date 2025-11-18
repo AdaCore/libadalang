@@ -839,36 +839,6 @@ package body Libadalang.Expr_Eval is
                      "'Pos only applicable to discrete types";
                end if;
             end;
-         elsif Name in "length" then
-
-            --  Current support of 'Length only works on Strings (Character
-            --  arrays). TODO??? Add support for all array types, including
-            --  multidimensional ones.
-
-            if not Args.Is_Null then
-               raise Property_Error with
-                  "'Length require no argument";
-            end if;
-            --  Not true for multidimensional arrays. 'Length attribute can
-            --  take one argument standing for the Nth dimension of the
-            --  array length is requested.
-
-            declare
-               Typ    : constant Base_Type_Decl :=
-                  AR.F_Prefix.P_Name_Designated_Type;
-               Val    : constant Eval_Result :=
-                  Expr_Eval (AR.F_Prefix.As_Expr);
-               Result : Big_Integer;
-            begin
-               if Val.Kind /= String_Lit then
-                  raise Property_Error with
-                     "'Length expects a string argument";
-               end if;
-
-               Result.Set (GNATCOLL.GMP.Long (Length (As_String (Val))));
-
-               return Create_Int_Result (Typ, Result);
-            end;
          else
             raise Property_Error
               with "Unhandled attribute ref: " & Image (Attr.Text);
@@ -1473,10 +1443,25 @@ package body Libadalang.Expr_Eval is
             begin
                if Name = "first" then
                   return Eval_Range_Attr
-                    (As_Ada_Node (AR.F_Prefix), Range_First);
+                    (AR.F_Prefix.As_Ada_Node, Range_First);
                elsif Name = "last" then
                   return Eval_Range_Attr
-                    (As_Ada_Node (AR.F_Prefix), Range_Last);
+                    (AR.F_Prefix.As_Ada_Node, Range_Last);
+               elsif Name = "length" then
+                  declare
+                     First : constant Eval_Result := Eval_Range_Attr
+                       (AR.F_Prefix.As_Ada_Node, Range_First);
+                     Last  : constant Eval_Result := Eval_Range_Attr
+                       (AR.F_Prefix.As_Ada_Node, Range_Last);
+                     Result : Big_Integer :=
+                       As_Int (Last) - As_Int (First) + 1;
+                  begin
+                     pragma Assert (First.Kind = Last.Kind);
+                     if Result < 0 then
+                        Result.Set (0);
+                     end if;
+                     return Create_Int_Result (First.Expr_Type, Result);
+                  end;
                elsif AR.F_Prefix.P_Name_Is (To_Unbounded_Text ("standard"))
                then
                   return Eval_Standard_Attr (AR);

@@ -286,16 +286,25 @@ Expr <ObjectDecl ["X_1_First"] test.adb:259:7-259:42> evaluated to Int 0
 Expr <ObjectDecl ["X_1_Last"] test.adb:260:7-260:41> evaluated to Int 2
    Int value is 2
 
-Expr <ObjectDecl ["X_2_First"] test.adb:266:7-266:42> evaluated to Int 3
+Expr <ObjectDecl ["X_1_Len"] test.adb:261:7-261:43> evaluated to Int 3
    Int value is 3
 
-Expr <ObjectDecl ["X_2_Last"] test.adb:267:7-267:41> evaluated to Int 8
+Expr <ObjectDecl ["X_2_First"] test.adb:267:7-267:42> evaluated to Int 3
+   Int value is 3
+
+Expr <ObjectDecl ["X_2_Last"] test.adb:268:7-268:41> evaluated to Int 8
    Int value is 8
 
-Expr <ObjectDecl ["X_3_First"] test.adb:271:7-271:42> evaluated to Int 5
+Expr <ObjectDecl ["X_2_Len"] test.adb:269:7-269:43> evaluated to Int 6
+   Int value is 6
+
+Expr <ObjectDecl ["X_3_First"] test.adb:273:7-273:42> evaluated to Int 5
    Int value is 5
 
-Expr <ObjectDecl ["X_3_Last"] test.adb:272:7-272:41> evaluated to Int 4
+Expr <ObjectDecl ["X_3_Last"] test.adb:274:7-274:41> evaluated to Int 4
    Int value is 4
+
+Expr <ObjectDecl ["X_3_Len"] test.adb:275:7-275:43> evaluated to Int 0
+   Int value is 0
 
 Done.

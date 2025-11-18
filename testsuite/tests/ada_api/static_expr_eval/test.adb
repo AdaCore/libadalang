@@ -258,6 +258,7 @@ begin
 
       X_1_First : Natural := Arr_1'First;
       X_1_Last  : Natural := Arr_1'Last;
+      X_1_Len   : Natural := Arr_1'Length;
 
       type Unconstrained_Array is array (Natural range <>) of Integer;
 
@@ -265,11 +266,13 @@ begin
 
       X_2_First : Natural := Arr_2'First;
       X_2_Last  : Natural := Arr_2'Last;
+      X_2_Len   : Natural := Arr_2'Length;
 
       Arr_3 : array (Positive range 5 .. 4) of Integer;
 
       X_3_First : Natural := Arr_3'First;
       X_3_Last  : Natural := Arr_3'Last;
+      X_3_Len   : Natural := Arr_3'Length;
    begin
       null;
    end;

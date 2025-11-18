@@ -10093,7 +10093,7 @@ class TypeDecl: BaseTypeDecl {
             self.discriminants.do((d) => d.abstract_formal_params());
 
         if self.is_access_type()
-        then self.accessed_type().discriminants_list(stop_recurse_at)
+        then self.accessed_type_no_call()?.discriminants_list(stop_recurse_at)
         elif self_discs.length() > 0 then self_discs
         elif not base_type.is_null and base_type.matching_type(stop_recurse_at)
         then self_discs

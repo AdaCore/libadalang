@@ -52,8 +52,14 @@ Working on node <SubtypeDecl ["I"] test.adb:27:7-27:22>
 Eval 'node.p_discriminants_list()'
 Result: []
 
-Working on node <SubtypeDecl ["J"] test.adb:40:7-40:22>
+Working on node <ConcreteTypeDecl ["J"] test.adb:30:7-30:34>
+============================================================
+
+Eval 'node.p_discriminants_list()'
+Result: []
+
+Working on node <SubtypeDecl ["J"] test.adb:43:7-43:22>
 =======================================================
 
 Eval 'node.p_discriminants_list()'
-Result: [<DiscriminantSpec ["X"] test.adb:31:15-31:26>]
+Result: [<DiscriminantSpec ["X"] test.adb:34:15-34:26>]

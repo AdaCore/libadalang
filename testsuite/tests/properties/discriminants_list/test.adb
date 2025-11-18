@@ -26,6 +26,9 @@ procedure Test is
 
       subtype I is E;
       --% node.p_discriminants_list()
+
+      type J is access procedure;
+      --% node.p_discriminants_list()
    private
       type D (Y : Integer) is null record;
       type E (X : Integer) is null record;

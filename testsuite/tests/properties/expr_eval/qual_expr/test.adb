@@ -10,6 +10,9 @@ procedure Test is
 
    Qual_Expr_4 : constant Character := Character'('A');
    --% node.f_default_expr.p_eval_as_int
+
+   Qual_Expr_5 : constant Natural := String'("A" & "B")'Last;
+   --% node.f_default_expr.p_eval_as_int
 begin
    null;
 end Test;

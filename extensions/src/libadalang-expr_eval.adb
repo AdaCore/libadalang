@@ -349,10 +349,6 @@ package body Libadalang.Expr_Eval is
          end if;
 
          case D.Kind is
-         when Ada_Name =>
-            return Eval_Range_Attr
-              (D.As_Name.P_Referenced_Decl.As_Ada_Node, A);
-
          when Ada_Type_Decl =>
             return Eval_Range_Attr
               (D.As_Type_Decl.F_Type_Def.As_Ada_Node, A);
@@ -374,16 +370,47 @@ package body Libadalang.Expr_Eval is
                return Eval_Range_Attr (Target, A);
             end;
 
-         when Ada_Bin_Op_Range =>
-            declare
-               BO   : constant LAL.Bin_Op := D.As_Bin_Op;
-               Expr : constant LAL.Expr :=
-                 (case A is
-                  when Range_First => BO.F_Left,
-                  when Range_Last  => BO.F_Right);
-            begin
-               return Expr_Eval (Expr);
-            end;
+         when Ada_Expr =>
+            if D.Kind in Ada_Bin_Op_Range
+              and then D.As_Bin_Op.F_Op.Kind in Ada_Op_Double_Dot
+            then
+               declare
+                  BO   : constant LAL.Bin_Op := D.As_Bin_Op;
+                  Expr : constant LAL.Expr :=
+                    (case A is
+                     when Range_First => BO.F_Left,
+                     when Range_Last  => BO.F_Right);
+               begin
+                  return Expr_Eval (Expr);
+               end;
+            elsif not D.As_Expr.P_Expression_Type.Is_Null
+              and then D.As_Expr.P_Is_Static_Expr
+            then
+               declare
+                  Val    : constant Eval_Result := Expr_Eval (D.As_Expr);
+                  Result : Big_Integer;
+               begin
+                  if Val.Kind /= String_Lit then
+                     raise Property_Error with
+                       "Cannot eval " & A'Image & " on " & Val.Kind'Image;
+                  end if;
+
+                  case A is
+                  when Range_First =>
+                     Result.Set (GNATCOLL.GMP.Long (Val.First));
+                  when Range_Last =>
+                     Result.Set (GNATCOLL.GMP.Long (Val.Last));
+                  end case;
+
+                  return Create_Int_Result (Val.Expr_Type, Result);
+               end;
+            elsif D.Kind in Ada_Name then
+               return Eval_Range_Attr
+                 (D.As_Name.P_Referenced_Decl.As_Ada_Node, A);
+            else
+               raise Property_Error with
+                 "Cannot eval " & A'Image & " on " & D.Kind'Image;
+            end if;
 
          when Ada_Type_Def =>
             case D.Kind is
@@ -552,26 +579,6 @@ package body Libadalang.Expr_Eval is
                   "Cannot get " & A'Image & " attribute of type def "
                   & D.Kind'Image;
             end case;
-
-         when Ada_Object_Decl =>
-            declare
-               Val    : constant Eval_Result := Eval_Decl (D.As_Basic_Decl);
-               Typ    : constant LAL.Base_Type_Decl :=
-                  D.As_Object_Decl.P_Type_Expression.P_Designated_Type_Decl;
-               Result : Big_Integer;
-            begin
-               if Val.Kind /= String_Lit then
-                  raise Property_Error with
-                    "Cannot eval " & A'Image & " on " & Val.Kind'Image;
-               end if;
-
-               case A is
-               when Range_First => Result.Set (GNATCOLL.GMP.Long (Val.First));
-               when Range_Last => Result.Set (GNATCOLL.GMP.Long (Val.Last));
-               end case;
-
-               return Create_Int_Result (Typ, Result);
-            end;
 
          when others =>
             raise Property_Error with

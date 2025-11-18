@@ -354,20 +354,25 @@ package body Libadalang.Expr_Eval is
               (D.As_Type_Decl.F_Type_Def.As_Ada_Node, A);
 
          when Ada_Subtype_Decl =>
-            declare
-               Subtype_Indication : constant LAL.Subtype_Indication :=
-                  D.As_Subtype_Decl.F_Subtype;
-               Constraint         : constant LAL.Range_Constraint :=
-                  Subtype_Indication.F_Constraint.As_Range_Constraint;
+            return Eval_Range_Attr
+              (D.As_Subtype_Decl.F_Subtype.As_Ada_Node, A);
 
-               --  If the subtype declaration has a range constraint, evaluate
-               --  this constraint. Else, recurse on the designated subtype.
-               Target : constant LAL.Ada_Node :=
-                 (if Constraint.Is_Null
-                  then Subtype_Indication.P_Designated_Type_Decl.As_Ada_Node
-                  else Constraint.F_Range.F_Range.As_Ada_Node);
+         when Ada_Anonymous_Type =>
+            return Eval_Range_Attr
+              (D.As_Anonymous_Type.F_Type_Decl.As_Ada_Node, A);
+
+         when Ada_Subtype_Indication =>
+            declare
+               SI : constant LAL.Subtype_Indication :=
+                  D.As_Subtype_Indication;
             begin
-               return Eval_Range_Attr (Target, A);
+               if SI.F_Constraint.Is_Null then
+                  return Eval_Range_Attr
+                    (SI.P_Designated_Type_Decl.As_Ada_Node, A);
+               else
+                  return Eval_Range_Attr
+                    (SI.F_Constraint.As_Ada_Node, A);
+               end if;
             end;
 
          when Ada_Expr =>
@@ -411,6 +416,17 @@ package body Libadalang.Expr_Eval is
                raise Property_Error with
                  "Cannot eval " & A'Image & " on " & D.Kind'Image;
             end if;
+
+         when Ada_Range_Constraint =>
+            return Eval_Range_Attr
+              (D.As_Range_Constraint.F_Range.F_Range.As_Ada_Node, A);
+
+         when Ada_Composite_Constraint =>
+            return Eval_Range_Attr
+              (D.As_Composite_Constraint
+               .F_Constraints.Child (1)
+               .As_Composite_Constraint_Assoc.F_Constraint_Expr,
+               A);
 
          when Ada_Type_Def =>
             case D.Kind is
@@ -574,11 +590,34 @@ package body Libadalang.Expr_Eval is
                   end if;
                end;
 
+            when Ada_Array_Type_Def =>
+               declare
+                  I : constant Array_Indices := D.As_Array_Type_Def.F_Indices;
+               begin
+                  if I.Kind = Ada_Constrained_Array_Indices then
+                     return Eval_Range_Attr
+                       (I.As_Constrained_Array_Indices.F_List.Child (1), A);
+                  end if;
+                  raise Property_Error with
+                     "Cannot get " & A'Image & " attribute of type def "
+                     & D.Kind'Image;
+               end;
+
             when others =>
                raise Property_Error with
                   "Cannot get " & A'Image & " attribute of type def "
                   & D.Kind'Image;
             end case;
+
+         when Ada_Object_Decl =>
+            declare
+               Type_Expr : constant LAL.Type_Expr :=
+                 D.As_Object_Decl.P_Type_Expression;
+            begin
+               --  We can always evaluate 'First and 'Last on arrays if
+               --  they are statically constrained.
+               return Eval_Range_Attr (Type_Expr.As_Ada_Node, A);
+            end;
 
          when others =>
             raise Property_Error with

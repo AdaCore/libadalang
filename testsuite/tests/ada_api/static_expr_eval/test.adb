@@ -235,7 +235,7 @@ begin
       null;
    end;
 
-   -- Test basic mixed real/integer operations
+   --  Test basic mixed real/integer operations
    declare
       Plus_RI  : Float := 3.5 + 2;
       Plus_IR  : Float := 3 + 2.5;
@@ -250,4 +250,27 @@ begin
       null;
    end;
 
+   --  Test support for statically constrained arrays
+   declare
+      type Constrained_Array is array (Natural range 0 .. 2) of Integer;
+
+      Arr_1 : Constrained_Array;
+
+      X_1_First : Natural := Arr_1'First;
+      X_1_Last  : Natural := Arr_1'Last;
+
+      type Unconstrained_Array is array (Natural range <>) of Integer;
+
+      Arr_2 : constant Unconstrained_Array (3 .. 8);
+
+      X_2_First : Natural := Arr_2'First;
+      X_2_Last  : Natural := Arr_2'Last;
+
+      Arr_3 : array (Positive range 5 .. 4) of Integer;
+
+      X_3_First : Natural := Arr_3'First;
+      X_3_Last  : Natural := Arr_3'Last;
+   begin
+      null;
+   end;
 end Test;

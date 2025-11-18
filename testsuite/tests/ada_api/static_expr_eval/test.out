@@ -280,4 +280,22 @@ Property_Error: Unsupported type discrepancy
 
 Expr <ObjectDecl ["Pow"] test.adb:248:7-248:36> evaluated to Real 625/16
 
+Expr <ObjectDecl ["X_1_First"] test.adb:259:7-259:42> evaluated to Int 0
+   Int value is 0
+
+Expr <ObjectDecl ["X_1_Last"] test.adb:260:7-260:41> evaluated to Int 2
+   Int value is 2
+
+Expr <ObjectDecl ["X_2_First"] test.adb:266:7-266:42> evaluated to Int 3
+   Int value is 3
+
+Expr <ObjectDecl ["X_2_Last"] test.adb:267:7-267:41> evaluated to Int 8
+   Int value is 8
+
+Expr <ObjectDecl ["X_3_First"] test.adb:271:7-271:42> evaluated to Int 5
+   Int value is 5
+
+Expr <ObjectDecl ["X_3_Last"] test.adb:272:7-272:41> evaluated to Int 4
+   Int value is 4
+
 Done.

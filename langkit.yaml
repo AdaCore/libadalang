@@ -313,8 +313,8 @@ extra_docs:
         file that applies to it).
 
         % if lang == "c":
-        The ``Local_Pragmas`` mapping is encoded as a NULL-trailing analysis
-        unit array that describes a unit-to-unit mapping: for N associations,
+        The ``Local_Pragmas`` mapping is encoded as a NULL-trailing filename
+        array that describes a unit-to-unit mapping: for N associations,
         ``Local_Pragmas[2 * (N - 1)]`` is they key and
         ``Local_Pragmas[2 * (N - 1) + 1]`` is the value.
         % endif

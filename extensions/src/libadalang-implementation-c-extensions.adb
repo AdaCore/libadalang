@@ -677,8 +677,8 @@ package body Libadalang.Implementation.C.Extensions is
 
    procedure ada_set_config_pragmas_mapping
      (Context        : ada_analysis_context;
-      Global_Pragmas : ada_analysis_unit;
-      Local_Pragmas  : access ada_analysis_unit)
+      Global_Pragmas : chars_ptr;
+      Local_Pragmas  : access chars_ptr)
    is
    begin
       Clear_Last_Exception;
@@ -687,22 +687,22 @@ package body Libadalang.Implementation.C.Extensions is
          Ctx      : constant Analysis_Context := Wrap_Context (Context);
          Mappings : Config_Pragmas_Mapping;
 
-         type Unit_Array is array (Positive) of ada_analysis_unit;
-         LP : Unit_Array with Import, Address => Local_Pragmas.all'Address;
+         type Filename_Array is array (Positive) of chars_ptr;
+         LP : Filename_Array with Import, Address => Local_Pragmas.all'Address;
          I  : Positive := 1;
       begin
-         Mappings.Global_Pragmas := Wrap_Unit (Global_Pragmas);
-         while LP (I) /= null loop
+         Mappings.Global_Pragmas := +Global_Pragmas;
+         while LP (I) /= Null_Ptr loop
             declare
-               Key      : constant Analysis_Unit := Wrap_Unit (LP (I));
-               Value    : constant Analysis_Unit := Wrap_Unit (LP (I + 1));
+               Key      : constant Unbounded_String := +LP (I);
+               Value    : constant Unbounded_String := +LP (I + 1);
                Dummy    : Libadalang.Config_Pragmas.Unit_Maps.Cursor;
                Inserted : Boolean;
             begin
                Mappings.Local_Pragmas.Insert (Key, Value, Dummy, Inserted);
                if not Inserted then
                   raise Precondition_Failure
-                    with "an analysis unit is present twice as a key";
+                    with "a filename is present twice as a key";
                end if;
                I := I + 2;
             end;

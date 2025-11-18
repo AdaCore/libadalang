@@ -25,12 +25,12 @@ def check_pragmas():
             print("Config pragma:", p)
 
 
-global_p = load("global.adc")
-local_1 = load("local_1.adc")
-local_2 = load("local_2.adc")
+global_p = "global.adc"
+local_1 = "local_1.adc"
+local_2 = "local_2.adc"
 
-foo = load("foo.adb")
-bar = load("bar.adb")
+foo = "foo.adb"
+bar = "bar.adb"
 
 
 print("== Query config pragmas with no mappings set ==")
@@ -60,8 +60,8 @@ print("")
 print("== Bad type (error) ==")
 try:
     ctx.set_config_pragmas_mapping(global_p, {foo: None})
-except AssertionError as exc:
-    print("Got an assertion failure:", exc)
+except lal.PreconditionFailure as exc:
+    print(f"Got a {type(exc).__name__}: {exc}")
 check_pragmas()
 print("")
 

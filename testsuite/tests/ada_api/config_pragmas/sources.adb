@@ -1,7 +1,8 @@
 --  Check that the ``P_All_Config_Pragmas`` property works as expected
 
-with Ada.Exceptions; use Ada.Exceptions;
-with Ada.Text_IO;    use Ada.Text_IO;
+with Ada.Exceptions;        use Ada.Exceptions;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Text_IO;           use Ada.Text_IO;
 
 with Langkit_Support.Errors; use Langkit_Support.Errors;
 with Langkit_Support.Text;   use Langkit_Support.Text;
@@ -47,7 +48,7 @@ begin
    Set_Mapping
      (Ctx,
       (Local_Pragmas  => <>,
-       Global_Pragmas => Ctx.Get_From_File ("global_foo.adc")));
+       Global_Pragmas => To_Unbounded_String ("global_foo.adc")));
 
    Check_Unit ("pkg.ads");
    Check_Unit ("pkg.adb");

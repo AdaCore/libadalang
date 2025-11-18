@@ -621,10 +621,13 @@ package body Libadalang.Implementation.Extensions is
    function Compilation_Unit_P_External_Config_Pragmas
      (Node : Bare_Compilation_Unit) return Bare_Pragma_Node_Array_Access
    is
+      package Impl renames Config_Pragmas_Impl;
+
+      U   : constant Internal_Unit := Node.Unit;
+      Ctx : constant Internal_Context := U.Context;
 
       function Fetch
-        (Pragmas_Unit : Config_Pragmas_Impl.Internal_Unit)
-         return Bare_Pragma_Node_List;
+        (File : Impl.Config_Pragmas_File_Access) return Bare_Pragma_Node_List;
       --  Return the ``Pragma.list`` node that is the root of the
       --  ``Pragmas_Unit`` analysis unit, or null if there is no root node or
       --  if it is not a list of pragmas.
@@ -641,10 +644,11 @@ package body Libadalang.Implementation.Extensions is
       -----------
 
       function Fetch
-        (Pragmas_Unit : Config_Pragmas_Impl.Internal_Unit)
-         return Bare_Pragma_Node_List
+        (File : Impl.Config_Pragmas_File_Access) return Bare_Pragma_Node_List
       is
-         U : constant Internal_Unit := Internal_Unit (Pragmas_Unit);
+         C : constant Impl.Internal_Context := Impl.Internal_Context (Ctx);
+         U : constant Internal_Unit :=
+           Internal_Unit (Impl.Config_Pragmas_Unit (C, File));
       begin
          return
            (if U = null
@@ -673,17 +677,14 @@ package body Libadalang.Implementation.Extensions is
          end loop;
       end Append;
 
-      use Config_Pragmas_Impl.Unit_Maps;
-
-      U   : constant Internal_Unit := Node.Unit;
-      Ctx : constant Internal_Context := U.Context;
+      use Impl.Config_Pragmas_File_Maps;
 
    begin
       --  Fetch the global and local list of configuration pragmas (if any)
 
       declare
-         Cur : constant Cursor := Ctx.Config_Pragmas.Local_Pragmas.Find
-           (Config_Pragmas_Impl.Internal_Unit (U));
+         Cur : constant Cursor :=
+           Ctx.Config_Pragmas.Local_Pragmas.Find (U.Filename);
 
          Local  : constant Bare_Pragma_Node_List :=
            (if Has_Element (Cur)

@@ -1,8 +1,9 @@
 --  Check that ``Libadalang.Config_Pragmas.Set_Mapping`` rejects invalid inputs
 --  as expected.
 
-with Ada.Exceptions; use Ada.Exceptions;
-with Ada.Text_IO;    use Ada.Text_IO;
+with Ada.Exceptions;        use Ada.Exceptions;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Text_IO;           use Ada.Text_IO;
 
 with Langkit_Support.Errors; use Langkit_Support.Errors;
 
@@ -11,8 +12,7 @@ with Libadalang.Config_Pragmas; use Libadalang.Config_Pragmas;
 
 procedure Invalid is
 
-   Ctx   : constant Analysis_Context := Create_Context;
-   Ctx_2 : constant Analysis_Context := Create_Context;
+   Ctx : constant Analysis_Context := Create_Context;
 
    procedure Check_Error
      (Label   : String;
@@ -43,8 +43,8 @@ procedure Invalid is
    end Check_Error;
 
    Mapping : Config_Pragmas_Mapping;
-   Key     : constant Analysis_Unit := Ctx.Get_From_File ("key");
-   Value   : constant Analysis_Unit := Ctx.Get_From_File ("value");
+   Key     : constant Unbounded_String := To_Unbounded_String ("key");
+   Value   : constant Unbounded_String := To_Unbounded_String ("value");
 begin
    Mapping.Local_Pragmas.Include (Key, Value);
 
@@ -53,35 +53,14 @@ begin
    declare
       M : Config_Pragmas_Mapping := Mapping;
    begin
-      M.Local_Pragmas.Include (Ctx_2.Get_From_File ("key2"), Value);
-      Check_Error ("foreign key unit", Ctx, M);
-   end;
-
-   declare
-      M : Config_Pragmas_Mapping := Mapping;
-   begin
-      M.Local_Pragmas.Include (Key, Ctx_2.Get_From_File ("value2"));
-      Check_Error ("foreign value unit", Ctx, M);
-   end;
-
-   declare
-      M : Config_Pragmas_Mapping := Mapping;
-   begin
-      M.Global_Pragmas := Ctx_2.Get_From_File ("glob");
-      Check_Error ("foreign global", Ctx, M);
-   end;
-
-   declare
-      M : Config_Pragmas_Mapping := Mapping;
-   begin
-      M.Local_Pragmas.Include (No_Analysis_Unit, Value);
+      M.Local_Pragmas.Include (Null_Unbounded_String, Value);
       Check_Error ("null key unit", Ctx, M);
    end;
 
    declare
       M : Config_Pragmas_Mapping := Mapping;
    begin
-      M.Local_Pragmas.Include (Key, No_Analysis_Unit);
+      M.Local_Pragmas.Include (Key, Null_Unbounded_String);
       Check_Error ("null value unit", Ctx, M);
    end;
 

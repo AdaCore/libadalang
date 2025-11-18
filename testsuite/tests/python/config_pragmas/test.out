@@ -28,7 +28,7 @@ Config pragma: <PragmaNode local_2.adc:1:1-1:18>
 Config pragma: <PragmaNode global.adc:1:1-1:15>
 
 == Bad type (error) ==
-Got an assertion failure: 
+Got a PreconditionFailure: null unit value
 Pragmas for foo.adb:
 Config pragma: <PragmaNode local_1.adc:1:1-1:18>
 Config pragma: <PragmaNode global.adc:1:1-1:15>

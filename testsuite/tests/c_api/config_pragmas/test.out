@@ -29,7 +29,7 @@ Config pragma: <PragmaNode global.adc:1:1-1:15>
 
 == Double unit key (error) ==
 Got an exception (EXCEPTION_PRECONDITION_FAILURE):
-  an analysis unit is present twice as a key
+  a filename is present twice as a key
 Pragmas for foo.adb:
 Config pragma: <PragmaNode local_1.adc:1:1-1:18>
 Config pragma: <PragmaNode global.adc:1:1-1:15>

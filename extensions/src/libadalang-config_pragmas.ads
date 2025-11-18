@@ -7,6 +7,8 @@
 --  files.
 
 with Ada.Containers.Hashed_Maps;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded.Hash;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GPR2.Project.Tree;
@@ -17,21 +19,21 @@ with Libadalang.Analysis; use Libadalang.Analysis;
 package Libadalang.Config_Pragmas is
 
    package Unit_Maps is new Ada.Containers.Hashed_Maps
-     (Key_Type        => Analysis_Unit,
-      Element_Type    => Analysis_Unit,
+     (Key_Type        => Unbounded_String,
+      Element_Type    => Unbounded_String,
       Hash            => Hash,
       Equivalent_Keys => "=");
-   --  Map analysis unit to the local configuration pragmas file that applies
-   --  to it.
+   --  Map the filename of an analysis unit to the filename of the local
+   --  configuration pragmas file that applies to it.
 
    type Config_Pragmas_Mapping is record
       Local_Pragmas : Unit_Maps.Map;
       --  Mappings that associate a local configuration pragmas file (element)
       --  to each analysis unit (key) for which it applies.
 
-      Global_Pragmas : Analysis_Unit;
+      Global_Pragmas : Unbounded_String;
       --  Configuration pragmas file that applies to all analysis units, or
-      --  ``No_Analysis_Unit`` if there is no such file.
+      --  ``Null_Unbounded_String`` if there is no such file.
    end record;
 
    procedure Set_Mapping

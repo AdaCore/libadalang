@@ -5,17 +5,24 @@
 
 with Ada.Text_IO; use Ada.Text_IO;
 
-with GNAT.OS_Lib; use GNAT.OS_Lib;
+with GNAT.OS_Lib;  use GNAT.OS_Lib;
+with GNATCOLL.VFS; use GNATCOLL.VFS;
 
-with Libadalang.Common;            use Libadalang.Common;
+with Langkit_Support.Internal.Analysis;
+with Libadalang.Common;                 use Libadalang.Common;
 with Libadalang.Config_Pragmas_Impl;
-with Libadalang.GPR_Utils;         use Libadalang.GPR_Utils;
+with Libadalang.GPR_Utils;              use Libadalang.GPR_Utils;
 with Libadalang.Implementation;
-with Libadalang.Public_Converters; use Libadalang.Public_Converters;
+with Libadalang.Public_Converters;      use Libadalang.Public_Converters;
 
 package body Libadalang.Config_Pragmas is
 
+   package Int renames Langkit_Support.Internal.Analysis;
    package Impl renames Libadalang.Config_Pragmas_Impl;
+
+   function "+" (S : Unbounded_String) return String renames To_String;
+   function "+" (S : String) return Unbounded_String
+   renames To_Unbounded_String;
 
    function Import_From_Project
      (Context : Analysis_Context;
@@ -33,8 +40,45 @@ package body Libadalang.Config_Pragmas is
       use Libadalang.Implementation;
       use Unit_Maps;
 
-      C      : constant Internal_Context := Unwrap_Context (Context);
-      Global : constant Internal_Unit := Unwrap_Unit (Mapping.Global_Pragmas);
+      C     : constant Internal_Context := Unwrap_Context (Context);
+      Cache : Impl.Config_Pragmas_File_Maps.Map;
+
+      function Entry_For
+        (Filename : Unbounded_String) return Impl.Config_Pragmas_File_Access;
+      --  Return the Config_Pragmas_File_Record entry corresponding to the
+      --  given configuration pragmas filename (allocate that entry if it does
+      --  not exist).
+
+      ---------------
+      -- Entry_For --
+      ---------------
+
+      function Entry_For
+        (Filename : Unbounded_String) return Impl.Config_Pragmas_File_Access
+      is
+         use Impl.Config_Pragmas_File_Maps;
+
+         F   : Virtual_File;
+         Cur : Impl.Config_Pragmas_File_Maps.Cursor;
+      begin
+         if Filename = "" then
+            return null;
+         end if;
+
+         F := Int.Normalized_Unit_Filename (C.Filenames, +Filename);
+         Cur := Cache.Find (F);
+         if Has_Element (Cur) then
+            return Element (Cur);
+         else
+            return Result : constant Impl.Config_Pragmas_File_Access :=
+              new Impl.Config_Pragmas_File_Record'(F, null)
+            do
+               C.Config_Pragmas.Entries.Append (Result);
+               Cache.Insert (F, Result);
+            end return;
+         end if;
+      end Entry_for;
+
    begin
       --  Validate all arguments first, so that this procedure is atomic:
       --  either it fails (and changes nothing), either it completes.
@@ -43,40 +87,36 @@ package body Libadalang.Config_Pragmas is
          raise Precondition_Failure with "null context";
       end if;
 
-      if Global /= null and then Global.Context /= C then
-         raise Precondition_Failure with "foreign unit";
-      end if;
-
       for Cur in Mapping.Local_Pragmas.Iterate loop
          declare
-            K : constant Internal_Unit := Unwrap_Unit (Key (Cur));
-            V : constant Internal_Unit := Unwrap_Unit (Element (Cur));
+            K : constant Unbounded_String := Key (Cur);
+            V : constant Unbounded_String := Element (Cur);
          begin
-            if K = null then
+            if K = "" then
                raise Precondition_Failure with "null unit key";
-            elsif V = null then
+            elsif V = "" then
                raise Precondition_Failure with "null unit value";
-            elsif K.Context /= C or else V.Context /= C then
-               raise Precondition_Failure with "foreign unit";
             end if;
          end;
       end loop;
 
+      --  Free previously allocated entries
+
+      Impl.Free (C.Config_Pragmas);
+
       --  Do the assignment
 
-      C.Config_Pragmas.Local_Pragmas.Clear;
+      C.Config_Pragmas.Global_Pragmas := Entry_For (Mapping.Global_Pragmas);
       for Cur in Mapping.Local_Pragmas.Iterate loop
          declare
-            K : constant Internal_Unit := Unwrap_Unit (Key (Cur));
-            V : constant Internal_Unit := Unwrap_Unit (Element (Cur));
+            K : constant Virtual_File :=
+              Int.Normalized_Unit_Filename (C.Filenames, +Key (Cur));
+            V : constant Unbounded_String := Element (Cur);
+
          begin
-            C.Config_Pragmas.Local_Pragmas.Include
-              (Impl.Internal_Unit (K), Impl.Internal_Unit (V));
+            C.Config_Pragmas.Local_Pragmas.Include (K, Entry_For (V));
          end;
       end loop;
-
-      C.Config_Pragmas.Global_Pragmas :=
-        Impl.Internal_Unit (Unwrap_Unit (Mapping.Global_Pragmas));
 
       --  Invalidate caches, as this new assignment may change name resolution
 
@@ -96,17 +136,19 @@ package body Libadalang.Config_Pragmas is
       View    : Any_View) return Config_Pragmas_Mapping
    is
       function Fetch
-        (View : Any_View; Attr : GPR_Utils.Any_Attribute) return Analysis_Unit;
+        (View : Any_View;
+         Attr : GPR_Utils.Any_Attribute) return Unbounded_String;
       --  Return the analysis unit corresponding to the configuration pragmas
       --  file mentioned in the given project attribute, or
-      --  ``No_Analysis_Unit`` if there is no such attribute.
+      --  ``Null_Unbounded_String`` if there is no such attribute.
 
       -----------
       -- Fetch --
       -----------
 
       function Fetch
-        (View : Any_View; Attr : GPR_Utils.Any_Attribute) return Analysis_Unit
+        (View : Any_View;
+         Attr : GPR_Utils.Any_Attribute) return Unbounded_String
       is
          --  First fetch the attribute: if absent, there is no configuration
          --  pragmas file to read.
@@ -114,7 +156,7 @@ package body Libadalang.Config_Pragmas is
          Filename : constant String := Value (View, Attr);
       begin
          if Filename = "" then
-            return No_Analysis_Unit;
+            return Null_Unbounded_String;
          end if;
 
          --  The attribute specifies a path that is either absolute, or
@@ -127,7 +169,7 @@ package body Libadalang.Config_Pragmas is
                then Filename
                else Dir_Name (View) & "/" & Filename);
          begin
-            return Context.Get_From_File (Full_Name);
+            return +Full_Name;
          end;
       end Fetch;
 
@@ -145,7 +187,7 @@ package body Libadalang.Config_Pragmas is
          --  local configuration pragmas files.
 
          declare
-            Pragmas : Analysis_Unit;
+            Pragmas : Unbounded_String;
             --  Local configuration pragmas file for the view processed in
             --  ``Process_View``.
 
@@ -180,7 +222,7 @@ package body Libadalang.Config_Pragmas is
 
                Pragmas := Fetch
                  (View, Attributes.Local_Pragmas_Attribute (Tree.Kind));
-               if Pragmas /= No_Analysis_Unit then
+               if Pragmas /= "" then
                   Iterate_Ada_Units
                     (Tree, View, Associate'Access, Recursive => False);
                end if;
@@ -197,8 +239,7 @@ package body Libadalang.Config_Pragmas is
             is
                pragma Unreferenced (Unit_Name, Unit_Part);
             begin
-               Result.Local_Pragmas.Include
-                 (Context.Get_From_File (Filename), Pragmas);
+               Result.Local_Pragmas.Include (+Filename, Pragmas);
             end Associate;
 
          begin
@@ -274,11 +315,11 @@ package body Libadalang.Config_Pragmas is
    procedure Dump (Mapping : Config_Pragmas_Mapping) is
       use Unit_Maps;
    begin
-      Put_Line ("Global pragmas at: " & Mapping.Global_Pragmas.Get_Filename);
+      Put_Line ("Global pragmas at: " & (+Mapping.Global_Pragmas));
       Put_Line ("Local pragmas:");
       for Cur in Mapping.Local_Pragmas.Iterate loop
-         Put_Line ("  " & Key (Cur).Get_Filename);
-         Put_Line ("    -> " & Element (Cur).Get_Filename);
+         Put_Line ("  " & (+Key (Cur)));
+         Put_Line ("    -> " & (+Element (Cur)));
       end loop;
    end Dump;
 

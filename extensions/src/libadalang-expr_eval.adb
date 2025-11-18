@@ -1335,7 +1335,7 @@ package body Libadalang.Expr_Eval is
                   E.P_Expression_Type,
                   Concat_Result,
                   First,
-                  First + Length (Concat_Result));
+                  First + Length (Concat_Result) - 1);
             end;
 
          when Ada_Un_Op =>

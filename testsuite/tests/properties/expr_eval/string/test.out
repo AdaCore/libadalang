@@ -128,7 +128,7 @@ Working on node <ObjectDecl ["Slice_7_Last"] slice.adb:56:3-56:51>
 ==================================================================
 
 Eval 'node.f_default_expr.p_eval_as_int'
-Result: 9
+Result: 8
 
 Working on node <ObjectDecl ["Index"] test_pkg.adb:4:4-4:37>
 ============================================================

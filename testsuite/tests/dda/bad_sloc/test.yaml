@@ -1,0 +1,11 @@
+driver: dda
+description: |
+    Check that Libadalang does not crash when looking for an entry with the
+    wrong sloc.
+input_sources: [foo.ads]
+control:
+  - [
+    SKIP,
+    dda_compile,
+    "The point of this test is to run with outdated repinfo"
+  ]

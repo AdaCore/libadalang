@@ -235,7 +235,7 @@ begin
       null;
    end;
 
-   -- Test basic mixed real/integer operations
+   --  Test basic mixed real/integer operations
    declare
       Plus_RI  : Float := 3.5 + 2;
       Plus_IR  : Float := 3 + 2.5;
@@ -250,4 +250,56 @@ begin
       null;
    end;
 
+   --  Test support for statically constrained arrays
+   declare
+      type Constrained_Array is array (Natural range 0 .. 2) of Integer;
+
+      Arr_1 : Constrained_Array;
+
+      X_1_First : Natural := Arr_1'First;
+      X_1_Last  : Natural := Arr_1'Last;
+      X_1_Len   : Natural := Arr_1'Length;
+
+      type Unconstrained_Array is array (Natural range <>) of Integer;
+
+      Arr_2 : constant Unconstrained_Array (3 .. 8);
+
+      X_2_First : Natural := Arr_2'First;
+      X_2_Last  : Natural := Arr_2'Last;
+      X_2_Len   : Natural := Arr_2'Length;
+
+      Arr_3 : array (Positive range 5 .. 4) of Integer;
+
+      X_3_First : Natural := Arr_3'First;
+      X_3_Last  : Natural := Arr_3'Last;
+      X_3_Len   : Natural := Arr_3'Length;
+
+      type Arr_4 is new Unconstrained_Array (2 .. 7);
+
+      X_4_First : Natural := Arr_4'First;
+      X_4_Last  : Natural := Arr_4'Last;
+      X_4_Len   : Natural := Arr_4'Length;
+
+      --  Now check that evaluation of those attributes on unconstrained
+      --  and non-statically constrained arrays fail in a clean way.
+
+      Arr_5 : constant Unconstrained_Array := (1, 2, 3);
+
+      X_5_First : Natural := Arr_5'First;
+      X_5_Last  : Natural := Arr_5'Last;
+      X_5_Len   : Natural := Arr_5'Length;
+
+      function Non_Static_Value return Natural with Import;
+
+      subtype Non_Statically_Constrained_Array is
+        Unconstrained_Array (Non_Static_Value .. Non_Static_Value);
+
+      Arr_6 : constant Non_Statically_Constrained_Array;
+
+      X_6_First : Natural := Arr_6'First;
+      X_6_Last  : Natural := Arr_6'Last;
+      X_6_Len   : Natural := Arr_6'Length;
+   begin
+      null;
+   end;
 end Test;

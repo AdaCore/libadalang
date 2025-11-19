@@ -349,41 +349,84 @@ package body Libadalang.Expr_Eval is
          end if;
 
          case D.Kind is
-         when Ada_Name =>
-            return Eval_Range_Attr
-              (D.As_Name.P_Referenced_Decl.As_Ada_Node, A);
-
          when Ada_Type_Decl =>
             return Eval_Range_Attr
               (D.As_Type_Decl.F_Type_Def.As_Ada_Node, A);
 
          when Ada_Subtype_Decl =>
-            declare
-               Subtype_Indication : constant LAL.Subtype_Indication :=
-                  D.As_Subtype_Decl.F_Subtype;
-               Constraint         : constant LAL.Range_Constraint :=
-                  Subtype_Indication.F_Constraint.As_Range_Constraint;
+            return Eval_Range_Attr
+              (D.As_Subtype_Decl.F_Subtype.As_Ada_Node, A);
 
-               --  If the subtype declaration has a range constraint, evaluate
-               --  this constraint. Else, recurse on the designated subtype.
-               Target : constant LAL.Ada_Node :=
-                 (if Constraint.Is_Null
-                  then Subtype_Indication.P_Designated_Type_Decl.As_Ada_Node
-                  else Constraint.F_Range.F_Range.As_Ada_Node);
+         when Ada_Anonymous_Type =>
+            return Eval_Range_Attr
+              (D.As_Anonymous_Type.F_Type_Decl.As_Ada_Node, A);
+
+         when Ada_Subtype_Indication =>
+            declare
+               SI : constant LAL.Subtype_Indication :=
+                  D.As_Subtype_Indication;
             begin
-               return Eval_Range_Attr (Target, A);
+               if SI.F_Constraint.Is_Null then
+                  return Eval_Range_Attr
+                    (SI.P_Designated_Type_Decl.As_Ada_Node, A);
+               else
+                  return Eval_Range_Attr
+                    (SI.F_Constraint.As_Ada_Node, A);
+               end if;
             end;
 
-         when Ada_Bin_Op_Range =>
-            declare
-               BO   : constant LAL.Bin_Op := D.As_Bin_Op;
-               Expr : constant LAL.Expr :=
-                 (case A is
-                  when Range_First => BO.F_Left,
-                  when Range_Last  => BO.F_Right);
-            begin
-               return Expr_Eval (Expr);
-            end;
+         when Ada_Expr =>
+            if D.Kind in Ada_Bin_Op_Range
+              and then D.As_Bin_Op.F_Op.Kind in Ada_Op_Double_Dot
+            then
+               declare
+                  BO   : constant LAL.Bin_Op := D.As_Bin_Op;
+                  Expr : constant LAL.Expr :=
+                    (case A is
+                     when Range_First => BO.F_Left,
+                     when Range_Last  => BO.F_Right);
+               begin
+                  return Expr_Eval (Expr);
+               end;
+            elsif not D.As_Expr.P_Expression_Type.Is_Null
+              and then D.As_Expr.P_Is_Static_Expr
+            then
+               declare
+                  Val    : constant Eval_Result := Expr_Eval (D.As_Expr);
+                  Result : Big_Integer;
+               begin
+                  if Val.Kind /= String_Lit then
+                     raise Property_Error with
+                       "Cannot eval " & A'Image & " on " & Val.Kind'Image;
+                  end if;
+
+                  case A is
+                  when Range_First =>
+                     Result.Set (GNATCOLL.GMP.Long (Val.First));
+                  when Range_Last =>
+                     Result.Set (GNATCOLL.GMP.Long (Val.Last));
+                  end case;
+
+                  return Create_Int_Result (Val.Expr_Type, Result);
+               end;
+            elsif D.Kind in Ada_Name then
+               return Eval_Range_Attr
+                 (D.As_Name.P_Referenced_Decl.As_Ada_Node, A);
+            else
+               raise Property_Error with
+                 "Cannot eval " & A'Image & " on " & D.Kind'Image;
+            end if;
+
+         when Ada_Range_Constraint =>
+            return Eval_Range_Attr
+              (D.As_Range_Constraint.F_Range.F_Range.As_Ada_Node, A);
+
+         when Ada_Composite_Constraint =>
+            return Eval_Range_Attr
+              (D.As_Composite_Constraint
+               .F_Constraints.Child (1)
+               .As_Composite_Constraint_Assoc.F_Constraint_Expr,
+               A);
 
          when Ada_Type_Def =>
             case D.Kind is
@@ -397,7 +440,7 @@ package body Libadalang.Expr_Eval is
                   Target : constant Ada_Node :=
                     (if Cst.Is_Null
                      then D.Parent.As_Base_Type_Decl.P_Base_Type.As_Ada_Node
-                     else Cst.As_Range_Constraint.F_Range.F_Range.As_Ada_Node);
+                     else Cst.As_Ada_Node);
                begin
                   return Eval_Range_Attr (Target, A);
                end;
@@ -547,6 +590,19 @@ package body Libadalang.Expr_Eval is
                   end if;
                end;
 
+            when Ada_Array_Type_Def =>
+               declare
+                  I : constant Array_Indices := D.As_Array_Type_Def.F_Indices;
+               begin
+                  if I.Kind = Ada_Constrained_Array_Indices then
+                     return Eval_Range_Attr
+                       (I.As_Constrained_Array_Indices.F_List.Child (1), A);
+                  end if;
+                  raise Property_Error with
+                     "Cannot get " & A'Image & " attribute of type def "
+                     & D.Kind'Image;
+               end;
+
             when others =>
                raise Property_Error with
                   "Cannot get " & A'Image & " attribute of type def "
@@ -555,22 +611,12 @@ package body Libadalang.Expr_Eval is
 
          when Ada_Object_Decl =>
             declare
-               Val    : constant Eval_Result := Eval_Decl (D.As_Basic_Decl);
-               Typ    : constant LAL.Base_Type_Decl :=
-                  D.As_Object_Decl.P_Type_Expression.P_Designated_Type_Decl;
-               Result : Big_Integer;
+               Type_Expr : constant LAL.Type_Expr :=
+                 D.As_Object_Decl.P_Type_Expression;
             begin
-               if Val.Kind /= String_Lit then
-                  raise Property_Error with
-                    "Cannot eval " & A'Image & " on " & Val.Kind'Image;
-               end if;
-
-               case A is
-               when Range_First => Result.Set (GNATCOLL.GMP.Long (Val.First));
-               when Range_Last => Result.Set (GNATCOLL.GMP.Long (Val.Last));
-               end case;
-
-               return Create_Int_Result (Typ, Result);
+               --  We can always evaluate 'First and 'Last on arrays if
+               --  they are statically constrained.
+               return Eval_Range_Attr (Type_Expr.As_Ada_Node, A);
             end;
 
          when others =>
@@ -792,36 +838,6 @@ package body Libadalang.Expr_Eval is
                   raise Property_Error with
                      "'Pos only applicable to discrete types";
                end if;
-            end;
-         elsif Name in "length" then
-
-            --  Current support of 'Length only works on Strings (Character
-            --  arrays). TODO??? Add support for all array types, including
-            --  multidimensional ones.
-
-            if not Args.Is_Null then
-               raise Property_Error with
-                  "'Length require no argument";
-            end if;
-            --  Not true for multidimensional arrays. 'Length attribute can
-            --  take one argument standing for the Nth dimension of the
-            --  array length is requested.
-
-            declare
-               Typ    : constant Base_Type_Decl :=
-                  AR.F_Prefix.P_Name_Designated_Type;
-               Val    : constant Eval_Result :=
-                  Expr_Eval (AR.F_Prefix.As_Expr);
-               Result : Big_Integer;
-            begin
-               if Val.Kind /= String_Lit then
-                  raise Property_Error with
-                     "'Length expects a string argument";
-               end if;
-
-               Result.Set (GNATCOLL.GMP.Long (Length (As_String (Val))));
-
-               return Create_Int_Result (Typ, Result);
             end;
          else
             raise Property_Error
@@ -1335,7 +1351,7 @@ package body Libadalang.Expr_Eval is
                   E.P_Expression_Type,
                   Concat_Result,
                   First,
-                  First + Length (Concat_Result));
+                  First + Length (Concat_Result) - 1);
             end;
 
          when Ada_Un_Op =>
@@ -1427,10 +1443,25 @@ package body Libadalang.Expr_Eval is
             begin
                if Name = "first" then
                   return Eval_Range_Attr
-                    (As_Ada_Node (AR.F_Prefix), Range_First);
+                    (AR.F_Prefix.As_Ada_Node, Range_First);
                elsif Name = "last" then
                   return Eval_Range_Attr
-                    (As_Ada_Node (AR.F_Prefix), Range_Last);
+                    (AR.F_Prefix.As_Ada_Node, Range_Last);
+               elsif Name = "length" then
+                  declare
+                     First : constant Eval_Result := Eval_Range_Attr
+                       (AR.F_Prefix.As_Ada_Node, Range_First);
+                     Last  : constant Eval_Result := Eval_Range_Attr
+                       (AR.F_Prefix.As_Ada_Node, Range_Last);
+                     Result : Big_Integer :=
+                       As_Int (Last) - As_Int (First) + 1;
+                  begin
+                     pragma Assert (First.Kind = Last.Kind);
+                     if Result < 0 then
+                        Result.Set (0);
+                     end if;
+                     return Create_Int_Result (First.Expr_Type, Result);
+                  end;
                elsif AR.F_Prefix.P_Name_Is (To_Unbounded_Text ("standard"))
                then
                   return Eval_Standard_Attr (AR);

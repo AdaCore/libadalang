@@ -44,8 +44,8 @@ procedure Main is
          when Enum_Lit =>
             return "Enum_Lit " & X.Enum_Result.Image;
          when String_Lit =>
-            return ("String_Lit " & """"
-                    & Encode (To_Text (X.String_Result), "UTF-8") & """");
+            return f"String_Lit ({X.First} .. {X.Last}) "
+                   & f"\"{Encode (To_Text (X.String_Result), "UTF-8")}\"";
       end case;
    end Eval_Result_To_String;
 

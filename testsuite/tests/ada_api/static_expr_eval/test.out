@@ -150,13 +150,13 @@ Expr <ObjectDecl ["Test_3"] test.adb:122:7-122:39> evaluated to Enum_Lit <EnumLi
 Expr <ObjectDecl ["Test_4"] test.adb:123:7-123:38> evaluated to Enum_Lit <EnumLiteralDecl ["False"] in Standard>
    Int value is 0
 
-Expr <ObjectDecl ["Test_1"] test.adb:130:7-130:41> evaluated to String_Lit "Hello World!"
+Expr <ObjectDecl ["Test_1"] test.adb:130:7-130:41> evaluated to String_Lit (1 .. 12) "Hello World!"
 
-Expr <ObjectDecl ["Test_2"] test.adb:131:7-131:43> evaluated to String_Lit "Hello"
+Expr <ObjectDecl ["Test_2"] test.adb:131:7-131:43> evaluated to String_Lit (1 .. 5) "Hello"
 
-Expr <ObjectDecl ["Test_3"] test.adb:132:7-132:44> evaluated to String_Lit "World!"
+Expr <ObjectDecl ["Test_3"] test.adb:132:7-132:44> evaluated to String_Lit (1 .. 6) "World!"
 
-Expr <ObjectDecl ["Test_4"] test.adb:133:7-133:48> evaluated to String_Lit "Hello World!"
+Expr <ObjectDecl ["Test_4"] test.adb:133:7-133:48> evaluated to String_Lit (1 .. 12) "Hello World!"
 
 Expr <ObjectDecl ["Test_1"] test.adb:140:7-140:34> evaluated to Enum_Lit <EnumLiteralDecl ["True"] in Standard>
    Int value is 1
@@ -279,5 +279,55 @@ Expr <ObjectDecl ["Div_RI"] test.adb:246:7-246:35> evaluated to Real 7/4
 Property_Error: Unsupported type discrepancy
 
 Expr <ObjectDecl ["Pow"] test.adb:248:7-248:36> evaluated to Real 625/16
+
+Expr <ObjectDecl ["X_1_First"] test.adb:259:7-259:42> evaluated to Int 0
+   Int value is 0
+
+Expr <ObjectDecl ["X_1_Last"] test.adb:260:7-260:41> evaluated to Int 2
+   Int value is 2
+
+Expr <ObjectDecl ["X_1_Len"] test.adb:261:7-261:43> evaluated to Int 3
+   Int value is 3
+
+Expr <ObjectDecl ["X_2_First"] test.adb:267:7-267:42> evaluated to Int 3
+   Int value is 3
+
+Expr <ObjectDecl ["X_2_Last"] test.adb:268:7-268:41> evaluated to Int 8
+   Int value is 8
+
+Expr <ObjectDecl ["X_2_Len"] test.adb:269:7-269:43> evaluated to Int 6
+   Int value is 6
+
+Expr <ObjectDecl ["X_3_First"] test.adb:273:7-273:42> evaluated to Int 5
+   Int value is 5
+
+Expr <ObjectDecl ["X_3_Last"] test.adb:274:7-274:41> evaluated to Int 4
+   Int value is 4
+
+Expr <ObjectDecl ["X_3_Len"] test.adb:275:7-275:43> evaluated to Int 0
+   Int value is 0
+
+Expr <ObjectDecl ["X_4_First"] test.adb:279:7-279:42> evaluated to Int 2
+   Int value is 2
+
+Expr <ObjectDecl ["X_4_Last"] test.adb:280:7-280:41> evaluated to Int 7
+   Int value is 7
+
+Expr <ObjectDecl ["X_4_Len"] test.adb:281:7-281:43> evaluated to Int 6
+   Int value is 6
+
+Property_Error: Unhandled node: ADA_AGGREGATE
+
+Property_Error: Cannot get RANGE_FIRST attribute of type def ADA_ARRAY_TYPE_DEF
+
+Property_Error: Cannot get RANGE_LAST attribute of type def ADA_ARRAY_TYPE_DEF
+
+Property_Error: Cannot get RANGE_FIRST attribute of type def ADA_ARRAY_TYPE_DEF
+
+Property_Error: Cannot eval decl ADA_SUBP_DECL
+
+Property_Error: Cannot eval decl ADA_SUBP_DECL
+
+Property_Error: Cannot eval decl ADA_SUBP_DECL
 
 Done.

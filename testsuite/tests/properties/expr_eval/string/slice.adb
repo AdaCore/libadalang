@@ -14,7 +14,7 @@ procedure Slice is
 
   Slice_5 : String renames Slice_4;
   Slice_6 : String renames S (6 .. 7);
-  Slice_7 : String := Slice_2 & Slice_3;
+  Slice_7 : constant String := Slice_2 & Slice_3;
 
   S_First_1 : constant Natural := S'First;
   --% node.f_default_expr.p_eval_as_int

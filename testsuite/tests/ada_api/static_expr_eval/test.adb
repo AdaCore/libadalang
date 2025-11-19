@@ -273,6 +273,12 @@ begin
       X_3_First : Natural := Arr_3'First;
       X_3_Last  : Natural := Arr_3'Last;
       X_3_Len   : Natural := Arr_3'Length;
+
+      type Arr_4 is new Unconstrained_Array (2 .. 7);
+
+      X_4_First : Natural := Arr_4'First;
+      X_4_Last  : Natural := Arr_4'Last;
+      X_4_Len   : Natural := Arr_4'Length;
    begin
       null;
    end;

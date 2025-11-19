@@ -440,7 +440,7 @@ package body Libadalang.Expr_Eval is
                   Target : constant Ada_Node :=
                     (if Cst.Is_Null
                      then D.Parent.As_Base_Type_Decl.P_Base_Type.As_Ada_Node
-                     else Cst.As_Range_Constraint.F_Range.F_Range.As_Ada_Node);
+                     else Cst.As_Ada_Node);
                begin
                   return Eval_Range_Attr (Target, A);
                end;

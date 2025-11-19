@@ -307,4 +307,13 @@ Expr <ObjectDecl ["X_3_Last"] test.adb:274:7-274:41> evaluated to Int 4
 Expr <ObjectDecl ["X_3_Len"] test.adb:275:7-275:43> evaluated to Int 0
    Int value is 0
 
+Expr <ObjectDecl ["X_4_First"] test.adb:279:7-279:42> evaluated to Int 2
+   Int value is 2
+
+Expr <ObjectDecl ["X_4_Last"] test.adb:280:7-280:41> evaluated to Int 7
+   Int value is 7
+
+Expr <ObjectDecl ["X_4_Len"] test.adb:281:7-281:43> evaluated to Int 6
+   Int value is 6
+
 Done.

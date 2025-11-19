@@ -58,6 +58,19 @@ procedure Test is
       + New_Standard_Subtype'Size;
    --% node.f_default_expr.p_eval_as_int
    --  It should also automatically work on subtypes of supported types
+
+   type Tagged_Record is tagged record
+      A : Integer;
+   end record with Size => 128;
+
+   type New_Tagged_Record is new Tagged_Record with record
+      B : Integer;
+   end record;
+
+   I : constant Positive := New_Tagged_Record'Size;
+   --% node.f_default_expr.p_eval_as_int
+   --  This shouldn't work however, because the record extension changes the
+   --  type's representation and thus its size cannot be known by LAL anymore.
 begin
    null;
 end Test;

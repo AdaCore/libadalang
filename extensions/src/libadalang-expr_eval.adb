@@ -938,19 +938,28 @@ package body Libadalang.Expr_Eval is
                     Typ.P_Get_Aspect (+"Size");
                begin
                   if Size_Aspect.Exists then
-                     return Expr_Eval (Value (Size_Aspect).As_Expr);
-                  end if;
-               end;
-
-               --  If the size of the root type is known, the size of the
-               --  derived type is the same, since we known it was not
-               --  explicitly redefined to another value (otherwise it would
-               --  have been handled by the logic above).
-               declare
-                  Root_Type : constant Base_Type_Decl := Typ.P_Root_Type;
-               begin
-                  if not Root_Type.Is_Null and Root_Type /= Typ then
-                     return Type_Size (Root_Type);
+                     --  Explicitly ignore tagged type if the aspect comes from
+                     --  an ancestor type, as a record extension in the middle
+                     --  of the hierarchy could change the representation of
+                     --  the derived type and thus make the explicitly-defined
+                     --  Size of the ancestor obselete for the derived type.
+                     if not Size_Aspect.Inherited
+                       or else not Typ.P_Is_Tagged_Type
+                     then
+                        return Expr_Eval (Value (Size_Aspect).As_Expr);
+                     end if;
+                  else
+                     --  If the size of the root type is known, the size of the
+                     --  derived type is the same, since we known it was not
+                     --  explicitly redefined to another value (otherwise it
+                     --  would have been handled by the logic above).
+                     declare
+                        Root_Type : constant Base_Type_Decl := Typ.P_Root_Type;
+                     begin
+                        if not Root_Type.Is_Null and Root_Type /= Typ then
+                           return Type_Size (Root_Type);
+                        end if;
+                     end;
                   end if;
                end;
             end if;

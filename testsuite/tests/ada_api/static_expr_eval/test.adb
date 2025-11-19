@@ -279,6 +279,26 @@ begin
       X_4_First : Natural := Arr_4'First;
       X_4_Last  : Natural := Arr_4'Last;
       X_4_Len   : Natural := Arr_4'Length;
+
+      --  Now check that evaluation of those attributes on unconstrained
+      --  and non-statically constrained arrays fail in a clean way.
+
+      Arr_5 : constant Unconstrained_Array := (1, 2, 3);
+
+      X_5_First : Natural := Arr_5'First;
+      X_5_Last  : Natural := Arr_5'Last;
+      X_5_Len   : Natural := Arr_5'Length;
+
+      function Non_Static_Value return Natural with Import;
+
+      subtype Non_Statically_Constrained_Array is
+        Unconstrained_Array (Non_Static_Value .. Non_Static_Value);
+
+      Arr_6 : constant Non_Statically_Constrained_Array;
+
+      X_6_First : Natural := Arr_6'First;
+      X_6_Last  : Natural := Arr_6'Last;
+      X_6_Len   : Natural := Arr_6'Length;
    begin
       null;
    end;

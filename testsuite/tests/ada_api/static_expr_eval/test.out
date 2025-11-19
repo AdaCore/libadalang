@@ -316,4 +316,18 @@ Expr <ObjectDecl ["X_4_Last"] test.adb:280:7-280:41> evaluated to Int 7
 Expr <ObjectDecl ["X_4_Len"] test.adb:281:7-281:43> evaluated to Int 6
    Int value is 6
 
+Property_Error: Unhandled node: ADA_AGGREGATE
+
+Property_Error: Cannot get RANGE_FIRST attribute of type def ADA_ARRAY_TYPE_DEF
+
+Property_Error: Cannot get RANGE_LAST attribute of type def ADA_ARRAY_TYPE_DEF
+
+Property_Error: Cannot get RANGE_FIRST attribute of type def ADA_ARRAY_TYPE_DEF
+
+Property_Error: Cannot eval decl ADA_SUBP_DECL
+
+Property_Error: Cannot eval decl ADA_SUBP_DECL
+
+Property_Error: Cannot eval decl ADA_SUBP_DECL
+
 Done.

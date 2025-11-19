@@ -23,6 +23,54 @@ procedure Test is
    --% node.f_default_expr.p_eval_as_int
    --  Calling 'Size on an object is not supported for now, even if the type
    --  of the object is one of the predefined types from Standard.
+
+   type Specific_Size_1 is new Boolean
+      with Size => 4;
+
+   type Specific_Size_2 is new Integer;
+   for Specific_Size_2'Size use 32;
+
+   E : constant Positive := Specific_Size_1'Size + Specific_Size_2'Size;
+   --% node.f_default_expr.p_eval_as_int
+   --  We support the evaluation of this attribute on types for which it is
+   --  explicitly defined, however.
+
+   type New_Specific_Size_1 is new Specific_Size_1;
+
+   F : constant Positive := New_Specific_Size_1'Size;
+   --% node.f_default_expr.p_eval_as_int
+   --  Even if the aspect was defined not on the designated type but one of
+   --  its parent types, as this aspect is inherited.
+
+   type New_Standard_Type is new Integer;
+
+   G : constant Positive := New_Standard_Type'Size;
+   --% node.f_default_expr.p_eval_as_int
+   --  We can also answer that for types that derive from standard types
+
+   subtype Standard_Subtype is Integer range 1 .. 10;
+   subtype Specific_Size_2_Subtype is Specific_Size_2 range 1 .. 10;
+   subtype New_Standard_Subtype is New_Standard_Type range 1 .. 10;
+
+   H : constant Positive :=
+      Standard_Subtype'Size
+      + Specific_Size_2_Subtype'Size
+      + New_Standard_Subtype'Size;
+   --% node.f_default_expr.p_eval_as_int
+   --  It should also automatically work on subtypes of supported types
+
+   type Tagged_Record is tagged record
+      A : Integer;
+   end record with Size => 128;
+
+   type New_Tagged_Record is new Tagged_Record with record
+      B : Integer;
+   end record;
+
+   I : constant Positive := New_Tagged_Record'Size;
+   --% node.f_default_expr.p_eval_as_int
+   --  This shouldn't work however, because the record extension changes the
+   --  type's representation and thus its size cannot be known by LAL anymore.
 begin
    null;
 end Test;

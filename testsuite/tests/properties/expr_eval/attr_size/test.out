@@ -21,3 +21,33 @@ Working on node <ObjectDecl ["D"] test.adb:22:4-22:36>
 
 Eval 'node.f_default_expr.p_eval_as_int'
 Exception: Evaluation of 'Size is only supported on types
+
+Working on node <ObjectDecl ["E"] test.adb:33:4-33:73>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 36
+
+Working on node <ObjectDecl ["F"] test.adb:40:4-40:54>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 4
+
+Working on node <ObjectDecl ["G"] test.adb:47:4-47:52>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 32
+
+Working on node <ObjectDecl ["H"] test.adb:55:4-58:35>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 96
+
+Working on node <ObjectDecl ["I"] test.adb:70:4-70:52>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: Cannot compute 'Size on: New_Tagged_Record

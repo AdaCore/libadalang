@@ -895,52 +895,93 @@ package body Libadalang.Expr_Eval is
       function Eval_Size_Attr
         (AR : LAL.Attribute_Ref) return Eval_Result
       is
-         use Libadalang.Target_Info;
+         function Type_Size (Typ : Base_Type_Decl) return Eval_Result;
+         --  Helper to compute the size of the given type.
+         --  Return an int result containing 0 if the size could not be
+         --  evaluated.
 
-         TI : constant Target_Information :=
-           Get_Target_Information (AR.Unit.Context);
+         function Type_Size (Typ : Base_Type_Decl) return Eval_Result is
+            use Libadalang.Target_Info;
+
+            TI : constant Target_Information :=
+              Get_Target_Information (AR.Unit.Context);
+
+            Type_Name : constant Defining_Name := Typ.F_Name;
+
+            Result : Natural := 0;
+         begin
+            if Typ.Unit = AR.P_Standard_Unit then
+               if Type_Name.P_Name_Is (+"Boolean") then
+                  Result := 1;
+               elsif Type_Name.P_Name_Is (+"Character") then
+                  Result := TI.Char_Size;
+               elsif Type_Name.P_Name_Is (+"Float") then
+                  Result := TI.Float_Size;
+               elsif Type_Name.P_Name_Is (+"Long_Float") then
+                  Result := TI.Double_Size;
+               elsif Type_Name.P_Name_Is (+"Long_Long_Float") then
+                  Result := TI.Long_Double_Size;
+               elsif Type_Name.P_Name_Is (+"Short_Integer") then
+                  Result := TI.Short_Size;
+               elsif Type_Name.P_Name_Is (+"Integer") then
+                  Result := TI.Int_Size;
+               elsif Type_Name.P_Name_Is (+"Long_Integer") then
+                  Result := TI.Long_Size;
+               elsif Type_Name.P_Name_Is (+"Long_Long_Integer") then
+                  Result := TI.Long_Long_Size;
+               elsif Type_Name.P_Name_Is (+"Long_Long_Long_Integer") then
+                  Result := TI.Long_Long_Long_Size;
+               end if;
+            else
+               declare
+                  Size_Aspect : constant Aspect :=
+                    Typ.P_Get_Aspect (+"Size");
+               begin
+                  if Size_Aspect.Exists then
+                     --  Explicitly ignore tagged type if the aspect comes from
+                     --  an ancestor type, as a record extension in the middle
+                     --  of the hierarchy could change the representation of
+                     --  the derived type and thus make the explicitly-defined
+                     --  Size of the ancestor obselete for the derived type.
+                     if not Size_Aspect.Inherited
+                       or else not Typ.P_Is_Tagged_Type
+                     then
+                        return Expr_Eval (Value (Size_Aspect).As_Expr);
+                     end if;
+                  else
+                     --  If the size of the root type is known, the size of the
+                     --  derived type is the same, since we known it was not
+                     --  explicitly redefined to another value (otherwise it
+                     --  would have been handled by the logic above).
+                     declare
+                        Root_Type : constant Base_Type_Decl := Typ.P_Root_Type;
+                     begin
+                        if not Root_Type.Is_Null and Root_Type /= Typ then
+                           return Type_Size (Root_Type);
+                        end if;
+                     end;
+                  end if;
+               end;
+            end if;
+
+            return Create_Int_Result
+              (AR.P_Universal_Int_Type.As_Base_Type_Decl, Result);
+         end Type_Size;
 
          Target_Type : constant Base_Type_Decl :=
             AR.F_Prefix.P_Name_Designated_Type;
-
-         Result : Natural := 0;
       begin
          if Target_Type.Is_Null then
             raise Property_Error
               with "Evaluation of 'Size is only supported on types";
          end if;
 
-         if Target_Type.Unit = AR.P_Standard_Unit then
-            if Target_Type.F_Name.P_Name_Is (+"Boolean") then
-               Result := 1;
-            elsif Target_Type.F_Name.P_Name_Is (+"Character") then
-               Result := TI.Char_Size;
-            elsif Target_Type.F_Name.P_Name_Is (+"Float") then
-               Result := TI.Float_Size;
-            elsif Target_Type.F_Name.P_Name_Is (+"Long_Float") then
-               Result := TI.Double_Size;
-            elsif Target_Type.F_Name.P_Name_Is (+"Long_Long_Float") then
-               Result := TI.Long_Double_Size;
-            elsif Target_Type.F_Name.P_Name_Is (+"Short_Integer") then
-               Result := TI.Short_Size;
-            elsif Target_Type.F_Name.P_Name_Is (+"Integer") then
-               Result := TI.Int_Size;
-            elsif Target_Type.F_Name.P_Name_Is (+"Long_Integer") then
-               Result := TI.Long_Size;
-            elsif Target_Type.F_Name.P_Name_Is (+"Long_Long_Integer") then
-               Result := TI.Long_Long_Size;
-            elsif Target_Type.F_Name.P_Name_Is (+"Long_Long_Long_Integer") then
-               Result := TI.Long_Long_Long_Size;
+         return Result : Eval_Result := Type_Size (Target_Type) do
+            if Result.Int_Result = 0 then
+               raise Property_Error with "Cannot compute 'Size on: "
+                 & Image (AR.F_Prefix.Text);
             end if;
-         end if;
-
-         if Result /= 0 then
-            return Create_Int_Result
-              (AR.P_Universal_Int_Type.As_Base_Type_Decl, Result);
-         else
-            raise Property_Error with "Cannot compute 'Size on: "
-              & Image (AR.F_Prefix.Text);
-         end if;
+         end return;
       end Eval_Size_Attr;
 
       ----------------------

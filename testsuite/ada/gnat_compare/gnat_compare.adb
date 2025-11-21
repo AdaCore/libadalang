@@ -308,13 +308,25 @@ procedure GNAT_Compare is
       Status : Integer;
    begin
       Args.Append ("gprbuild");
-      Args.Append (+"-c");
-      Args.Append (+"-q");
-      Args.Append (+"-p");
+
       Args.Append (+"-P" & Project_File);
       for V of App.Args.Scenario_Vars.Get loop
          Args.Append ("-X" & To_String (V));
       end loop;
+
+      --  Only compile (no binding/linking) and do not complain about missing
+      --  object directories.
+
+      Args.Append (+"-c");
+      Args.Append (+"-p");
+
+      --  Keep gprbuild quiet and hide GNAT compilation warnings as well as
+      --  style checks (they would pollute baselines).
+
+      Args.Append (+"-q");
+      Args.Append (+"-cargs:Ada");
+      Args.Append (+"-gnatws");
+      Args.Append (+"-gnatyN");
 
       Status := GNATCOLL.OS.Process.Run (Args);
       if Status /= 0 then

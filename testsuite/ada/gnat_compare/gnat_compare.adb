@@ -2,9 +2,8 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;           use Ada.Text_IO;
 
 with GNATCOLL.Opt_Parse;
-with GNATCOLL.OS;
-with GNATCOLL.OS.Process; use GNATCOLL.OS.Process;
-with GNATCOLL.VFS;        use GNATCOLL.VFS;
+with GNATCOLL.OS.Process;
+with GNATCOLL.VFS; use GNATCOLL.VFS;
 with GPR2.Build.Source;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
@@ -305,8 +304,8 @@ procedure GNAT_Compare is
    ------------------
 
    procedure Run_GPRbuild (Project_File : String) is
-      Args    : GNATCOLL.OS.Process.Argument_List;
-      Success : Integer;
+      Args   : GNATCOLL.OS.Process.Argument_List;
+      Status : Integer;
    begin
       Args.Append ("gprbuild");
       Args.Append (+"-c");
@@ -317,10 +316,8 @@ procedure GNAT_Compare is
          Args.Append ("-X" & To_String (V));
       end loop;
 
-      Success := GNATCOLL.OS.Process.Run
-        (Args, "", FS.Standin, FS.Standerr, FS.Null_FD, INHERIT);
-
-      if Success /= 0 then
+      Status := GNATCOLL.OS.Process.Run (Args);
+      if Status /= 0 then
          Abort_App ("Could not spawn gprbuild");
       end if;
    end Run_GPRbuild;
@@ -330,8 +327,8 @@ procedure GNAT_Compare is
    ------------------
 
    procedure Run_GPRclean (Project_File : String) is
-      Args    : GNATCOLL.OS.Process.Argument_List;
-      Success : Integer;
+      Args   : GNATCOLL.OS.Process.Argument_List;
+      Status : Integer;
    begin
       Args.Append ("gprclean");
       Args.Append (+"-q");
@@ -341,10 +338,8 @@ procedure GNAT_Compare is
          Args.Append ("-X" & To_String (V));
       end loop;
 
-      Success := GNATCOLL.OS.Process.Run
-        (Args, "", FS.Standin, FS.Standerr, FS.Null_FD, INHERIT);
-
-      if Success /= 0 then
+      Status := GNATCOLL.OS.Process.Run (Args);
+      if Status /= 0 then
          Abort_App ("Could not spawn gprclean");
       end if;
    end Run_GPRclean;

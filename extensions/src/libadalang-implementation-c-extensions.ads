@@ -141,6 +141,35 @@ package Libadalang.Implementation.C.Extensions is
       with Export     => True,
            Convention => C;
 
+   ----------------------------
+   -- Callback unit provider --
+   ----------------------------
+
+   type ada_get_unit_filename_callback is access function
+     (Data      : System.Address;
+      Name      : System.Address;
+      Kind      : int) return System.Address
+     with Convention => C;
+   --  Callback function type for Python to implement unit resolution
+   --  Parameters:
+   --    Data: Opaque pointer to Python object
+   --    Name: Unit name as UTF-8 null-terminated string
+   --    Kind: 0 for spec, 1 for body
+   --  Returns: Filename as UTF-8 null-terminated string, or null for "not found"
+   --
+   --  Memory Ownership:
+   --    The returned string MUST be allocated with malloc(). Ada will call
+   --    free() on the returned pointer after copying the string value.
+   --    Returning NULL (System.Null_Address) indicates unit not found.
+
+   function ada_create_callback_provider
+     (Callback : ada_get_unit_filename_callback;
+      Data     : System.Address;
+      Charset  : chars_ptr) return ada_unit_provider
+      with Export     => True,
+           Convention => C;
+   --  Create a unit provider that calls back into Python for unit resolution
+
    ------------------
    -- Preprocessor --
    ------------------

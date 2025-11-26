@@ -5,3 +5,4 @@ Unit providers
 
 .. include:: generated/libadalang-project_provider.rst
 .. include:: generated/libadalang-auto_provider.rst
+.. include:: generated/libadalang-callback_provider.rst

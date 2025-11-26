@@ -33,3 +33,98 @@
 
         c_value = _create_auto_provider(input_files_arg, c_charset)
         return cls(c_value)
+
+    @classmethod
+    def from_callback(cls, callback_fn, charset=None):
+        """
+        Return a unit provider that calls back to Python to resolve unit names.
+
+        callback_fn should be a callable that takes (name, kind) and returns
+        a filename string, or None if the unit is not found.
+
+        :param callback_fn: Callable[[str, str], Optional[str]]
+                           Takes unit_name (str) and kind ("spec" or "body")
+                           Returns filename or None
+        :param charset: Character encoding for source files (default: ISO-8859-1)
+
+        .. note::
+           Callback references are retained for the lifetime of the application
+           to prevent garbage collection of the ctypes function pointers. If you
+           create many temporary callback providers in a long-running application,
+           this may increase memory usage. For typical usage patterns (a small
+           number of long-lived providers), this is not a concern.
+
+        Example::
+
+            def my_resolver(name, kind):
+                # name is typically lowercase (e.g., "ada.text_io")
+                # kind is "spec" or "body"
+                if kind == "spec":
+                    return f"runtime/{name.replace('.', '-')}.adas"
+                else:
+                    return f"runtime/{name.replace('.', '-')}.adab"
+
+            provider = UnitProvider.from_callback(my_resolver)
+            ctx = AnalysisContext(unit_provider=provider)
+        """
+
+        # Cache libc for malloc calls (done once per provider, not per callback)
+        # Note: Ideally this would be module-level, but Mako template constraints
+        # make per-provider caching the practical choice
+        libc = ctypes.CDLL(None)
+        libc.malloc.argtypes = [ctypes.c_size_t]
+        libc.malloc.restype = ctypes.c_void_p
+
+        # Create a wrapper that converts from C callback to Python
+        @ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+                          ctypes.c_int)
+        def c_callback_wrapper(data_ptr, name_ptr, kind_int):
+            """C callback that bridges to Python"""
+            try:
+                # Convert C string to Python
+                name = ctypes.string_at(name_ptr).decode('utf-8')
+
+                # Convert kind int to string
+                kind = "spec" if kind_int == 0 else "body"
+
+                # Call Python callback
+                result = callback_fn(name, kind)
+
+                # If None, return null pointer
+                if result is None:
+                    return None
+
+                # Convert result to C string allocated with malloc
+                # Ada will call free() on this pointer after copying the string
+                result_bytes = result.encode('utf-8') + b'\0'
+                result_len = len(result_bytes)
+
+                # Allocate memory using C's malloc (libc cached in closure)
+                ptr = libc.malloc(result_len)
+                if not ptr:
+                    return None
+
+                # Copy Python bytes to malloc'd memory
+                ctypes.memmove(ptr, result_bytes, result_len)
+
+                return ptr
+
+            except Exception:
+                # If Python callback raises, return None
+                _log_uncaught_error("UnitProvider.from_callback")
+                return None
+
+        # Keep a reference to prevent garbage collection
+        if not hasattr(cls, '_callback_refs'):
+            cls._callback_refs = []
+        cls._callback_refs.append(c_callback_wrapper)
+
+        # Create the provider
+        c_charset = _unwrap_charset(charset)
+        c_value = _create_callback_provider(
+            c_callback_wrapper,
+            None,  # data pointer (not used in this simple version)
+            c_charset
+        )
+
+        return cls(c_value)

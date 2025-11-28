@@ -4,18 +4,6 @@
 
 LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: null context
 
-== foreign key unit==
-
-LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: foreign unit
-
-== foreign value unit==
-
-LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: foreign unit
-
-== foreign global==
-
-LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: foreign unit
-
 == null key unit==
 
 LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: null unit key

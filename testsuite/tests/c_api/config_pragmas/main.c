@@ -82,11 +82,11 @@ main (void)
 {
   ada_analysis_context ctx;
 
-  ada_analysis_unit global;
-  ada_analysis_unit ua1[1];
-  ada_analysis_unit ua3[3];
-  ada_analysis_unit ua5[5];
-  ada_analysis_unit ua_double[5];
+  const char *global;
+  const char *ua1[1];
+  const char *ua3[3];
+  const char *ua5[5];
+  const char *ua_double[5];
 
   /* Create a single context for the whole test.  */
   ctx = ada_allocate_analysis_context ();
@@ -96,18 +96,18 @@ main (void)
   abort_on_exception ();
 
   /* Fetch config pragma files.  */
-  global = load (ctx, "global.adc");
+  global = "global.adc";
 
   ua1[0] = NULL;
 
-  ua3[0] = load (ctx, "foo.adb");
-  ua3[1] = load (ctx, "local_1.adc");
+  ua3[0] = "foo.adb";
+  ua3[1] = "local_1.adc";
   ua3[2] = NULL;
 
-  ua5[0] = load (ctx, "foo.adb");
-  ua5[1] = load (ctx, "local_1.adc");
-  ua5[2] = load (ctx, "bar.adb");
-  ua5[3] = load (ctx, "local_2.adc");
+  ua5[0] = "foo.adb";
+  ua5[1] = "local_1.adc";
+  ua5[2] = "bar.adb";
+  ua5[3] = "local_2.adc";
   ua5[4] = NULL;
 
   ua_double[0] = ua5[0];

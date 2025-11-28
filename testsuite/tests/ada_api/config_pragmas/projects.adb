@@ -2,6 +2,7 @@
 --  expected on various project setups.
 
 with Ada.Characters.Handling; use Ada.Characters.Handling;
+with Ada.Strings.Unbounded;   use Ada.Strings.Unbounded;
 with Ada.Text_IO;             use Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
@@ -20,6 +21,10 @@ procedure Projects is
 
    Ctx : constant Analysis_Context := Create_Context;
 
+   procedure Normalize_Filenames (Mapping : in out Config_Pragmas_Mapping);
+   --  Normalize all config pragmas filenames in ``Mapping``, so that they can
+   --  be easily compared for equivalence.
+
    procedure Check_Unit (Filename : Virtual_File);
    --  Print the name of the given source file and the list of pragmas that
    --  apply to the corresponding unit.
@@ -29,6 +34,24 @@ procedure Projects is
    --  ``Ctx`` (starting at the ``Project`` subproject if a non-empty string is
    --  passed), then check the list of pragmas that apply to all sources in the
    --  project.
+
+   -------------------------
+   -- Normalize_Filenames --
+   -------------------------
+
+   procedure Normalize_Filenames (Mapping : in out Config_Pragmas_Mapping) is
+      function "+" (Filename : Unbounded_String) return Unbounded_String
+      is (if Filename = ""
+          then Filename
+          else To_Unbounded_String
+                 (+Create_From_Base (+To_String (Filename))
+                  .Full_Name (Normalize => True)));
+   begin
+      Mapping.Global_Pragmas := +Mapping.Global_Pragmas;
+      for Filename of Mapping.Local_Pragmas loop
+         Filename := +Filename;
+      end loop;
+   end Normalize_Filenames;
 
    ----------------
    -- Check_Unit --
@@ -73,6 +96,7 @@ procedure Projects is
             then No_Project
             else Prj.Project_From_Name (Project));
       Mapping := Import_From_Project (Ctx, Prj, P);
+      Normalize_Filenames (Mapping);
       Set_Mapping (Ctx, Mapping);
 
       --  Make sure we get the same mapping when loading from a GPR2 project
@@ -101,7 +125,12 @@ procedure Projects is
          end if;
 
          GPR2_Mapping := Import_From_Project (Ctx, Tree, View);
+         Normalize_Filenames (GPR2_Mapping);
          if Mapping /= GPR2_Mapping then
+            Put_Line ("GPR mapping:");
+            Dump (Mapping);
+            New_Line;
+            Put_Line ("GPR mapping:");
             Dump (GPR2_Mapping);
             raise Program_Error with "inconsistent results from GPR2";
          end if;

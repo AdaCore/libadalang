@@ -5,9 +5,15 @@
 
 --  Extension to the generated C API for Libadalang-specific entry points
 
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Unchecked_Deallocation;
 
 package Libadalang.Implementation.C.Extensions is
+
+   function "+" (S : chars_ptr) return Unbounded_String
+   is (if S = Null_Ptr
+       then Null_Unbounded_String
+       else To_Unbounded_String (Value (S)));
 
    type C_String_Array is array (int range <>) of chars_ptr;
    type ada_string_array (Length : int) is record
@@ -185,8 +191,8 @@ package Libadalang.Implementation.C.Extensions is
 
    procedure ada_set_config_pragmas_mapping
      (Context        : ada_analysis_context;
-      Global_Pragmas : ada_analysis_unit;
-      Local_Pragmas  : access ada_analysis_unit)
+      Global_Pragmas : chars_ptr;
+      Local_Pragmas  : access chars_ptr)
      with Export, Convention => C;
    --  See the C header
 

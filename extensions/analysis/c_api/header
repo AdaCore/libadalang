@@ -152,8 +152,8 @@ ${c_doc('libadalang.set_config_pragmas_mapping')}
 extern void
 ${capi.get_name('set_config_pragmas_mapping')}(
    ${analysis_context_type} context,
-   ${analysis_unit_type} global_pragmas,
-   ${analysis_unit_type} *local_pragmas
+   const char *global_pragmas,
+   const char **local_pragmas
 );
 
 /* Target information */

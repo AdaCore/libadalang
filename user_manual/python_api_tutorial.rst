@@ -250,7 +250,7 @@ compilation units follow the `GNAT naming convention
 <http://docs.adacore.com/gnat_ugn-docs/html/gnat_ugn/gnat_ugn/the_gnat_compilation_model.html#file-naming-rules>`_
 and that all source files are in the current directory.
 
-If the organization of your project is not so simple, you have two options
+If the organization of your project is not so simple, you have three options
 currently in Python:
 
 * You can use features from the auto-provider, provided by
@@ -261,10 +261,16 @@ currently in Python:
   :meth:`libadalang.GPRProject.create_unit_provider` to use a GNAT project
   file.
 
+* You can implement custom unit resolution logic in Python using
+  :meth:`libadalang.UnitProvider.from_callback` to define your own mapping from
+  unit names to source files. This is useful for custom file naming conventions,
+  non-standard Ada runtimes, or dynamic resolution strategies. See
+  :ref:`python-callback-providers` for details.
+
 Be aware though, that because of lack of access to proper Python API to process
 GNAT project files, the corresponding facilities in Python are limited for the
-moment. If the above options are not sufficient for you, we recommend using the
-:ref:`Ada API <Ada API Tutorial>`.
+moment. For complex build configurations, we recommend using the :ref:`Ada API
+<Ada API Tutorial>`.
 
 In our program, we'll create a simple project unit provider if a project file
 is provided. If not, we'll use the default settings.
@@ -425,3 +431,146 @@ runtime, ...) and just returns the list of source files:
    print(f"Looking for references to {id}:")
    for r in id.p_find_all_references(units):
        print(f"{r.kind}: {r.ref}")
+
+.. _python-callback-providers:
+
+Custom Unit Providers with Python Callbacks
+============================================
+
+You can implement custom unit resolution logic entirely in Python using the
+``UnitProvider.from_callback()`` method. This allows you to define arbitrary
+name-to-file mappings without modifying Ada code or requiring GPR project files.
+
+Basic Usage
+-----------
+
+The ``from_callback`` method accepts a Python function that maps unit names to
+filenames:
+
+.. code-block:: python
+
+   from libadalang import UnitProvider, AnalysisContext
+
+   def my_resolver(name, kind):
+       """
+       Resolve unit names to file paths.
+
+       :param name: Unit name (e.g., "ada.text_io")
+       :param kind: Either "spec" or "body"
+       :return: Path to source file (absolute or relative), or None if not found
+       """
+       # Your custom logic here
+       if kind == "spec":
+           return f"/lib/ada/{name.replace('.', '-')}.ads"
+       else:
+           return f"/lib/ada/{name.replace('.', '-')}.adb"
+
+   provider = UnitProvider.from_callback(my_resolver)
+   ctx = AnalysisContext(unit_provider=provider)
+
+The callback function is called every time libadalang needs to resolve a unit
+name during semantic analysis.
+
+Complete Example: Custom File Extensions
+------------------------------------------
+
+This example shows how to use callback providers with non-standard file
+extensions (for example, ``.adas`` for specs and ``.adab`` for bodies) and
+custom naming conventions.
+
+.. code-block:: python
+
+   from pathlib import Path
+   import libadalang as lal
+
+   # Build a dictionary mapping unit names to files
+   unit_map = {}
+
+   # Step 1: Add runtime library files
+   # Some Ada runtimes use non-standard extensions
+   runtime_dir = Path("runtime")
+   for f in runtime_dir.glob("*.adas"):
+       # File: ada.text_io.adas -> Unit: Ada.Text_IO
+       name_parts = f.stem.split('.')
+       unit_name = '.'.join(p.capitalize() for p in name_parts)
+       unit_map[(unit_name.lower(), "spec")] = str(f.absolute())
+
+   for f in runtime_dir.glob("*.adab"):
+       name_parts = f.stem.split('.')
+       unit_name = '.'.join(p.capitalize() for p in name_parts)
+       unit_map[(unit_name.lower(), "body")] = str(f.absolute())
+
+   # Step 2: Add project files
+   # IMPORTANT: Parse files to get actual unit names, as filenames
+   # may differ (e.g., "chess-engine.adb" contains unit "Chess.Engine")
+   # Note: This temporary context has no unit provider, which is sufficient
+   # for extracting syntactic unit names but may not fully resolve dependencies
+   temp_ctx = lal.AnalysisContext()
+   for f in Path("src").glob("*.ad?"):
+       unit = temp_ctx.get_from_file(str(f))
+       if unit.root and unit.root.is_a(lal.CompilationUnit):
+           fqn = unit.root.p_syntactic_fully_qualified_name
+           if fqn:
+               unit_name = '.'.join(str(p) for p in fqn)
+               kind_enum = unit.root.p_unit_kind
+               kind = "spec" if kind_enum == lal.AnalysisUnitKind.unit_specification else "body"
+               unit_map[(unit_name.lower(), kind)] = str(f.absolute())
+
+   # Step 3: Create resolver function
+   def resolver(name, kind):
+       """Look up unit in our map"""
+       return unit_map.get((name.lower(), kind))
+
+   # Step 4: Create provider and context
+   provider = lal.UnitProvider.from_callback(resolver)
+   ctx = lal.AnalysisContext(unit_provider=provider)
+
+   # Now you can analyze files with full name resolution
+   unit = ctx.get_from_file("src/my_file.adb")
+   # Name resolution works for both project files and runtime!
+
+Important Considerations
+------------------------
+
+Callback Signature
+^^^^^^^^^^^^^^^^^^
+
+Your callback function must accept exactly two parameters:
+
+- ``name`` (str): Unit name, typically lowercase with dots (e.g., ``"ada.text_io"``)
+- ``kind`` (str): Either ``"spec"`` or ``"body"``
+
+It must return:
+
+- ``str``: Path to source file (absolute or relative to current directory)
+- ``None``: Unit not found
+
+Performance
+^^^^^^^^^^^
+
+The callback is invoked for every unit resolution. For better performance:
+
+1. Build your mapping dictionary once, upfront
+2. Don't perform expensive operations (network I/O, database queries) in the callback
+3. Consider caching results if dynamic lookup is needed
+
+.. code-block:: python
+
+   # Good: Build map once
+   unit_map = build_mapping()
+   provider = UnitProvider.from_callback(lambda n, k: unit_map.get((n, k)))
+
+   # Bad: Rebuild map on every call
+   provider = UnitProvider.from_callback(lambda n, k: build_mapping().get((n, k)))
+
+Use Cases
+---------
+
+Use callback providers when:
+
+- You have custom file naming conventions
+- Files are stored in non-standard locations
+- You need dynamic or computed resolution
+- You're integrating with build systems that don't use GPR
+
+For more details and advanced patterns, see the Python API reference documentation.

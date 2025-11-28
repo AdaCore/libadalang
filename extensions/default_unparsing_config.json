@@ -782,25 +782,31 @@
               "field": "f_left"
             },
             "line",
+            "flushLineBreaks",
             {
               "kind": "group",
               "document": [
                 {
-                  "kind": "group",
-                  "document": {
-                    "kind": "recurse_field",
-                    "field": "f_op"
-                  },
-                  "id": "operator"
-                },
-                "whitespace",
-                "flushLineBreaks",
-                {
-                  "kind": "innerRoot",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_right"
-                  },
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_op"
+                    },
+                    "line",
+                    {
+                      "kind": "group",
+                      "document": {
+                        "kind": "innerRoot",
+                        "contents": {
+                          "kind": "recurse_field",
+                          "field": "f_right"
+                        },
+                        "bubbleUpLeadingTrivias": true,
+                        "bubbleUpTrailingTrivias": true
+                      }
+                    }
+                  ],
                   "bubbleUpLeadingTrivias": true,
                   "bubbleUpTrailingTrivias": true
                 }

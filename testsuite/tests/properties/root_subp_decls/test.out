@@ -1,0 +1,23 @@
+Working on node <NullSubpDecl ["P2"] test.adb:5:7-5:39>
+=======================================================
+
+Set 'root' to 'node.p_root_subp_declarations()[0]'
+Result: <NullSubpDecl ["P2"] test.adb:5:7-5:39>
+
+Set 'root_type' to 'root.p_subp_spec_or_null().p_param_types()[0]'
+Result: <ConcreteTypeDecl ["Root"] test.adb:3:7-3:39>
+
+Working on node <NullSubpDecl ["P2"] test.adb:11:7-11:51>
+=========================================================
+
+Set 'child' to 'node.p_root_subp_declarations()[0]'
+Result: <NullSubpDecl ["P2"] test.adb:5:7-5:39>
+
+Set 'child_type' to 'child.p_subp_spec_or_null().p_param_types()[0]'
+Result: <ConcreteTypeDecl ["Root"] test.adb:3:7-3:39>
+
+Eval '(root == child)'
+Result: True
+
+Eval '(root_type == child_type)'
+Result: True

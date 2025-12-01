@@ -6076,7 +6076,21 @@ class BasicDecl: AdaNode {
     @exported
     @with_dynvars(origin=null[AdaNode], imprecise_fallback=false)
     fun root_subp_declarations(): Array[Entity[BasicDecl]] =
-        if self.is_subprogram() then self.root_subp_declarations_impl()
+        if self.is_subprogram()
+        then self.root_subp_declarations_impl().map((d) =>
+             # Remove any metadata gathered during the call to
+             # `root_subp_declarations_impl`. In particular, we don't want to
+             # keep overriding metadata like `primitive_real_type` because it
+             # would cause properties such as `param_types` to reference the
+             # derived type instead of the root type, which would be incorrect
+             # for root subprogram declarations that should maintain their
+             # original type context.
+             self.entity_no_md(
+                    d.node,
+                    d.info.rebindings,
+                    d.info.from_rebound
+                ).as[BasicDecl]
+            )
         else null[Array[Entity[BasicDecl]]]
 
     |" If self is the declaration of a primitive of some type T, return

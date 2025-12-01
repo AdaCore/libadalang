@@ -3824,15 +3824,30 @@
         "break": true,
         "document": [
           {
-            "kind": "indent",
-            "contents": [
-              "hardline",
-              {
-                "kind": "recurse_field",
-                "field": "f_stmts"
-              }
-            ],
-            "bubbleUpTrailingTrivias": true
+            "kind": "ifKind",
+            "field": "f_exceptions",
+            "default": {
+              "kind": "indent",
+              "contents": [
+                "hardline",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_stmts"
+                }
+              ],
+              "bubbleUpTrailingTrivias": true
+            },
+            "absent": {
+              "kind": "indent",
+              "contents": [
+                "hardline",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_stmts"
+                }
+              ]
+            },
+            "matchers": []
           },
           {
             "kind": "recurse_field",

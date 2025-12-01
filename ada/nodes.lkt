@@ -18923,9 +18923,9 @@ class CallExpr: Name {
         then
             (derefed_typ.constant_indexing_fns()
              & derefed_typ.variable_indexing_fns()).logic_any((fn) => {
-                val formals =
-                    fn.subp_spec_or_null().unpacked_formal_params();
-                val ret_type = fn.subp_spec_or_null().return_type();
+                val spec = fn.subp_spec_or_null();
+                val formals = spec.unpacked_formal_params();
+                val ret_type = spec.return_type();
                 val params = self.params();
 
                 # The user indexing function that matches has one more
@@ -18933,6 +18933,7 @@ class CallExpr: Name {
                 if formals.length() == params.length() + 1
                 then
                     node.type_var() <- ret_type
+                    %and node.subp_spec_var() <- spec
                     %and params.ilogic_all(
                         (param, i) =>
                         param.expr().expected_type_var()

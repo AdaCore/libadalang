@@ -8,8 +8,9 @@ begin
               not in Ada_Begin_Block_Range
                    | Ada_Decl_Block_Range
                    | Bar
-     and then Parent_Parent.Parent_Parent.Parent_Parent.Parent_Parent.Parent_Kind
-              not in Ada_Begin_Block_Range | Ada_Decl_Block_Range | Baaaaaaaaaar
+     and then
+       Parent_Parent.Parent_Parent.Parent_Parent.Parent_Parent.Parent_Kiiiiiiind
+       not in Ada_Begin_Block_Range | Ada_Decl_Block_Range | Baaaaaaaaaaaaaaaaar
    then
       Current_Indentation := @ + Indentation;
    end if;

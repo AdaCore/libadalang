@@ -1,0 +1,12 @@
+if Is_Generic_Type (E)
+  and then Present (Preelab_Init_Expr)
+  and then
+    Type_Named_In_Preelab_Init_Expression
+      (EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE, Preelab_Init_Exprrrrrrrrrrr)
+  and then
+    Dooooooooooootteeeeeeeeeeeeed
+      .Type_Named_In_Preelab_Init_Expreeeeeeeeessioon
+         (EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE, Preelab_Init_Exprrrrrrrrr)
+then
+   null;
+end if;

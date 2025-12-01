@@ -10028,17 +10028,25 @@ class TypeDecl: BaseTypeDecl {
         or not self.get_aspect(s"Iterator_Element", true)
         .value
         .is_null
-        # TODO: The optional `Element` assoc must be defined, if not, a
+        # The optional `Element` assoc must be defined, if not, a
         # type with the aspect `Iterable` only supports iteration over
-        # cursors through the `for .. in` loop (W303-007).
-        or not self.get_aspect(s"Iterable", true).value.is_null
+        # cursors through the `for .. in` loop.
+        or {
+            val iterable = self.get_aspect(s"Iterable", true).value;
+
+            not iterable.is_null
+            and not iterable.as[Aggregate].assocs.unpacked_params().find(
+                (sa) => sa.name.name_is(s"Element")
+            ).is_null
+        }
 
     @with_dynvars(origin)
     fun iterable_comp_type(): Entity[BaseTypeDecl] = {
-        val ie = self.get_aspect(s"Iterator_Element", true).value;
-        val it = self.get_aspect(s"Iterable", true).value;
+        if self.is_iterable_type()
+        then {
+            val ie = self.get_aspect(s"Iterator_Element", true).value;
+            val it = self.get_aspect(s"Iterable", true).value;
 
-        {
             bind imprecise_fallback = false;
 
             if self.is_array() then self.comp_type()
@@ -10063,6 +10071,7 @@ class TypeDecl: BaseTypeDecl {
                 .expr_type()
             else null[Entity[BaseTypeDecl]]
         }
+        else null[Entity[BaseTypeDecl]]
     }
 
     |" If self is a type that is iterable (i.e.: it has the Iterable aspect
@@ -21731,10 +21740,11 @@ class ForLoopSpec: LoopSpec {
                             %and node.var_decl.id.type_var()
                             <- BaseTypeDecl.cursor_type%(t.type_var())
                         )
+                    # Should never happen
                     case _ => %true
                 }
 
-            # Should never happen: this is a for .. of.
+            # This is a for .. of
             case _: IterType.Of =>
                 self.iter_expr.as[Expr].do(
                     (iter_expr) =>
@@ -21748,7 +21758,8 @@ class ForLoopSpec: LoopSpec {
                     %and node.var_decl.id.type_var()
                     <- BaseTypeDecl.iterable_comp_type_or_null%(
                         iter_expr.type_var()
-                    ),
+                    )
+                    %and AdaNode.is_not_null%(node.var_decl.id.type_var()),
                     default_val=%false
                 )
         }

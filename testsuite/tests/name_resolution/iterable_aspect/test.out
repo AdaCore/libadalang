@@ -246,4 +246,42 @@ Expr: <Id "N" private_view.adb:48:39-48:40>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
+Analyzing invalid.adb
+#####################
+
+Resolving xrefs for node <ForLoopSpec invalid.adb:39:8-39:20>
+*************************************************************
+
+invalid.adb:39:8: error: resolution failed
+39 |    for E of My_List loop
+   |        ^^^^^^^^^^^^
+
+
+Resolving xrefs for node <CallStmt invalid.adb:40:6-40:28>
+**********************************************************
+
+Expr: <CallExpr invalid.adb:40:6-40:27>
+  references:    <DefiningName "My_Put_Line" invalid.adb:35:14-35:25>
+  type:          None
+  expected type: None
+Expr: <Id "My_Put_Line" invalid.adb:40:6-40:17>
+  references:    <DefiningName "My_Put_Line" invalid.adb:35:14-35:25>
+  type:          None
+  expected type: None
+Expr: <AttributeRef invalid.adb:40:19-40:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <Id "E" invalid.adb:40:19-40:20>
+  references:    <DefiningName "E" invalid.adb:39:8-39:9>
+  type:          None
+  expected type: None
+Expr: <Id "Image" invalid.adb:40:21-40:26>
+  references:    None
+  type:          None
+  expected type: None
+
+Expected name resolution failure for block <ForLoopStmt invalid.adb:39:4-41:13>
+
+
 Done.

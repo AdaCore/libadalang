@@ -191,13 +191,13 @@ CompilationUnit[1:1-11:9]
 $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
-@2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-11:9>):
+@1 = LexEnv(Static_Primary, Parent=@2, Node=<PackageDecl ["Foo"] input:1:1-11:9>):
     "/=": [<SyntheticSubpDecl [""/=""] input:2:20-5:14>, <SyntheticSubpDecl [""/=""] input:7:34-10:14>]
     "=": [<SyntheticSubpDecl [""=""] input:2:20-5:14>, <SyntheticSubpDecl [""=""] input:7:34-10:14>]
     r1_type: [<ConcreteTypeDecl ["R1_Type"] input:2:4-5:15>]
     r2_type: [<ConcreteTypeDecl ["R2_Type"] input:7:4-10:15>]
 
-@1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] in Standard>):
+@2 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] in Standard>):
     "&": [<SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>]
     "*": [<SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>]
     "**": [<SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>]
@@ -256,13 +256,13 @@ $root = LexEnv(Static_Primary, Parent=null):
 $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
-@3 = LexEnv(Static_Primary, Parent=@2, Node=<ConcreteTypeDecl ["R1_Type"] input:2:4-5:15>):
+@3 = LexEnv(Static_Primary, Parent=@1, Node=<ConcreteTypeDecl ["R1_Type"] input:2:4-5:15>):
     a: [<ComponentDecl ["A", "B"] input:3:7-3:22>]
     b: [<ComponentDecl ["A", "B"] input:3:7-3:22>]
     c: [<ComponentDecl ["C"] input:4:7-4:22>]
     r1_type: [<SyntheticObjectDecl ["R1_Type"] input:2:4-5:15>]
 
-@4 = LexEnv(Static_Primary, Parent=@2, Node=<ConcreteTypeDecl ["R2_Type"] input:7:4-10:15>):
+@4 = LexEnv(Static_Primary, Parent=@1, Node=<ConcreteTypeDecl ["R2_Type"] input:7:4-10:15>):
     i: [<ComponentDecl ["I"] input:8:7-8:19>]
     n: [<DiscriminantSpec ["N"] input:7:18-7:29>]
     r2_type: [<SyntheticObjectDecl ["R2_Type"] input:7:4-10:15>]

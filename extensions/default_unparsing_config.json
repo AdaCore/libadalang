@@ -772,69 +772,97 @@
     },
     "BinOp": {
       "node": {
-        "kind": "ifKind",
-        "field": "f_op",
-        "default": {
-          "kind": "group",
-          "document": [
-            {
-              "kind": "recurse_field",
-              "field": "f_left"
-            },
-            "line",
-            "flushLineBreaks",
-            {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "continuationLineIndent",
-                  "contents": [
-                    {
-                      "kind": "recurse_field",
-                      "field": "f_op"
-                    },
-                    "line",
-                    {
-                      "kind": "group",
-                      "document": {
-                        "kind": "innerRoot",
-                        "contents": {
-                          "kind": "recurse_field",
-                          "field": "f_right"
-                        },
-                        "bubbleUpLeadingTrivias": true,
-                        "bubbleUpTrailingTrivias": true
-                      }
-                    }
-                  ],
-                  "bubbleUpLeadingTrivias": true,
-                  "bubbleUpTrailingTrivias": true
-                }
-              ]
-            }
-          ]
-        },
-        "matchers": [
+        "kind": "group",
+        "document": [
           {
-            "kind": "OpPow",
-            "document": {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "recurse_field",
-                  "field": "f_left"
-                },
-                "softline",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_op"
-                },
-                {
-                  "kind": "recurse_field",
-                  "field": "f_right"
-                }
-              ]
-            }
+            "kind": "recurse_field",
+            "field": "f_left"
+          },
+          "line",
+          "flushLineBreaks",
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_op"
+                  },
+                  {
+                    "kind": "ifKind",
+                    "field": "f_op",
+                    "default": "line",
+                    "matchers": [
+                      {
+                        "kind": "OpPlus",
+                        "document": [
+                          "whitespace",
+                          "flushLineBreaks"
+                        ]
+                      },
+                      {
+                        "kind": "OpMinus",
+                        "document": [
+                          "whitespace",
+                          "flushLineBreaks"
+                        ]
+                      },
+                      {
+                        "kind": "OpMult",
+                        "document": [
+                          "whitespace",
+                          "flushLineBreaks"
+                        ]
+                      },
+                      {
+                        "kind": "OpDiv",
+                        "document": [
+                          "whitespace",
+                          "flushLineBreaks"
+                        ]
+                      },
+                      {
+                        "kind": "OpEq",
+                        "document": [
+                          "whitespace",
+                          "flushLineBreaks"
+                        ]
+                      },
+                      {
+                        "kind": "OpGt",
+                        "document": [
+                          "whitespace",
+                          "flushLineBreaks"
+                        ]
+                      },
+                      {
+                        "kind": "OpLt",
+                        "document": [
+                          "whitespace",
+                          "flushLineBreaks"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "group",
+                    "document": {
+                      "kind": "innerRoot",
+                      "contents": {
+                        "kind": "recurse_field",
+                        "field": "f_right"
+                      },
+                      "bubbleUpLeadingTrivias": true,
+                      "bubbleUpTrailingTrivias": true
+                    }
+                  }
+                ],
+                "bubbleUpLeadingTrivias": true,
+                "bubbleUpTrailingTrivias": true
+              }
+            ]
           }
         ]
       },

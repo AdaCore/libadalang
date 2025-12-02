@@ -118,13 +118,13 @@ CompilationUnit[1:1-10:9]
 $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
-@2 = LexEnv(Static_Primary, Parent=null, Node=<PackageBody ["Foo"] input:1:1-10:9>):
+@1 = LexEnv(Static_Primary, Parent=null, Node=<PackageBody ["Foo"] input:1:1-10:9>):
     bar: [<SubpBody ["Bar"] input:2:4-9:12>]
 
-@1 = LexEnv(Static_Primary, Empty, Parent=null):
+@2 = LexEnv(Static_Primary, Empty, Parent=null):
     <empty>
 
-@3 = LexEnv(Static_Primary, Parent=@2, Node=<SubpBody ["Bar"] input:2:4-9:12>):
+@3 = LexEnv(Static_Primary, Parent=@1, Node=<SubpBody ["Bar"] input:2:4-9:12>):
     i: [<ParamSpec ["I", "J"] input:2:19-2:33>]
     j: [<ParamSpec ["I", "J"] input:2:19-2:33>]
 

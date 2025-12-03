@@ -16950,6 +16950,7 @@ class Name: Expr {
     |" Return whether this call uses its prefix as the first argument. This
     |" returns True for dot calls, generalized indexing, and some attribute
     |" references (such as ``X'Image``).
+    @exported
     fun is_prefix_call(): Bool = not self.call_prefix().is_null
 
     |" If this call is a prefix call, return the prefix that will be used as

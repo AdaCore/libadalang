@@ -383,6 +383,27 @@ Result: [<ParamActual param=<DefiningName "S" dot.adb:10:21-10:22> actual=<Id "X
          <ParamActual param=<DefiningName "V" dot.adb:10:28-10:29> actual=<Int dot.adb:56:10-56:11>>,
          <ParamActual param=<DefiningName "W" dot.adb:10:46-10:47> actual=<Int dot.adb:56:18-56:19>>]
 
+Working on node <AssignStmt gen_indexing.adb:27:4-27:22>
+========================================================
+
+Eval 'node.f_dest.p_call_params'
+Result: [<ParamActual param=<DefiningName "Self" gen_indexing.adb:10:22-10:26> actual=<Id "R" gen_indexing.adb:27:4-27:5>>,
+         <ParamActual param=<DefiningName "X" gen_indexing.adb:10:46-10:47> actual=<Str ""hello"" gen_indexing.adb:27:7-27:14>>]
+
+Working on node <AssignStmt gen_indexing.adb:29:4-29:20>
+========================================================
+
+Eval 'node.f_expr.p_call_params'
+Result: [<ParamActual param=<DefiningName "Self" gen_indexing.adb:12:22-12:26> actual=<CallExpr gen_indexing.adb:29:9-29:15>>,
+         <ParamActual param=<DefiningName "X" gen_indexing.adb:12:46-12:47> actual=<Int gen_indexing.adb:29:17-29:18>>]
+
+Working on node <AssignStmt gen_indexing.adb:31:4-31:19>
+========================================================
+
+Eval 'node.f_expr.p_call_params'
+Result: [<ParamActual param=<DefiningName "Self" gen_indexing.adb:12:22-12:26> actual=<CallExpr gen_indexing.adb:31:9-31:14>>,
+         <ParamActual param=<DefiningName "X" gen_indexing.adb:12:46-12:47> actual=<Int gen_indexing.adb:31:16-31:17>>]
+
 Working on node <AssignStmt operators.adb:6:4-6:37>
 ===================================================
 

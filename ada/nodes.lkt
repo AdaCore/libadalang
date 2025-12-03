@@ -16947,6 +16947,29 @@ class Name: Expr {
     fun is_dot_call(): Bool =
         not self.is_defining() and self.referenced_decl().info.md.dottable_subp
 
+    |" Return whether this call uses its prefix as the first argument. This
+    |" returns True for dot calls, generalized indexing, and some attribute
+    |" references (such as ``X'Image``).
+    fun is_prefix_call(): Bool = not self.call_prefix().is_null
+
+    |" If this call is a prefix call, return the prefix that will be used as
+    |" first argument of the call. Otherwise, return null to indicate that it
+    |" is not a prefix call.
+    fun call_prefix(): Entity[Expr] =
+        if not self.is_call() then null[Entity[Expr]]
+        elif self.is_dot_call() or self is AttributeRef
+        then match self.as[CallExpr].do((ce) => ce.name) or? self {
+            case dn: DottedName => dn.prefix
+            case ar: AttributeRef => ar.prefix
+            case id: Identifier => id.parent.as[DottedName]?.prefix
+            case _ => null[Entity[Expr]]
+        }
+        else self.as[CallExpr].do((ce) =>
+            if ce.kind() == CallExprKind.generalized_indexing
+            then ce.name
+            else null[Entity[Expr]]
+        )
+
     |" Implementation helper for DefiningName.gnat_xref. TODO: Get rid of that
     |" by inlining in DefiningName.gnat_xref.
     @with_dynvars(imprecise_fallback=false)
@@ -17654,18 +17677,9 @@ class Name: Expr {
     fun call_params(): Array[ParamActual] = {
         val formal_spec = self.called_formal_subp_spec();
         val is_call = not formal_spec.is_null;
-        val is_prefix_call =
-            if is_call then self.is_dot_call() or self is AttributeRef
-            else false;
+        val call_prefix = self.call_prefix();
+        val is_prefix_call = not call_prefix.is_null;
         val offset = if is_prefix_call then 1 else 0;
-        val call_prefix = match
-            self.as[CallExpr].do((ce) => ce.name) or? self
-        {
-            case dn: DottedName => dn.prefix
-            case ar: AttributeRef => ar.prefix
-            case id: Identifier => id.parent.as[DottedName]?.prefix
-            case _ => null[Entity[Expr]]
-        };
         # Get the actuals of this call expression if any
         val aparams = self.parent_callexpr().do((ce) =>
             if ce.called_formal_subp_spec() == formal_spec

@@ -33,7 +33,8 @@ enum RefResultKind {
 |" - ``type_conversion`` is when the CallExpr is a type conversion.
 |" - ``family_index`` is for entry calls using a family index.
 enum CallExprKind {
-    case call, array_slice, array_index, type_conversion, family_index
+    case call, array_slice, array_index, type_conversion, family_index,
+         generalized_indexing
 }
 
 # =========================
@@ -18534,33 +18535,54 @@ class CallExpr: Name {
     fun relative_name(): Entity[Name] = self.name.relative_name()
 
     |" Return whether this expression is a subprogram call, an array
-    |" subcomponent access expression, an array slice or a type conversion.
+    |" subcomponent access expression, an array slice, a generalized indexing
+    |" or a type conversion.
     @exported
-    fun kind(): CallExprKind =
-        if self.is_call() then CallExprKind.call
-        elif self.is_array_slice() then CallExprKind.array_slice
-        elif {
-            bind origin = node.origin_node();
+    fun kind(): CallExprKind = {
+        bind origin = node.origin_node();
 
-            self.name.expression_type().do(
-                (typ) => typ.is_array_def_with_deref() or typ.has_ud_indexing()
-            )
-        } then CallExprKind.array_index
+        if self.is_call()
+        then (
+            # It is a generalized indexing if the type of the call's prefix
+            # has user-defined indexing. This implies that the prefix should
+            # be an expression that has a type. We implement it by hoping that
+            # callng ``expression_type`` on it will only return a type for a
+            # valid expression. However, we already know one case that we have
+            # to manually filter out: direct subprogram calls. These calls'
+            # prefixes don't have a type but ``expression_type`` still returns
+            # a non-null value (the return type of the subprogram). So, we
+            # manually ignore those by checking that we are not in the case of
+            # a direct call. To do that, we check that the called subprogram
+            # specification of the prefix and the call itself are different.
+            if self.called_subp_spec() != self.name.called_subp_spec()
+                and self.name.expression_type()
+                    ?.implicitly_derefed_type()
+                    ?.has_ud_indexing()
+            then CallExprKind.generalized_indexing
+            else CallExprKind.call
+        )
+        elif self.is_array_slice()
+        then CallExprKind.array_slice
+
+        elif self.name.expression_type()?.is_array_def_with_deref()
+        then CallExprKind.array_index
+
         # Case for type conversion: CallExpr has one
         # argument and its name denotes a type declaration.
-
         elif
             self.params().length() == 1
             and self.name.referenced_decl() is BaseTypeDecl
         then CallExprKind.type_conversion
-        # This is important to make this test *after* the check for
-        # ``is_call`` so that real entry calls are correctly flagged as
-        # such. We only want to catch family indexes here.
 
+        # It's important to make this test *after* the check for ``is_call``
+        # so that real entry calls are correctly flagged as such. We only want
+        # to catch family indexes here.
         elif self.name.referenced_decl() is EntryDecl
         then CallExprKind.family_index
+
         # Should not happen
         else raise[CallExprKind] PropertyError("undetermined CallExpr kind")
+    }
 
     fun is_constant(): Bool =
         if self.kind() == CallExprKind.type_conversion

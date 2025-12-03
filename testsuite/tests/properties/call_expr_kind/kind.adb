@@ -37,6 +37,10 @@ procedure Kind is
 
       function Constant_Reference (X : UD; Pos : Integer) return Natural
       is (1);
+
+      function Foo (X : UD; Pos : Integer) return Natural is (1);
+
+      function Bar (X : UD; Pos : Integer) return UD is (null record);
    end PUD;
    use PUD;
 
@@ -62,5 +66,19 @@ begin
    --% node.f_expr.p_kind
 
    N := OUD (6);
+   --% node.f_expr.p_kind
+
+   N := OUD.Foo (6);
+   --% node.f_expr.p_kind
+
+   OUD := OUD.Bar (1);
+   --% node.f_expr.p_kind
+
+   N := OUD.Bar (1) (2);
+   --% node.f_expr.f_name.p_kind
+   --% node.f_expr.p_kind
+
+   Acc : access UD := null;
+   N := Acc (3);
    --% node.f_expr.p_kind
 end Kind;

@@ -68,4 +68,4 @@ Working on node <AssignStmt kind.adb:64:4-64:17>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'call'
+Result: 'array_index'

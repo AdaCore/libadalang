@@ -52,10 +52,10 @@ CompilationUnit[1:1-3:9]
 $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
-@2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-3:9>):
+@1 = LexEnv(Static_Primary, Parent=@2, Node=<PackageDecl ["Foo"] input:1:1-3:9>):
     lol: [<SubtypeDecl ["Lol"] input:2:4-2:41>]
 
-@1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] in Standard>):
+@2 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] in Standard>):
     "&": [<SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>, <SyntheticSubpDecl [""&""] in Standard>]
     "*": [<SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>, <SyntheticSubpDecl [""*""] in Standard>]
     "**": [<SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>, <SyntheticSubpDecl [""**""] in Standard>]
@@ -114,6 +114,6 @@ $root = LexEnv(Static_Primary, Parent=null):
 $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
-@3 = LexEnv(Static_Primary, Parent=@2, Node=<SubtypeDecl ["Lol"] input:2:4-2:41>):
+@3 = LexEnv(Static_Primary, Parent=@1, Node=<SubtypeDecl ["Lol"] input:2:4-2:41>):
     lol: [<SyntheticObjectDecl ["Lol"] input:2:4-2:41>]
 

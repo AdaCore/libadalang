@@ -25,6 +25,12 @@ build_and_test:
     - generic_anod_ci --add-dep eng/libadalang/langkit
     - . /tmp/ci_env.sh
     - anod test libadalang $ACI_TRACK_QUALIFIER
+
+    # We must parse testsuite results with the same version of e3-testsuite
+    # that produced them. So we install e3-testsuite using the same sandbox as
+    # testing.
+    - anod install e3-for-testing
+    - eval $(anod printenv e3-for-testing)
     - testsuite_reports
   artifacts:
     reports:

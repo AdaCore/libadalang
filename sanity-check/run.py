@@ -41,7 +41,7 @@ class PythonAPIDriver(DiffTestDriver):
             "share",
             "libadalang",
             "python",
-            "Libadalang*.whl",
+            "libadalang*.whl",
         )
         wheels = glob.glob(wheels_pattern)
         if len(wheels) != 1:

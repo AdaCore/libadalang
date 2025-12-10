@@ -1,4 +1,4 @@
 Preprocessing
 =============
 
-.. include:: generated/libadalang-preprocessing.rst
+.. include:: generated/ada___libadalang__preprocessing___spec.rst

@@ -1,8 +1,8 @@
 Miscellaneous
 =============
 
-.. include:: generated/libadalang-iterators.rst
-.. include:: generated/libadalang-config_pragmas.rst
-.. include:: generated/libadalang-expr_eval.rst
-.. include:: generated/libadalang-data_decomposition.rst
-.. include:: generated/libadalang-target_info.rst
+.. include:: generated/ada___libadalang__iterators___spec.rst
+.. include:: generated/ada___libadalang__config_pragmas___spec.rst
+.. include:: generated/ada___libadalang__expr_eval___spec.rst
+.. include:: generated/ada___libadalang__data_decomposition___spec.rst
+.. include:: generated/ada___libadalang__target_info___spec.rst

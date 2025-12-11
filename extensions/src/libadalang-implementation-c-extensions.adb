@@ -25,6 +25,7 @@ with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Auto_Provider;     use Libadalang.Auto_Provider;
+with Libadalang.Callback_Provider; use Libadalang.Callback_Provider;
 with Libadalang.Config_Pragmas;    use Libadalang.Config_Pragmas;
 with Libadalang.Implementation.Extensions;
 with Libadalang.GPR_Impl;          use Libadalang.GPR_Impl;
@@ -436,6 +437,27 @@ package body Libadalang.Implementation.C.Extensions is
          end return;
       end;
    end ada_create_auto_provider;
+
+   ----------------------------------
+   -- ada_create_callback_provider --
+   ----------------------------------
+
+   function ada_create_callback_provider
+     (Callback : ada_get_unit_filename_callback;
+      Data     : System.Address;
+      Charset  : chars_ptr)
+      return ada_unit_provider
+   is
+      Actual_Charset : constant String :=
+        (if Charset = Null_Ptr then Default_Charset else Value (Charset));
+
+      --  Convert C callback type to Ada callback type
+      Ada_Callback : constant Callback_Provider.Get_Unit_Filename_Callback :=
+        Callback_Provider.Get_Unit_Filename_Callback (Callback);
+   begin
+      return To_C_Provider
+        (Create_Callback_Provider_Reference (Ada_Callback, Data, Actual_Charset));
+   end ada_create_callback_provider;
 
    ----------------------------------
    -- ada_gpr_project_source_files --

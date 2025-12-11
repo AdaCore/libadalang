@@ -5470,19 +5470,40 @@
     "PragmaArgumentAssoc": {
       "node": {
         "kind": "group",
-        "document": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            {
-              "kind": "recurse_field",
-              "field": "f_name"
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_name"
+          },
+          {
+            "kind": "ifKind",
+            "field": "f_name",
+            "default": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    "line",
+                    "flushLineBreaks",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_expr"
+                    }
+                  ]
+                }
+              ]
             },
-            {
-              "kind": "recurse_field",
-              "field": "f_expr"
-            }
-          ]
-        }
+            "absent": {
+              "kind": "group",
+              "document": {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              }
+            },
+            "matchers": []
+          }
+        ]
       },
       "fields": {
         "f_name": [
@@ -5491,27 +5512,25 @@
           {
             "kind": "text",
             "text": "=>"
-          },
-          "line"
+          }
         ]
       }
     },
     "PragmaNode": {
       "node": {
         "kind": "group",
-        "document": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            {
-              "kind": "text",
-              "text": "pragma"
-            },
-            "line",
-            {
-              "kind": "group",
-              "document": {
-                "kind": "continuationLineIndent",
-                "contents": [
+        "document": [
+          {
+            "kind": "text",
+            "text": "pragma"
+          },
+          {
+            "kind": "continuationLineIndent",
+            "contents": [
+              "line",
+              {
+                "kind": "group",
+                "document": [
                   {
                     "kind": "recurse_field",
                     "field": "f_id"
@@ -5522,36 +5541,42 @@
                   }
                 ]
               }
-            },
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_args": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
             {
-              "kind": "text",
-              "text": ";"
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "text",
+                  "text": "("
+                },
+                {
+                  "kind": "align",
+                  "width": " ",
+                  "contents": {
+                    "kind": "group",
+                    "document": "recurse"
+                  }
+                },
+                {
+                  "kind": "text",
+                  "text": ")"
+                }
+              ]
             }
           ]
         }
-      },
-      "fields": {
-        "f_args": [
-          "line",
-          {
-            "kind": "group",
-            "document": [
-              {
-                "kind": "text",
-                "text": "("
-              },
-              {
-                "kind": "align",
-                "width": " ",
-                "contents": "recurse"
-              },
-              {
-                "kind": "text",
-                "text": ")"
-              }
-            ]
-          }
-        ]
       }
     },
     "PragmaNodeList": {

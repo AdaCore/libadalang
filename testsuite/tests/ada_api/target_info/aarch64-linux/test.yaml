@@ -1,0 +1,6 @@
+driver: ada-api
+main: main.adb
+sync_trees:
+  - ../common
+control:
+  - [SKIP, "env.build.platform != 'aarch64-linux'"]

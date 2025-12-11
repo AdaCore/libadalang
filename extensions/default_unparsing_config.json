@@ -7256,7 +7256,12 @@
       "fields": {
         "f_lower_bound": [
           "whitespace",
-          "recurse"
+          "recurse",
+          "whitespace",
+          {
+            "kind": "text",
+            "text": ".."
+          }
         ]
       }
     },

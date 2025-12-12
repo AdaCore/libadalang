@@ -1356,28 +1356,43 @@
     },
     "CompilationUnitList": {},
     "ComponentClause": {
-      "node": {
-        "kind": "group",
-        "document": [
+      "node": [
+        {
+          "kind": "recurse_field",
+          "field": "f_id"
+        },
+        {
+          "kind": "tableSeparator",
+          "text": "at"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_position"
+        },
+        {
+          "kind": "tableSeparator",
+          "text": ""
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_range"
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        }
+      ],
+      "fields": {
+        "f_range": [
           {
-            "kind": "recurse_field",
-            "field": "f_id"
-          },
-          {
-            "kind": "text",
-            "text": "at"
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_position"
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_range"
-          },
-          {
-            "kind": "text",
-            "text": ";"
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "group",
+              "document": [
+                "line",
+                "recurse"
+              ]
+            }
           }
         ]
       }

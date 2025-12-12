@@ -4002,18 +4002,21 @@
             "kind": "group",
             "document": [
               {
-                "kind": "text",
-                "text": "if"
-              },
-              "whitespace",
-              {
                 "kind": "continuationLineIndent",
                 "contents": {
                   "kind": "group",
-                  "document": {
-                    "kind": "recurse_field",
-                    "field": "f_cond_expr"
-                  }
+                  "document": [
+                    {
+                      "kind": "text",
+                      "text": "if"
+                    },
+                    "whitespace",
+                    "flushLineBreaks",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_cond_expr"
+                    }
+                  ]
                 }
               },
               "line",

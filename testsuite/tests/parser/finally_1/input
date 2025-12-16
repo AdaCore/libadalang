@@ -1,0 +1,29 @@
+pragma Extensions_Allowed (All_Extensions);
+pragma Assertion_Policy (Check);
+
+procedure Main is
+   My_Exception : exception;
+
+   Finally : Natural := 0;
+begin
+   for J in 1 .. 2 loop
+      begin
+         -- In the first iteration of the loop, we exit the following block
+         -- normally, and in the second iteration, we exit it by raising an
+         -- exception. In both cases, the finally part is executed.
+         begin
+            if J = 2 then
+               raise My_Exception;
+            end if;
+         finally
+            Finally := Finally + 1;
+         end;
+
+      exception
+         when My_Exception =>
+            null;
+      end;
+   end loop;
+
+   pragma Assert (Finally = 2);
+end Main;

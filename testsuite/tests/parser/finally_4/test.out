@@ -1,0 +1,74 @@
+CompilationUnit[1:1-10:10]
+|f_prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|f_body:
+|  LibraryItem[1:1-10:10]
+|  |f_has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |f_item:
+|  |  SubpBody[1:1-10:10]
+|  |  |f_overriding:
+|  |  |  OverridingUnspecified[1:1-1:1]
+|  |  |f_subp_spec:
+|  |  |  SubpSpec[1:1-1:15]
+|  |  |  |f_subp_kind:
+|  |  |  |  SubpKindProcedure[1:1-1:10]
+|  |  |  |f_subp_name:
+|  |  |  |  DefiningName[1:11-1:15]
+|  |  |  |  |f_name:
+|  |  |  |  |  Id[1:11-1:15]: Main
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
+|  |  |  DeclarativePart[1:18-3:1]
+|  |  |  |f_decls:
+|  |  |  |  AdaNodeList[2:4-2:30]
+|  |  |  |  |  NullSubpDecl[2:4-2:30]
+|  |  |  |  |  |f_overriding:
+|  |  |  |  |  |  OverridingUnspecified[1:18-1:18]
+|  |  |  |  |  |f_subp_spec:
+|  |  |  |  |  |  SubpSpec[2:4-2:21]
+|  |  |  |  |  |  |f_subp_kind:
+|  |  |  |  |  |  |  SubpKindProcedure[2:4-2:13]
+|  |  |  |  |  |  |f_subp_name:
+|  |  |  |  |  |  |  DefiningName[2:14-2:21]
+|  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  Id[2:14-2:21]: Finally
+|  |  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |  |f_subp_returns: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_stmts:
+|  |  |  HandledStmts[3:6-10:1]
+|  |  |  |f_stmts:
+|  |  |  |  StmtList[4:4-9:12]
+|  |  |  |  |  CallStmt[4:4-4:12]
+|  |  |  |  |  |f_call:
+|  |  |  |  |  |  Id[4:4-4:11]: Finally
+|  |  |  |  |  BeginBlock[5:4-8:8]
+|  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  HandledStmts[5:9-8:4]
+|  |  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  |  StmtList[6:7-7:15]
+|  |  |  |  |  |  |  |  NullStmt[6:7-6:12]
+|  |  |  |  |  |  |  |  CallStmt[7:7-7:15]
+|  |  |  |  |  |  |  |  |f_call:
+|  |  |  |  |  |  |  |  |  Id[7:7-7:14]: Finally
+|  |  |  |  |  |  |f_exceptions:
+|  |  |  |  |  |  |  AdaNodeList[7:15-7:15]: <empty list>
+|  |  |  |  |  |  |f_finally_part: <null>
+|  |  |  |  |  |f_end_name: <null>
+|  |  |  |  |  CallStmt[9:4-9:12]
+|  |  |  |  |  |f_call:
+|  |  |  |  |  |  Id[9:4-9:11]: Finally
+|  |  |  |f_exceptions:
+|  |  |  |  AdaNodeList[9:12-9:12]: <empty list>
+|  |  |  |f_finally_part: <null>
+|  |  |f_end_name:
+|  |  |  EndName[10:5-10:9]
+|  |  |  |f_name:
+|  |  |  |  Id[10:5-10:9]: Main
+|f_pragmas:
+|  PragmaNodeList[10:10-10:10]: <empty list>
+
+==== Checking tree consistency ====

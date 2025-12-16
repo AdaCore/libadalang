@@ -64,5 +64,6 @@ ExtendedReturnStmt[1:1-5:1] <<INCOMPLETE>>
 |  |  |  |f_end_name: <null>
 |  |f_exceptions:
 |  |  AdaNodeList[4:13-4:13]: <empty list>
+|  |f_finally_part: <null>
 
 ==== Checking tree consistency ====

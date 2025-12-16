@@ -1,0 +1,6 @@
+procedure Main is
+begin
+   null;
+finally
+   null;
+end Main;

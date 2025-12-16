@@ -221,6 +221,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[16:25-16:25]: <empty list>
 |  |  |  |  |  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[16:27-16:27]: <empty list>
+|  |  |  |  |  |  |  |  |  |f_finally_part: <null>
 |  |  |  |  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  |  |  |  EndName[17:11-17:14]
 |  |  |  |  |  |  |  |  |  |f_name:
@@ -253,6 +254,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  Id[23:9-23:12]: Foo
 |  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[23:13-23:13]: <empty list>
+|  |  |  |f_finally_part: <null>
 |  |  |f_end_name:
 |  |  |  EndName[24:5-24:9]
 |  |  |  |f_name:

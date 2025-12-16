@@ -1,40 +1,46 @@
-CompilationUnit[1:1-4:12]
+CompilationUnit[1:1-6:10]
 |f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
 |f_body:
-|  LibraryItem[1:1-4:12]
+|  LibraryItem[1:1-6:10]
 |  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
 |  |f_item:
-|  |  SubpBody[1:1-4:12]
+|  |  SubpBody[1:1-6:10]
 |  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
 |  |  |f_subp_spec:
-|  |  |  SubpSpec[1:1-1:17]
+|  |  |  SubpSpec[1:1-1:15]
 |  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
 |  |  |  |f_subp_name:
-|  |  |  |  DefiningName[1:11-1:17]
+|  |  |  |  DefiningName[1:11-1:15]
 |  |  |  |  |f_name:
-|  |  |  |  |  Id[1:11-1:17]: kikoo\u1820
+|  |  |  |  |  Id[1:11-1:15]: Main
 |  |  |  |f_subp_params: <null>
 |  |  |  |f_subp_returns: <null>
 |  |  |f_aspects: <null>
 |  |  |f_decls:
-|  |  |  DeclarativePart[1:20-2:1]
+|  |  |  DeclarativePart[1:18-2:1]
 |  |  |  |f_decls:
-|  |  |  |  AdaNodeList[1:20-1:20]: <empty list>
+|  |  |  |  AdaNodeList[1:18-1:18]: <empty list>
 |  |  |f_stmts:
-|  |  |  HandledStmts[2:6-4:1]
+|  |  |  HandledStmts[2:6-6:1]
 |  |  |  |f_stmts:
 |  |  |  |  StmtList[3:4-3:9]
 |  |  |  |  |  NullStmt[3:4-3:9]
 |  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[3:9-3:9]: <empty list>
-|  |  |  |f_finally_part: <null>
+|  |  |  |f_finally_part:
+|  |  |  |  FinallyPart[4:1-5:9]
+|  |  |  |  |f_stmts:
+|  |  |  |  |  StmtList[5:4-5:9]
+|  |  |  |  |  |  NullStmt[5:4-5:9]
 |  |  |f_end_name:
-|  |  |  EndName[4:5-4:11]
+|  |  |  EndName[6:5-6:9]
 |  |  |  |f_name:
-|  |  |  |  Id[4:5-4:11]: kikoo\u1820
+|  |  |  |  Id[6:5-6:9]: Main
 |f_pragmas:
-|  PragmaNodeList[4:12-4:12]: <empty list>
+|  PragmaNodeList[6:10-6:10]: <empty list>
+
+==== Checking tree consistency ====

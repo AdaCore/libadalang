@@ -72,6 +72,7 @@ CompilationUnit[1:1-5:1] <<INCOMPLETE>>
 |  |  |  |  |  |  |  |  |  |  StmtList[4:12-4:12]: <empty list>
 |  |  |  |  |  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[4:12-4:12]: <empty list>
+|  |  |  |  |  |  |  |  |  |f_finally_part: <null>
 |  |  |  |  |  |  |  |  |f_end_name: <null>
 |  |  |  |  |  |f_stmts: <null>
 |  |  |  |  |  |f_end_name: <null>

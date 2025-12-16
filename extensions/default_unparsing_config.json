@@ -2320,6 +2320,25 @@
         }
       ]
     },
+    "FinallyPart": {
+      "node": [
+        "hardlineWithoutBreakParent",
+        {
+          "kind": "text",
+          "text": "finally"
+        },
+        {
+          "kind": "indent",
+          "contents": [
+            "hardlineWithoutBreakParent",
+            {
+              "kind": "recurse_field",
+              "field": "f_stmts"
+            }
+          ]
+        }
+      ]
+    },
     "ElsifExprPart": {
       "node": [
         {
@@ -3895,6 +3914,10 @@
           {
             "kind": "recurse_field",
             "field": "f_exceptions"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_finally_part"
           }
         ]
       },

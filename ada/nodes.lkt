@@ -14823,6 +14823,12 @@ class ElsePart: AdaNode {
     stmts: StmtList
 }
 
+|" ``finally`` part in an handled statements block (this is a GNAT extension).
+class FinallyPart: AdaNode {
+    @parse_field
+    stmts: StmtList
+}
+
 |" ``then abort`` part in a ``select`` statement block
 class ThenAbortPart: AdaNode {
     @parse_field
@@ -16869,6 +16875,10 @@ class MembershipExpr: Expr {
 |" Base class for names (:rmlink:`4.1`).
 @abstract
 class Name: Expr {
+    |" Return False if the name is "finally", True otherwise.
+    fun is_not_finally_identifier(): Bool =
+        node.as[Identifier]?.symbol != s"finally"
+
     |" If this name is part of a defining name, return the enclosing defining
     |" name node.
     @exported
@@ -21637,13 +21647,17 @@ class FormatStringTokStart: FormatStringTokNode implements TokenNode {
 class FormatStringTokString: FormatStringTokStart implements TokenNode {
 }
 
-|" List of statements, with optional exception handlers (:rmlink:`11.2`).
+|" List of statements, with optional exception handlers (:rmlink:`11.2`) and
+|" an optional finally part (see GNAT RM 17.3.1).
 @snaps
 class HandledStmts: AdaNode {
     @parse_field
     stmts: StmtList
     @parse_field
     exceptions: ASTList[AdaNode]
+    @nullable
+    @parse_field
+    finally_part: FinallyPart
 
     |" Return whether this list of statement has SPARK mode set to On
     |" (assuming that we are in a library-level package body statements

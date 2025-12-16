@@ -1,0 +1,8 @@
+procedure Main is
+begin
+   null;
+exception
+   when others => null;
+finally
+   null;
+end Main;

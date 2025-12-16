@@ -1,0 +1,10 @@
+procedure Main is
+   procedure Finally is null;
+begin
+   Finally;
+   begin
+      null;
+      Finally;
+   end;
+   Finally;
+end Main;

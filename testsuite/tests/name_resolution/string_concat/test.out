@@ -411,4 +411,130 @@ Expr: <Id "Test" test.adb:28:5-28:9>
   expected type: None
 
 
+Analyzing interpolation.adb
+###########################
+
+Resolving xrefs for node <AssignStmt interpolation.adb:10:4-10:22>
+******************************************************************
+
+Expr: <Id "S" interpolation.adb:10:4-10:5>
+  references:    <DefiningName "S" interpolation.adb:8:4-8:5>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: None
+Expr: <ConcatOp interpolation.adb:10:9-10:21>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <FormatStringLiteral interpolation.adb:10:9-10:14>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <ConcatOperand interpolation.adb:10:15-10:21>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <OpConcat "&" interpolation.adb:10:15-10:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""S2"" interpolation.adb:10:17-10:21>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <AssignStmt interpolation.adb:13:4-13:21>
+******************************************************************
+
+Expr: <Id "S" interpolation.adb:13:4-13:5>
+  references:    <DefiningName "S" interpolation.adb:8:4-8:5>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: None
+Expr: <ConcatOp interpolation.adb:13:9-13:20>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <Str ""S1"" interpolation.adb:13:9-13:13>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <ConcatOperand interpolation.adb:13:14-13:20>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <OpConcat "&" interpolation.adb:13:14-13:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""S2"" interpolation.adb:13:16-13:20>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <AssignStmt interpolation.adb:16:4-16:23>
+******************************************************************
+
+Expr: <Id "S" interpolation.adb:16:4-16:5>
+  references:    <DefiningName "S" interpolation.adb:8:4-8:5>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: None
+Expr: <ConcatOp interpolation.adb:16:9-16:22>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <FormatStringLiteral interpolation.adb:16:9-16:14>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <ConcatOperand interpolation.adb:16:15-16:22>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <OpConcat "&" interpolation.adb:16:15-16:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral interpolation.adb:16:17-16:22>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <CallStmt interpolation.adb:19:4-19:67>
+****************************************************************
+
+Expr: <CallExpr interpolation.adb:19:4-19:66>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" interpolation.adb:19:4-19:12>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <ConcatOp interpolation.adb:19:14-19:65>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <FormatStringLiteral interpolation.adb:19:14-19:43>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <Id "Name" interpolation.adb:19:29-19:33>
+  references:    <DefiningName "Name" interpolation.adb:6:4-6:8>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: None
+Expr: <ConcatOperand interpolation.adb:19:44-19:65>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <OpConcat "&" interpolation.adb:19:44-19:45>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral interpolation.adb:19:46-19:65>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <BinOp interpolation.adb:19:57-19:62>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "X" interpolation.adb:19:57-19:58>
+  references:    <DefiningName "X" interpolation.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpPlus "+" interpolation.adb:19:59-19:60>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" interpolation.adb:19:61-19:62>
+  references:    <DefiningName "Y" interpolation.adb:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
 Done.

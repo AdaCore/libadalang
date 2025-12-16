@@ -52,6 +52,7 @@ EntryBody[1:1-1:101]
 |  |  |  |  Id[1:83-1:88]: false
 |  |f_exceptions:
 |  |  AdaNodeList[1:89-1:89]: <empty list>
+|  |f_finally_part: <null>
 |f_end_name:
 |  EndName[1:94-1:100]
 |  |f_name:

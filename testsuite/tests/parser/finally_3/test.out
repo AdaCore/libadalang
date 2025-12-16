@@ -1,0 +1,54 @@
+CompilationUnit[1:1-8:10]
+|f_prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|f_body:
+|  LibraryItem[1:1-8:10]
+|  |f_has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |f_item:
+|  |  SubpBody[1:1-8:10]
+|  |  |f_overriding:
+|  |  |  OverridingUnspecified[1:1-1:1]
+|  |  |f_subp_spec:
+|  |  |  SubpSpec[1:1-1:15]
+|  |  |  |f_subp_kind:
+|  |  |  |  SubpKindProcedure[1:1-1:10]
+|  |  |  |f_subp_name:
+|  |  |  |  DefiningName[1:11-1:15]
+|  |  |  |  |f_name:
+|  |  |  |  |  Id[1:11-1:15]: Main
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
+|  |  |  DeclarativePart[1:18-2:1]
+|  |  |  |f_decls:
+|  |  |  |  AdaNodeList[1:18-1:18]: <empty list>
+|  |  |f_stmts:
+|  |  |  HandledStmts[2:6-8:1]
+|  |  |  |f_stmts:
+|  |  |  |  StmtList[3:4-3:9]
+|  |  |  |  |  NullStmt[3:4-3:9]
+|  |  |  |f_exceptions:
+|  |  |  |  AdaNodeList[5:4-5:24]
+|  |  |  |  |  ExceptionHandler[5:4-5:24]
+|  |  |  |  |  |f_exception_name: <null>
+|  |  |  |  |  |f_handled_exceptions:
+|  |  |  |  |  |  AlternativesList[5:9-5:15]
+|  |  |  |  |  |  |  OthersDesignator[5:9-5:15]
+|  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  StmtList[5:19-5:24]
+|  |  |  |  |  |  |  NullStmt[5:19-5:24]
+|  |  |  |f_finally_part:
+|  |  |  |  FinallyPart[6:1-7:9]
+|  |  |  |  |f_stmts:
+|  |  |  |  |  StmtList[7:4-7:9]
+|  |  |  |  |  |  NullStmt[7:4-7:9]
+|  |  |f_end_name:
+|  |  |  EndName[8:5-8:9]
+|  |  |  |f_name:
+|  |  |  |  Id[8:5-8:9]: Main
+|f_pragmas:
+|  PragmaNodeList[8:10-8:10]: <empty list>
+
+==== Checking tree consistency ====

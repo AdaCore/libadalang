@@ -1,0 +1,189 @@
+CompilationUnit[1:1-29:10]
+|f_prelude:
+|  AdaNodeList[1:1-2:33]
+|  |  PragmaNode[1:1-1:44]
+|  |  |f_id:
+|  |  |  Id[1:8-1:26]: Extensions_Allowed
+|  |  |f_args:
+|  |  |  BaseAssocList[1:28-1:42]
+|  |  |  |  PragmaArgumentAssoc[1:28-1:42]
+|  |  |  |  |f_name: <null>
+|  |  |  |  |f_expr:
+|  |  |  |  |  Id[1:28-1:42]: All_Extensions
+|  |  PragmaNode[2:1-2:33]
+|  |  |f_id:
+|  |  |  Id[2:8-2:24]: Assertion_Policy
+|  |  |f_args:
+|  |  |  BaseAssocList[2:26-2:31]
+|  |  |  |  PragmaArgumentAssoc[2:26-2:31]
+|  |  |  |  |f_name: <null>
+|  |  |  |  |f_expr:
+|  |  |  |  |  Id[2:26-2:31]: Check
+|f_body:
+|  LibraryItem[4:1-29:10]
+|  |f_has_private:
+|  |  PrivateAbsent[2:33-2:33]
+|  |f_item:
+|  |  SubpBody[4:1-29:10]
+|  |  |f_overriding:
+|  |  |  OverridingUnspecified[2:33-2:33]
+|  |  |f_subp_spec:
+|  |  |  SubpSpec[4:1-4:15]
+|  |  |  |f_subp_kind:
+|  |  |  |  SubpKindProcedure[4:1-4:10]
+|  |  |  |f_subp_name:
+|  |  |  |  DefiningName[4:11-4:15]
+|  |  |  |  |f_name:
+|  |  |  |  |  Id[4:11-4:15]: Main
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
+|  |  |  DeclarativePart[4:18-8:1]
+|  |  |  |f_decls:
+|  |  |  |  AdaNodeList[5:4-7:27]
+|  |  |  |  |  ExceptionDecl[5:4-5:29]
+|  |  |  |  |  |f_ids:
+|  |  |  |  |  |  DefiningNameList[5:4-5:16]
+|  |  |  |  |  |  |  DefiningName[5:4-5:16]
+|  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  Id[5:4-5:16]: My_Exception
+|  |  |  |  |  |f_renames: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  ObjectDecl[7:4-7:27]
+|  |  |  |  |  |f_ids:
+|  |  |  |  |  |  DefiningNameList[7:4-7:11]
+|  |  |  |  |  |  |  DefiningName[7:4-7:11]
+|  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  Id[7:4-7:11]: Counter
+|  |  |  |  |  |f_has_aliased:
+|  |  |  |  |  |  AliasedAbsent[7:13-7:13]
+|  |  |  |  |  |f_has_constant:
+|  |  |  |  |  |  ConstantAbsent[7:13-7:13]
+|  |  |  |  |  |f_mode:
+|  |  |  |  |  |  ModeDefault[7:13-7:13]
+|  |  |  |  |  |f_type_expr:
+|  |  |  |  |  |  SubtypeIndication[7:14-7:21]
+|  |  |  |  |  |  |f_has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[7:13-7:13]
+|  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  Id[7:14-7:21]: Natural
+|  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_default_expr:
+|  |  |  |  |  |  Int[7:25-7:26]: 0
+|  |  |  |  |  |f_renaming_clause: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_stmts:
+|  |  |  HandledStmts[8:6-29:1]
+|  |  |  |f_stmts:
+|  |  |  |  StmtList[9:4-28:32]
+|  |  |  |  |  ForLoopStmt[9:4-26:13]
+|  |  |  |  |  |f_spec:
+|  |  |  |  |  |  ForLoopSpec[9:8-9:19]
+|  |  |  |  |  |  |f_var_decl:
+|  |  |  |  |  |  |  ForLoopVarDecl[9:8-9:9]
+|  |  |  |  |  |  |  |f_id:
+|  |  |  |  |  |  |  |  DefiningName[9:8-9:9]
+|  |  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  |  Id[9:8-9:9]: J
+|  |  |  |  |  |  |  |f_id_type: <null>
+|  |  |  |  |  |  |f_loop_type:
+|  |  |  |  |  |  |  IterTypeIn[9:10-9:12]
+|  |  |  |  |  |  |f_has_reverse:
+|  |  |  |  |  |  |  ReverseAbsent[9:12-9:12]
+|  |  |  |  |  |  |f_iter_expr:
+|  |  |  |  |  |  |  BinOp[9:13-9:19]
+|  |  |  |  |  |  |  |f_left:
+|  |  |  |  |  |  |  |  Int[9:13-9:14]: 1
+|  |  |  |  |  |  |  |f_op:
+|  |  |  |  |  |  |  |  OpDoubleDot[9:15-9:17]
+|  |  |  |  |  |  |  |f_right:
+|  |  |  |  |  |  |  |  Int[9:18-9:19]: 2
+|  |  |  |  |  |  |f_iter_filter: <null>
+|  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  StmtList[10:7-25:11]
+|  |  |  |  |  |  |  BeginBlock[10:7-25:11]
+|  |  |  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  |  |  HandledStmts[10:12-25:7]
+|  |  |  |  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  |  |  |  StmtList[14:10-20:14]
+|  |  |  |  |  |  |  |  |  |  BeginBlock[14:10-20:14]
+|  |  |  |  |  |  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  |  |  |  |  |  HandledStmts[14:15-20:10]
+|  |  |  |  |  |  |  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  |  |  |  |  |  |  StmtList[15:13-17:20]
+|  |  |  |  |  |  |  |  |  |  |  |  |  IfStmt[15:13-17:20]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_cond_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[15:16-15:21]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:16-15:17]: J
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpEq[15:18-15:19]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[15:20-15:21]: 2
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_then_stmts:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  StmtList[16:16-16:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  RaiseStmt[16:16-16:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_exception_name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:22-16:34]: My_Exception
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_error_message: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_alternatives:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  ElsifStmtPartList[16:35-16:35]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_else_part: <null>
+|  |  |  |  |  |  |  |  |  |  |  |f_exceptions:
+|  |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[17:20-17:20]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |  |f_finally_part:
+|  |  |  |  |  |  |  |  |  |  |  |  FinallyPart[18:10-19:36]
+|  |  |  |  |  |  |  |  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  |  |  |  |  |  |  |  StmtList[19:13-19:36]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  AssignStmt[19:13-19:36]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_dest:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[19:13-19:20]: Counter
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[19:24-19:35]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[19:24-19:31]: Counter
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpPlus[19:32-19:33]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[19:34-19:35]: 1
+|  |  |  |  |  |  |  |  |  |  |f_end_name: <null>
+|  |  |  |  |  |  |  |  |f_exceptions:
+|  |  |  |  |  |  |  |  |  AdaNodeList[23:10-24:18]
+|  |  |  |  |  |  |  |  |  |  ExceptionHandler[23:10-24:18]
+|  |  |  |  |  |  |  |  |  |  |f_exception_name: <null>
+|  |  |  |  |  |  |  |  |  |  |f_handled_exceptions:
+|  |  |  |  |  |  |  |  |  |  |  AlternativesList[23:15-23:27]
+|  |  |  |  |  |  |  |  |  |  |  |  Id[23:15-23:27]: My_Exception
+|  |  |  |  |  |  |  |  |  |  |f_stmts:
+|  |  |  |  |  |  |  |  |  |  |  StmtList[24:13-24:18]
+|  |  |  |  |  |  |  |  |  |  |  |  NullStmt[24:13-24:18]
+|  |  |  |  |  |  |  |  |f_finally_part: <null>
+|  |  |  |  |  |  |  |f_end_name: <null>
+|  |  |  |  |  |f_end_name: <null>
+|  |  |  |  |  PragmaNode[28:4-28:32]
+|  |  |  |  |  |f_id:
+|  |  |  |  |  |  Id[28:11-28:17]: Assert
+|  |  |  |  |  |f_args:
+|  |  |  |  |  |  BaseAssocList[28:19-28:30]
+|  |  |  |  |  |  |  PragmaArgumentAssoc[28:19-28:30]
+|  |  |  |  |  |  |  |f_name: <null>
+|  |  |  |  |  |  |  |f_expr:
+|  |  |  |  |  |  |  |  RelationOp[28:19-28:30]
+|  |  |  |  |  |  |  |  |f_left:
+|  |  |  |  |  |  |  |  |  Id[28:19-28:26]: Counter
+|  |  |  |  |  |  |  |  |f_op:
+|  |  |  |  |  |  |  |  |  OpEq[28:27-28:28]
+|  |  |  |  |  |  |  |  |f_right:
+|  |  |  |  |  |  |  |  |  Int[28:29-28:30]: 2
+|  |  |  |f_exceptions:
+|  |  |  |  AdaNodeList[28:32-28:32]: <empty list>
+|  |  |  |f_finally_part: <null>
+|  |  |f_end_name:
+|  |  |  EndName[29:5-29:9]
+|  |  |  |f_name:
+|  |  |  |  Id[29:5-29:9]: Main
+|f_pragmas:
+|  PragmaNodeList[29:10-29:10]: <empty list>
+
+==== Checking tree consistency ====

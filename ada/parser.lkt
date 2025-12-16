@@ -982,15 +982,16 @@ grammar ada_grammar {
         ";"
     )
     handled_stmts <- HandledStmts(
-        stmts.dont_skip(or("exception" | "end"))
+        stmts.dont_skip(or("exception" | @Identifier("finally") | "end"))
         ?pick("exception" list+(or(exception_handler | pragma)))
+        ?FinallyPart(@Identifier("finally") stmts.dont_skip("end"))
     )
     exception_handler <- ExceptionHandler(
         "when"
         ?pick(defining_id ":")
         AlternativesList+(or(name | others_designator), "|")
         "=>"
-        stmts.dont_skip(or("when" | "pragma" | "end"))
+        stmts.dont_skip(or("when" | "pragma" | @Identifier("finally") | "end"))
     )
     stmts <- StmtList*(or(stmt | label | skip(ErrorStmt)))
     label <- Label("<<" / LabelDecl(defining_id) ">>")
@@ -998,7 +999,10 @@ grammar ada_grammar {
     |" included).
     @entry_point
     stmt <- or(compound_stmt | simple_stmt)
-    call_stmt <- CallStmt(name !";")
+    call_stmt <- or(
+        | CallStmt(name ";")
+        | CallStmt(name |> when(Name.is_not_finally_identifier) !";")
+    )
     simple_stmt <- or(
         | null_stmt
         | assignment_stmt

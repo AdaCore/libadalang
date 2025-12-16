@@ -16796,6 +16796,8 @@ class FormatStringLiteral: Expr {
     @nullable
     trailing_expr: FormatStringChunk
 
+    fun has_context_free_type(): Bool = false
+
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         {

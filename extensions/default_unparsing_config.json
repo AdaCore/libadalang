@@ -775,8 +775,31 @@
         "kind": "group",
         "document": [
           {
-            "kind": "recurse_field",
-            "field": "f_left"
+            "kind": "ifKind",
+            "field": "f_right",
+            "default": {
+              "kind": "recurse_field",
+              "field": "f_left"
+            },
+            "matchers": [
+              {
+                "kind": "RelationOp",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_left"
+                }
+              },
+              {
+                "kind": "BinOp",
+                "document": {
+                  "kind": "group",
+                  "document": {
+                    "kind": "recurse_field",
+                    "field": "f_left"
+                  }
+                }
+              }
+            ]
           },
           "line",
           "flushLineBreaks",

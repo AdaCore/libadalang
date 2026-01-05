@@ -37,7 +37,8 @@ invalid.gpr:1:27: error: Expected ':=', got ';'
 
 --- Open idonotexist.gpr ---
 fatal error, cannot load the project tree
-idonotexist.gpr: error: project file "<working-dir>/idonotexist.gpr" not found
+error: project file "idonotexist.gpr" not found
+<project file search path information>
 ----------------------------
 
 --- Open agg.gpr (nosuchsubproject) ---

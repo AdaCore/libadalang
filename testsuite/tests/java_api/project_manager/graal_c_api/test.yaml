@@ -28,3 +28,4 @@ setup_script: |
         f.write(content)
 canonicalize_directory_separators: true
 canonicalize_native_target: true
+canonicalize_gpr_errors: true

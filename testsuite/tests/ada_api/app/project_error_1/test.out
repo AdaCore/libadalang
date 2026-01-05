@@ -1,1 +1,2 @@
-doesnotexist.gpr: error: project file "<working-dir>/doesnotexist.gpr" not found
+error: project file "doesnotexist.gpr" not found
+<project file search path information>

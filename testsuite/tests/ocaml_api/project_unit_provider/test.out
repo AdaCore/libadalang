@@ -2,7 +2,8 @@ got ProjectError fatal error, cannot load the project tree
 invalid.gpr:1:27: error: Expected ':=', got ';'
 
 got ProjectError fatal error, cannot load the project tree
-does_not_exist.gpr: error: project file "<working-dir>/does_not_exist.gpr" not found
+error: project file "does_not_exist.gpr" not found
+<project file search path information>
 
 got ProjectError no such project: does_not_exist
 

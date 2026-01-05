@@ -3,7 +3,8 @@ Trying to load invalid project:
 invalid.gpr:2:01: error: Expected ':=', got Termination
 Trying to load not existing:
    ... got an exception: fatal error, cannot load the project tree
-does_not_exist.gpr: error: project file "<working-dir>/does_not_exist.gpr" not found
+error: project file "does_not_exist.gpr" not found
+<project file search path information>
 Trying to load project with unknown target:
    ... got no exception
 Trying to get unit: '\xe9'

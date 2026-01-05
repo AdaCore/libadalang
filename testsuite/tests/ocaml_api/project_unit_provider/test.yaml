@@ -1,5 +1,6 @@
 driver: ocaml
 canonicalize_native_target: true
+canonicalize_gpr_errors: true
 control:
     - [SKIP, "os == 'windows'",
       "Mysterious crash, investigation assumed not worth it (UB24-010)"]

@@ -3,3 +3,4 @@ main: main.adb
 argv: [-Pdoesnotexist.gpr]
 status_code: 1
 canonicalize_directory_separators: true
+canonicalize_gpr_errors: true

@@ -107,6 +107,16 @@ class BaseDriver(DiffTestDriver):
     def output_refiners(self):
         result = super().output_refiners
 
+        # Hide gprbuild "project file X not found" search path information
+        if self.test_env.get("canonicalize_gpr_errors", False):
+            pattern = ("The following directories have been searched:\n"
+                       "((\\*|   -).+\n)+")
+            repl = "<project file search path information>"
+            if self.default_encoding == "binary":
+                pattern = pattern.encode("ascii")
+                repl = repl.encode("ascii")
+            result.append(PatternSubstitute(pattern, repl))
+
         # Replace references to the working directory with a placeholder, so
         # that baselines are not influenced by where the testsuite is run.
         pattern = self.working_dir()

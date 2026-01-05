@@ -1,3 +1,4 @@
 driver: python
 input_sources: [p.gpr]
 canonicalize_directory_separators: true
+canonicalize_gpr_errors: true

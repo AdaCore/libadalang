@@ -7903,16 +7903,8 @@ class BaseTypeDecl: BasicDecl {
         # Next, for each of these names, we only want to keep the
         # "most overriding" ones.
         all_prim_names.mapcat((name) => {
-            val all_prims = prim_env.get(name).filtermap(
-                (p) => p.as[BasicDecl],
-                # Primitives are inherited iff they have been declared before
-                # self in source (late primitives of parent type are not
-                # primitives for self).
-                (p) =>
-                    if only_inherited
-                    and p.declarative_scope() == node.declarative_scope()
-                    then p.node < node
-                    else true
+            val all_prims = prim_env.get(name).map(
+                (p) => p.as[BasicDecl]
             );
             val bds =
                 if include_predefined_operators
@@ -7925,10 +7917,30 @@ class BaseTypeDecl: BasicDecl {
                     a.info.md.primitive or? node
                 ).as_bare_entity.as[BaseTypeDecl];
 
+                # Primitives are inherited iff they have been declared before
+                # self in source (late primitives of parent type are not
+                # primitives for self). NOTE: a better version of late
+                # primitives filtering is planned and all the code introduced
+                # here to handle them can be removed when
+                # eng/libadalang/libadalang#1653 is done.
+                (
+                    if a_prim.node == node
+                    # a is a direct primitive of self
+                    then true
+                    # If not, it can only be inherited by self if a has been
+                    # declared before self (late primitives can only be
+                    # declared in the same declarative scope).
+                    else (
+                        if a.declarative_scope() == node.declarative_scope()
+                        then a.node < node
+                        else true
+                    )
+                )
+
                 # Only keep primitive a if it is the "most overriding"
                 # one.  So, the logic below checks that there isn't a
                 # primitive b that overrides it.
-                not bds.iany((b, j) => {
+                and not bds.iany((b, j) => {
                     val b_prim = (
                         b.info.md.primitive or? node
                     ).as[BaseTypeDecl];

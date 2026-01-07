@@ -32,4 +32,4 @@
         c_charset = _unwrap_charset(charset)
 
         c_value = _create_auto_provider(input_files_arg, c_charset)
-        return cls(c_value)
+        return _CUnitProvider(c_value)

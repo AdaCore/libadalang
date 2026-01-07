@@ -4088,7 +4088,9 @@ class BaseSubpSpec: BaseFormalParamHolder {
     fun has_controlling_result(): Bool = {
         val typ = self.candidate_primitive_subp_tagged_type();
 
-        not typ.is_null and typ == self.return_type()
+        not typ.is_null
+        and not typ.is_first_controlling_param()
+        and typ == self.return_type()
     }
 
     |" Returns whether the subprogram containing this spec is a subprogram

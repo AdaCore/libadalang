@@ -1,0 +1,17 @@
+Working on node <AssignStmt test.adb:24:4-24:19>
+================================================
+
+Eval 'node.f_expr.f_prefix.p_is_dispatching_call()'
+Result: True
+
+Eval 'node.f_expr.p_is_dispatching_call()'
+Result: False
+
+Working on node <AssignStmt test_2.adb:23:4-23:19>
+==================================================
+
+Eval 'node.f_expr.f_prefix.p_is_dispatching_call()'
+Result: True
+
+Eval 'node.f_expr.p_is_dispatching_call()'
+Result: True

@@ -1,0 +1,49 @@
+== Test: Basic callback resolution ==
+
+  Callback: pkg (spec) -> pkg.ads
+  Success: pkg (spec) -> CompilationUnit
+  Callback: pkg (body) -> pkg.adb
+  Success: pkg (body) -> CompilationUnit
+  Callback: foo (spec) -> foo.ads
+  Success: foo (spec) -> CompilationUnit
+
+== Test: Callback returns None (unit not found) ==
+
+  Callback: nonexistent (spec) -> None (not found)
+  Unit has root: True
+  Unit root kind: CompilationUnitList
+  Unit exists: True
+  Unit has no diagnostics: True
+
+== Test: Callback raises exception ==
+
+  Callback: error (spec) -> raising exception
+  Callback was called: True
+  Unit exists after exception: True
+  Subsequent call succeeded: True
+
+== Test: Charset parameter ==
+
+  Success with utf-8 charset: CompilationUnit
+  Success with default charset: CompilationUnit
+
+== Test: Multiple callback invocations ==
+
+  Total callback invocations: 5
+    - pkg (spec)
+    - pkg (body)
+    - foo (spec)
+    - foo (body)
+    - unknown (spec)
+
+== Test: Memory stress (many invocations) ==
+
+  Total invocations: 110
+  No crashes or memory issues observed
+
+== Test: Unicode unit name ==
+
+  Callback received: 'tëst_üñít'
+  UTF-8 handling verified correctly
+
+All tests completed successfully.

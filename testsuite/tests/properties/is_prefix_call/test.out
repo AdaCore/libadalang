@@ -1,0 +1,59 @@
+Working on node <AssignStmt test.adb:29:4-29:22>
+================================================
+
+Eval 'node.f_dest.p_is_prefix_call'
+Result: True
+
+Working on node <AssignStmt test.adb:31:4-31:20>
+================================================
+
+Eval 'node.f_expr.p_is_prefix_call'
+Result: True
+
+Eval 'not node.f_expr.f_name.p_is_prefix_call'
+Result: True
+
+Working on node <AssignStmt test.adb:34:4-34:15>
+================================================
+
+Eval 'not node.f_dest.p_is_prefix_call'
+Result: True
+
+Working on node <AssignStmt test.adb:36:4-36:19>
+================================================
+
+Eval 'node.f_expr.p_is_prefix_call'
+Result: True
+
+Eval 'not node.f_expr.f_name.p_is_prefix_call'
+Result: True
+
+Working on node <AssignStmt test.adb:39:4-39:22>
+================================================
+
+Eval 'node.f_expr.p_is_prefix_call'
+Result: True
+
+Working on node <AssignStmt test.adb:41:4-41:20>
+================================================
+
+Eval 'not node.f_expr.p_is_prefix_call'
+Result: True
+
+Working on node <AssignStmt test.adb:43:4-43:17>
+================================================
+
+Eval 'not node.f_expr.p_is_prefix_call'
+Result: True
+
+Working on node <ObjectDecl ["S"] test.adb:45:4-45:32>
+======================================================
+
+Eval 'node.f_default_expr.p_is_prefix_call'
+Result: True
+
+Working on node <ObjectDecl ["S_2"] test.adb:47:4-47:44>
+========================================================
+
+Eval 'not node.f_default_expr.p_is_prefix_call'
+Result: True

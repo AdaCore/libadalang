@@ -4088,7 +4088,9 @@ class BaseSubpSpec: BaseFormalParamHolder {
     fun has_controlling_result(): Bool = {
         val typ = self.candidate_primitive_subp_tagged_type();
 
-        not typ.is_null and typ == self.return_type()
+        not typ.is_null
+        and not typ.is_first_controlling_param()
+        and typ == self.return_type()
     }
 
     |" Returns whether the subprogram containing this spec is a subprogram
@@ -7720,15 +7722,27 @@ class BaseTypeDecl: BasicDecl {
                 (spec) => spec.candidate_primitive_subp_types().contains(
                     node.as_bare_entity
                 ) and (
-                    # For candidate primitives not declared in a package
-                    # decl, we must further check if they are overriding a
+                    # For a candidate primitive not declared in a package
+                    # decl, it may only be a primitive if it is overriding a
                     # parent primitive.
                     #
-                    # This check is not done in
-                    # `candidate_type_for_primitive` because it may cause
+                    # Likewise, a candidate primitive which has the
+                    # ``First_Controlling_Parameter`` aspect but for which
+                    # ``self`` type does not appear in first position may only
+                    # be an actual primitive if it is overriding a parent
+                    # primitive.
+                    #
+                    # The "is overriding a parent primitive" check is not done
+                    # in ``candidate_type_for_primitive`` because it may cause
                     # infinite recursions if the parent type is declared in
                     # the same scope as self.
                     if not scope.parent is BasePackageDecl
+                        or (node.as_bare_entity.is_first_controlling_param()
+                            and spec.abstract_formal_params().at(0).do(
+                                (p) => spec.get_candidate_type_for_primitive(
+                                    p.type_expression()
+                                ) != node.as_bare_entity
+                            ))
                     then {
                         bind origin = spec.origin_node();
 
@@ -8008,6 +8022,11 @@ class BaseTypeDecl: BasicDecl {
     @exported
     @with_dynvars(origin=null[AdaNode])
     fun is_array_type(): Bool = self.is_array()
+
+    |" Return whether the ``First_Controlling_Parameter`` aspect applies to
+    |" this type.
+    fun is_first_controlling_param(): Bool =
+        self.has_aspect(s"First_Controlling_Parameter")
 
     # Assuming self is a tagged type, return the view conversion to the most
     # immediate specific parent type obtained by the `Super` attribute.

@@ -1,0 +1,29 @@
+Working on node <NullSubpDecl ["Foo"] test.adb:8:7-8:44>
+========================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_types()'
+Result: [<ConcreteTypeDecl ["A"] test.adb:3:7-3:29>]
+
+Working on node <ExprFunction ["Bar"] test.adb:13:7-13:44>
+==========================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_types()'
+Result: [<ConcreteTypeDecl ["B"] test.adb:5:7-6:42>]
+
+Working on node <NullSubpDecl ["Baz"] test.adb:19:7-19:50>
+==========================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_types()'
+Result: [<ConcreteTypeDecl ["C"] test.adb:17:7-17:36>]
+
+Working on node <NullSubpDecl ["Foo_Bar"] test.adb:29:7-29:50>
+==============================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_types()'
+Result: [<ConcreteTypeDecl ["AA"] test.adb:25:7-25:28>]
+
+Working on node <NullSubpDecl ["Baz"] test.adb:38:7-38:62>
+==========================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_types()'
+Result: [<ConcreteTypeDecl ["CC"] test.adb:35:7-36:43>]

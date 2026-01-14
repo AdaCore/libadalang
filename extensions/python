@@ -213,7 +213,7 @@ class GPRProject:
     Load a GPR project file.
     """
 
-    class _UnitProvider(UnitProvider):
+    class _UnitProvider(_CUnitProvider):
         def __init__(self, project: GPRProject, c_value: Any):
             super().__init__(c_value)
 

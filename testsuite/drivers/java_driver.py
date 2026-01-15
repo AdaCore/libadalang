@@ -52,14 +52,41 @@ class JavaDriver(BaseDriver):
         return result
 
     @staticmethod
+    def in_java_bindings(java_bindings_dir: str, *args) -> str | None:
+        """
+        Return the absolute path composed of parts provided in `args` from the
+        directory provided in `java_bindings_dir`. This function checks that
+        the result is an existing file, otherwise it returns `None`.
+        """
+        bindings_dir = os.path.abspath(java_bindings_dir)
+        requested_file = os.path.join(bindings_dir, *args)
+        return requested_file if os.path.isfile(requested_file) else None
+
+    @staticmethod
     def jar_file(java_bindings_dir: str) -> str | None:
         """
         Return the path to Libadalang's JAR file, or None if it cannot be
         found.
         """
-        bindings_dir = os.path.abspath(java_bindings_dir)
-        jar_file = os.path.join(bindings_dir, 'target', 'libadalang.jar')
-        return jar_file if os.path.isfile(jar_file) else None
+        return JavaDriver.in_java_bindings(
+            java_bindings_dir,
+            "target",
+            "libadalang.jar",
+        )
+
+    @staticmethod
+    def lib_jar(java_bindings_dir: str, lib_name: str) -> str | None:
+        """
+        Return the path to the requested Java library JAR file that is located
+        in the tree of the provided Java bindings directory.
+        If the required lib file doesn't exist, this function returns None.
+        """
+        return JavaDriver.in_java_bindings(
+            java_bindings_dir,
+            "target",
+            "lib",
+            lib_name,
+        )
 
     @staticmethod
     def java_exec() -> str:
@@ -129,7 +156,13 @@ class JavaDriver(BaseDriver):
         # Libadalangs' Java bindings, as well as test classes compiled in
         # "ni_dir".
         javac_exec = cls.javac_exec()
-        class_path = os.pathsep.join([libadalang_jar, ni_dir])
+        class_path = os.pathsep.join([
+            libadalang_jar,
+            cls.lib_jar(java_bindings_dir, "langkit_support.jar"),
+            cls.lib_jar(java_bindings_dir, "truffle-api.jar"),
+            cls.lib_jar(java_bindings_dir, "polyglot.jar"),
+            ni_dir,
+        ])
 
         def javac(java_filename: str) -> None:
             """
@@ -291,9 +324,12 @@ class JavaDriver(BaseDriver):
 
             # Give access to the Libadalang Java bindings and to the tests'
             # Java sources.
-            class_path = P.pathsep.join(
-                [libadalang_jar, self.test_env['working_dir']]
-            )
+            class_path = P.pathsep.join([
+                libadalang_jar,
+                self.lib_jar(bindings_dir, "langkit_support.jar"),
+                self.lib_jar(bindings_dir, "truffle-api.jar"),
+                self.test_env['working_dir']
+            ])
 
             # Get the java.library.path from LD_LIBRARY_PATH and compiled JNI
             # stubs.

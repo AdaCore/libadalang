@@ -1503,6 +1503,75 @@ package body Libadalang.Expr_Eval is
                      end if;
                      return Create_Int_Result (First.Expr_Type, Result);
                   end;
+               elsif Name = "range_length" then
+                  --  Range_Length is a GNAT attribute for any discrete type.
+                  --  It yields the number of values represented by the
+                  --  subtype (zero for a null range).
+
+                  declare
+                     D_Range    : constant Discrete_Range := AR.F_Prefix
+                       .P_Referenced_Decl.As_Base_Type_Decl.P_Discrete_Range;
+                     Range_Type : constant Base_Type_Decl :=
+                       D_Range.Range_Type.As_Base_Type_Decl;
+                     Result     : Big_Integer;
+                  begin
+                     if not D_Range.Low_Bound.Is_Null and then
+                        not D_Range.High_Bound.Is_Null
+                     then
+                        --  Discrete subtypes range case
+
+                        declare
+                           Low  : constant Eval_Result := Expr_Eval
+                             (D_Range.Low_Bound.As_Expr);
+                           High : constant Eval_Result := Expr_Eval
+                             (D_Range.High_Bound.As_Expr);
+                        begin
+                           Result.Set (As_Int (High) - As_Int (Low) + 1);
+                           pragma Assert (Low.Kind = High.Kind);
+                           if Result < 0 then
+                              Result.Set (0);
+                           end if;
+                        end;
+                     else
+                        --  Enumeration case
+
+                        if Is_Std_Char_Type (Range_Type) then
+                           --  Due to how we defined character types in our
+                           --  artificial __standard unit, and since
+                           --  Range_Length is static for static subtypes, we
+                           --  can return static values here because they are
+                           --  not target dependent.
+
+                           if AR.P_Std_Char_Type = Range_Type then
+                              Result.Set (256);
+                           elsif AR.P_Std_Wide_Char_Type = Range_Type then
+                              Result.Set (65536);
+                           else
+                              -- Since Wide_Wide_Character'Range_Length value
+                              -- exceed the maximum value that a Long can
+                              -- represent (on Windows a Long is always 32
+                              -- bits), we use the String-based setter for the
+                              -- Big_Integer value.
+
+                              Result.Set ("2147483648");
+                           end if;
+                        else
+                           declare
+                              L : constant LAL.Enum_Literal_Decl_List :=
+                                D_Range.Range_Type.As_Concrete_Type_Decl
+                                  .F_Type_Def.As_Enum_Type_Def
+                                  .F_Enum_Literals;
+                           begin
+                              Result.Set
+                                (GNATCOLL.GMP.Long
+                                  (L.Last_Child_Index -
+                                   L.First_Child_Index + 1));
+                           end;
+                        end if;
+                     end if;
+
+                     return Create_Int_Result (Range_Type, Result);
+                  end;
                elsif AR.F_Prefix.P_Name_Is (To_Unbounded_Text ("standard"))
                then
                   return Eval_Standard_Attr (AR);

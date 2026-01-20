@@ -683,6 +683,12 @@ class AdaNode implements Node[AdaNode] {
     |"
     |" .. note:: When called on a node lying outside of a library item's
     |"     declaration or subunit's body this property will return null.
+    |"
+    |" .. note:: Even though inherited primitive subprograms are represented
+    |"     using the node of their base subprogram, this property will be able
+    |"     to return the parent basic decl of the inherited primitive as if it
+    |"     was defined next to the derived type, by exploiting the metadata
+    |"     carried by the node.
     @exported
     fun parent_basic_decl(): Entity[BasicDecl] =
         # On synthetic types that are rooted in their parents, we want to
@@ -704,7 +710,13 @@ class AdaNode implements Node[AdaNode] {
                 self.as[Body]?.decl_part_internal().do(
                     (dp) => dp.as[GenericDecl] or? dp.parent.as[GenericDecl]
                 );
+            val prim_type =
+                if self.as[BasicDecl]?.is_subprogram()
+                then self.info.md.primitive_real_type
+                else null[AdaNode];
+
             (gen_decl or? gen_body).do((gd) => gd.decl().get_instantiation())
+            or? prim_type.do((pt) => pt.as_entity.parent_basic_decl())
             or? self.semantic_parent().do(
                 (sp) =>
                 if sp is GenericSubpInternal | GenericPackageInternal

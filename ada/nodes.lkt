@@ -1,5 +1,4 @@
 import parser
-import tokens
 
 dynvar env: LexicalEnv
 |" Origin for this property's request. See :ref:`The origin parameter` for more

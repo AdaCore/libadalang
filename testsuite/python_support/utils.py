@@ -1,7 +1,7 @@
 import os
 import os.path
-import pipes
 import re
+import shlex
 import subprocess
 
 
@@ -66,7 +66,7 @@ def run_nameres(args):
 
     if p.returncode:
         print('nameres exitted with status code {}'.format(p.returncode))
-        print('Command line was:', ' '.join(pipes.quote(a) for a in argv))
+        print('Command line was:', shlex.join(argv))
         print('Output was:')
         print('')
         print(stdout)

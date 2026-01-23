@@ -1,0 +1,29 @@
+Working on node <ConcreteTypeDecl ["U"] test.adb:9:7-9:44>
+==========================================================
+
+Set 'inherited_foo' to 'node.p_get_primitives()[0]'
+Result: <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
+
+Eval 'inherited_foo.p_fully_qualified_name'
+Result: 'Test.Der.Foo'
+
+Working on node <GenericPackageInstantiation ["My_Gen"] test.adb:19:4-19:30>
+============================================================================
+
+Set 'v_def' to 'node.p_designated_generic_decl.find(lal.BaseTypeDecl)'
+Result: <| ConcreteTypeDecl ["V"] test.adb:16:7-16:44 [test.adb:19:4] |>
+
+Set 'inherited_foo' to 'v_def.p_get_primitives()[0]'
+Result: <| NullSubpDecl ["Foo"] test.adb:5:7-5:37 [test.adb:19:4] |>
+
+Eval 'inherited_foo.p_fully_qualified_name'
+Result: 'Test.My_Gen.Foo'
+
+Working on node <ConcreteTypeDecl ["W"] test.adb:25:7-25:47>
+============================================================
+
+Set 'inherited_foo' to 'node.p_get_primitives()[0]'
+Result: <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
+
+Eval 'inherited_foo.p_fully_qualified_name'
+Result: 'Test.Gen_Der.Foo'

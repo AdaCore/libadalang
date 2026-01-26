@@ -27,3 +27,12 @@ Result: <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
 
 Eval 'inherited_foo.p_fully_qualified_name'
 Result: 'Test.Gen_Der.Foo'
+
+Working on node <ConcreteTypeDecl ["S"] test.adb:31:7-31:44>
+============================================================
+
+Set 'inherited_foo' to 'node.p_get_primitives()[0]'
+Result: <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
+
+Eval 'inherited_foo.p_fully_qualified_name'
+Result: 'Test.In_Subp.Foo'

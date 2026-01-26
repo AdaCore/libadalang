@@ -715,8 +715,19 @@ class AdaNode implements Node[AdaNode] {
                 then self.info.md.primitive_real_type
                 else null[AdaNode];
 
-            (gen_decl or? gen_body).do((gd) => gd.decl().get_instantiation())
-            or? prim_type.do((pt) => pt.as_entity.parent_basic_decl())
+            (gen_decl or? gen_body).do(
+                (gd) => gd.decl().get_instantiation()
+            )
+            or? prim_type.do(
+                # The current entity does have a ``primitive_real_type``
+                # metadata, so make sure to not propagate it to the primitive
+                # type itself.
+                (pt) => self.entity_no_md(
+                    pt,
+                    self.info.rebindings,
+                    self.info.from_rebound
+                ).parent_basic_decl()
+            )
             or? self.semantic_parent().do(
                 (sp) =>
                 if sp is GenericSubpInternal | GenericPackageInternal

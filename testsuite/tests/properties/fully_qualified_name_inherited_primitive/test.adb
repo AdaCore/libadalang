@@ -26,6 +26,14 @@ procedure Test is
       --% inherited_foo = node.p_get_primitives()[0]
       --% inherited_foo.p_fully_qualified_name
    end Gen_Der;
+
+   procedure In_Subp is
+      type S is new Pkg.T with null record;
+      --% inherited_foo = node.p_get_primitives()[0]
+      --% inherited_foo.p_fully_qualified_name
+   begin
+      null;
+   end In_Subp;
 begin
    null;
 end Test;

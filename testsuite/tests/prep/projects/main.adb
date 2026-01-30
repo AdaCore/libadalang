@@ -121,6 +121,7 @@ procedure Main is
 begin
    Process ("simple/p.gpr");
    Process ("switches/p.gpr");
+   Process ("switches/p2.gpr");
    Process ("builder_switches/p.gpr");
    Process ("builder_switches/p2.gpr");
    Process ("with/q.gpr");

@@ -13,6 +13,23 @@
   -b
   bar -> Symbol(2)
 
+== switches/p2.gpr ==
+
+# default
+  -b
+  x3 -> Symbol(1)
+
+== switches/p3.gpr ==
+
+# default
+  -b
+  x3 -> Symbol(1)
+
+== switches/p4.gpr ==
+
+# default
+  <disabled>
+
 == builder_switches/p.gpr ==
 
 # default

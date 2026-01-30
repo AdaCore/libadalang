@@ -1,6 +1,6 @@
-project P is
+project P2 is
 
-   for Source_Dirs use ("p");
+   for Source_Dirs use ("p2");
    for Main use ("proc2.adb");
    for Object_Dir use "p2/obj";
 
@@ -8,4 +8,4 @@ project P is
       for Switches ("proc2.adb") use ("-gnateDX3=1");
    end Builder;
 
-end P;
+end P2;

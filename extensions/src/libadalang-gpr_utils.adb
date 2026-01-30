@@ -658,6 +658,19 @@ package body Libadalang.GPR_Utils is
       --  Call ``Process`` on all switches found in the ``Attribute (Index)``
       --  GPR attribute found in ``P``.
 
+      function Is_Valid_Index (Index : XString) return Boolean
+      is (GPR2.Is_Simple_Name (GPR2.Filename_Optional (Index.To_String)));
+      --  TODO (eng/gpr/gpr-issues#791)??? Do not even try to inspect switches
+      --  under indexes that are not valid simple names according to GPR2, or
+      --  we will get internal GPR2 crashes.
+
+      function Is_Glob_Pattern (Index : XString) return Boolean
+      is (Index.Find ('*') /= 0
+          or else Index.Find ('?') /= 0
+          or else Index.Find ('[') /= 0
+          or else Index.Find (']') /= 0);
+      --  Return whether the given attribute index looks like a glob pattern
+
       ------------------
       -- Process_View --
       ------------------
@@ -698,7 +711,14 @@ package body Libadalang.GPR_Utils is
                declare
                   Filename : constant String := Source.To_String;
                begin
-                  if Is_Ada_Source (Tree, Self, Filename) then
+                  --  Process switches even if the attribute index is not a
+                  --  valid source file, as it could be a glob pattern, and so
+                  --  it could apply to an Ada source file.
+
+                  if Is_Valid_Index (Source)
+                     and then (Is_Glob_Pattern (Source)
+                               or else Is_Ada_Source (Tree, Self, Filename))
+                  then
                      Process_Switches (Self, Switches, Filename);
                   end if;
                end;
@@ -712,7 +732,9 @@ package body Libadalang.GPR_Utils is
               Indexes (Self, Builder_Switches);
          begin
             for Idx of Index_List loop
-               Process_Switches (Self, Builder_Switches, Idx.To_String);
+               if Is_Valid_Index (Idx) then
+                  Process_Switches (Self, Builder_Switches, Idx.To_String);
+               end if;
             end loop;
          end;
       end Process_View;

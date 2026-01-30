@@ -1,0 +1,8 @@
+project P3 is
+   for Source_Dirs use ("p2");
+   for Object_Dir use "p2/obj";
+
+   package Builder is
+      for Switches ("proc*") use ("-gnateDX3=1");
+   end Builder;
+end P3;

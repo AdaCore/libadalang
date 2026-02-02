@@ -341,19 +341,19 @@ package body Libadalang.Env_Hooks is
                   --  renamed package..
 
                   declare
-                     Target        : constant Basic_Decl :=
-                       Decl.As_Package_Renaming_Decl.P_Final_Renamed_Package;
-                     Resolved_Name : Symbol_Type_Array_Access :=
-                       Basic_Decl_P_Fully_Qualified_Name_Array
-                         (Unwrap_Node (Target));
-                     New_Index     : constant Positive :=
-                       Resolved_Name.Items'Last;
+                     Renamed_Pkg_Name : Symbol_Type_Array_Access :=
+                        Name_P_As_Symbol_Array (Unwrap_Node
+                          (Decl.As_Package_Renaming_Decl
+                           .F_Renames.F_Renamed_Object));
+
+                     New_Index : constant Positive :=
+                       Renamed_Pkg_Name.Items'Last;
                   begin
                      --  .. and make the next call to step consider the renamed
                      --  package.
 
                      Step
-                       (Name  => Symbol_Type_Array (Resolved_Name.Items)
+                       (Name  => Symbol_Type_Array (Renamed_Pkg_Name.Items)
                                  & Name (Index + 1 .. Name'Last),
                         Index => New_Index);
 
@@ -365,15 +365,20 @@ package body Libadalang.Env_Hooks is
                      --  on the renamed unit as well to ensure that entities
                      --  from the renamed package are visible from the
                      --  requesting unit.
+                     --
+                     --  Note that if the renamed unit could not be found, we
+                     --  want to propagate this information upwards, and thus
+                     --  return an empty unit instead of the non-empty renaming
+                     --  unit.
 
-                     if Is_Last then
+                     if Is_Last and then Unit.AST_Root /= null then
                         Unit := Unwrap_Unit (Comp_Unit.Unit);
                      end if;
 
-                     Free (Resolved_Name);
+                     Free (Renamed_Pkg_Name);
                   exception
                      when Precondition_Failure | Property_Error =>
-                        Free (Resolved_Name);
+                        Free (Renamed_Pkg_Name);
                         raise;
                   end;
                else

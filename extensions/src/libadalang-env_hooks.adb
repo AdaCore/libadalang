@@ -341,21 +341,30 @@ package body Libadalang.Env_Hooks is
                   --  renamed package..
 
                   declare
-                     Renamed_Pkg_Name : Symbol_Type_Array_Access :=
-                        Name_P_As_Symbol_Array (Unwrap_Node
-                          (Decl.As_Package_Renaming_Decl
-                           .F_Renames.F_Renamed_Object));
+                     Renamed_Pkg : constant Basic_Decl :=
+                       Decl.As_Package_Renaming_Decl.P_Renamed_Package;
 
-                     New_Index : constant Positive :=
-                       Renamed_Pkg_Name.Items'Last;
+                     Renamed_Pkg_Name : Symbol_Type_Array_Access;
                   begin
+                     if not Renamed_Pkg.Is_Null then
+                        Renamed_Pkg_Name :=
+                          Basic_Decl_P_Fully_Qualified_Name_Array
+                            (Unwrap_Node (Renamed_Pkg));
+                     else
+                        --  .. but if resolution failed, we want to emit an
+                        --  event on the missing unit, so consider the package
+                        --  name to be the one given in the renaming clause..
+                        Renamed_Pkg_Name := Name_P_As_Symbol_Array
+                          (Unwrap_Node (Decl.As_Package_Renaming_Decl
+                                        .F_Renames.F_Renamed_Object));
+                     end if;
                      --  .. and make the next call to step consider the renamed
                      --  package.
 
                      Step
                        (Name  => Symbol_Type_Array (Renamed_Pkg_Name.Items)
                                  & Name (Index + 1 .. Name'Last),
-                        Index => New_Index);
+                        Index => Renamed_Pkg_Name.Items'Last);
 
                      --  However if that was the last part of the name, we
                      --  still want to return the renaming unit, and not
@@ -371,7 +380,7 @@ package body Libadalang.Env_Hooks is
                      --  return an empty unit instead of the non-empty renaming
                      --  unit.
 
-                     if Is_Last and then Unit.AST_Root /= null then
+                     if Is_Last and then not Renamed_Pkg.Is_Null then
                         Unit := Unwrap_Unit (Comp_Unit.Unit);
                      end if;
 

@@ -1,0 +1,61 @@
+Analyzing main.adb
+##################
+
+Resolving xrefs for node <CallStmt main.adb:7:4-7:17>
+*****************************************************
+
+Expr: <DottedName main.adb:7:4-7:16>
+  references:    <DefiningName "Foo" test.ads:2:14-2:17>
+  type:          None
+  expected type: None
+Expr: <Id "Renaming" main.adb:7:4-7:12>
+  references:    <DefiningName "Renaming" renaming.ads:3:9-3:17>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" main.adb:7:13-7:16>
+  references:    <DefiningName "Foo" test.ads:2:14-2:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt main.adb:11:4-11:26>
+*******************************************************
+
+Expr: <DottedName main.adb:11:4-11:25>
+  references:    <DefiningName "Bar" test-child.ads:2:14-2:17>
+  type:          None
+  expected type: None
+Expr: <DottedName main.adb:11:4-11:21>
+  references:    <DefiningName "Test.Renaming" test-renaming.ads:3:9-3:22>
+  type:          None
+  expected type: None
+Expr: <Id "Renaming" main.adb:11:4-11:12>
+  references:    <DefiningName "Renaming" renaming.ads:3:9-3:17>
+  type:          None
+  expected type: None
+Expr: <Id "Renaming" main.adb:11:13-11:21>
+  references:    <DefiningName "Test.Renaming" test-renaming.ads:3:9-3:22>
+  type:          None
+  expected type: None
+Expr: <Id "Bar" main.adb:11:22-11:25>
+  references:    <DefiningName "Bar" test-child.ads:2:14-2:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["X"] main.adb:15:7-15:23>
+***************************************************************
+
+Expr: <DottedName main.adb:15:11-15:22>
+  references:    <DefiningName "Boolean" in Standard>
+  type:          None
+  expected type: None
+Expr: <Id "Std" main.adb:15:11-15:14>
+  references:    <DefiningName "Std" std.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Boolean" main.adb:15:15-15:22>
+  references:    <DefiningName "Boolean" in Standard>
+  type:          None
+  expected type: None
+
+
+Done.

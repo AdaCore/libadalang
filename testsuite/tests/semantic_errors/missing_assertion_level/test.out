@@ -1,0 +1,31 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpSpec test.adb:2:4-2:45>
+*****************************************************
+
+Expr: <Id "Integer" test.adb:2:38-2:45>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["X"] test.adb:2:18-2:29>
+*************************************************************
+
+Expr: <Id "Integer" test.adb:2:22-2:29>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:3:12-3:32>
+*********************************************************
+
+test.adb:3:20: error: no such assertion level
+3 |       with Pre => (L1 => X > 0);
+  |                    ^^
+
+
+Expected name resolution failure for block <ExprFunction ["Foo"] test.adb:2:4-3:33>
+
+
+Done.

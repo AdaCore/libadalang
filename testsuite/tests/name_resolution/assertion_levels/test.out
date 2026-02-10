@@ -1,0 +1,77 @@
+Analyzing main.adb
+##################
+
+Analyzing other.ads
+###################
+
+Resolving xrefs for node <SubpSpec other.ads:4:4-4:17>
+******************************************************
+
+
+Resolving xrefs for node <AspectAssoc other.ads:5:12-5:44>
+**********************************************************
+
+Expr: <Id "Post" other.ads:5:12-5:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate other.ads:5:20-5:44>
+  type:          None
+  expected type: None
+Expr: <Id "L1" other.ads:5:21-5:23>
+  references:    <SyntheticDefiningName "l1" pkg.ads:0:0-0:0>
+  type:          None
+  expected type: None
+Expr: <Id "True" other.ads:5:27-5:31>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "L2" other.ads:5:33-5:35>
+  references:    <SyntheticDefiningName "l2" pkg.ads:0:0-0:0>
+  type:          None
+  expected type: None
+Expr: <Id "True" other.ads:5:39-5:43>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+
+Analyzing pkg.ads
+#################
+
+Resolving xrefs for node <SubpSpec pkg.ads:7:4-7:17>
+****************************************************
+
+
+Resolving xrefs for node <AspectAssoc pkg.ads:8:12-8:34>
+********************************************************
+
+Expr: <Id "Post" pkg.ads:8:12-8:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate pkg.ads:8:20-8:34>
+  type:          None
+  expected type: None
+Expr: <Id "L1" pkg.ads:8:21-8:23>
+  references:    <SyntheticDefiningName "l1" pkg.ads:0:0-0:0>
+  type:          None
+  expected type: None
+Expr: <RelationOp pkg.ads:8:27-8:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "L1" pkg.ads:8:27-8:29>
+  references:    <DefiningName "L1" pkg.ads:5:4-5:6>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" pkg.ads:8:30-8:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int pkg.ads:8:32-8:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Done.

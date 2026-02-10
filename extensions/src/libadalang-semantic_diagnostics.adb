@@ -7,7 +7,8 @@ with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 
-with Libadalang.Common; use Libadalang.Common;
+with Libadalang.All_Properties; use Libadalang.All_Properties;
+with Libadalang.Common;         use Libadalang.Common;
 with Libadalang.Implementation;
 with Libadalang.Public_Converters;
 

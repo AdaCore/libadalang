@@ -3,6 +3,7 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
+with Libadalang.All_Properties;    use Libadalang.All_Properties;
 with Libadalang.Implementation;    use Libadalang.Implementation;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 

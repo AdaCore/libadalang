@@ -35,6 +35,7 @@ class OCamlDriver(BaseDriver):
         sync_tree(bindings_dir, self.working_dir('bindings'))
 
         self.run_and_check(['dune', 'exec',
+                            '--cache=disabled',
                             '--display', 'quiet',
                             '--root', '.',
                             './{}.exe'.format(self.main_module)])

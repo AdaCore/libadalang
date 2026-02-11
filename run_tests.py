@@ -48,10 +48,10 @@ def main(argv: list[str] | None = None) -> None:
     build_dir = os.path.join(lal_dir, args.build_dir)
 
     # Arguments for "lkm run"
-    lkm_argv = ["run", f"--build-dir={args.build_dir}"]
+    lkm_argv = ["run", f"--build-dir={args.build_dir}", "-c", config_file]
 
     # Arguments for the testsuite script itself
-    script_argv = [sys.executable, "-c", config_file]
+    script_argv = [sys.executable]
 
     if args.build_mode:
         lkm_argv.append(f"--build-mode={args.build_mode}")
@@ -89,7 +89,7 @@ def main(argv: list[str] | None = None) -> None:
         case _:
             assert False
 
-    langkit.scripts.lkm.main([*lkm_argv, *script_argv, *unknown_args])
+    langkit.scripts.lkm.main([*lkm_argv, "--", *script_argv, *unknown_args])
 
 
 if __name__ == '__main__':

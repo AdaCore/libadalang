@@ -279,6 +279,8 @@ class JavaDriver(BaseDriver):
             '--no-fallback',
             "-Ob",
             "--silent",
+            "--enable-native-access=org.graalvm.truffle",
+            "-J--sun-misc-unsafe-memory-access=allow",
             "-H:+UnlockExperimentalVMOptions",
             "-H:-StrictQueryCodeCompilation",
             *os_specific_options,

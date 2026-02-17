@@ -1,2 +1,3 @@
 driver: name-resolution
 input_sources: [main.adb, other.ads, pkg.ads]
+project_file: prj.gpr

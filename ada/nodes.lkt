@@ -22208,8 +22208,10 @@ class Pragma: AdaNode {
         elif self.id.name_is(s"No_Raise") then null[Entity[Expr]]
         # SPARK_Mode can have no associated value (in that case, the
         # default is `On`) but if a value is provided, it's in first
-        # position.
-        elif self.id.name_is(s"SPARK_Mode") then self.args.at(0)?.assoc_expr()
+        # position. Same for the Ghost pragma.
+        elif self.id.name_symbol() in s"SPARK_Mode" | s"Ghost"
+        then self.args.at(0)?.assoc_expr()
+
         else self.args.at(1)?.assoc_expr()
 
     fun associated_entity_names(): Array[Entity[Name]] =
@@ -22344,14 +22346,10 @@ class Pragma: AdaNode {
             default_val=(
                 # If no name
                 if
-                    (
-                        # either it's a contract pragma...
-                        node.is_contract_aspect(self.id.name_symbol())
-                    )
-                    or (
-                        # or the Obsolescent pragma
-                        self.id.name_is(s"Obsolescent")
-                    )
+                    # either it's a contract pragma...
+                    node.is_contract_aspect(self.id.name_symbol())
+                    # or the Obsolescent/Ghost pragma
+                    or self.id.name_symbol() in s"Obsolescent" | s"Ghost"
                 then (
                     # in which case they are attached to the closest
                     # declaration above it. We could have used a call to

@@ -95,7 +95,7 @@ procedure Projects is
       P := (if Project = ""
             then No_Project
             else Prj.Project_From_Name (Project));
-      Mapping := Import_From_Project (Ctx, Prj, P);
+      Mapping := Import_From_Project (Prj, P);
       Normalize_Filenames (Mapping);
       Set_Mapping (Ctx, Mapping);
 
@@ -124,7 +124,7 @@ procedure Projects is
             pragma Assert (View.Is_Defined);
          end if;
 
-         GPR2_Mapping := Import_From_Project (Ctx, Tree, View);
+         GPR2_Mapping := Import_From_Project (Tree, View);
          Normalize_Filenames (GPR2_Mapping);
          if Mapping /= GPR2_Mapping then
             Put_Line ("GPR mapping:");

@@ -2965,6 +2965,21 @@ class AspectAssoc: AdaNode {
                 }
             )
 
+        # Ghost specification
+        elif self.id.name_symbol() == s"Ghost"
+        then
+            self.expr.do(
+                (expr) => expr.as[Identifier].do(
+                    (id) => id.bind_assertion_level(),
+                    default_val=%true
+                ) %or (
+                    self.expr.expected_type_var() <- node.bool_type()
+                    %and self.expr.sub_equation()
+                    %and self.expr.matches_expected_formal_type()
+                ),
+                default_val=%true
+            )
+
         # Contracts
         elif
             self.id.name_symbol() in s"Pre"
@@ -22164,6 +22179,23 @@ class Pragma: AdaNode {
             self.id.name_symbol() in s"Style_Checks"
                 | s"Import_Function"
                 | s"Import_Procedure" then %true
+        elif
+            self.id.name_symbol() == s"Ghost"
+        then
+            self.args.at(0).do(
+                (arg) => {
+                    val expr = arg.assoc_expr();
+                    expr.as[Identifier].do(
+                        (id) => id.bind_assertion_level(),
+                        default_val=%false
+                    ) %or (
+                        expr.expected_type_var() <- node.bool_type()
+                        %and expr.sub_equation()
+                        %and expr.matches_expected_formal_type()
+                    )
+                },
+                default_val=%true
+            )
         elif
             self.id.name_symbol() in s"Pre"
                 | s"Post"

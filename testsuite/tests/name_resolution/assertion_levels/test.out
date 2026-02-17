@@ -97,4 +97,32 @@ Expr: <Int pkg.ads:7:32-7:33>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
+Analyzing ghost.ads
+###################
+
+Resolving xrefs for node <AspectAssoc ghost.ads:2:21-2:32>
+**********************************************************
+
+Expr: <Id "Ghost" ghost.ads:2:21-2:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "L3" ghost.ads:2:30-2:32>
+  references:    <SyntheticDefiningName "l3" config.adc:0:0-0:0>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode ghost.ads:6:4-6:22>
+********************************************************
+
+Expr: <Id "Ghost" ghost.ads:6:11-6:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "L3" ghost.ads:6:18-6:20>
+  references:    <SyntheticDefiningName "l3" config.adc:0:0-0:0>
+  type:          None
+  expected type: None
+
+
 Done.

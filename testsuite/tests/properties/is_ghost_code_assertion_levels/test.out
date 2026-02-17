@@ -1,0 +1,17 @@
+Working on node <ObjectDecl ["A"] test.adb:4:4-4:33>
+====================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True
+
+Working on node <ObjectDecl ["B"] test.adb:7:4-7:16>
+====================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True
+
+Working on node <ObjectDecl ["C"] test.adb:11:4-11:16>
+======================================================
+
+Eval 'node.p_is_ghost_code'
+Result: False

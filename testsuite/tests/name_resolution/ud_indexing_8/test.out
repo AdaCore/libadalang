@@ -1,0 +1,78 @@
+== test.adb ==
+
+-> Resolving <CallExpr test.adb:61:30-61:35> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:66:33-66:41> to <DefiningName "Get_Var_Only" test.adb:34:16-34:28>
+
+-> Resolving <CallExpr test.adb:71:33-71:41> to <DefiningName "Get_Const_Only" test.adb:27:16-27:30>
+
+-> Resolving <CallExpr test.adb:78:4-78:9> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:82:9-82:14> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:86:9-86:16> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:90:13-90:18> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:94:14-94:19> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:98:17-98:22> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:102:18-102:23> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:106:19-106:24> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:110:16-110:21> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:110:23-110:28> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:116:21-116:26> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:116:33-116:38> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:122:18-122:23> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:122:25-122:30> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:122:32-122:37> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:127:23-127:28> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:127:35-127:40> to <DefiningName "Get_Var" test.adb:20:16-20:23>
+
+-> Resolving <CallExpr test.adb:127:47-127:52> to <DefiningName "Get_Const" test.adb:18:16-18:25>
+
+-> Resolving <CallExpr test.adb:133:9-133:17> to <DefiningName "Get_Const_Only" test.adb:27:16-27:30>
+
+-> Resolving <CallExpr test.adb:136:13-136:21> to <DefiningName "Get_Const_Only" test.adb:27:16-27:30>
+
+-> Resolving <CallExpr test.adb:141:4-141:12> to <DefiningName "Get_Var_Only" test.adb:34:16-34:28>
+
+-> Resolving <CallExpr test.adb:144:14-144:22> to <DefiningName "Get_Var_Only" test.adb:34:16-34:28>
+
+-> Resolving <CallExpr test.adb:147:17-147:25> to <DefiningName "Get_Var_Only" test.adb:34:16-34:28>
+
+-> Resolving <CallExpr test.adb:151:17-151:25> to <DefiningName "Get_Var_Only" test.adb:34:16-34:28>
+
+== test_dot.adb ==
+
+-> Resolving <CallExpr test_dot.adb:44:21-44:26> to <DefiningName "Get_Const" test_dot.adb:17:16-17:25>
+
+-> Resolving <CallExpr test_dot.adb:48:22-48:27> to <DefiningName "Get_Var" test_dot.adb:19:16-19:23>
+
+-> Resolving <CallExpr test_dot.adb:52:25-52:30> to <DefiningName "Get_Var" test_dot.adb:19:16-19:23>
+
+-> Resolving <CallExpr test_dot.adb:56:21-56:28> to <DefiningName "Get_Const" test_dot.adb:17:16-17:25>
+
+-> Resolving <CallExpr test_dot.adb:60:26-60:31> to <DefiningName "Get_Const" test_dot.adb:17:16-17:25>
+
+-> Resolving <CallExpr test_dot.adb:64:27-64:32> to <DefiningName "Get_Var" test_dot.adb:19:16-19:23>
+
+-> Resolving <CallExpr test_dot.adb:68:24-68:29> to <DefiningName "Get_Const" test_dot.adb:17:16-17:25>
+
+-> Resolving <CallExpr test_dot.adb:68:31-68:36> to <DefiningName "Get_Var" test_dot.adb:19:16-19:23>
+
+-> Resolving <CallExpr test_dot.adb:72:29-72:34> to <DefiningName "Get_Var" test_dot.adb:19:16-19:23>
+
+-> Resolving <CallExpr test_dot.adb:72:41-72:46> to <DefiningName "Get_Const" test_dot.adb:17:16-17:25>
+

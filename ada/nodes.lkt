@@ -22103,8 +22103,7 @@ class Pragma: AdaNode {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         if
-            self.id.name_is(s"Assert") or self.id.name_is(s"Loop_Invariant")
-            or self.id.name_is(s"Compile_Time_Warning")
+            self.id.name_is(s"Compile_Time_Warning")
             or self.id.name_is(s"Compile_Time_Error")
         then
             {
@@ -22197,7 +22196,11 @@ class Pragma: AdaNode {
                 default_val=%true
             )
         elif
-            self.id.name_symbol() in s"Pre"
+            self.id.name_symbol() in s"Assert"
+                | s"Assert_And_Cut"
+                | s"Assume"
+                | s"Loop_Invariant"
+                | s"Pre"
                 | s"Post"
                 | s"Pre_Class"
                 | s"Post_Class"
@@ -22206,14 +22209,41 @@ class Pragma: AdaNode {
                 | s"Precondition'Class"
                 | s"Postcondition'Class"
                 | s"Initial_Condition"
-        then
-            self.args.at(0).assoc_expr().do(
-                (expr) =>
-                expr.expected_type_var() <- node.bool_type()
-                %and expr.sub_equation()
-                %and expr.matches_expected_formal_type(),
-                default_val=%false
-            )
+        then {
+            val first_assoc = self.args.at(0).as[PragmaArgumentAssoc];
+
+            # Check whether we are in the "legacy" version of the pragma,
+            # that is if no name is used or if it's `Check`. In that case,
+            # we expect a standard boolean expression after it, and an
+            # optional error message string as second argument.
+            if first_assoc.name.is_null or first_assoc.name.name_is(s"Check")
+            then
+                first_assoc.expr.sub_equation()
+                %and first_assoc.expr.expect_bool_derived_type()
+                %and self.args.at(1).do(
+                    (arg) => arg.assoc_expr().do(
+                        (msg) =>
+                        msg.expected_type_var() <- node.std_string_type()
+                        %and msg.sub_equation()
+                        %and msg.matches_expected_type(),
+                        default_val=%true
+                    ),
+                    default_val=%true
+                )
+            # Otherwise, we are associating assertion levels to each
+            # predicate expression given as argument. For more details,
+            # see `Expr.assertion_leved_predicate_equation`.
+            else
+                self.args.logic_all((arg) => {
+                    val assoc = arg.as[PragmaArgumentAssoc];
+                    assoc.expr.sub_equation()
+                    %and assoc.expr.expect_bool_derived_type()
+                    %and assoc.name.as[Identifier].do(
+                        (id) => id.bind_assertion_level(),
+                        default_val=%true
+                    )
+                })
+        }
         elif self.id.name_is(s"Test_Case")
         then
             self.args.filter(

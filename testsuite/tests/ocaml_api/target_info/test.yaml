@@ -1,1 +1,3 @@
 driver: ocaml
+control:
+    - [XFAIL, "os == 'windows'", "See eng/codepeer/opam#16"]

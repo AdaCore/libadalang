@@ -99,6 +99,11 @@ library:
       - contrib/detect_copy_paste_sa.py
       - contrib/highlight
 
+  builtin_unparsing_overridings:
+    Tall:
+      filename: unparsing_overridings/tall.json
+      doc: TODO
+
 emission:
   source_post_processors:
     ada: ada.copyright.AdaPostProcessor

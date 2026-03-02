@@ -1,0 +1,186 @@
+Analyzing main.adb
+##################
+
+Analyzing other.ads
+###################
+
+Resolving xrefs for node <SubpSpec other.ads:4:4-4:17>
+******************************************************
+
+
+Resolving xrefs for node <AspectAssoc other.ads:5:12-5:44>
+**********************************************************
+
+Expr: <Id "Post" other.ads:5:12-5:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate other.ads:5:20-5:44>
+  type:          None
+  expected type: None
+Expr: <Id "L1" other.ads:5:21-5:23>
+  references:    <SyntheticDefiningName "l1" pkg.ads:0:0-0:0>
+  type:          None
+  expected type: None
+Expr: <Id "True" other.ads:5:27-5:31>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "L2" other.ads:5:33-5:35>
+  references:    <SyntheticDefiningName "l2" pkg.ads:0:0-0:0>
+  type:          None
+  expected type: None
+Expr: <Id "True" other.ads:5:39-5:43>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+Resolving xrefs for node <SubpSpec other.ads:8:4-8:17>
+******************************************************
+
+
+Resolving xrefs for node <AspectAssoc other.ads:9:12-9:32>
+**********************************************************
+
+Expr: <Id "Post" other.ads:9:12-9:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate other.ads:9:20-9:32>
+  type:          None
+  expected type: None
+Expr: <Id "L3" other.ads:9:21-9:23>
+  references:    <SyntheticDefiningName "l3" config.adc:0:0-0:0>
+  type:          None
+  expected type: None
+Expr: <Id "True" other.ads:9:27-9:31>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+
+Analyzing pkg.ads
+#################
+
+Resolving xrefs for node <SubpSpec pkg.ads:6:4-6:17>
+****************************************************
+
+
+Resolving xrefs for node <AspectAssoc pkg.ads:7:12-7:34>
+********************************************************
+
+Expr: <Id "Post" pkg.ads:7:12-7:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate pkg.ads:7:20-7:34>
+  type:          None
+  expected type: None
+Expr: <Id "L1" pkg.ads:7:21-7:23>
+  references:    <SyntheticDefiningName "l1" pkg.ads:0:0-0:0>
+  type:          None
+  expected type: None
+Expr: <RelationOp pkg.ads:7:27-7:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "L1" pkg.ads:7:27-7:29>
+  references:    <DefiningName "L1" pkg.ads:4:4-4:6>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" pkg.ads:7:30-7:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int pkg.ads:7:32-7:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Analyzing ghost.ads
+###################
+
+Resolving xrefs for node <AspectAssoc ghost.ads:2:21-2:32>
+**********************************************************
+
+Expr: <Id "Ghost" ghost.ads:2:21-2:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "L3" ghost.ads:2:30-2:32>
+  references:    <SyntheticDefiningName "l3" config.adc:0:0-0:0>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode ghost.ads:6:4-6:22>
+********************************************************
+
+Expr: <Id "Ghost" ghost.ads:6:11-6:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "L3" ghost.ads:6:18-6:20>
+  references:    <SyntheticDefiningName "l3" config.adc:0:0-0:0>
+  type:          None
+  expected type: None
+
+
+Analyzing defaults.ads
+######################
+
+Resolving xrefs for node <SubpSpec defaults.ads:2:4-2:45>
+*********************************************************
+
+Expr: <Id "Integer" defaults.ads:2:38-2:45>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["X"] defaults.ads:2:18-2:29>
+*****************************************************************
+
+Expr: <Id "Integer" defaults.ads:2:22-2:29>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc defaults.ads:3:12-3:53>
+*************************************************************
+
+Expr: <Id "Pre" defaults.ads:3:12-3:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate defaults.ads:3:19-3:53>
+  type:          None
+  expected type: None
+Expr: <Id "Static" defaults.ads:3:20-3:26>
+  references:    <SyntheticDefiningName "static" in Standard>
+  type:          None
+  expected type: None
+Expr: <RelationOp defaults.ads:3:30-3:35>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" defaults.ads:3:30-3:31>
+  references:    <DefiningName "X" defaults.ads:2:18-2:19>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" defaults.ads:3:32-3:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int defaults.ads:3:34-3:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Runtime" defaults.ads:3:37-3:44>
+  references:    <SyntheticDefiningName "runtime" in Standard>
+  type:          None
+  expected type: None
+Expr: <Id "True" defaults.ads:3:48-3:52>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+
+Done.

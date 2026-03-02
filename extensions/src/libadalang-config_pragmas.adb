@@ -25,8 +25,7 @@ package body Libadalang.Config_Pragmas is
    renames To_Unbounded_String;
 
    function Import_From_Project
-     (Context : Analysis_Context;
-      Tree    : Any_Tree;
+     (Tree    : Any_Tree;
       View    : Any_View) return Config_Pragmas_Mapping;
    --  Common implementation for the homonym public functions
 
@@ -131,8 +130,7 @@ package body Libadalang.Config_Pragmas is
    -------------------------
 
    function Import_From_Project
-     (Context : Analysis_Context;
-      Tree    : Any_Tree;
+     (Tree    : Any_Tree;
       View    : Any_View) return Config_Pragmas_Mapping
    is
       function Fetch
@@ -257,13 +255,11 @@ package body Libadalang.Config_Pragmas is
    -------------------------
 
    function Import_From_Project
-     (Context    : Analysis_Context;
-      Project    : Project_Tree'Class;
+     (Project    : Project_Tree'Class;
       Subproject : Project_Type := No_Project) return Config_Pragmas_Mapping is
    begin
       return Import_From_Project
-        (Context,
-         (Kind => GPR1_Kind, GPR1_Value => Project'Unrestricted_Access),
+        ((Kind => GPR1_Kind, GPR1_Value => Project'Unrestricted_Access),
          (Kind => GPR1_Kind, GPR1_Value => Subproject));
    end Import_From_Project;
 
@@ -277,7 +273,7 @@ package body Libadalang.Config_Pragmas is
       Subproject : Project_Type := No_Project) is
    begin
       Set_Mapping
-        (Context, Import_From_Project (Context, Project, Subproject));
+        (Context, Import_From_Project (Project, Subproject));
    end Import_From_Project;
 
    -------------------------
@@ -285,14 +281,12 @@ package body Libadalang.Config_Pragmas is
    -------------------------
 
    function Import_From_Project
-     (Context : Analysis_Context;
-      Tree    : GPR2.Project.Tree.Object;
+     (Tree    : GPR2.Project.Tree.Object;
       View    : GPR2.Project.View.Object := GPR2.Project.View.Undefined)
       return Config_Pragmas_Mapping is
    begin
       return Import_From_Project
-        (Context,
-         (Kind => GPR2_Kind, GPR2_Value => Tree),
+        ((Kind => GPR2_Kind, GPR2_Value => Tree),
          (Kind => GPR2_Kind, GPR2_Value => View));
    end Import_From_Project;
 
@@ -305,7 +299,7 @@ package body Libadalang.Config_Pragmas is
       Tree    : GPR2.Project.Tree.Object;
       View    : GPR2.Project.View.Object := GPR2.Project.View.Undefined) is
    begin
-      Set_Mapping (Context, Import_From_Project (Context, Tree, View));
+      Set_Mapping (Context, Import_From_Project (Tree, View));
    end Import_From_Project;
 
    ----------

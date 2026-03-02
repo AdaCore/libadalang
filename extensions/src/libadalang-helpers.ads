@@ -14,6 +14,7 @@ with GPR2.Project.Tree;
 
 with Libadalang.Project_Provider;
 with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Config_Pragmas; use Libadalang.Config_Pragmas;
 
 --  This package provides various helpers to build applications based on
 --  Libadalang.
@@ -89,7 +90,8 @@ package Libadalang.Helpers is
    end record;
 
    type App_Context is record
-      Provider : Source_Provider;
+      Provider       : Source_Provider;
+      Config_Pragmas : Config_Pragmas_Mapping;
    end record;
    --  Context information for the whole application
 

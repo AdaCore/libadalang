@@ -555,6 +555,8 @@ package body Libadalang.Env_Hooks is
       --  GNAT's output for the -gnatS compilation switch, adapted for the
       --  target information stored in Context.
 
+      Line ("pragma Assertion_Level (Static);");
+      Line ("pragma Assertion_Level (Runtime);");
       Line ("package Standard is");
       Indent;
 

@@ -167,7 +167,7 @@ Expr: <Id "Assume" ada2022.adb:6:27-6:33>
   expected type: None
 Expr: <RelationOp ada2022.adb:6:35-6:53>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <AttributeRef ada2022.adb:6:35-6:47>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
@@ -210,7 +210,7 @@ Expr: <Id "Assume" ada2022.adb:8:27-8:33>
   expected type: None
 Expr: <RelationOp ada2022.adb:8:35-8:42>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "P" ada2022.adb:8:35-8:36>
   references:    <DefiningName "P" ada2022.adb:7:20-7:21>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
@@ -233,7 +233,7 @@ Expr: <Id "Assume" ada2022.adb:9:27-9:33>
   expected type: None
 Expr: <RelationOp ada2022.adb:9:35-9:42>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "P" ada2022.adb:9:35-9:36>
   references:    <DefiningName "P" ada2022.adb:7:20-7:21>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
@@ -268,7 +268,7 @@ Expr: <Id "Assume" ada2022.adb:11:27-11:33>
   expected type: None
 Expr: <RelationOp ada2022.adb:11:35-11:42>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "Q" ada2022.adb:11:35-11:36>
   references:    <DefiningName "Q" ada2022.adb:10:20-10:21>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>

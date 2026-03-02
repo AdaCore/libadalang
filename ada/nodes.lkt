@@ -1105,6 +1105,9 @@ class AdaNode implements Node[AdaNode] {
     @predicate_error("no such entity")
     fun missing_entity_error(): Bool = not node.is_null
 
+    @predicate_error("no such assertion level")
+    fun missing_assertion_level_error(): Bool = not node.is_null
+
     |" Static method. Return the analysis unit corresponding to the Standard
     |" package.
     @exported
@@ -2962,6 +2965,21 @@ class AspectAssoc: AdaNode {
                 }
             )
 
+        # Ghost specification
+        elif self.id.name_symbol() == s"Ghost"
+        then
+            self.expr.do(
+                (expr) => expr.as[Identifier].do(
+                    (id) => id.bind_assertion_level(),
+                    default_val=%true
+                ) %or (
+                    self.expr.expected_type_var() <- node.bool_type()
+                    %and self.expr.sub_equation()
+                    %and self.expr.matches_expected_formal_type()
+                ),
+                default_val=%true
+            )
+
         # Contracts
         elif
             self.id.name_symbol() in s"Pre"
@@ -2985,10 +3003,31 @@ class AspectAssoc: AdaNode {
                 then target.as[TypeDecl].type_def.children_env
                 else self.node_env;
 
-
-            node.expr.expected_type_var() <- node.bool_type()
-            %and self.expr.sub_equation()
-            %and node.expr.matches_expected_formal_type()
+            # Support for multiple levels of ghost code: the assertion level
+            # can be optionally given using the following syntax:
+            # .. code:: ada
+            #
+            #   function Foo (X : Integer) return Integer
+            #      with Pre => (Level_1 => <predicate>, Level_2 => <predicate>)
+            #
+            # In that case, the levels are the designators of each aggregate
+            # associations, and are necessarily identifiers. There can only be
+            # one designator in each association.
+            self.expr.as[Aggregate].do(
+                (agg) => agg.assocs.logic_all((assoc) =>
+                    assoc.names().at(0).as[Identifier].do(
+                        (id) => id.as_entity.bind_assertion_level(),
+                        default_val=%false
+                    )
+                    %and assoc.expr().expected_type_var() <- node.bool_type()
+                    %and assoc.expr().sub_equation()
+                    %and assoc.expr().matches_expected_formal_type()
+                ),
+                default_val=
+                    node.expr.expected_type_var() <- node.bool_type()
+                    %and self.expr.sub_equation()
+                    %and node.expr.matches_expected_formal_type()
+            )
         }
         elif self.id.name_symbol() in s"Contract_Cases" | s"Subprogram_Variant"
         then self.expr.sub_equation()
@@ -7101,6 +7140,21 @@ class AnonymousExprDecl: BasicDecl {
 
     @with_dynvars(imprecise_fallback=false)
     fun is_static_decl(): Bool = self.expr.is_static_expr()
+}
+
+|" Materializes the declaration of an assertion level.
+|"
+|" This is used to store the results of queries such as ``referenced_decl``
+|" called on assertion level references from assertion pragmas/aspects, since
+|" those properties are expected to return ``BasicDecl`` nodes.
+@synthetic
+class AssertionLevelDecl: BasicDecl {
+    @parse_field name: SyntheticDefiningName
+
+    @parse_field @null_field aspects: AspectSpec
+
+    fun defining_names(): Array[Entity[DefiningName]] =
+        [self.name.as[DefiningName]]
 }
 
 |" Base class for formal parameter declarations. This is used both for records
@@ -14405,6 +14459,17 @@ class CompilationUnit: AdaNode {
             (n) => n.id.name_is(s"SPARK_Mode")
         ).at(-1)
 
+    |" Return the list of assertion levels which are visible from this
+    |" compilation unit. An assertion level is declared by a configuration
+    |" pragma, so this looks in all configuration pragmas that affect this
+    |" unit, but also in all of those that affect units that are withed by this
+    |" unit.
+    @memoized
+    fun visible_assertion_levels(): Array[AssertionLevelDecl] =
+        ([node.as_bare_entity] & node.as_bare_entity.unit_dependencies())
+        .mapcat((u) => u.config_pragmas(s"assertion_level"))
+        .map((p) => p.declared_assertion_level)
+
     |" Return the list of configuration pragmas with the given name that apply
     |" to the current unit.
     @exported
@@ -21147,6 +21212,26 @@ class BaseId: SingleTokNode implements TokenNode {
             default_val=self.undefined_reference_equation()
         )
     }
+
+    |" Assuming this identifier is in a context where it must refer to an
+    |" assertion level (e.g. it is the designator of an aggregate assoc which
+    |" is a direct child of a contract aspect), this property returns an
+    |" equation that binds it to the referenced assertion level, after
+    |" resolving it.
+    fun bind_assertion_level(): Equation = {
+        val sym = self.name_symbol();
+        val assertion_levels =
+            self.enclosing_compilation_unit().visible_assertion_levels();
+
+        assertion_levels.find((lvl) => lvl.name_symbol() == sym).do(
+            (lvl) => node.ref_var() <- lvl.as_bare_entity,
+            default_val={
+                bind error_location = node;
+                node.ref_var() <- null[Entity[AdaNode]]
+                %and AdaNode.missing_assertion_level_error%(node.ref_var())
+            }
+        )
+    }
 }
 
 |" Character literal (:rmlink:`4.1`).
@@ -22018,8 +22103,7 @@ class Pragma: AdaNode {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         if
-            self.id.name_is(s"Assert") or self.id.name_is(s"Loop_Invariant")
-            or self.id.name_is(s"Compile_Time_Warning")
+            self.id.name_is(s"Compile_Time_Warning")
             or self.id.name_is(s"Compile_Time_Error")
         then
             {
@@ -22095,7 +22179,28 @@ class Pragma: AdaNode {
                 | s"Import_Function"
                 | s"Import_Procedure" then %true
         elif
-            self.id.name_symbol() in s"Pre"
+            self.id.name_symbol() == s"Ghost"
+        then
+            self.args.at(0).do(
+                (arg) => {
+                    val expr = arg.assoc_expr();
+                    expr.as[Identifier].do(
+                        (id) => id.bind_assertion_level(),
+                        default_val=%false
+                    ) %or (
+                        expr.expected_type_var() <- node.bool_type()
+                        %and expr.sub_equation()
+                        %and expr.matches_expected_formal_type()
+                    )
+                },
+                default_val=%true
+            )
+        elif
+            self.id.name_symbol() in s"Assert"
+                | s"Assert_And_Cut"
+                | s"Assume"
+                | s"Loop_Invariant"
+                | s"Pre"
                 | s"Post"
                 | s"Pre_Class"
                 | s"Post_Class"
@@ -22104,14 +22209,41 @@ class Pragma: AdaNode {
                 | s"Precondition'Class"
                 | s"Postcondition'Class"
                 | s"Initial_Condition"
-        then
-            self.args.at(0).assoc_expr().do(
-                (expr) =>
-                expr.expected_type_var() <- node.bool_type()
-                %and expr.sub_equation()
-                %and expr.matches_expected_formal_type(),
-                default_val=%false
-            )
+        then {
+            val first_assoc = self.args.at(0).as[PragmaArgumentAssoc];
+
+            # Check whether we are in the "legacy" version of the pragma,
+            # that is if no name is used or if it's `Check`. In that case,
+            # we expect a standard boolean expression after it, and an
+            # optional error message string as second argument.
+            if first_assoc.name.is_null or first_assoc.name.name_is(s"Check")
+            then
+                first_assoc.expr.sub_equation()
+                %and first_assoc.expr.expect_bool_derived_type()
+                %and self.args.at(1).do(
+                    (arg) => arg.assoc_expr().do(
+                        (msg) =>
+                        msg.expected_type_var() <- node.std_string_type()
+                        %and msg.sub_equation()
+                        %and msg.matches_expected_type(),
+                        default_val=%true
+                    ),
+                    default_val=%true
+                )
+            # Otherwise, we are associating assertion levels to each
+            # predicate expression given as argument. For more details,
+            # see `Expr.assertion_leved_predicate_equation`.
+            else
+                self.args.logic_all((arg) => {
+                    val assoc = arg.as[PragmaArgumentAssoc];
+                    assoc.expr.sub_equation()
+                    %and assoc.expr.expect_bool_derived_type()
+                    %and assoc.name.as[Identifier].do(
+                        (id) => id.bind_assertion_level(),
+                        default_val=%true
+                    )
+                })
+        }
         elif self.id.name_is(s"Test_Case")
         then
             self.args.filter(
@@ -22208,8 +22340,10 @@ class Pragma: AdaNode {
         elif self.id.name_is(s"No_Raise") then null[Entity[Expr]]
         # SPARK_Mode can have no associated value (in that case, the
         # default is `On`) but if a value is provided, it's in first
-        # position.
-        elif self.id.name_is(s"SPARK_Mode") then self.args.at(0)?.assoc_expr()
+        # position. Same for the Ghost pragma.
+        elif self.id.name_symbol() in s"SPARK_Mode" | s"Ghost"
+        then self.args.at(0)?.assoc_expr()
+
         else self.args.at(1)?.assoc_expr()
 
     fun associated_entity_names(): Array[Entity[Name]] =
@@ -22344,14 +22478,10 @@ class Pragma: AdaNode {
             default_val=(
                 # If no name
                 if
-                    (
-                        # either it's a contract pragma...
-                        node.is_contract_aspect(self.id.name_symbol())
-                    )
-                    or (
-                        # or the Obsolescent pragma
-                        self.id.name_is(s"Obsolescent")
-                    )
+                    # either it's a contract pragma...
+                    node.is_contract_aspect(self.id.name_symbol())
+                    # or the Obsolescent/Ghost pragma
+                    or self.id.name_symbol() in s"Obsolescent" | s"Ghost"
                 then (
                     # in which case they are attached to the closest
                     # declaration above it. We could have used a call to
@@ -22441,6 +22571,22 @@ class Pragma: AdaNode {
             value=self.value_expr(),
             inherited=inherited
         )
+
+    |" Assuming this pragma is an Assertion_Level pragma, this field denotes
+    |" the assertion level declaration that materializes it.
+    |" See :typeref:`AssertionLevelDecl`.
+    @lazy
+    declared_assertion_level: AssertionLevelDecl =
+        AssertionLevelDecl.builder(
+            name=SyntheticDefiningName.builder(
+                logic_vars=null[Address],
+                name=SyntheticIdentifier.builder(
+                    logic_vars=null[Address],
+                    sym=node.args.at(0).as_bare_entity
+                        .assoc_expr().as[Identifier].name_symbol()
+                )
+            )
+        ).build()
 
     env_spec {
         set_initial_env(node.initial_env())

@@ -48,8 +48,7 @@ package Libadalang.Config_Pragmas is
    --  * ``Local_Pragmas`` has a ``No_Analysis`` key or element.
 
    function Import_From_Project
-     (Context    : Analysis_Context;
-      Project    : Project_Tree'Class;
+     (Project    : Project_Tree'Class;
       Subproject : Project_Type := No_Project) return Config_Pragmas_Mapping;
    --  Load configuration pragmas files referenced in ``Project`` and its
    --  sub-projects and return a mapping that describes for each analysis unit
@@ -74,8 +73,7 @@ package Libadalang.Config_Pragmas is
    --  likely to change in the future.
 
    function Import_From_Project
-     (Context : Analysis_Context;
-      Tree    : GPR2.Project.Tree.Object;
+     (Tree    : GPR2.Project.Tree.Object;
       View    : GPR2.Project.View.Object := GPR2.Project.View.Undefined)
       return Config_Pragmas_Mapping;
    --  Load configuration pragmas files referenced in ``Tree`` and its

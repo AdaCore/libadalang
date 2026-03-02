@@ -1,0 +1,252 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <PragmaNode test.adb:6:4-6:31>
+*******************************************************
+
+Expr: <Id "Assert" test.adb:6:11-6:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:6:19-6:24>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:6:19-6:20>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:6:21-6:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:6:23-6:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Str ""0"" test.adb:6:26-6:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <PragmaNode test.adb:9:4-9:42>
+*******************************************************
+
+Expr: <Id "Assert" test.adb:9:11-9:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:9:19-9:24>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:9:19-9:20>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:9:21-9:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:9:23-9:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Message" test.adb:9:26-9:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""0"" test.adb:9:37-9:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <PragmaNode test.adb:12:4-12:51>
+*********************************************************
+
+Expr: <Id "Assert" test.adb:12:11-12:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Check" test.adb:12:19-12:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:12:28-12:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:12:28-12:29>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:12:30-12:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:12:32-12:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Message" test.adb:12:35-12:42>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""0"" test.adb:12:46-12:49>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <PragmaNode test.adb:15:4-15:54>
+*********************************************************
+
+Expr: <Id "Assert" test.adb:15:11-15:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Runtime" test.adb:15:19-15:26>
+  references:    <SyntheticDefiningName "runtime" in Standard>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:15:30-15:35>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:15:30-15:31>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:15:32-15:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:15:34-15:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Static" test.adb:15:37-15:43>
+  references:    <SyntheticDefiningName "static" in Standard>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:15:47-15:52>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:15:47-15:48>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:15:49-15:50>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:15:51-15:52>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <PragmaNode test.adb:20:4-20:39>
+*********************************************************
+
+Expr: <Id "Assert_And_Cut" test.adb:20:11-20:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:20:27-20:32>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:20:27-20:28>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:20:29-20:30>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:20:31-20:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Str ""1"" test.adb:20:34-20:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <PragmaNode test.adb:23:4-23:45>
+*********************************************************
+
+Expr: <Id "Assert_And_Cut" test.adb:23:11-23:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Runtime" test.adb:23:27-23:34>
+  references:    <SyntheticDefiningName "runtime" in Standard>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:23:38-23:43>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:23:38-23:39>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:23:40-23:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:23:42-23:43>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <PragmaNode test.adb:28:4-28:31>
+*********************************************************
+
+Expr: <Id "Assume" test.adb:28:11-28:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:28:19-28:24>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:28:19-28:20>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:28:21-28:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:28:23-28:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Str ""2"" test.adb:28:26-28:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <PragmaNode test.adb:31:4-31:37>
+*********************************************************
+
+Expr: <Id "Assume" test.adb:31:11-31:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Runtime" test.adb:31:19-31:26>
+  references:    <SyntheticDefiningName "runtime" in Standard>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:31:30-31:35>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:31:30-31:31>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpGt ">" test.adb:31:32-31:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:31:34-31:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Done.

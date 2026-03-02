@@ -449,6 +449,7 @@ package body Libadalang.Helpers is
                --  Create the unit provider
 
                App_Ctx.Provider := (Kind => Project_File, Project => Project);
+               App_Ctx.Config_Pragmas := Import_From_project (Tree => Project);
 
                --  If no charset was specified, detect the default one from the
                --  project file.
@@ -584,6 +585,9 @@ package body Libadalang.Helpers is
                                      Event_Handler => EH),
                Units_Processed => <>,
                Aborted         => False);
+
+            Set_Mapping
+              (Job_Contexts (JID).Analysis_Ctx, App_Ctx.Config_Pragmas);
          end loop;
 
          --  Finally, create all jobs, and one context per job to process unit

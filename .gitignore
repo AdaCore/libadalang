@@ -57,3 +57,6 @@ lktp
 
 # Ignore vscode config files
 .vscode/
+
+# Ignore ancr generated env file
+.env

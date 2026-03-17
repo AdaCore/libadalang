@@ -234,6 +234,20 @@ class AdaNode implements Node[AdaNode] {
         elif current_env.is_null then false
         else node.is_children_env(parent, current_env.env_parent)
 
+    |" Static property. Like ``is_children_env``, but takes into account Ada's
+    |" notion of parent environments. In particular, if ``current_env``
+    |" designates the lexical environment of a ``BasicDecl``, return True
+    |" if any part of that declaration is ``parent``.
+    fun is_child_scope(parent: LexicalEnv, current_env: LexicalEnv): Bool =
+        if parent.is_null then false
+        elif current_env.is_null then false
+        elif current_env == parent then true
+        else current_env.env_node.as[BasicDecl].do(
+            (bd) => bd.as_bare_entity.all_parts().any(
+                (p) => p.node_env == parent
+            )
+        ) or node.is_child_scope(parent, current_env.env_parent)
+
     |" Return self with an empty metadata field.
     fun without_md(): Entity[AdaNode] =
         Entity[AdaNode](
@@ -1100,6 +1114,105 @@ class AdaNode implements Node[AdaNode] {
         val _ = self.resolve_names_internal(true);
 
         self.own_nameres_diagnostics() & self.children_nameres_diagnostics()
+    }
+
+    |" Return whether the resolution context up to xref_stop_equation
+    |" boundaries is ambiguous, i.e. whether it allows multiple valid
+    |" interpretations.
+    @external(uses_entity_info=false, uses_envs=true)
+    @call_memoizable
+    @with_dynvars(env, origin, entry_point)
+    fun is_own_nameres_ambiguous(): Bool
+
+    |" Return whether this name resolution context is ambiguous, i.e. whether
+    |" it allows multiple valid interpretations.
+    @exported
+    fun is_nameres_ambiguous(): Bool = {
+        bind env = node.xref_initial_env();
+        bind origin = node.origin_node();
+        bind entry_point = node;
+
+        node.is_own_nameres_ambiguous()
+    }
+
+    |" Return the lexical environment in which the given entity lies. If
+    |" this entity corresponds to an inherited primitive, it returns lexical
+    |" environment of the primitive type.
+    fun entity_env(): LexicalEnv = {
+        val prim_type =
+            if self.as[BasicDecl]?.is_subprogram()
+            then self.info.md.primitive_real_type
+            else null[AdaNode];
+
+        prim_type.do(
+            (pt) => pt.node_env,
+            default_val=node.node_env
+        )
+    }
+
+    |" Return whether a solution involving ``self`` would be preferred over
+    |" a solution involving ``other``, knowing that ``self`` lexically came
+    |" first. In particular, this property returns 1 if self is strictly
+    |" preferred, 0 if the given entities are not comparable, and -1 if
+    |" ``other`` would have been an equally valid candidate.
+    @with_dynvars(env, origin, entry_point)
+    fun is_preferred_entity(other: Entity[AdaNode]): Int = {
+        val self_bd = self.as[BasicDecl];
+        val other_bd = other.as[BasicDecl];
+
+        # First, dismiss cases that are not comparable or are equivalent
+        if self_bd.is_null or other_bd.is_null
+        then 0
+        elif self_bd.node == other_bd.node
+        then 0
+        elif self_bd.canonical_part().node == other_bd.canonical_part().node
+        then 0
+        elif self_bd is BaseTypeDecl and other_bd is BaseTypeDecl
+        then 0
+        # Then, if we are not comparing subprograms, there is no overloading
+        # involved, so self is necessarily preferred since it lexically came
+        # first.
+        elif not self_bd.is_subprogram() or not other_bd.is_subprogram()
+        then 1
+        # Prefer explicit operator definitions over predefined ones
+        elif not self_bd.is_predefined_operator()
+             and other_bd.is_predefined_operator()
+        then 1
+        # Prefer operators defined over root types (see :rmlink:`8.6` - 29).
+        # If ``self`` is a ``SyntheticSubpDecl`` designating the predefined
+        # operator of a root type, we should access the ``_root_types`` package
+        # by first accessing the parent (the ``TypeDef`` node), then its lexical
+        # environment (that of its ``ConcreteTypeDecl``), and finally its parent
+        # environment (that of the enclosing ``PackageDecl``).
+        elif node.parent.node_env.env_parent == self.std_root_types()
+        then 1
+        # Prefer an explicit override over the implicitly inherited
+        # primitive.
+        elif not other.info.md.primitive.is_null
+             and self_bd.subp_decl_match_signature(other_bd)
+        then 1
+        # Finally, check for shadowing: if ``other`` is defined in a parent
+        # environment of ``self``, and both are parent environments of
+        # ``origin`` (i.e. where the call is performed), then ``other`` is not
+        # a valid candidate according to Ada shadowing rules.
+        else {
+            val self_env = self.entity_env();
+            val other_env = other.entity_env();
+
+            val self_in_parent_scope = node.is_child_scope(self_env, env);
+            val other_in_parent_scope = node.is_child_scope(other_env, env);
+
+            if self_in_parent_scope and other_in_parent_scope then {
+                val self_in_other_scope = node.is_child_scope(
+                    self_env, other_env
+                );
+                if self_in_other_scope then -1 else 1
+            }
+            elif self_in_parent_scope then 1
+            elif other_in_parent_scope then -1
+            # current env is neither in the scope of self nor of other
+            else -1
+        }
     }
 
     |" Used as a predicate during name resolution to emit a diagnostic

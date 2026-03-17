@@ -132,6 +132,7 @@ mains:
     - testsuite/ada
     - testsuite/ada/gnat_compare
   main_programs:
+    - check_ambiguity
     - gnat_compare
     - incrementality
     - lal_dda

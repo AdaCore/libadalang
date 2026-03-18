@@ -1,0 +1,5 @@
+description: |
+    Check that the builtin "Lowercase_Keywords" configuration works as
+    expected.
+driver: unparser
+overridings: [lowercase_keywords]

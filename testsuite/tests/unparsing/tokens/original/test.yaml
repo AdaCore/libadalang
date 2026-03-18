@@ -1,0 +1,4 @@
+description: |
+    Check that the builtin "Original_Keywords" configuration works as expected.
+driver: unparser
+overridings: [original_keywords]

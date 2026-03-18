@@ -1,0 +1,5 @@
+PROCEDURE Foo IS
+BEGIN
+   NULL;
+END Foo;
+

@@ -1,0 +1,5 @@
+description: |
+    Check that the builtin "Uppercase_Keywords" configuration works as
+    expected.
+driver: unparser
+overridings: [uppercase_keywords]

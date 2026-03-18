@@ -36,7 +36,8 @@ package Libadalang.Doc_Utils is
       (SSize            => GNATCOLL.Strings_Impl.Optimal_String_Size,
        Character_Type   => Wide_Wide_Character,
        Character_String => Wide_Wide_String,
-       To_Lower         => Support.Text.To_Lower);
+       To_Lower         => Support.Text.To_Lower,
+       To_Upper         => Support.Text.To_Upper);
    --  Wide_Wide XString type instantiation. TODO??? Would probably make sense
    --  to put that in Langkit_Support.
 

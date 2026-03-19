@@ -54,7 +54,7 @@ public class GPRContext {
         }
 
         Libadalang.AnalysisUnit u = ctx.getUnitFromProvider(
-            Libadalang.Text.create("pkg"),
+            "pkg",
             Libadalang.AnalysisUnitKind.UNIT_BODY
         );
         Libadalang.Diagnostic[] diagnostics = u.getDiagnostics();
@@ -193,4 +193,3 @@ public class GPRContext {
         System.out.println("Done.");
     }
 }
-

@@ -1,3 +1,4 @@
+@case_insensitive
 lexer ada_lexer {
     val bracket_char = p"(\\[\\\"[0-9a-fA-F]+\\\"\\])"
     val p_string = p"\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"])*\\\""
@@ -55,23 +56,23 @@ lexer ada_lexer {
 
     # Those keywords can also be attributes, which is why they have special
     # handling, for example as in A'Access.
-    match no_case("access") {
+    match "access" {
         if previous_token is Tick then send(Identifier, 6)
         else send(Access, 6)
     }
-    match no_case("range") {
+    match "range" {
         if previous_token is Tick then send(Identifier, 5)
         else send(Range, 5)
     }
-    match no_case("digits") {
+    match "digits" {
         if previous_token is Tick then send(Identifier, 6)
         else send(Digits, 6)
     }
-    match no_case("delta") {
+    match "delta" {
         if previous_token is Tick then send(Identifier, 5)
         else send(Delta, 5)
     }
-    match no_case("mod") {
+    match "mod" {
         if previous_token is Tick then send(Identifier, 3)
         else send(Mod, 3)
     }
@@ -79,65 +80,65 @@ lexer ada_lexer {
     # Keywords
     @unparsing_spacing(with=alphanumericals)
     family alphanumericals {
-        Abort <- no_case("abort")
-        Else <- no_case("else")
-        New <- no_case("new")
-        Return <- no_case("return")
-        Abs <- no_case("abs")
-        Elsif <- no_case("elsif")
-        Not <- no_case("not")
-        Reverse <- no_case("reverse")
-        End <- no_case("end")
+        Abort <- "abort"
+        Else <- "else"
+        New <- "new"
+        Return <- "return"
+        Abs <- "abs"
+        Elsif <- "elsif"
+        Not <- "not"
+        Reverse <- "reverse"
+        End <- "end"
         @symbol()
-        Null <- no_case("null")
-        Accept <- no_case("accept")
-        Entry <- no_case("entry")
-        Select <- no_case("select")
-        Exception <- no_case("exception")
-        Of <- no_case("of")
-        Separate <- no_case("separate")
-        Exit <- no_case("exit")
-        Or <- no_case("or")
-        All <- no_case("all")
-        Others <- no_case("others")
-        Subtype <- no_case("subtype")
-        And <- no_case("and")
-        For <- no_case("for")
-        Out <- no_case("out")
-        Array <- no_case("array")
-        Function <- no_case("function")
-        At <- no_case("at")
-        Generic <- no_case("generic")
-        Package <- no_case("package")
-        Task <- no_case("task")
-        Begin <- no_case("begin")
-        Goto <- no_case("goto")
-        Pragma <- no_case("pragma")
-        Terminate <- no_case("terminate")
-        Body <- no_case("body")
-        Private <- no_case("private")
-        Then <- no_case("then")
-        If <- no_case("if")
-        Procedure <- no_case("procedure")
-        Type <- no_case("type")
-        Case <- no_case("case")
-        In <- no_case("in")
-        Constant <- no_case("constant")
-        Is <- no_case("is")
-        Raise <- no_case("raise")
-        Use <- no_case("use")
-        Declare <- no_case("declare")
-        Delay <- no_case("delay")
-        Limited <- no_case("limited")
-        Record <- no_case("record")
-        When <- no_case("when")
-        Loop <- no_case("loop")
-        Rem <- no_case("rem")
-        While <- no_case("while")
-        Renames <- no_case("renames")
-        With <- no_case("with")
-        Do <- no_case("do")
-        Xor <- no_case("xor")
+        Null <- "null"
+        Accept <- "accept"
+        Entry <- "entry"
+        Select <- "select"
+        Exception <- "exception"
+        Of <- "of"
+        Separate <- "separate"
+        Exit <- "exit"
+        Or <- "or"
+        All <- "all"
+        Others <- "others"
+        Subtype <- "subtype"
+        And <- "and"
+        For <- "for"
+        Out <- "out"
+        Array <- "array"
+        Function <- "function"
+        At <- "at"
+        Generic <- "generic"
+        Package <- "package"
+        Task <- "task"
+        Begin <- "begin"
+        Goto <- "goto"
+        Pragma <- "pragma"
+        Terminate <- "terminate"
+        Body <- "body"
+        Private <- "private"
+        Then <- "then"
+        If <- "if"
+        Procedure <- "procedure"
+        Type <- "type"
+        Case <- "case"
+        In <- "in"
+        Constant <- "constant"
+        Is <- "is"
+        Raise <- "raise"
+        Use <- "use"
+        Declare <- "declare"
+        Delay <- "delay"
+        Limited <- "limited"
+        Record <- "record"
+        When <- "when"
+        Loop <- "loop"
+        Rem <- "rem"
+        While <- "while"
+        Renames <- "renames"
+        With <- "with"
+        Do <- "do"
+        Xor <- "xor"
     }
 
     # Punctuation

@@ -54,7 +54,8 @@ def main(argv: list[str] | None = None) -> None:
     script_argv = [sys.executable]
 
     if args.build_mode:
-        lkm_argv.append(f"--build-mode={args.build_mode}")
+        build_mode_arg = f"--build-mode={args.build_mode}"
+        lkm_argv.append(build_mode_arg)
 
     match args.testsuite:
         case "public" | "internal":
@@ -76,6 +77,9 @@ def main(argv: list[str] | None = None) -> None:
 
             if args.testsuite != "internal":
                 script_argv.append("--skip-internal")
+
+            if args.build_mode:
+                script_argv.append(build_mode_arg)
 
         case "acats":
             acats_dir = os.path.abspath(args.acats_dir)

@@ -71,6 +71,7 @@ nat = c_api.get_name
         ProjectManagerNative project,
         AnalysisContextNative context,
         CCharPointer subproject,
+        CCharPointer charset,
         EventHandlerNative eventHandler,
         int withTrivia,
         int tabStop

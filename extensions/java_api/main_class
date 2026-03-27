@@ -557,6 +557,7 @@ nat = c_api.get_name
         ${java_doc("libadalang.gpr_project_create_context", 8)}
         public AnalysisContext createContext(
             String subproject,
+            String charset,
             EventHandler eventHandler,
             boolean withTrivia,
             int tabStop
@@ -567,6 +568,10 @@ nat = c_api.get_name
                         subproject == null ?
                         null :
                         CTypeConversion.toCString(subproject);
+                    CCharPointerHolder charset_c =
+                        charset == null ?
+                        null :
+                        CTypeConversion.toCString(charset);
                 ) {
                     // Manually allocate a C-level analysis context so that we can
                     // initialize it ourselves.
@@ -595,6 +600,9 @@ nat = c_api.get_name
                         (subproject == null ?
                             WordFactory.nullPointer() :
                             subproject_c.get()),
+                        (charset == null ?
+                            WordFactory.nullPointer() :
+                            charset_c.get()),
                         (eventHandler == null ?
                             WordFactory.nullPointer() :
                             eventHandler.reference.ni()),
@@ -615,11 +623,31 @@ nat = c_api.get_name
                 return JNI_LIB.${nat("gpr_project_create_context")}(
                     this,
                     subproject,
+                    charset,
                     eventHandler,
                     withTrivia,
                     tabStop
                 );
             }
+        }
+
+        /**
+         * Same as the other createContext, without charset. Here for
+         * compatibility purposes.
+         */
+        public AnalysisContext createContext(
+            String subproject,
+            EventHandler eventHandler,
+            boolean withTrivia,
+            int tabStop
+        ) {
+            return createContext(
+                subproject,
+                null,
+                eventHandler,
+                withTrivia,
+                tabStop
+            );
         }
 
         /**

@@ -14,6 +14,7 @@ public class GPRContext {
         String label,
         String root_project,
         String project,
+        String charset,
         Libadalang.EventHandler eventHandler,
         boolean withTrivia,
         int tabStop
@@ -34,6 +35,7 @@ public class GPRContext {
                 try {
                     ctx = gpr.createContext(
                         project,
+                        charset,
                         eventHandler,
                         withTrivia,
                         tabStop
@@ -103,15 +105,41 @@ public class GPRContext {
     static boolean triggered = false;
 
     public static void main(String[] args) {
-        check("Simple: defaults", "simple/p.gpr", null, null, true, 8);
-        check("Simple: without trivia", "simple/p.gpr", null, null, false, 8);
-        check("Simple: tab stop = 4", "simple/p.gpr", null, null, true, 4);
+        check("Simple: defaults", "simple/p.gpr", null, null, null, true, 8);
+        check(
+            "Simple: without trivia",
+            "simple/p.gpr",
+            null,
+            null,
+            null,
+            false,
+            8
+        );
+        check(
+            "Simple: tab stop = 4",
+            "simple/p.gpr",
+            null,
+            null,
+            null,
+            true,
+            4
+        );
 
-        check("UTF-8", "utf-8/p.gpr", null, null, true, 8);
+        check("UTF-8", "utf-8/p.gpr", null, null, null, true, 8);
+        check(
+            "UTF-8: Charset iso-8859-1",
+            "utf-8/p.gpr",
+            null,
+            "iso-8859-1",
+            null,
+            true,
+            8
+        );
 
         check(
             "Aggregate project (no specific view)",
             "aggregate/agg.gpr",
+            null,
             null,
             null,
             true,
@@ -121,6 +149,7 @@ public class GPRContext {
             "Aggregate project (specific view: p2)",
             "aggregate/agg.gpr",
             "p2",
+            null,
             null,
             true,
             8
@@ -148,6 +177,7 @@ public class GPRContext {
             "Simple: event handler",
             "simple/p.gpr",
             null,
+            null,
             Libadalang.EventHandler.create(
                 unitRequestedCallback,
                 unitParsedCallback
@@ -161,12 +191,14 @@ public class GPRContext {
             "preprocessing/p1.gpr",
             null,
             null,
+            null,
             true,
             8
         );
         check(
             "Preprocessing (p2)",
             "preprocessing/p2.gpr",
+            null,
             null,
             null,
             true,
@@ -178,12 +210,14 @@ public class GPRContext {
             "config_pragmas/p1.gpr",
             null,
             null,
+            null,
             true,
             8
         );
         check(
             "Config pragmas (p2)",
             "config_pragmas/p2.gpr",
+            null,
             null,
             null,
             true,

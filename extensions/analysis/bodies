@@ -37,6 +37,7 @@ function Create_Context_From_Project
                         GNATCOLL.Projects.No_Project;
    Env              : GNATCOLL.Projects.Project_Environment_Access;
    Is_Project_Owner : Boolean := True;
+   Charset          : String := "";
    Event_Handler    : Event_Handler_Reference :=
                         No_Event_Handler_Ref;
    With_Trivia      : Boolean := True;
@@ -57,6 +58,7 @@ begin
          Project,
          Env,
          Is_Project_Owner,
+         Charset,
          EH_Int,
          With_Trivia,
          Tab_Stop);
@@ -84,6 +86,7 @@ end Create_Context_From_Project;
 function Create_Context_From_Project
   (Tree          : GPR2.Project.Tree.Object;
    Project       : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+   Charset       : String := "";
    Event_Handler : Event_Handler_Reference := No_Event_Handler_Ref;
    With_Trivia   : Boolean := True;
    Tab_Stop      : Positive := 8)
@@ -100,7 +103,7 @@ begin
 
    begin
       GPR_Impl.Initialize_Context_From_Project
-        (Result, Tree, Project, EH_Int, With_Trivia, Tab_Stop);
+        (Result, Tree, Project, Charset, EH_Int, With_Trivia, Tab_Stop);
    exception
       when Libadalang.Project_Provider.Unsupported_View_Error =>
          Dec_Ref (EH_Int);

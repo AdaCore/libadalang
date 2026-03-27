@@ -105,6 +105,7 @@ package body Libadalang.GPR_Impl is
       Project          : GNATCOLL.Projects.Project_Type;
       Env              : GNATCOLL.Projects.Project_Environment_Access;
       Is_Project_Owner : Boolean;
+      Charset          : String;
       Event_Handler    : Internal_Event_Handler_Access;
       With_Trivia      : Boolean;
       Tab_Stop         : Positive)
@@ -120,15 +121,17 @@ package body Libadalang.GPR_Impl is
            Create_Project_Unit_Provider (Tree, Project, Env, Is_Project_Owner);
          FR      : constant File_Reader_Reference :=
            Create_Preprocessor (Default_Config, File_Configs);
-         Charset : constant String :=
-           Default_Charset_From_Project (Tree.all, Project);
+         Actual_Charset : constant String :=
+           (if Charset = ""
+            then Default_Charset_From_Project (Tree.all, Project)
+            else Charset);
 
          UFP_Int : Internal_Unit_Provider_Access := Wrap_Public_Provider (UFP);
          FR_Int  : Internal_File_Reader_Access := Wrap_Public_File_Reader (FR);
       begin
          Initialize_Context
            (Context       => Context,
-            Charset       => Charset,
+            Charset       => Actual_Charset,
             File_Reader   => FR_Int,
             Unit_Provider => UFP_Int,
             Event_Handler => Event_Handler,
@@ -157,6 +160,7 @@ package body Libadalang.GPR_Impl is
      (Context       : Internal_Context;
       Tree          : GPR2.Project.Tree.Object;
       Project       : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+      Charset       : String;
       Event_Handler : Internal_Event_Handler_Access;
       With_Trivia   : Boolean;
       Tab_Stop      : Positive)
@@ -180,15 +184,17 @@ package body Libadalang.GPR_Impl is
            Create_Project_Unit_Provider (Tree, Project);
          FR      : constant File_Reader_Reference :=
            Create_Preprocessor (Default_Config, File_Configs);
-         Charset : constant String :=
-           Default_Charset_From_Project (Tree, Project);
+         Actual_Charset : constant String :=
+           (if Charset = ""
+            then Default_Charset_From_Project (Tree, Project)
+            else Charset);
 
          UFP_Int : Internal_Unit_Provider_Access := Wrap_Public_Provider (UFP);
          FR_Int  : Internal_File_Reader_Access := Wrap_Public_File_Reader (FR);
       begin
          Initialize_Context
            (Context       => Context,
-            Charset       => Charset,
+            Charset       => Actual_Charset,
             File_Reader   => FR_Int,
             Unit_Provider => UFP_Int,
             Event_Handler => Event_Handler,

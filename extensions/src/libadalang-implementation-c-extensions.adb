@@ -524,6 +524,7 @@ package body Libadalang.Implementation.C.Extensions is
      (Self          : ada_gpr_project;
       Context       : ada_analysis_context;
       Project       : chars_ptr;
+      Charset       : chars_ptr;
       Event_Handler : ada_event_handler;
       With_Trivia   : int;
       Tab_Stop      : int)
@@ -538,6 +539,8 @@ package body Libadalang.Implementation.C.Extensions is
         (Context          => Context,
          Tree             => Tree,
          Project          => View,
+         Charset          =>
+           (if Charset = Null_Ptr then "" else Value (Charset)),
          Event_Handler    => Unwrap_Private_Event_Handler (Event_Handler),
          With_Trivia      => With_Trivia /= 0,
          Tab_Stop         => Natural (Tab_Stop));

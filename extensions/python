@@ -424,12 +424,14 @@ class GPRProject:
     def create_context(
         self,
         project: Opt[str] = None,
+        charset: Opt[str] = None,
         event_handler: Opt[EventHandler] = None,
         with_trivia: bool = True,
         tab_stop: int = 8,
     ) -> AnalysisContext:
         ${py_doc("libadalang.gpr_project_initialize_context", 8)}
         c_project = _coerce_bytes("project", project, or_none=True)
+        c_charset = _coerce_bytes("charset", charset, or_none=True)
 
         event_handler_wrapper, c_event_handler = (
             _EventHandlerWrapper.create(event_handler)
@@ -465,6 +467,7 @@ class GPRProject:
             self._c_value,
             c_value,
             c_project,
+            c_charset,
             c_event_handler,
             with_trivia,
             tab_stop,
@@ -519,6 +522,7 @@ class GPRProject:
         [_c_type,                  # gpr_project
          AnalysisContext._c_type, # context
          ctypes.c_char_p,         # project
+         ctypes.c_char_p,         # charset
          _event_handler,          # event_handler
          ctypes.c_int,            # with_trivia
          ctypes.c_int],           # tab_stop

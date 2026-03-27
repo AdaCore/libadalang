@@ -20,6 +20,7 @@ private package Libadalang.GPR_Impl is
       Project          : GNATCOLL.Projects.Project_Type;
       Env              : GNATCOLL.Projects.Project_Environment_Access;
       Is_Project_Owner : Boolean;
+      Charset          : String;
       Event_Handler    : Internal_Event_Handler_Access;
       With_Trivia      : Boolean;
       Tab_Stop         : Positive);
@@ -31,6 +32,9 @@ private package Libadalang.GPR_Impl is
    --  semantics of the ``Tree``, ``Project``, ``Env`` and ``Is_Project_Owner``
    --  arguments.
    --
+   --  This function takes a ``Charset`` parameter that, if not an empty
+   --  string, override the project default charset.
+   --
    --  See ``Libadalang.Implementation.Initialize_Context`` for the semantics
    --  of the other arguments.
 
@@ -38,6 +42,7 @@ private package Libadalang.GPR_Impl is
      (Context       : Internal_Context;
       Tree          : GPR2.Project.Tree.Object;
       Project       : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+      Charset       : String;
       Event_Handler : Internal_Event_Handler_Access;
       With_Trivia   : Boolean;
       Tab_Stop      : Positive);

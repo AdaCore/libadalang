@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Base test for a SubpDecl with overridings.
+overridings:
+  - tall

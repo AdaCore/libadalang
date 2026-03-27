@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test the tall layout with SubpDecl not overriding.
+overridings:
+  - tall

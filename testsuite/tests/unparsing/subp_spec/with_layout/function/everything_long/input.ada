@@ -1,0 +1,1 @@
+function Foo (A : Bar; BB : Baz; CCC : Qux; DDDD : Corge) return Fred

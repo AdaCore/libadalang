@@ -1,0 +1,3 @@
+function Foo (A : Bar; B : Baz; C : Qux; D : Corge)
+  --  Comment for the params
+   return Fred;

@@ -1,5 +1,125 @@
 {
   "node_configs": {
-    "ParamSpec": {}
+    "ConcreteFormalSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_default_expr"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
+        "f_default_expr": {
+          "kind": "group",
+          "document": [
+            "hardline",
+            {
+              "kind": "text",
+              "text": "is"
+            },
+            "whitespace",
+            {
+              "kind": "innerRoot",
+              "contents": "recurse"
+            }
+          ]
+        }
+      }
+    },
+    "ParamSpecList": {
+      "table": {
+        "must_break": true
+      },
+      "sep": "recurse"
+    },
+    "SubpSpec": {
+      "node": {
+        "kind": "continuationLineIndent",
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "recurse_field",
+              "field": "f_subp_kind"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_subp_name"
+            },
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subp_params"
+                },
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subp_returns"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_subp_name": [
+          "whitespace",
+          "recurse"
+        ],
+        "f_subp_returns": {
+          "kind": "align",
+          "width": " ",
+          "contents": {
+            "kind": "group",
+            "document": [
+              "hardline",
+              {
+                "kind": "text",
+                "text": "return"
+              },
+              "whitespace",
+              "recurse"
+            ]
+          }
+        },
+        "f_subp_params": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "hardlineWithoutBreakParent",
+            "recurse"
+          ]
+        }
+      }
+    }
   }
 }
+

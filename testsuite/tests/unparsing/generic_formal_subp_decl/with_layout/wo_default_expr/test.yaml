@@ -1,0 +1,6 @@
+driver: unparser
+rule: generic_formal_decl
+description: |
+  Test the tall layout for tha forma declaration without default expression.
+overridings:
+  - tall

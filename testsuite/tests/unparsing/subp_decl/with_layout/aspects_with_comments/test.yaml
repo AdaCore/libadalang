@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test an abstract SubpDecl formatting with tall layout.
+overridings:
+  - tall

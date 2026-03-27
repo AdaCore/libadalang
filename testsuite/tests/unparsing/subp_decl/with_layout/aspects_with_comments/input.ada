@@ -1,0 +1,55 @@
+procedure Find_Token
+  (Source : Unbounded_String;
+   Set    : Maps.Character_Set;
+   From   : Positive;
+   Test   : Membership;
+   First  : out Positive;
+   Last   : out Natural)
+with
+  Pre            =>
+    (if Length (Source) /= 0 then From <= Length (Source)),
+  Contract_Cases =>
+
+     --  If Source is the empty string, or if no character of the
+     --  considered slice of Source satisfies the property Test on
+     --  Set, then First is set to From and Last is set to 0.
+
+    (Length (Source) = 0
+       or else
+         (for all J in From .. Length (Source) =>
+            (Test = Inside) /= Maps.Is_In (Element (Source, J), Set))
+     =>
+       First = From and then Last = 0,
+
+     --  Otherwise, First and Last are set to valid indexes
+
+     others
+     =>
+       --  First and Last are in the considered range of Source
+
+       First in From .. Length (Source)
+         and then Last in First .. Length (Source)
+
+         --  No character between From and First satisfies the property
+         --  Test on Set.
+
+         and then
+           (for all J in From .. First - 1 =>
+                 (Test = Inside) /= Maps.Is_In (Element (Source, J), Set))
+
+       --  All characters between First and Last satisfy the property
+       --  Test on Set.
+
+       and then
+         (for all J in First .. Last =>
+            (Test = Inside) = Maps.Is_In (Element (Source, J), Set))
+
+       --  If Last is not Source'Last, then the character at position
+       --  Last + 1 does not satify the property Test on Set.
+
+       and then
+         (if Last < Length (Source)
+          then
+            (Test = Inside)
+            /= Maps.Is_In (Element (Source, Last + 1), Set))),
+Global         => null;

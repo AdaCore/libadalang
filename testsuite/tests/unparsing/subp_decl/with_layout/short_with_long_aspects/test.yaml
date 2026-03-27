@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test that no line break is added after the spec when the `with` still fits
+  in the same line.

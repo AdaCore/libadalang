@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Base test tall layout for a procedure without a name.
+overridings:
+  - tall

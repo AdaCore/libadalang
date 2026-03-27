@@ -1,5 +1,15 @@
 {
   "node_configs": {
+    "AspectAssocList": {
+      "table": {
+        "must_break": true
+      }
+    },
+    "AssocList": {
+      "table": {
+        "must_break": true
+      }
+    },
     "ConcreteFormalSubpDecl": {
       "node": {
         "kind": "group",
@@ -51,6 +61,59 @@
             }
           ]
         }
+      }
+    },
+    "GenericSubpRenamingDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "generic"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_kind"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              "hardline",
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_renames"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ]
       }
     },
     "ParamSpecList": {

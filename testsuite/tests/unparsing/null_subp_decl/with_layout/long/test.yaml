@@ -1,7 +1,8 @@
 driver: unparser
 rule: null_subp_decl
 description: |
-  Test that a line break is added before the `is` keyword and the parameters specifications
-  are alignd as expected for the tall layout.
+  Test that a line break is added before the `is` keyword
+  and the parameters specifications are alignd as expected
+  for the tall layout.
 overridings:
   - tall

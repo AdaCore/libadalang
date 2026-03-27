@@ -1,4 +1,6 @@
 generic
+   type Foo is private;
+   type Bar is private;
    type Foo_Bar_Baz is private;
    with function ">" (Left : Foo; Right : Bar) return Boolean is <>;
 function Perform_Comparison_Check

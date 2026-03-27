@@ -1,8 +1,8 @@
 driver: unparser
 rule: null_subp_decl
 description: |
-  Test that a line break is added before the `with` keyword and that it has the
-  same indentation as the `function` keyword and the parameters are aligned as expected
-  for the tall layout.
+  Test that a line break is added before the `with` keyword
+  and that it has the same indentation as the `function` keyword
+  and the parameters are aligned as expected for the tall layout.
 overridings:
   - tall

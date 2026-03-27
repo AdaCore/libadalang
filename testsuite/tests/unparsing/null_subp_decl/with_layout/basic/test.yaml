@@ -2,4 +2,5 @@ driver: unparser
 rule: subp_decl
 description: |
   Test for a null procedure with tall layout
+overridings:
   - tall

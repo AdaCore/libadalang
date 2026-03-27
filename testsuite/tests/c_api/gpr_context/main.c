@@ -14,6 +14,7 @@ static void
 check (const char *label,
        const char *root_project,
        const char *project,
+       const char *charset,
        ada_event_handler event_handler,
        int with_trivia,
        int tab_stop)
@@ -52,8 +53,8 @@ check (const char *label,
   ctx = ada_allocate_analysis_context ();
   abort_on_exception ();
 
-  ada_gpr_project_initialize_context (gpr, ctx, project, event_handler,
-				      with_trivia, tab_stop);
+  ada_gpr_project_initialize_context (gpr, ctx, project, charset,
+				      event_handler, with_trivia, tab_stop);
   exc = ada_get_last_exception ();
   if (exc != NULL)
     {
@@ -217,18 +218,21 @@ main(void)
   check (/* label */ "Simple: defaults",
 	 /* root_project */ "simple/p.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);
   check (/* label */ "Simple: without trivia",
 	 /* root_project */ "simple/p.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 0,
 	 /* tab_stop */ 8);
   check (/* label */ "Simple: tab stop = 4",
 	 /* root_project */ "simple/p.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 4);
@@ -236,6 +240,15 @@ main(void)
   check (/* label */ "UTF-8",
 	 /* root_project */ "utf-8/p.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
+	 /* event_handler */ NULL,
+	 /* with_trivia */ 1,
+	 /* tab_stop */ 8);
+
+  check (/* label */ "UTF-8: Charset iso-8859-1",
+	 /* root_project */ "utf-8/p.gpr",
+	 /* project */ NULL,
+	 /* charset */ "iso-8859-1",
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);
@@ -243,12 +256,14 @@ main(void)
   check (/* label */ "Aggregate project (no specific view)",
 	 /* root_project */ "aggregate/agg.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);
   check (/* label */ "Aggregate project (specific view: p2)",
 	 /* root_project */ "aggregate/agg.gpr",
 	 /* project */ "p2",
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);
@@ -259,6 +274,7 @@ main(void)
   check (/* label */ "Simple: event handler",
 	 /* root_project */ "simple/p.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ event_handler,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);
@@ -268,12 +284,14 @@ main(void)
   check (/* label */ "Preprocessing (p1)",
 	 /* root_project */ "preprocessing/p1.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);
   check (/* label */ "Preprocessing (p2)",
 	 /* root_project */ "preprocessing/p2.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);
@@ -281,12 +299,14 @@ main(void)
   check (/* label */ "Config pragmas (p1)",
 	 /* root_project */ "config_pragmas/p1.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);
   check (/* label */ "Config pragmas (p2)",
 	 /* root_project */ "config_pragmas/p2.gpr",
 	 /* project */ NULL,
+	 /* charset */ NULL,
 	 /* event_handler */ NULL,
 	 /* with_trivia */ 1,
 	 /* tab_stop */ 8);

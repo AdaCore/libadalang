@@ -215,6 +215,7 @@ ${api.jni_func_sig("gpr_project_create_context", "jobject")}(
     jclass jni_lib,
     jobject project,
     jstring subproject,
+    jstring charset,
     jobject event_handler,
     jboolean with_trivia,
     jint tab_stop
@@ -223,6 +224,10 @@ ${api.jni_func_sig("gpr_project_create_context", "jobject")}(
     const char *subproject_c = NULL;
     if (subproject != NULL)
       subproject_c = (*env)->GetStringUTFChars (env, subproject, NULL);
+
+    const char *charset_c = NULL;
+    if (charset != NULL)
+      charset_c = (*env)->GetStringUTFChars (env, charset, NULL);
 
     ${event_handler_type} event_handler_c = NULL;
     if (event_handler != NULL)
@@ -250,12 +255,16 @@ ${api.jni_func_sig("gpr_project_create_context", "jobject")}(
       (${project_type}) get_reference (env, project),
       ctx_c,
       subproject_c,
+      charset_c,
       event_handler_c,
       (int) with_trivia,
       (int) tab_stop
     );
     if (subproject_c != NULL)
       (*env)->ReleaseStringUTFChars (env, subproject, subproject_c);
+
+    if (charset_c != NULL)
+      (*env)->ReleaseStringUTFChars (env, subproject, charset_c);
 
     const ${exception_type} *exc_c = ${nat("get_last_exception")} ();
     if (exc_c != NULL)

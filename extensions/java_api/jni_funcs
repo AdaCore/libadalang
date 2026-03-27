@@ -61,6 +61,7 @@ nat = c_api.get_name
     public static native AnalysisContext ${nat("gpr_project_create_context")}(
         ProjectManager project,
         String subproject,
+        String charset,
         EventHandler eventHandler,
         boolean withTrivia,
         int tabStop

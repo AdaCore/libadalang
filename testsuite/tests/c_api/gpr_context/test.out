@@ -22,6 +22,12 @@ pkg%b first token/trivia: <Token Kind=Comment Text="--  UTF-8 comment: \xe9">
 pkg%b root node: <CompilationUnit pkg.adb:2:1-3:9>
 pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
 
+== UTF-8: Charset iso-8859-1 ==
+
+pkg%b first token/trivia: <Token Kind=Comment Text="--  UTF-8 comment: /xc3/xa9">
+pkg%b root node: <CompilationUnit pkg.adb:2:1-3:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+
 == Aggregate project (no specific view) ==
 
 Unsupported_View_Error: conflicting sources for unit 'PKG' found in aggregate/p2.gpr and aggregate/p1.gpr

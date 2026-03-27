@@ -73,6 +73,9 @@ libadalang_docs = {
         Wrapper around ``Initialize_Context_From_Project`` to initialize
         ``Context`` (an already allocated but not yet initialized analysis
         context) from ``Self``.
+
+        The function takes a ``Charset`` parameter that may be used to
+        override the project's default charset.
     """,
     'libadalang.gpr_project_create_context': """
         Create a new analysis context from a GPR project.

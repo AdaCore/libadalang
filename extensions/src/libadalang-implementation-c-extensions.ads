@@ -129,6 +129,7 @@ package Libadalang.Implementation.C.Extensions is
      (Self          : ada_gpr_project;
       Context       : ada_analysis_context;
       Project       : chars_ptr;
+      Charset       : chars_ptr;
       Event_Handler : ada_event_handler;
       With_Trivia   : int;
       Tab_Stop      : int)

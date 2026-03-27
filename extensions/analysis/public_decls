@@ -21,6 +21,7 @@ function Create_Context_From_Project
                         GNATCOLL.Projects.No_Project;
    Env              : GNATCOLL.Projects.Project_Environment_Access;
    Is_Project_Owner : Boolean := True;
+   Charset          : String := "";
    Event_Handler    : Event_Handler_Reference :=
                         No_Event_Handler_Ref;
    With_Trivia      : Boolean := True;
@@ -40,6 +41,7 @@ function Create_Context_From_Project
 function Create_Context_From_Project
   (Tree          : GPR2.Project.Tree.Object;
    Project       : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+   Charset       : String := "";
    Event_Handler : Event_Handler_Reference := No_Event_Handler_Ref;
    With_Trivia   : Boolean := True;
    Tab_Stop      : Positive := 8)

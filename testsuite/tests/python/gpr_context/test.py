@@ -23,6 +23,7 @@ def check(
     label: str,
     root_project: str,
     project: str = "",
+    charset: str = "",
     event_handler: lal.EventHandler | None = None,
     with_trivia: bool = True,
     tab_stop: int = 8
@@ -39,7 +40,13 @@ def check(
     # Load the requested project and create the analysis context from it
     gpr = lal.GPRProject(root_project)
     try:
-        ctx = gpr.create_context(project, event_handler, with_trivia, tab_stop)
+        ctx = gpr.create_context(
+            project,
+            charset,
+            event_handler,
+            with_trivia,
+            tab_stop
+        )
     except lal.UnsupportedViewError as exc:
         print("Unsupported_View_Error:", str(exc))
         print()
@@ -83,6 +90,9 @@ check(label="Simple: tab stop = 4",
       tab_stop=4)
 
 check(label="UTF-8", root_project="utf-8/p.gpr")
+check(label="UTF-8: Charset iso-8859-1",
+      root_project="utf-8/p.gpr",
+      charset="iso-8859-1")
 
 check(label="Aggregate project (no specific view)",
       root_project="aggregate/agg.gpr")

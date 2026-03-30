@@ -18,12 +18,18 @@ run (const char *project_file)
   int i;
   bool had_exception;
 
-  printf ("== %s ==\n", project_file);
+  if (project_file != NULL) {
+    printf ("== %s ==\n", project_file);
+  } else {
+    printf ("== No project file ==\n");
+  }
 
   opts = ada_gpr_options_create ();
   abort_on_exception ();
-  ada_gpr_options_add_switch (opts, ADA_GPR_OPTION_P, project_file, NULL, 0);
-  abort_on_exception ();
+  if (project_file != NULL) {
+    ada_gpr_options_add_switch (opts, ADA_GPR_OPTION_P, project_file, NULL, 0);
+    abort_on_exception ();
+  }
   ada_gpr_project_load (opts, 0, &gpr, &errors);
   had_exception = print_exception (false);
 
@@ -53,6 +59,7 @@ main (void)
   run("nosuchgpr.gpr");
   run("nosuchtarget.gpr");
   run("missingdep.gpr");
+  run(NULL);
   puts("Done.");
   return 0;
 }

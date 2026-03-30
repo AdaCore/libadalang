@@ -15,4 +15,8 @@ Got an exception (EXCEPTION_PROJECT_ERROR):
 missingdep.gpr:1:06: error: imported project file "foo.gpr" not found
 <project file search path information>
 
+== No project file ==
+Got an exception (EXCEPTION_USAGE_ERROR):
+  no project file specified and no default project file
+
 Done.

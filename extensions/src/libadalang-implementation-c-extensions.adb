@@ -191,6 +191,8 @@ package body Libadalang.Implementation.C.Extensions is
          exception
             when E : GPR2.Project_Error =>
                Save_Occurrence (Exc, E);
+            when E : GPR2.Options.Usage_Error =>
+               Save_Occurrence (Exc, E);
          end;
 
          --  Forward warnings and errors sent to the GPR2 message reporter

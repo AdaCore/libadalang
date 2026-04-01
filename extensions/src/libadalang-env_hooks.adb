@@ -13,6 +13,7 @@ with GNATCOLL.GMP.Integers;
 
 with Langkit_Support.Types; use Langkit_Support.Types;
 
+with Libadalang.All_Properties;    use Libadalang.All_Properties;
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 with Libadalang.Sources;           use Libadalang.Sources;

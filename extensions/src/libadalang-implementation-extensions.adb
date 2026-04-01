@@ -13,7 +13,8 @@ with Langkit_Support.Bump_Ptr;
 with Langkit_Support.Symbols;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.All_Properties; use Libadalang.All_Properties;
+with Libadalang.Analysis;       use Libadalang.Analysis;
 with Libadalang.Common;
 with Libadalang.Config_Pragmas_Impl;
 with Libadalang.Doc_Utils;

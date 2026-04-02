@@ -23,6 +23,7 @@ pkg5.ads:       True
 pkg6.ads:       False
 pkg7.ads:       True
 pkg7-child.ads: True
+pkg7-gen.adb:   True
 pkg8.ads:       True
 pkg8.adb:       True
 Done

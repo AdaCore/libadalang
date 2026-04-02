@@ -22459,12 +22459,12 @@ class Pragma: AdaNode {
 
                 if p != null[Array[Entity[DefiningName]]] then p
                 else
-                    enclosing_program_unit.do(
-                        (epu) =>
+                    enclosing_program_unit?.defining_name().do(
+                        (dn) =>
                         if
                             names.length() == 1
-                            and names.at(0).referenced_decl() == epu
-                        then [epu.defining_name()]
+                            and names.at(0).referenced_defining_name() == dn
+                        then [dn]
                         else null[Array[Entity[DefiningName]]],
                         default_val=top_level_decl
                     )

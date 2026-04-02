@@ -17116,6 +17116,9 @@ class Name: Expr {
     }
 
     |" Return all elements in self's scope that are lexically named like self.
+    |" By setting ``seq`` to true, the lookup is performed from the location of
+    |" ``self`` (or from ``seq_from`` if the latter is set to a non-null node),
+    |" meaning that elements declared after it won't be returned.
     @exported
     fun all_env_elements(
         seq: Bool = true,

@@ -31,6 +31,7 @@ input_sources:
 
     - pkg7.ads
     - pkg7-child.ads
+    - pkg7-gen.adb
 
     - pkg8.ads
     - pkg8.adb

@@ -6702,19 +6702,15 @@ class BasicDecl: AdaNode {
     fun does_aspects_make_preelaborable(from_body: Bool): Bool = {
         bind imprecise_fallback = false;
 
-        (
-            # The following aspects apply to bodies...
-            self.has_aspect(s"Pure")
-        )
+        # The following aspects apply to bodies...
+        self.has_aspect(s"Pure")
         or self.has_aspect(s"Preelaborate")
         or self.has_aspect(s"Shared_Passive")
         or (
             not from_body
             and (
-                (
-                    # ... but the ones below apply only to specs
-                    self.has_aspect(s"Remote_Types")
-                )
+                # ... but the ones below apply only to specs
+                self.has_aspect(s"Remote_Types")
                 or self.has_aspect(s"Remote_Call_Interface")
             )
         )
@@ -22449,8 +22445,6 @@ class Pragma: AdaNode {
             .as[BasicDecl]
             .as_entity;
 
-        # TODO: This should be using a ._or, but is waiting on a fix for
-        # R903-028.
         # NOTE: The whole reason we have to implement custom resolution for
         # decls associated to a pragma, is because there can be several
         # associated decls, so the regular crossref mechanism is not

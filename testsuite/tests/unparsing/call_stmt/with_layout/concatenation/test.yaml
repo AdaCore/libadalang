@@ -1,0 +1,7 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that multiple `ConcatOp`s inside `CallStmt` are correctly indented
+  with tall layout.
+overridings:
+  - tall

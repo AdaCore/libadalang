@@ -1,0 +1,7 @@
+driver: unparser
+rule: stmt
+description: |
+  Base test for a `CallStmt`. Tests that the the underlying `CallExpr` breaks
+  with tall layout.
+overridings:
+  -tall

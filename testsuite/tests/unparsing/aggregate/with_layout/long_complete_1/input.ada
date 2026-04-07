@@ -1,0 +1,1 @@
+Foo := (Baaaar with Qux => Baaa, Baaaz => Bazzzzzzzz);

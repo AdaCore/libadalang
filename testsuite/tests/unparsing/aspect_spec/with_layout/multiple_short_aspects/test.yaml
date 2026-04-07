@@ -1,0 +1,6 @@
+driver: unparser
+rule: package_decl
+descrition: |
+  Base test for an `AspectSpec` node with multiple aspects with tall layout.
+overridings:
+  - tall

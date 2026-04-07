@@ -1,0 +1,7 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that no line break after the `with` keyword and the continuation line
+  indentation of `f_assocs` is added for tall layout.
+overridings:
+  - tall

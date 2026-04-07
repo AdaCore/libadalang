@@ -4,8 +4,4 @@ rule: subp_decl
 description: |
   Test an abstract SubpDecl formatting with tall layout.
 overridings:
-<<<<<<< HEAD
   - tall
-=======
-  - tall
->>>>>>> e8e061141 (Add layout tall config and testings)

@@ -1,0 +1,7 @@
+driver: unparser
+rule: subp_body
+descrition: |
+  For a AspectAssoc, test the line breaks are present between
+  each component for tall layout.
+overridings:
+  - tall

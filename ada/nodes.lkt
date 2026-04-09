@@ -2965,6 +2965,13 @@ class AspectAssoc: AdaNode {
                 }
             )
 
+        elif self.id.name_symbol() == s"Inline"
+        then
+            self.expr.do(
+                (e) => e.sub_equation() %and e.expect_bool_derived_type(),
+                default_val=%true
+            )
+
         # Ghost specification
         elif self.id.name_symbol() == s"Ghost"
         then

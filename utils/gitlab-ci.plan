@@ -1,0 +1,7 @@
+def run_ci():
+    # Do not rebuild gnatcov just because it depends on Libadalang: our goal
+    # here is only to compute Libadalang's code coverage, not to check the
+    # impact of Libadalang changes on gnatcov. Besides, building gnatcov's
+    # closure takes forever...
+    anod_install("gnatcov")
+    anod_test("libadalang", qualifier="coverage")

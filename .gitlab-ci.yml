@@ -24,7 +24,10 @@ build_and_test:
     # fairly fast to build anyway.
     - generic_anod_ci --add-dep eng/libadalang/langkit
     - . /tmp/ci_env.sh
-    - anod test libadalang $ACI_TRACK_QUALIFIER
+    - anod run
+        --plan utils/gitlab-ci.plan
+        --smart-rebuild
+        run_ci
 
     # We must parse testsuite results with the same version of e3-testsuite
     # that produced them. So we install e3-testsuite using the same sandbox as
@@ -32,9 +35,19 @@ build_and_test:
     - anod install e3-for-testing
     - eval $(anod printenv e3-for-testing)
     - testsuite_reports
+
+    # Gather Cobertura report files
+    - TEST_DIR=$(anod info test libadalang -Qcoverage --show working_dir)
+    - cp -r $TEST_DIR/build/coverage-report/cobertura coverage
   artifacts:
+    paths:
+      - xunit-*.xml
+      - coverage/*.xml
     reports:
       junit: xunit-*.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/*.xml
 
 
 check_issue:

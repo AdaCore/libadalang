@@ -76,14 +76,14 @@ class PythonRunner(object):
                     self.support_dir,
                     self.internal_support_dir
                 ),
-                'LIBADALANG_ROOTDIR': os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)),
-                    '..', '..',
-                ),
+                'LIBADALANG_ROOTDIR': self.driver.env.libadalang_root_dir,
                 'LIBADALANG_DISABLE_SHARED': str(
                     int(self.driver.disable_shared)
                 ),
                 'LIBADALANG_BUILD_MODE': self.driver.build_mode,
+                'LIBADALANG_COVERAGE': str(
+                    int(bool(self.driver.env.options.coverage))
+                ),
             }
         )
 

@@ -380,20 +380,27 @@ class BaseDriver(DiffTestDriver):
                 raise TestAbortWithError(f"invalid perf mode: {mode}")
 
     @property
-    def gpr_scenario_vars(self):
+    def gpr_args(self):
         """
         Return the project scenario variables to pass to GPRbuild.
 
         :rtype: list[str]
         """
         library_type = 'static' if self.disable_shared else 'relocatable'
-        return ['-XLIBRARY_TYPE={}'.format(library_type),
-                '-XXMLADA_BUILD={}'.format(library_type),
-                '-XBUILD_MODE={}'.format(self.build_mode),
+        result = [
+            '-XLIBRARY_TYPE={}'.format(library_type),
+            '-XXMLADA_BUILD={}'.format(library_type),
+            '-XBUILD_MODE={}'.format(self.build_mode),
 
-                # Make sure GPRbuild does not try to rebuild Libadalang, as
-                # this will break other tests running in parallel.
-                '-XLIBADALANG_EXTERNALLY_BUILT=true']
+            # Make sure GPRbuild does not try to rebuild Libadalang, as
+            # this will break other tests running in parallel.
+            '-XLIBADALANG_EXTERNALLY_BUILT=true',
+        ]
+        if self.env.options.coverage:
+            result += [
+                "--src-subdirs=gnatcov-instr", "--implicit-with=gnatcov_rts"
+            ]
+        return result
 
     def read_file(self, filename):
         """

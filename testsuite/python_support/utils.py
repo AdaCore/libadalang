@@ -8,6 +8,7 @@ import subprocess
 LAL_ROOTDIR = os.path.abspath(os.environ['LIBADALANG_ROOTDIR'])
 LAL_DISABLE_SHARED = bool(int(os.environ['LIBADALANG_DISABLE_SHARED']))
 LAL_BUILD_MODE = os.environ['LIBADALANG_BUILD_MODE'] or "dev"
+LAL_COVERAGE = bool(int(os.environ["LIBADALANG_COVERAGE"]))
 
 DIRECTORY_MISSING_RE = re.compile(
     r'.*\.gpr:\d+:\d+: warning:'
@@ -27,6 +28,10 @@ GPR_ARGS = [
     # other tests running in parallel.
     '-XLIBADALANG_EXTERNALLY_BUILT=true',
 ]
+if LAL_COVERAGE:
+    GPR_ARGS += [
+        "--src-subdirs=gnatcov-instr", "--implicit-with=gnatcov_rts"
+    ]
 
 
 def in_contrib(*args):

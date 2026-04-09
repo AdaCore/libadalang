@@ -62,8 +62,7 @@ class AdaAPIDriver(BaseDriver):
 
         # Build the test programs and then run them
         self.run_and_check(
-            ['gprbuild', '-Pgen'] + self.gpr_scenario_vars,
-            append_output=False,
+            ['gprbuild', '-Pgen'] + self.gpr_args, append_output=False
         )
         for i, (m, tp) in enumerate(zip(mains, test_programs)):
 

@@ -129,7 +129,7 @@ class LALTestsuite(Testsuite):
             help='Build mode for Libadalang'
         )
         parser.add_argument(
-            '--coverage', default=None,
+            '--coverage',
             help='When provided, compute the code coverage of the testsuite'
                  ' and produce a report in the given directory. This requires'
                  ' GNATcoverage and a coverage build of Libadalang.'
@@ -137,6 +137,11 @@ class LALTestsuite(Testsuite):
         parser.add_argument(
             '--gnatcov-instr-dir',
             help='Directory that contains instrumentation data files.'
+        )
+        parser.add_argument(
+            "--cobertura-root",
+            help="Root direcotry for the Cobertura report. If not passed,"
+            " Cobertura reports are not generated.",
         )
         parser.add_argument(
             '--restricted-env', action='store_true',
@@ -187,6 +192,10 @@ class LALTestsuite(Testsuite):
     def set_up(self):
         super().set_up()
         opts = self.env.options
+
+        self.env.libadalang_root_dir = os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))
+        )
 
         # The perf mode is peculiar and incompatible with several other modes
         if opts.perf_mode:
@@ -284,6 +293,7 @@ class LALTestsuite(Testsuite):
 
         # If requested, produce a coverage report
         if opts.coverage:
+            logger.info("Computing the coverage report")
             GNATcov().generate_report(
                 title='Libadalang Coverage Report',
                 instr_dir=opts.gnatcov_instr_dir,
@@ -291,7 +301,11 @@ class LALTestsuite(Testsuite):
                                               '*', '*.srctrace')),
                 output_dir=opts.coverage,
                 working_dir=self.working_dir,
+                cobertura_root=(
+                    opts.cobertura_root or self.env.libadalang_root_dir
+                ),
             )
+            logger.info("The coverage report is ready")
 
         # If requested, display a short summary of performance metrics
         if self.env.perf_mode:

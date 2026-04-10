@@ -1,0 +1,21 @@
+Analyzing pkg.adb
+#################
+
+Resolving xrefs for node <CallStmt pkg.adb:5:7-5:15>
+****************************************************
+
+Expr: <CallExpr pkg.adb:5:7-5:14>
+  references:    <DefiningName "Foo" pkg.ads:8:25-8:28>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" pkg.adb:5:7-5:10>
+  references:    <DefiningName "Foo" pkg.ads:8:25-8:28>
+  type:          None
+  expected type: None
+Expr: <Id "X" pkg.adb:5:12-5:13>
+  references:    <DefiningName "X" pkg.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["U"] pkg.ads:13:4-13:37>
+  expected type: <ConcreteTypeDecl ["U"] pkg.ads:13:4-13:37>
+
+
+Done.

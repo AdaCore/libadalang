@@ -10432,7 +10432,9 @@ class TypeDecl: BaseTypeDecl {
     fun refined_parent_primitives_env(): LexicalEnv =
         self.compute_primitives_env(
             include_self=false,
-            stop_at=self.previous_part()?.base_types()
+            stop_at=self.previous_part()?.base_types().mapcat(
+               (bt) => [bt] & bt.next_part().do((np) => [np])
+            )
         )
 
     fun get_imp_deref(): Entity[Expr] =

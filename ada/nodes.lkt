@@ -2965,6 +2965,13 @@ class AspectAssoc: AdaNode {
                 }
             )
 
+        elif self.id.name_symbol() == s"Inline"
+        then
+            self.expr.do(
+                (e) => e.sub_equation() %and e.expect_bool_derived_type(),
+                default_val=%true
+            )
+
         # Ghost specification
         elif self.id.name_symbol() == s"Ghost"
         then
@@ -10425,7 +10432,9 @@ class TypeDecl: BaseTypeDecl {
     fun refined_parent_primitives_env(): LexicalEnv =
         self.compute_primitives_env(
             include_self=false,
-            stop_at=self.previous_part()?.base_types()
+            stop_at=self.previous_part()?.base_types().mapcat(
+               (bt) => [bt] & bt.next_part().do((np) => [np])
+            )
         )
 
     fun get_imp_deref(): Entity[Expr] =

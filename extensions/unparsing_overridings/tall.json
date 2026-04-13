@@ -1,5 +1,98 @@
 {
   "node_configs": {
+    "AbstractFormalSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_overriding"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              "hardline",
+              {
+                "kind": "text",
+                "text": "is"
+              },
+              {
+                "kind": "text",
+                "text": "abstract"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_default_expr"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ]
+      }
+    },
+    "AbstractSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "text",
+            "text": "abstract"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
+    "AlternativesList": {
+      "sep": [
+        "hardline",
+        "recurse",
+        "whitespace"
+      ],
+      "table": null
+    },
     "AspectAssocList": {
       "table": {
         "must_break": true
@@ -62,6 +155,13 @@
           ]
         }
       }
+    },
+    "ConstraintList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ],
+      "table": null
     },
     "GenericSubpRenamingDecl": {
       "node": {

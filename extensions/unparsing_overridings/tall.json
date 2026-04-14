@@ -175,6 +175,114 @@
         "hardline"
       ]
     },
+    "EntryBody": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "group",
+                    "document": [
+                      {
+                        "kind": "text",
+                        "text": "entry"
+                      },
+                      "whitespace",
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_entry_name"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_index_spec"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_params"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  },
+                  {
+                    "kind": "continuationLineIndent",
+                    "contents": [
+                      "hardline",
+                      {
+                        "kind": "group",
+                        "document": [
+                          {
+                            "kind": "text",
+                            "text": "when"
+                          },
+                          {
+                            "kind": "recurse_field",
+                            "field": "f_barrier"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "hardline",
+              {
+                "kind": "text",
+                "text": "is"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              {
+                "kind": "recurse_field",
+                "field": "f_decls"
+              }
+            ]
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "begin"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_stmts"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "line",
+          "recurse"
+        ],
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
+      }
+    },
     "GenericSubpRenamingDecl": {
       "node": {
         "kind": "group",

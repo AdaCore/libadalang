@@ -169,6 +169,12 @@
       ],
       "table": null
     },
+    "ContractCaseAssocList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ]
+    },
     "GenericSubpRenamingDecl": {
       "node": {
         "kind": "group",

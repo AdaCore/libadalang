@@ -7986,46 +7986,67 @@ class BaseTypeDecl: BasicDecl {
         enum_lits & prim_subps & predefined_ops
     }
 
-    |" Return the environment containing the primitives for self, rebound
-    |" using the given rebindings.
+    |" Like ``direct_primitive_subps``, but only return the subprograms that
+    |" are operators of the type. This is used when resolving use type clauses,
+    |" to import only primitive operators.
+    @lazy
+    direct_primitive_operators: Array[InnerEnvAssoc] = {
+        val all_primitives = node.direct_primitive_subps;
+        all_primitives.filter(
+            (p) =>
+                p.value.as[BasicDecl].as_bare_entity
+                .defining_name().is_operator_name()
+        )
+    }
+
+    |" Return the environment containing the primitives for self.
+    |" If ``operators_only`` is true, the environment will only contain
+    |" primitives that are operators.
+    |" If ``with_primitive_md`` is true, the primitives will set the
+    |" ``primitive`` field of their metadata to be ``node``.
     fun own_primitives_env(
-        with_rebindings: EnvRebindings,
+        operators_only: Bool,
         with_primitive_md: Bool
     ): LexicalEnv = {
-        val prim_env = self.direct_primitives_env;
-        val md_env =
-            if with_primitive_md then
-                [prim_env].env_group(with_md=Metadata(primitive=node))
-            else
-                prim_env;
-        md_env.rebind_env(with_rebindings)
+        val prim_env =
+            if operators_only
+            then node.direct_primitive_operators_env
+            else node.direct_primitives_env;
+        if with_primitive_md then
+            [prim_env].env_group(with_md=Metadata(primitive=node))
+        else
+            prim_env
     }
 
     |" Return the environments containing the primitives for self and its
-    |" previous parts, if there are some. All returned environments are
-    |" rebound using the given rebindings.
+    |" previous parts, if there are some.
+    |" If ``operators_only`` is true, the environments will only contain
+    |" primitives that are operators.
+    |" If ``with_primitive_md`` is true, the primitives will set the
+    |" ``primitive`` field of their metadata to be ``node``.
     fun own_primitives_envs(
-        with_rebindings: EnvRebindings,
+        operators_only: Bool = false,
         with_primitive_md: Bool = true
     ): Array[LexicalEnv] =
         # If self has a previous part, it might have primitives too
-        self.previous_part(false).as[TypeDecl].do(
+        node.as_bare_entity.previous_part(false).as[TypeDecl].do(
             (pp) => [
-                self.own_primitives_env(with_rebindings, with_primitive_md),
-                pp.own_primitives_env(with_rebindings, with_primitive_md)
+                node.own_primitives_env(operators_only, with_primitive_md),
+                pp.own_primitives_env(operators_only, with_primitive_md)
             ],
             default_val=[
-                self.own_primitives_env(with_rebindings, with_primitive_md)
+                node.own_primitives_env(operators_only, with_primitive_md)
             ]
         )
 
-    |" Return the environments containing the primitives for self (if
-    |" ``include_self`` is True) and all its base types up to ``stop_at``:
-    |" upon rewinding the base type chain, if we stumble on one of the types
-    |" included in the ``stop_at`` set, we stop the recursion of that branch.
-    |" All returned environments are rebound using the given rebindings.
+    |" Return the environments containing the primitives of all self's base
+    |" types up to ``stop_at``: upon rewinding the base type chain, if we
+    |" stumble on one of the types included in the ``stop_at`` set, we stop
+    |" the recursion of that branch.
+    |" If ``operators_only`` is true, the environments will only contain
+    |" primitives that are operators.
     fun primitives_envs(
-        with_rebindings: EnvRebindings,
+        operators_only: Bool = false,
         stop_at: Array[Entity[BaseTypeDecl]]
     ): Array[LexicalEnv] = {
         # TODO: Not clear if the below origin.bind is correct, investigate
@@ -8045,28 +8066,34 @@ class BaseTypeDecl: BasicDecl {
                 if stop_at.contains(bt)
                 then null[Array[LexicalEnv]]
                 else
-                    bt.own_primitives_envs(with_rebindings)
-                    & bt.primitives_envs(with_rebindings, stop_at)
+                    bt.own_primitives_envs(operators_only=operators_only)
+                    & bt.primitives_envs(operators_only, stop_at)
             )
         )
     }
 
-    |" Return a environment containing all primitives accessible to self,
-    |" with the adjusted ``primitive_real_type`` metadata field.
+    |" Return the environment containing the primitives of self (if
+    |" ``include_self`` is true) and its base types up to ``stop_at``: upon
+    |" rewinding the base type chain, if we stumble on one of the types
+    |" included in the ``stop_at`` set, we stop the recursion of that branch.
+    |" If ``operators_only`` is true, the environment will only contain
+    |" primitives that are operators.
+    |" The returned environment is rebound using the current rebindings.
     @memoized
     fun compute_primitives_env(
         include_self: Bool = true,
+        operators_only: Bool = false,
         stop_at: Array[Entity[BaseTypeDecl]] =
             null[Array[Entity[BaseTypeDecl]]]
     ): LexicalEnv = {
         val parent_prims = self.primitives_envs(
-            with_rebindings=self.info.rebindings,
+            operators_only=operators_only,
             stop_at=stop_at
         ).env_group(with_md=Metadata(primitive_real_type=node));
 
-        if include_self then {
-            val own_prims = self.own_primitives_envs(
-                with_rebindings=self.info.rebindings,
+        val result = if include_self then {
+            val own_prims = node.own_primitives_envs(
+                operators_only=operators_only,
                 with_primitive_md=false
             );
             # Make sure that we don't include an empty env in the final grouped
@@ -8079,7 +8106,9 @@ class BaseTypeDecl: BasicDecl {
                 ([parent_prims] & own_prims).env_group()
         }
         else
-            parent_prims
+            parent_prims;
+
+        result.rebind_env(self.info.rebindings)
     }
 
     |" The environment that contains all subprograms that are direct
@@ -8088,6 +8117,15 @@ class BaseTypeDecl: BasicDecl {
     direct_primitives_env: LexicalEnv =
         dynamic_lexical_env(
             BaseTypeDecl.direct_primitive_subps,
+            transitive_parent=false
+        )
+
+    |" The environment that contains all operators that are direct
+    |" primitives of this type, that is, operators that are not inherited.
+    @lazy
+    direct_primitive_operators_env: LexicalEnv =
+        dynamic_lexical_env(
+            BaseTypeDecl.direct_primitive_operators,
             transitive_parent=false
         )
 
@@ -9575,7 +9613,8 @@ class BaseTypeDecl: BasicDecl {
 
     fun parent_primitives_env(): LexicalEnv = null[LexicalEnv]
 
-    fun primitives_env(): LexicalEnv = null[LexicalEnv]
+    fun primitives_env(operators_only: Bool = false): LexicalEnv =
+        null[LexicalEnv]
 
     |" Return whether this type is a record type.
     |"
@@ -9785,7 +9824,8 @@ class BaseSubtypeDecl: BaseTypeDecl {
     @with_dynvars(origin=null[AdaNode])
     fun get_type(): Entity[BaseTypeDecl]
 
-    fun primitives_env(): LexicalEnv = self.from_type_bound().primitives_env()
+    fun primitives_env(operators_only: Bool = false): LexicalEnv =
+        self.from_type_bound().primitives_env(operators_only)
 
     @with_dynvars(origin)
     fun array_ndims(): Int = self.get_type().array_ndims()
@@ -10213,8 +10253,11 @@ class TaskTypeDecl: BaseTypeDecl {
     fun defining_env(): LexicalEnv = self.children_env
 
     @memoized
-    fun primitives_env(): LexicalEnv =
-        self.compute_primitives_env(include_self=true)
+    fun primitives_env(operators_only: Bool = false): LexicalEnv =
+        self.compute_primitives_env(
+            include_self=true,
+            operators_only=operators_only
+        )
 
     @with_dynvars(origin=null[AdaNode])
     fun discriminants_list(
@@ -10478,8 +10521,11 @@ class TypeDecl: BaseTypeDecl {
     }
 
     @memoized
-    fun primitives_env(): LexicalEnv =
-        self.compute_primitives_env(include_self=true)
+    fun primitives_env(operators_only: Bool = false): LexicalEnv =
+        self.compute_primitives_env(
+            include_self=true,
+            operators_only=operators_only
+        )
 
     |" Return all the predefined operators for this type, as an array of env
     |" associations ready to be added to a lexical environment.
@@ -17605,7 +17651,10 @@ class Name: Expr {
     # recursion guards in lexical envs and memoized properties. See
     # libadalang#1307.
     fun name_designated_type_env(): LexicalEnv =
-        self.name_designated_type()?.primitives_env()
+        self.name_designated_type()?.primitives_env(
+            operators_only=
+                not self.parent.parent.as[UseTypeClause].has_all.as_bool()
+        )
 
     |" Return the compilation unit referenced by this name and for the given
     |" unit kind, if there is one.

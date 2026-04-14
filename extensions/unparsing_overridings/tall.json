@@ -103,6 +103,12 @@
         "must_break": true
       }
     },
+    "ConcatOperandList": {
+      "sep": [
+        "hardline",
+        "recurse"
+      ]
+    },
     "ConcreteFormalSubpDecl": {
       "node": {
         "kind": "group",

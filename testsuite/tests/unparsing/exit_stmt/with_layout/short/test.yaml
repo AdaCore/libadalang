@@ -1,0 +1,6 @@
+driver: unparser
+rule: exit_stmt
+description: |
+  Test that no line breaks were added.
+overridings:
+  - tall

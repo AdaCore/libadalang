@@ -1,0 +1,1 @@
+generic package Foo renames Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar with Baz;

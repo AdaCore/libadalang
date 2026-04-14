@@ -175,6 +175,12 @@
         "hardline"
       ]
     },
+    "ElsifExprPartList": {
+      "sep": [
+        "recurse",
+        "hardlineWithoutBreakParent"
+      ]
+    },
     "EntryBody": {
       "node": {
         "kind": "group",
@@ -333,6 +339,84 @@
         "f_aspects": [
           "hardline",
           "recurse"
+        ]
+      }
+    },
+    "IfExpr": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "if"
+              },
+              "whitespace",
+              {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_cond_expr"
+                }
+              }
+            ]
+          },
+          "line",
+          {
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "text",
+                  "text": "then"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_then_expr"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_alternatives"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_else_expr"
+          }
+        ]
+      },
+      "fields": {
+        "f_alternatives": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "hardlineWithoutBreakParent",
+            "recurse"
+          ]
+        },
+        "f_else_expr": [
+          "hardlineWithoutBreakParent",
+          "flushLineBreaks",
+          {
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "text",
+                  "text": "else"
+                },
+                "line",
+                "recurse"
+              ]
+            }
+          }
         ]
       }
     },

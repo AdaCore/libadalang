@@ -1,0 +1,7 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that if the `f_cond_expr` field of an `IfStmt` is long, the `IfStmt`
+  first breaks before the `then` keyword.
+overridings:
+  - tall

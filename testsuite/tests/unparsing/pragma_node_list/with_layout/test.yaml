@@ -1,0 +1,6 @@
+driver: unparser
+rule: case_stmt
+description: |
+  Test that each `PragmaNode` is separated by a line break.
+overridings:
+  - tall

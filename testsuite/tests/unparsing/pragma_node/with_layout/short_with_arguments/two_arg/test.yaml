@@ -1,0 +1,7 @@
+driver: unparser
+rule: pragma
+description: |
+  Test that pragma breaks after the `pragma` keyword as well as after `f_id`.
+  Also test the continuation line indentation for `f_id` and `f_args`
+overridings:
+  - tall

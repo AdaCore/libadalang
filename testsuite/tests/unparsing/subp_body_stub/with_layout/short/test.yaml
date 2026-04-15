@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_body_stub
+description: |
+  Test with tall layout.
+overridings:
+  - tall

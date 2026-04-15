@@ -1,0 +1,6 @@
+driver: unparser
+rule: pragma
+description: |
+  Test that the pragma stays on the same line.
+overridings:
+  - tall

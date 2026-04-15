@@ -1,0 +1,6 @@
+driver: unparser
+rule: pragma
+description: |
+  Base test for a short pragma. Test that no line breaks are added.
+overridings:
+  - tall

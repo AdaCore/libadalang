@@ -1,0 +1,12 @@
+description: |
+    This test checks the formatting of a use package clause using 
+    a dotted name exceeding the maximal line length to designate
+    the package.
+    It is expected to keep the use and the dotted name first field
+    on the same line and break before .; the other fields are aligned
+    taking as initial indent the first field starting position and
+    adding a line continuation indentation (i.e., 2 spaces) before each .
+    for the other fields on the next lines.
+
+driver: unparser
+rule: use_clause

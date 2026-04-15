@@ -1,4 +1,5 @@
-entry Get (V : out Integer) when Is_Set
+entry Get (V : out Integer)
+  when Is_Set
 is
 begin
    --  Entry is blocked until the

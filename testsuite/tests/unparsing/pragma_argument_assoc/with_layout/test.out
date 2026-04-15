@@ -1,4 +1,5 @@
-procedure Foo is
+procedure Foo
+is
 begin
    begin
       begin
@@ -13,9 +14,9 @@ begin
                         begin
                            Access_To_Incomplete_Views.Insert
                              (Retysp (Des_Ty),
-			      E,
-			      Pos,
-			      Ins);
+                              E,
+                              Pos,
+                              Ins);
 
                            pragma
                              Assert

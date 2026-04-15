@@ -1,0 +1,1 @@
+task single_task;

@@ -1,4 +1,5 @@
-procedure Foo is
+procedure Foo
+is
 begin
    declare
       Bar : Baz;

@@ -4,3 +4,5 @@ description: |
   Test an abstract SubpDecl formatting with tall layout.
 overridings:
   - tall
+control:
+    - [XFAIL, "True", "See eng/ide/gnatformat#252"]

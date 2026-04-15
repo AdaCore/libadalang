@@ -1,0 +1,6 @@
+driver: unparser
+rule: expr
+description: |
+  Test no line breaks are added.
+overridings:
+  - tall

@@ -1,4 +1,5 @@
-procedure Main is
+procedure Main
+is
 begin
    --  Comment A for the if
 

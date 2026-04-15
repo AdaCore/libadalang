@@ -3,7 +3,5 @@ function "+"
    return Foo
 is
 begin
-   return
-     A
-     + B;
+   return A + B;
 end "+";

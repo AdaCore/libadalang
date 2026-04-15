@@ -1,5 +1,5 @@
 function To_Source_Location_Range
-  (Self : Langkit_Text_Document'Class;
+  (Self    : Langkit_Text_Document'Class;
    A_Range : LSP.Structures.A_Range)
    return Langkit_Support.Slocs.Source_Location_Range
 is

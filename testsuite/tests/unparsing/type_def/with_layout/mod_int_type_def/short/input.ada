@@ -1,0 +1,1 @@
+type Day is mod <>;

@@ -1,0 +1,4 @@
+driver: unparser
+rule: type_decl
+overridings:
+  - tall

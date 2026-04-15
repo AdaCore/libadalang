@@ -1,5 +1,0 @@
-driver: unparser
-rule: paren_expr
-descrition: |
-  Test that the expression inside a `ParenExpr` has a continuation line
-  indentation of 1.

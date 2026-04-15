@@ -1,5 +1,6 @@
 function Line_Terminator
-  (Self : Text_Document'Class) return VSS.Strings.Virtual_String
+  (Self : Text_Document'Class)
+   return VSS.Strings.Virtual_String
 is
    use type VSS.Strings.Virtual_String;
 
@@ -19,9 +20,7 @@ begin
         --  Comments after else
         Self.Line_Terminator);
 
-   return
-     (if A
-      then B
-      -- Comment after then-expr
-      else C);
+   return (if A then B
+           -- Comment after then-expr
+           else C);
 end Line_Terminator;

@@ -1,0 +1,1 @@
+Fooooooooooooooooo : aliased constant Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar := Baaaaaaaaaaaaaaaaz;

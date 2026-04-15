@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Test line break after `loop`, line break before `end loop` and the alignment
+  of statments.

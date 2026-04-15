@@ -1,0 +1,7 @@
+description: |
+    This test checks that no extra white space is added before `;.
+ 
+driver: unparser
+rule: formal_type_decl
+overridings:
+  - tall

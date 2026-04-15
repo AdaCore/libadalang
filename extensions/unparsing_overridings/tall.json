@@ -289,6 +289,13 @@
         ]
       }
     },
+    "ExprAlternativesList": {
+      "sep": [
+        "hardline",
+        "recurse",
+        "whitespace"
+      ]
+    },
     "GenericSubpRenamingDecl": {
       "node": {
         "kind": "group",
@@ -418,6 +425,69 @@
             }
           }
         ]
+      }
+    },
+    "MembershipExpr": {
+      "node": {
+        "kind": "innerRoot",
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            },
+            "whitespace",
+            {
+              "kind": "group",
+              "document": {
+                "kind": "ifKind",
+                "field": "f_op",
+                "default": {
+                  "kind": "align",
+                  "width": " ",
+                  "contents": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_op"
+                    },
+                    "line",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_membership_exprs"
+                    }
+                  ],
+                  "bubbleUpLeadingTrivias": true,
+                  "bubbleUpTrailingTrivias": true
+                },
+                "matchers": [
+                  {
+                    "kind": "OpNotIn",
+                    "document": {
+                      "kind": "align",
+                      "width": "     ",
+                      "contents": [
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_op"
+                        },
+                        "line",
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_membership_exprs"
+                        }
+                      ],
+                      "bubbleUpLeadingTrivias": true,
+                      "bubbleUpTrailingTrivias": true
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "bubbleUpLeadingTrivias": true,
+        "bubbleUpTrailingTrivias": true
       }
     },
     "ParamSpecList": {

@@ -326,7 +326,7 @@ package body Libadalang.Env_Hooks is
 
                Comp_Unit : constant Compilation_Unit := Wrap_Node
                  (Ada_Node_P_Compilation_Unit_With_Name
-                    (Unit.Ast_Root, Unit, Internal_Name)).As_Compilation_Unit;
+                    (Unit.Ast_Root, Unit, Internal_Name, I_Kind)).As_Compilation_Unit;
 
                Decl : constant Basic_Decl :=
                  (if Comp_Unit.Is_Null

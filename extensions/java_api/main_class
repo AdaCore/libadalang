@@ -80,7 +80,7 @@ nat = c_api.get_name
                 throw new EnumException(
                     "Cannot get SourceFileMode from " + cValue
                 );
-            return (SourceFileMode) map.get(cValue);
+            return map.get(cValue);
         }
 
         /**
@@ -164,7 +164,7 @@ nat = c_api.get_name
                 throw new EnumException(
                     "Cannot get ProjectOption from " + cValue
                 );
-            return (ProjectOption) map.get(cValue);
+            return map.get(cValue);
         }
 
         /**

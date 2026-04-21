@@ -13,6 +13,7 @@ nat = c_api.get_name
      * Exception to represent errors during project manipulation
      */
     public static final class ProjectManagerException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
         ProjectManagerException(
             final String message
         ) {

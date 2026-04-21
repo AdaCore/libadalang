@@ -784,6 +784,12 @@ package body Libadalang.Helpers is
          Reparsed : Boolean)
       is null;
 
+      overriding procedure Unit_Diagnostic_Callback
+        (Self    : in out Cmd_Line_Event_Handler_Type;
+         Context : Analysis_Context'Class;
+         Unit    : Analysis_Unit'Class;
+         Message : Text_Type);
+
       overriding procedure Release (Self : in out Cmd_Line_Event_Handler_Type)
       is null;
 
@@ -819,20 +825,38 @@ package body Libadalang.Helpers is
             end if;
 
             Self.Already_Seen_Missing_Files.Include (Filename);
-
-            Print_Error
-              ((if Self.Keep_Going_On_Missing_Dependency
-                then "WARNING: "
-                else "ERROR: ")
-               & "File "
-               & Ada.Directories.Simple_Name (Image (Name))
-               & " not found");
-
-            if not Self.Keep_Going_On_Missing_Dependency then
-               GNAT.OS_Lib.OS_Exit (1);
-            end if;
+            Self.Unit_Diagnostic_Callback
+              (Context, From,
+               To_Text
+                 ("File "
+                  & Ada.Directories.Simple_Name (Image (Name))
+                  & " not found"));
          end;
       end Unit_Requested_Callback;
+
+      ------------------------------
+      -- Unit_Diagnostic_Callback --
+      ------------------------------
+
+      procedure Unit_Diagnostic_Callback
+        (Self    : in out Cmd_Line_Event_Handler_Type;
+         Context : Analysis_Context'Class;
+         Unit    : Analysis_Unit'Class;
+         Message : Text_Type)
+      is
+         pragma Unreferenced (Context, Unit);
+      begin
+         Print_Error
+           ((if Self.Keep_Going_On_Missing_Dependency
+             then "WARNING: "
+             else "ERROR: ")
+            & Image (Message));
+
+         if not Self.Keep_Going_On_Missing_Dependency then
+            GNAT.OS_Lib.OS_Exit (1);
+         end if;
+      end Unit_Diagnostic_Callback;
+
    end Cmd_Line_Event_Handler;
 
    --------------------------------

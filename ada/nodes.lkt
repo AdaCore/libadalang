@@ -23576,11 +23576,33 @@ class Subunit: AdaNode {
         )
         .as_bare_entity
 
+    |" Emit a unit diagnostic event for this orphaned subunit (i.e. a subunit
+    |" whose parent body has no corresponding stub). See
+    |" ``Subunit.env_hook_subunit`` for context on why this is needed.
+    |"
+    |" .. note:: This property should remain private as it is only used for
+    |"     env hooks.
+    @external()
+    @call_non_memoizable_because(
+        "this property has side effects (calls Unit_Diagnostic_Callback)"
+    )
+    fun emit_missing_subunit_root(): Bool
+
     |" Helper for AdaNode.env_hook. Handle sub-units (separates).
     fun env_hook_subunit(): Bool = {
-        # Subunit handling is very simple: we just want to fetch the containing
-        # unit.
-        val _ = node.root_unit();
+        # Load the containing unit so that stub() can search it. If the parent
+        # body is missing, this will also trigger a unit_requested event.
+        val root = node.root_unit();
+
+        # If the parent body was found but has no stub for this subunit, emit
+        # a diagnostic so that callers can detect orphaned subunits. Guard on
+        # root being non-null: if the parent body is missing, stub() would also
+        # be null, but that case is already covered by the unit_requested event
+        # above.
+        val _ = if not root.is_null and node.stub().is_null then
+            node.emit_missing_subunit_root()
+        else
+            false;
 
         false
     }

@@ -1,6 +1,7 @@
 Analyzing pkg-inner.adb
 #######################
 
+WARNING: orphaned subunit: no stub found in parent body
 Resolving xrefs for node <AssignStmt pkg-inner.adb:5:4-5:11>
 ************************************************************
 

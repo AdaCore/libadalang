@@ -35,10 +35,10 @@
             " sources.",
         )
         self.parser.add_argument(
-            '-k', '--keep-going-on-missing-file', action='store_true',
-            help="Behavior when encountering missing files. By default, exit"
-                 " with an error on the first missing dependency. Continue"
-                 " with a warning in the option is passed."
+            '-k', '--keep-going-on-missing-dependency', action='store_true',
+            help="Behavior when encountering missing dependencies. By default,"
+                 " exit with an error on the first missing dependency. Continue"
+                 " with a warning if the option is passed."
         )
 
     def create_unit_provider(self):
@@ -73,7 +73,7 @@
 
     def create_event_handler(self) -> Opt[EventHandler]:
         return self.CommandLineEventHandler(
-            self.args.keep_going_on_missing_file
+            self.args.keep_going_on_missing_dependency
         )
 
     class CommandLineEventHandler(EventHandler):
@@ -81,8 +81,8 @@
         Event handler to warn for each missing file.
         """
 
-        def __init__(self, keep_going_on_missing_file: bool):
-            self.keep_going_on_missing_file = keep_going_on_missing_file
+        def __init__(self, keep_going_on_missing_dependency: bool):
+            self.keep_going_on_missing_dependency = keep_going_on_missing_dependency
             self.already_seen_missing_files: Set[str] = set()
 
         def unit_requested_callback(self,
@@ -105,9 +105,9 @@
 
         def report_missing_file(self, filename: str) -> None:
             basename = os.path.basename(filename)
-            prefix = "WARNING" if self.keep_going_on_missing_file else "ERROR"
+            prefix = "WARNING" if self.keep_going_on_missing_dependency else "ERROR"
             print(f"{prefix}: File {basename} not found")
-            if not self.keep_going_on_missing_file:
+            if not self.keep_going_on_missing_dependency:
                 # This is a callback from the C world, so propagating a
                 # SystemExit exception like ``sys.exit`` does is not going to
                 # work. Use the OS-level exit system call instead to avoid

@@ -53,14 +53,15 @@ package Libadalang.Helpers is
    --  ``Abort_App``.
 
    function Command_Line_Event_Handler
-     (Keep_Going_On_Missing_File : Boolean) return Event_Handler_Reference;
+     (Keep_Going_On_Missing_Dependency : Boolean)
+      return Event_Handler_Reference;
    --  Create an event handler with default callbacks for command line
    --  applications.
    --
    --  When a dependency is not found, a warning or error will be emitted on
    --  the standard error stream.
    --
-   --  ``Keep_Going_On_Missing_File`` will determine the behavior when
+   --  ``Keep_Going_On_Missing_Dependency`` will determine the behavior when
    --  encountering a missing dependency. If ``True``, a warning will be shown
    --  but resolution will continue. If ``False``, application will exit.
 
@@ -322,12 +323,13 @@ package Libadalang.Helpers is
            (Parser, Long => "--symbolic-traceback",
             Help         => "Show symbolic tracebacks for exceptions");
 
-         package Keep_Going_On_Missing_File is new Parse_Flag
+         package Keep_Going_On_Missing_Dependency is new Parse_Flag
            (Parser,
-            Short => "-k", Long => "--keep-going-on-missing-file",
-            Help  => "Behavior when encountering missing files. By default,"
-                     & " exit with an error on the first missing dependency."
-                     & " Continue with a warning in the option is passed.");
+            Short => "-k", Long => "--keep-going-on-missing-dependency",
+            Help  => "Behavior when encountering missing dependencies. By"
+                     & " default, exit with an error on the first missing"
+                     & " dependency. Continue with a warning if the option"
+                     & " is passed.");
 
          package Sort_By_Basename is new Parse_Flag
            (Parser,

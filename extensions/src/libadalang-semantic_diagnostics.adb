@@ -264,7 +264,8 @@ package body Libadalang.Semantic_Diagnostics is
       -----------------------
 
       function Render_Basic_Decl (Decl : Basic_Decl) return Text_Type is
-         Name      : constant Text_Type := Decl.P_Defining_Name.Text;
+         Name      : constant Text_Type :=
+            "'" & Decl.P_Defining_Name.Text & "'";
          Instances : constant Generic_Instantiation_Array :=
             Decl.P_Generic_Instantiations;
       begin
@@ -299,11 +300,16 @@ package body Libadalang.Semantic_Diagnostics is
            when others =>
              "anonymous type defined at " & Sloc_Image (Node));
       elsif Node.Kind in Ada_Classwide_Type_Decl then
-         return Basic_Node_Renderer (Node.Parent) & "'Class";
+         declare
+            Str : Text_Type := Basic_Node_Renderer (Node.Parent);
+         begin
+            pragma Assert (Str'Last > 0 and then Str (Str'Last) = ''');
+            return Str & "Class'";
+         end;
       elsif Node = Node.P_Universal_Int_Type then
-         return "universal integer";
+         return "'universal integer'";
       elsif Node = Node.P_Universal_Real_Type then
-         return "universal real";
+         return "'universal real'";
       else
          return Render_Basic_Decl (Node.As_Basic_Decl);
       end if;

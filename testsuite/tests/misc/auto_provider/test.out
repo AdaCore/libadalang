@@ -41,7 +41,7 @@ Expr: <Int foo.adb:5:44-5:45>
 Resolving xrefs for node <CallStmt foo.adb:8:4-8:8>
 ***************************************************
 
-foo.adb:8:4: error: no such entity
+foo.adb:8:4: error: cannot find name 'Bar'
 8 |    Bar;
   |    ^^^
 

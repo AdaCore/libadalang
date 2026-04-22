@@ -4,7 +4,7 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["A"] test.adb:6:4-6:25>
 *************************************************************
 
-test.adb:6:15: error: no such entity
+test.adb:6:15: error: cannot find name 'Fo'
 6 |    A : Acc := Fo'Access;
   |               ^^
 

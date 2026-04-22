@@ -7,7 +7,7 @@ Analyzing test.adb
 Resolving xrefs for node <CallStmt test.adb:3:4-3:12>
 *****************************************************
 
-test.adb:3:4: error: no such entity
+test.adb:3:4: error: cannot find name 'Foo'
 3 |    Foo.Bar;
   |    ^^^
 

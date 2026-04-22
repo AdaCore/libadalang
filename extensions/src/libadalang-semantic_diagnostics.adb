@@ -289,7 +289,7 @@ package body Libadalang.Semantic_Diagnostics is
       if Node.Is_Null then
          return "<null>";
       elsif Node.Kind not in Ada_Basic_Decl then
-         return "<unknown>";
+         return "'" & Node.Text & "'";
       elsif Node.Kind in Ada_Anonymous_Type_Decl_Range then
          return (case Node.As_Anonymous_Type_Decl.F_Type_Def.Kind is
            when Ada_Base_Type_Access_Def =>

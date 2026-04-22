@@ -1102,8 +1102,9 @@ class AdaNode implements Node[AdaNode] {
 
     |" Used as a predicate during name resolution to emit a diagnostic
     |" when an entity is not found.
-    @predicate_error("no such entity")
-    fun missing_entity_error(): Bool = not node.is_null
+    @predicate_error("cannot find name $name")
+    fun missing_entity_error(@ignored name: Entity[Name]): Bool =
+        not node.is_null
 
     @predicate_error("no such assertion level")
     fun missing_assertion_level_error(): Bool = not node.is_null
@@ -17280,7 +17281,7 @@ class Name: Expr {
         node.ref_var() <- null[Entity[AdaNode]]
         %and {
             bind error_location = node;
-            AdaNode.missing_entity_error%(node.ref_var())
+            AdaNode.missing_entity_error%(node.ref_var(), node.as_bare_entity)
         }
 
     @with_dynvars(env, origin, entry_point)

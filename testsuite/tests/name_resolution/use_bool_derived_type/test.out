@@ -274,7 +274,7 @@ Expected name resolution failure for block <ExprFunction ["Foo"] test_invalid.ad
 Resolving xrefs for node <PragmaNode test_invalid.adb:12:4-12:35>
 *****************************************************************
 
-test_invalid.adb:12:17: error: no such entity
+test_invalid.adb:12:17: error: cannot find name 'Foo'
 12 |    pragma Post (Foo, X and not Y);
    |                 ^^^
 

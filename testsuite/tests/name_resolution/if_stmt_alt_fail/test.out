@@ -20,7 +20,7 @@ Expr: <Id "Process" test.adb:10:10-10:17>
 Resolving xrefs for node <ElsifStmtPart test.adb:11:7-12:18>
 ************************************************************
 
-test.adb:11:13: error: no such entity
+test.adb:11:13: error: cannot find name 'Bar'
 11 |       elsif Bar then
    |             ^^^
 
@@ -44,7 +44,7 @@ Expr: <Id "Process" test.adb:14:10-14:17>
 Resolving xrefs for node <IfStmt test.adb:19:7-25:14>
 *****************************************************
 
-test.adb:19:10: error: no such entity
+test.adb:19:10: error: cannot find name 'Bar'
 19 |       if Bar then
    |          ^^^
 

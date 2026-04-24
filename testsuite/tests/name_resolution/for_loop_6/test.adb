@@ -13,5 +13,5 @@ begin
    for It in V.Iterate when Key (It) > 2 loop
       null;
    end loop;
-   pragma Test_Block;
+   pragma Test_Block_UID;
 end Test;

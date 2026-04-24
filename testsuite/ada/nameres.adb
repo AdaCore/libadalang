@@ -275,10 +275,10 @@ procedure Nameres is
    type Supported_Pragma is
      (Ignored_Pragma, Error_In_Pragma, Pragma_Config, Pragma_Section,
       Pragma_Test, Pragma_Test_Statement, Pragma_Test_Statement_UID,
-      Pragma_Test_Block, Pragma_Find_All_References);
+      Pragma_Test_Block, Pragma_Test_Block_UID, Pragma_Find_All_References);
 
    subtype Test_Pragma is Supported_Pragma
-   range Pragma_Test_Statement .. Pragma_Test_Block;
+   range Pragma_Test_Statement .. Pragma_Test_Block_UID;
 
    type Resolution_Status is (Success, Failure);
 
@@ -319,10 +319,15 @@ procedure Nameres is
             --  case the node might change (for example in tests where we
             --  resolve runtime things).
 
-            | Pragma_Test_Block =>
+            | Pragma_Test_Block
             --  Run name resolution on all xref entry points in the statement
             --  that precedes this pragma, or on the whole compilation unit if
             --  top-level.
+
+            | Pragma_Test_Block_UID =>
+            --  Same as Pragma_Test_Block, but show the unique identifying name
+            --  of declarations instead of the node image.
+
             Target          : Ada_Node;
             Expected_Status : Resolution_Status;
 
@@ -553,8 +558,11 @@ procedure Nameres is
          return Decode_Pragma_With_Expect_Fail_Argument
            (Pragma_Test_Statement_UID, Node.Previous_Sibling, Args);
 
-      elsif Name = "Test_Block" then
+      elsif Name in "Test_Block" | "Test_Block_UID" then
          declare
+            Kind   : constant Supported_Pragma :=
+              (if Name = "Test_Block" then Pragma_Test_Block
+               else Pragma_Test_Block_UID);
             Parent : constant Ada_Node := Node.Parent.Parent;
             Target : constant Ada_Node :=
               (if Parent.Kind = Ada_Compilation_Unit
@@ -562,7 +570,7 @@ procedure Nameres is
                else Node.Previous_Sibling);
          begin
             return Decode_Pragma_With_Expect_Fail_Argument
-              (Pragma_Test_Block, Target, Args);
+              (Kind, Target, Args);
          end;
 
       elsif Name = "Find_All_References" then
@@ -912,7 +920,8 @@ procedure Nameres is
       function Resolve_Block
         (Block            : Ada_Node;
          In_Instantiation : Boolean := False;
-         Expect_Failure   : Boolean := False) return Resolution_Status;
+         Expect_Failure   : Boolean := False;
+         Show_Slocs       : Boolean := True) return Resolution_Status;
       --  Call Resolve_Node on all xref entry points (according to
       --  Is_Xref_Entry_Point) in Block except for Block itself.
 
@@ -1025,10 +1034,11 @@ procedure Nameres is
 
             Empty := False;
 
-         when Pragma_Test_Block =>
+         when Pragma_Test_Block | Pragma_Test_Block_UID =>
             Status := Resolve_Block
               (P.Target, False,
-               (if P.Expected_Status = Failure then True else False));
+               (if P.Expected_Status = Failure then True else False),
+               Show_Slocs => P.Kind /= Pragma_Test_Block_UID);
             Notify_Resolution_Status
               (P.Expected_Status, Status,
                " for block " & P.Target.Image);
@@ -1052,7 +1062,8 @@ procedure Nameres is
       function Resolve_Block
         (Block            : Ada_Node;
          In_Instantiation : Boolean := False;
-         Expect_Failure   : Boolean := False) return Resolution_Status
+         Expect_Failure   : Boolean := False;
+         Show_Slocs       : Boolean := True) return Resolution_Status
       is
 
          Ret : Resolution_Status := Success;
@@ -1069,6 +1080,7 @@ procedure Nameres is
             if Node /= Block then
                if Resolve_Node
                  (Node,
+                  Show_Slocs       => Show_Slocs,
                   In_Instantiation => In_Instantiation,
                   Failure_Handling => (if Expect_Failure
                                        then Accept_Failure
@@ -1238,7 +1250,8 @@ procedure Nameres is
                   end if;
 
                   if Resolve_Block
-                    (Generic_Decl.As_Ada_Node, True, Xpct_Failure) = Failure
+                    (Generic_Decl.As_Ada_Node, True, Xpct_Failure,
+                     Show_Slocs) = Failure
                   then
                      Ret := Failure;
                   end if;
@@ -1250,7 +1263,8 @@ procedure Nameres is
                            "Traversing generic node " & Generic_Body.Image);
                      end if;
                      if Resolve_Block
-                       (Generic_Body.As_Ada_Node, True, Xpct_Failure) = Failure
+                       (Generic_Body.As_Ada_Node, True, Xpct_Failure,
+                        Show_Slocs) = Failure
                      then
                         Ret := Failure;
                      end if;
@@ -1263,7 +1277,7 @@ procedure Nameres is
             then
                if Resolve_Block
                  (Node.Parent.As_Body_Stub.P_Next_Part_For_Decl.As_Ada_Node,
-                  True, Xpct_Failure) = Failure
+                  True, Xpct_Failure, Show_Slocs) = Failure
                then
                   Ret := Failure;
                end if;

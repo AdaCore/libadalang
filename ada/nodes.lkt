@@ -7072,6 +7072,120 @@ class BasicDecl: AdaNode {
                 "Not a subprogram"
             )
         )
+
+    |" Wrapper around ``generalized_indexing_fn_candidate`` for use when
+    |" ``origin`` does not appear as an actual parameter of a known call, so
+    |" no enclosing subprogram specification is available. Equivalent to
+    |" calling ``generalized_indexing_fn_candidate`` with ``subp_spec`` set to
+    |" ``null`` (see that property for the full parameter documentation).
+    |"
+    |" This wrapper exists because a LogicVar cannot be passed as a null
+    |" literal at the call site during name resolution.
+    |"
+    |" ``fn_constant`` is true when the candidate indexing function being
+    |" tested belongs to the constant indexing functions of ``typ``. When false
+    |" the candidate indexing function being tested belongs to the variable
+    |" indexing functions of ``typ``.
+    |"
+    |" ``typ`` is the type of the indexed object.
+    |"
+    |" .. note:: This property should remain private as it is only used for
+    |"     name resolution.
+    @with_dynvars(origin)
+    fun generalized_indexing_fn_candidate_no_spec(
+        fn_constant: Bool,
+        typ: Entity[BaseTypeDecl]
+    ): Bool =
+        self.generalized_indexing_fn_candidate(
+            null[Entity[BaseSubpSpec]], fn_constant, typ
+        )
+
+    |" Return whether a candidate indexing function is valid when resolving a
+    |" generalized indexing access on this object declaration according to
+    |" :rmlink:`4.1.6` 12/3-16/3.
+    |"
+    |" ``self`` is the declaration of the object being indexed.
+    |"
+    |" ``fn_constant`` is true when the candidate indexing function being
+    |" tested belongs to the constant indexing functions of ``typ``. When false
+    |" the candidate indexing function being tested belongs to the variable
+    |" indexing functions of ``typ``.
+    |"
+    |" ``typ`` is the type of the indexed object. It must have a
+    |" ``Constant_Indexing`` or ``Variable_Indexing`` aspect (or both).
+    |"
+    |" ``subp_spec`` is the specification of the subprogram call enclosing
+    |" ``origin``, when ``origin`` appears as an actual parameter. It is used
+    |" to determine whether the corresponding formal parameter is writable (out
+    |" or in out mode). Pass ``null`` when no enclosing call specification is
+    |" available; in that case, case (b) of the constant indexing rules is
+    |" skipped. See ``generalized_indexing_fn_candidate_no_spec`` for a
+    |" wrapper that handles this case in a logic equation context.
+    |"
+    |" The ``origin`` dynvar must be set to the node of the generalized
+    |" indexing expression before calling this property.
+    |"
+    |" .. note:: This property should remain private as it is only used for
+    |"     name resolution.
+    @with_dynvars(origin)
+    fun generalized_indexing_fn_candidate(
+        subp_spec: Entity[BaseSubpSpec],
+        fn_constant: Bool,
+        typ: Entity[BaseTypeDecl]
+    ): Bool = {
+        # If the ``Constant_Indexing`` aspect is specified for ``typ`` then the
+        # generalized indexing is interpreted as a constant indexing under the
+        # following circumstances (:rmlink:`4.1.6`):
+        if typ.has_aspect(s"Constant_Indexing") and (
+           # 1. when ``Variable_Indexing`` aspect is not specified for ``typ``;
+           not typ.has_aspect(s"Variable_Indexing")
+           # 2. when ``self`` denotes a constant;
+           or self.is_constant_object()
+           # 3. when the generalized_indexing is used within a primary where a
+           # name denoting a constant is permitted, i.e. when it is not used
+           # in any of the following contexts that require a variable:
+           or not (
+               (
+                   # a. the name in the LHS of an assignment:
+                   origin == origin.parent.as[AssignStmt]?.dest
+                   # b. the name is used for an out or in out parameter:
+                   or subp_spec.do(
+                       (ss) => origin.parent.as[ParamAssoc].do(
+                           # We use match_param_list in order to find the
+                           # corresponding formal parameter mode.
+                           (pa) => ss.match_param_list(
+                               pa.parent.as[AssocList].as_entity,
+                               # Propagate the dottable_subp flag from the
+                               # outer call's resolved spec: when the outer
+                               # call uses dot notation its first formal is
+                               # the implicit self object (not in the actual
+                               # list), so match_param_list must skip it.
+                               is_dottable_subp=ss.info.md.dottable_subp
+                           ).find(
+                               (p) => p.actual.assoc == pa.as_entity
+                           ).formal.basic_decl().as[ParamSpec]?.mode?
+                               .is_writable()
+                       )
+                   )
+                   # c. the name is in an object renaming:
+                   or (
+                       origin.parent is RenamingClause
+                       and origin.parent.parent is ObjectDecl
+                   )
+               )
+               # d. unless there is no ``Variable_Indexing`` aspect
+               # defined:
+               and typ.has_aspect(s"Variable_Indexing")
+           )
+        )
+        # Check that the indexing kind (constant vs variable) of the candidate
+        # function matches the context: constant indexing requires fn_constant
+        # to be true, variable indexing requires it to be false.
+        then
+           fn_constant
+        else
+           not fn_constant
+    }
 }
 
 |" Contained (directly or indirectly) in an AbstractStateDeclExpr, and is used
@@ -19096,26 +19210,55 @@ class CallExpr: Name {
         # Handle the case where the type has user defined indexing
         elif derefed_typ?.has_ud_indexing()
         then
-            (derefed_typ.constant_indexing_fns()
-             & derefed_typ.variable_indexing_fns()).logic_any((fn) => {
-                val spec = fn.subp_spec_or_null();
-                val formals = spec.unpacked_formal_params();
-                val ret_type = spec.return_type();
-                val params = self.params();
+            # It's important to have constant indexing functions first in the
+            # list here so that they are evaluated first during resolution.
+            [derefed_typ.constant_indexing_fns(),
+             derefed_typ.variable_indexing_fns()].ilogic_any((fns, i) => {
+                val constant_indexing = i == 0;
 
-                # The user indexing function that matches has one more
-                # parameter than that call expression.
-                if formals.length() == params.length() + 1
-                then
-                    node.type_var() <- ret_type
-                    %and node.subp_spec_var() <- spec
-                    %and params.ilogic_all(
-                        (param, i) =>
-                        param.expr().expected_type_var()
-                        <- formals.at(i + 1).formal_decl().formal_type()
-                        %and param.expr().matches_expected_type()
-                    )
-                else %false
+                fns.logic_any((fn) => {
+                    val spec = fn.subp_spec_or_null();
+                    val formals = spec.unpacked_formal_params();
+                    val ret_type = spec.return_type();
+                    val params = self.params();
+
+                    # The user indexing function that matches has one more
+                    # parameter than that call expression.
+                    if formals.length() == params.length() + 1
+                    then
+                        {
+                            bind origin = node;
+
+                            node.parent.as[ParamAssoc].do(
+                                (pa) =>
+                                BasicDecl.generalized_indexing_fn_candidate%(
+                                    node.ref_var(),
+                                    # pa.parent -> AssocList,
+                                    # pa.parent.parent -> CallExpr.
+                                    pa.parent.parent.as[CallExpr]
+                                    .subp_spec_var(),
+                                    constant_indexing,
+                                    derefed_typ
+                                ),
+                                default_val=
+                                BasicDecl
+                                .generalized_indexing_fn_candidate_no_spec%(
+                                    node.ref_var(),
+                                    constant_indexing,
+                                    derefed_typ
+                                )
+                            )
+                        }
+                        %and node.type_var() <- ret_type
+                        %and node.subp_spec_var() <- spec
+                        %and params.ilogic_all(
+                            (param, i) =>
+                            param.expr().expected_type_var()
+                            <- formals.at(i + 1).formal_decl().formal_type()
+                            %and param.expr().matches_expected_type()
+                        )
+                    else %false
+                })
             })
         else %false
     }

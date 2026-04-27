@@ -1,0 +1,1 @@
+pragma Qux (Garply => "Corge");

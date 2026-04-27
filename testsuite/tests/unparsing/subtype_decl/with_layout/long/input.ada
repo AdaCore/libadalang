@@ -1,0 +1,1 @@
+subtype Foo_Bar_Bar_Foo is Foo_Bar_Bar_Bar_Bar_Bar.Bar_Foo_Foo_Foo_Foo_Foo_Foo_Foo;

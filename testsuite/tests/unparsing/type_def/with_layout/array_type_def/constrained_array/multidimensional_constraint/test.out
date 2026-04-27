@@ -1,0 +1,4 @@
+type Table is
+  array (1 .. 10,
+         1 .. 10)
+  of Integer;

@@ -1,0 +1,7 @@
+driver: unparser
+rule: subp_spec
+description: |
+  Test that line breaks are added for tall layout when
+  the specification fits on one line.
+overridings:
+  - tall

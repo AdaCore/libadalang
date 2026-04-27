@@ -1,0 +1,6 @@
+driver: unparser
+rule: generic_decl
+description: |
+  Test the tall layout for a generic subprogram declaration.
+overridings:
+  - tall

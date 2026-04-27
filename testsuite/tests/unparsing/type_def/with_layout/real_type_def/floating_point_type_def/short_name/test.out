@@ -1,0 +1,1 @@
+type Floating_Point_Type_Decl is digits 10 range -1.0 .. 1.0;

@@ -1,0 +1,6 @@
+driver: unparser
+rule: no_type_object_renaming_decl
+description: |
+  Base test case for a short `NoTypeObjectRenamingDecl`.
+overridings:
+  - tall

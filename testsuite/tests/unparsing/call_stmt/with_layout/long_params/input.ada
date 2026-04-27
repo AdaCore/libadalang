@@ -1,0 +1,1 @@
+Ada.Text_IO.Put_Line (Foo, Prettier_Ada.Documents.Json.Serialize (Document));

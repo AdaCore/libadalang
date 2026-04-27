@@ -1,0 +1,7 @@
+driver: unparser
+rule: generic_formal_decl
+description: |
+  Test the tall layout for  a linebreak is added befora generic declaration
+  with a long default expression.
+overridings:
+  - tall

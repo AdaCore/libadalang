@@ -1,5 +1,0 @@
-driver: unparser
-rule: subp_decl
-description: TODO
-overridings:
-  - tall

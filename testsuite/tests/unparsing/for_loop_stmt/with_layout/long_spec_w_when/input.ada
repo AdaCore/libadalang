@@ -1,0 +1,7 @@
+for Fooooooooooooooooooooooooooooooooooooooooooooooo of
+  Baaaaaaaaaaaaaaaaaaaaaar (Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar)
+  when Fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.Is_Baz
+loop
+   null;
+   null;
+end loop;

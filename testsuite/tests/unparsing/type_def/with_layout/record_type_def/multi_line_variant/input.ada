@@ -1,0 +1,17 @@
+type Alignment_Data_Type (Kind : Align_Kind_Type := None) is record
+   case Kind is
+      when Width =>
+         N : Natural; -- Number of spaces or tabs
+
+      when Text =>
+         T : Ada.Strings.Unbounded.Unbounded_String;
+
+      when Dedent
+            | Dedent_To_Root
+            | Root
+            | Inner_Root
+            | Continuation_Line_Indent
+            | None =>
+         null;
+   end case;
+end record;

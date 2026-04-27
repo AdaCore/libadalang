@@ -1,0 +1,18 @@
+with A;   use A;
+with A.B; use A.B;
+
+with C;
+pragma Foo;
+use C;
+with C.D; use C.D;
+
+with A;
+--  Comment
+use A;
+
+with AAAAAAAAAAAAAAAAAAAA.BBBBBBBBBBBBBBBBBBBB.CCCCCCCCCCCCCCCCCCC;
+use AAAAAAAAAAAAAAAAAAAA.BBBBBBBBBBBBBBBBBBBB.CCCCCCCCCCCCCCCCCCC;
+
+package P is
+end P;
+

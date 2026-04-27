@@ -1,0 +1,1 @@
+type Integer_Type  is range 1 .. 2_000;

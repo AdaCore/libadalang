@@ -1,0 +1,7 @@
+driver: unparser
+rule: subp_body
+description: |
+  Test that when `f_decls` is empty, there is not an empty line between `is`
+  and `begin`.
+overridings:
+  - tall

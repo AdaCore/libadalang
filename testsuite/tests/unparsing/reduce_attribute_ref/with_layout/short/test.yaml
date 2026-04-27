@@ -1,0 +1,6 @@
+driver: unparser
+rule: expr
+description: |
+  Test that when a `ReduceAttributeRef` breaks with tall layout.
+overridings:
+  - tall

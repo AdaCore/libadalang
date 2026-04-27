@@ -1,0 +1,6 @@
+driver: unparser
+rule: param_spec
+description: |
+  Base test case for a short `ParamSpec`.
+overridings:
+  - tall

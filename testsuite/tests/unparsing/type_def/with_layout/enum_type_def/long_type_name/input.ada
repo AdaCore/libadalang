@@ -1,0 +1,1 @@
+type Veeeeeeeeeeerrrry_Looooooooonnnnnnng_Daaaaaaaaaayyyy is (Mon, Tue, Wed, Thu, Fri, Sat, Sun);

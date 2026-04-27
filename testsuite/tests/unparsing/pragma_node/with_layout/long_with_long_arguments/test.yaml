@@ -1,0 +1,6 @@
+driver: unparser
+rule: pragma
+description: |
+  Test that when the pragma and its arguments are long, a like break is added
+  after the `pragma` keyword as well as after `f_id`. Also test the
+  continuation line indentation for `f_id` and `f_args`

@@ -1,0 +1,6 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that no line breaks are added.
+overridings:
+  - tall

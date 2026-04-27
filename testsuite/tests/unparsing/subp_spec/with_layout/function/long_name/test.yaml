@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_spec
+description: |
+  Test line break after the funtion name and parameters with tall layout.
+overridings:
+  - tall

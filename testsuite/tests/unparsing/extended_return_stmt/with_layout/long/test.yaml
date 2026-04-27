@@ -1,0 +1,6 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that there is a line break after `f_decl`.
+overridings:
+  - tall

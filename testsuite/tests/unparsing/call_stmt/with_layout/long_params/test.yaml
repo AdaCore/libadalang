@@ -1,0 +1,6 @@
+driver: unparser
+rule: stmt
+description: |
+  Tests that the underlying `CallExpr` breaks with tall layout.
+overridings:
+  - tall

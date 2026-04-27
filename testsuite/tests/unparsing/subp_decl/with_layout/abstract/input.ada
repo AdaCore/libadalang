@@ -1,0 +1,3 @@
+    procedure Take(Element : out Element_Type;
+                   From : in out Set) is abstract;
+

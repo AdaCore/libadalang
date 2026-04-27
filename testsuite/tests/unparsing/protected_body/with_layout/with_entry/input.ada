@@ -1,0 +1,11 @@
+protected body Resource is
+   entry Seize when not Busy is
+   begin
+      Busy := True;
+   end Seize;
+
+   procedure Release is
+   begin
+      Busy := False;
+   end Release;
+end Resource;

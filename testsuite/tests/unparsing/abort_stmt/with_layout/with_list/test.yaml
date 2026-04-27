@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of an abort statement
+    with a list of task names.
+    It is expected the declaration stays on a single line.
+    Checks the behavior with tall layout stays as it is.
+ 
+driver: unparser
+rule: abort_stmt
+overridings:
+  - tall

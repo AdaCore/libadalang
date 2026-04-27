@@ -1,0 +1,6 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that line breaks are added with tall layout.
+overridings:
+  - tall

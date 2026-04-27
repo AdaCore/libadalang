@@ -1,0 +1,6 @@
+driver: unparser
+rule: expr
+description: |
+  Test the line break after the `=>` token.
+overridings:
+  - tall

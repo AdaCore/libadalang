@@ -1,0 +1,7 @@
+driver: unparser
+rule: expr
+description: |
+  Base test for `CallExpr`. Test that a whitespace is added between `f_name`
+  and `f_suffix`but no line break with tall layout before the `(`.
+overridings:
+  - tall

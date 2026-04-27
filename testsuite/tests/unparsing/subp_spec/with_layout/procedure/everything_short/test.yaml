@@ -1,0 +1,7 @@
+driver: unparser
+rule: subp_spec
+description: |
+  Base test for a procedure with tall layout.
+  All other variations are tests with functions.
+overridings:
+  - tall

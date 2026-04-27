@@ -1,0 +1,7 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that there is a hard line break between `f_decl` and `f_stmt`. Test that
+  `f_decl` and `f_stmt` both have the same indentation.
+overridings:
+  - tall

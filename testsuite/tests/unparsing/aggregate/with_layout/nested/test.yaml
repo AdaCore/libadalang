@@ -1,0 +1,7 @@
+driver: unparser
+rule: expr
+description: |
+    This test checks the formatting of a qualified expression inside another
+    qualified expression with tall layout.
+overridings:
+  - tall

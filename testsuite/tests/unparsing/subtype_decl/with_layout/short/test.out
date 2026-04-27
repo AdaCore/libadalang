@@ -1,0 +1,1 @@
+subtype Foo is Bar;

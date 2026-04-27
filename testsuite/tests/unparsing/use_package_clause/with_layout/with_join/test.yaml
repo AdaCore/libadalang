@@ -1,0 +1,5 @@
+description: |
+    This test checks the formatting of with/use clauses sequences for the same
+    packages.
+
+driver: unparser

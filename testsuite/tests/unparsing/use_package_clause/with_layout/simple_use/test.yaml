@@ -1,0 +1,6 @@
+description: |
+    This test checks the formatting of a simple use package clause
+    with a dotted name used to designate the package.
+
+driver: unparser
+rule: use_clause

@@ -1,0 +1,1 @@
+type Table is array (1 .. first_dimension, 1..second_dimension,1 .. third_dimension, 1..fourth_dimension) of Integer;

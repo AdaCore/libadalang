@@ -1,0 +1,6 @@
+driver: unparser
+rule: type_decl
+description: |
+  Test the a short `ModIntTypeDef` does not break.
+overridings:
+  - tall

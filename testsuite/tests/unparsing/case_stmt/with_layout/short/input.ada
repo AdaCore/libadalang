@@ -1,0 +1,1 @@
+case Foo is when Bar => null; when Baz => null; when others => null; end case;

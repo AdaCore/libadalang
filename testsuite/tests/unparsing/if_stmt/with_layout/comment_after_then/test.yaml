@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_body
+overridings:
+  - tall
+control:
+    - [XFAIL, "True", "See eng/ide/gnatformat#235"]

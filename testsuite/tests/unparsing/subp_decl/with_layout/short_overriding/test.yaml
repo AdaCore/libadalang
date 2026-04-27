@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test the tall layout for overriding function.
+overridings:
+  - tall

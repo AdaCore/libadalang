@@ -1,0 +1,7 @@
+driver: unparser
+rule: package_decl
+descrition: |
+  For a long single line `F_Aspects`, test that a line break is added
+  before the `with` keyword.
+overridings:
+  - tall

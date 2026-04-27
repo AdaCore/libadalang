@@ -1,0 +1,11 @@
+description: |
+    This test checks the formatting of an abort statement
+    with a long task name.
+    It is expected the declaration breaks after `abort`
+    keyword and the new line be indented.
+    Checks the behavior with tall layout stays as it is.
+ 
+driver: unparser
+rule: abort_stmt
+overridings:
+  - tall

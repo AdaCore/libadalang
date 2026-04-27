@@ -1,0 +1,1 @@
+Foo:aliased constant Bar:=Baz;

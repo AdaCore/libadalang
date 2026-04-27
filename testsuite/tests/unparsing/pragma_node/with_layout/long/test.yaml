@@ -1,0 +1,7 @@
+driver: unparser
+rule: pragma
+description: |
+  Test that when the pragma is long, a line break is added after the `pragma`
+  keyword.
+overridings:
+  - tall

@@ -1,0 +1,6 @@
+driver: unparser
+rule: expr
+description: |
+  Test that no break line with tall layout.
+overridings:
+  - tall

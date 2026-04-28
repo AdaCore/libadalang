@@ -76,3 +76,11 @@
 
 -> Resolving <CallExpr test_dot.adb:72:41-72:46> to <DefiningName "Get_Const" test_dot.adb:17:16-17:25>
 
+== test_array.adb ==
+
+-> Resolving <CallExpr test_array.adb:41:14-41:24> to <| DefiningName "Constant_Reference" a-convec.ads:313:13-313:31 [test_array.adb:26:7] |>
+
+-> Resolving <CallExpr test_array.adb:44:4-44:14> to <| DefiningName "Reference" a-convec.ads:318:13-318:22 [test_array.adb:26:7] |>
+
+-> Resolving <CallExpr test_array.adb:44:23-44:33> to <| DefiningName "Constant_Reference" a-convec.ads:313:13-313:31 [test_array.adb:26:7] |>
+

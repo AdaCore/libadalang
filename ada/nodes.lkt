@@ -11331,6 +11331,8 @@ class SyntheticSubpDecl: BasicSubpDecl {
 |" of a declaration.
 @abstract
 class Body: BasicDecl {
+    fun is_constant_object(): Bool = true
+
     |" Helper for the AdaNode.env_hook. Handle library-level unit body nodes.
     fun env_hook_body(): Bool =
         # If this a library-level subprogram/package body, load the spec

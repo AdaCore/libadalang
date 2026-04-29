@@ -22158,7 +22158,14 @@ class UnOp: Expr {
                             ref_node=self.op,
                             decl_node=null[Entity[AdaNode]]
                         );
-                    node.type_var() <-> node.expr.type_var()
+                    # If the operand has a universal type (e.g. an integer
+                    # literal), infer the operator's type from the expected
+                    # type provided by the context, rather than propagating
+                    # the universal type upward.
+                    BaseTypeDecl.is_universal_type%(node.expr.type_var())
+                    %and node.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                        node.expr.expected_type_var()
+                    ) %or node.type_var() <-> node.expr.type_var()
                 }
                 %and (
                     if self.op is Op.Plus | Op.Minus | Op.Abs

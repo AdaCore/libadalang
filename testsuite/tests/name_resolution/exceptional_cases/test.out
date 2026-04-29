@@ -39,7 +39,7 @@ Expr: <OpGt ">" test.adb:8:32-8:33>
   type:          None
   expected type: None
 Expr: <UnOp test.adb:8:34-8:38>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpMinus "-" test.adb:8:34-8:35>
   references:    None

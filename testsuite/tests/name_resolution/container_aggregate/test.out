@@ -520,7 +520,7 @@ Expr: <Int ai12_0212.adb:134:27-134:28>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 Expr: <UnOp ai12_0212.adb:134:32-134:37>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <SubtypeDecl ["Small_Integer"] ai12_0212.adb:19:7-19:58>
 Expr: <OpMinus "-" ai12_0212.adb:134:32-134:33>
   references:    None

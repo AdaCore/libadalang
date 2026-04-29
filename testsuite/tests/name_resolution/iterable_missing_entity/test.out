@@ -15,7 +15,7 @@ Expr: <Aggregate test_iterable.adb:5:8-7:36>
 Resolving xrefs for node <AggregateAssoc test_iterable.adb:5:9-5:22>
 ********************************************************************
 
-test_iterable.adb:5:18: error: no such entity
+test_iterable.adb:5:18: error: cannot find name 'Fist'
 5 |        (First => Fist,
   |                  ^^^^
 

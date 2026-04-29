@@ -8,7 +8,7 @@ Resolving xrefs for node <SubpSpec main.adb:2:4-2:20>
 Resolving xrefs for node <ObjectDecl ["A"] main.adb:3:7-3:19>
 *************************************************************
 
-main.adb:3:11: error: no such entity
+main.adb:3:11: error: cannot find name 'Integre'
 3 |       A : Integre;
   |           ^^^^^^^
 

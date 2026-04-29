@@ -4,7 +4,7 @@ Analyzing test.adb
 Resolving xrefs for node <ConcreteFormalSubpDecl ["Add"] test.adb:5:12-6:18>
 ****************************************************************************
 
-test.adb:6:10: error: no such entity
+test.adb:6:10: error: cannot find name 'DefaAdd'
 6 |       is DefaAdd;
   |          ^^^^^^^
 

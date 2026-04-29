@@ -16,7 +16,7 @@ Expr: <Chr "'a'" testchrlit.adb:6:9-6:12>
 Resolving xrefs for node <AssignStmt testchrlit.adb:9:4-9:12>
 *************************************************************
 
-testchrlit.adb:9:9: error: expected Char, got universal integer
+testchrlit.adb:9:9: error: expected 'Char', got 'universal integer'
 9 |    C := 12;
   |         ^^
 

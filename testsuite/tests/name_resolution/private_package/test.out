@@ -20,7 +20,7 @@ Expr: <Id "T" p-q-i.ads:2:10-2:11>
 Resolving xrefs for node <ObjectDecl ["Z"] p-q-i.ads:5:4-5:12>
 **************************************************************
 
-p-q-i.ads:5:10: error: no such entity
+p-q-i.ads:5:10: error: cannot find name 'T'
 5 |    Z : Q.T;
   |          ^
 
@@ -46,7 +46,7 @@ Expr: <Id "T" p-q-i.ads:9:26-9:27>
 Resolving xrefs for node <ObjectDecl ["Inner_Public_Z"] p-q-i.ads:12:7-12:28>
 *****************************************************************************
 
-p-q-i.ads:12:26: error: no such entity
+p-q-i.ads:12:26: error: cannot find name 'T'
 12 |       Inner_Public_Z : Q.T;
    |                          ^
 
@@ -72,7 +72,7 @@ Expr: <Id "T" p-q-i.ads:15:27-15:28>
 Resolving xrefs for node <ObjectDecl ["Inner_Private_Z"] p-q-i.ads:18:7-18:29>
 ******************************************************************************
 
-p-q-i.ads:18:27: error: no such entity
+p-q-i.ads:18:27: error: cannot find name 'T'
 18 |       Inner_Private_Z : Q.T;
    |                           ^
 

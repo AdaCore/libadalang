@@ -4,7 +4,7 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["V"] test.adb:2:4-2:24>
 *************************************************************
 
-test.adb:2:19: error: expected Integer, got Boolean
+test.adb:2:19: error: expected 'Integer', got 'Boolean'
 2 |    V : Integer := True;
   |                   ^^^^
 
@@ -14,7 +14,7 @@ Expected name resolution failure for node <ObjectDecl ["V"] test.adb:2:4-2:24>
 Resolving xrefs for node <AssignStmt test.adb:5:4-5:13>
 *******************************************************
 
-test.adb:5:9: error: expected Integer, got universal real
+test.adb:5:9: error: expected 'Integer', got 'universal real'
 5 |    V := 2.3;
   |         ^^^
 

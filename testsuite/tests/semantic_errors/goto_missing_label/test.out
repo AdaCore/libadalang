@@ -4,7 +4,7 @@ Analyzing test.adb
 Resolving xrefs for node <GotoStmt test.adb:3:4-3:17>
 *****************************************************
 
-test.adb:3:9: error: no such entity
+test.adb:3:9: error: cannot find name 'Missing'
 3 |    goto Missing;
   |         ^^^^^^^
 

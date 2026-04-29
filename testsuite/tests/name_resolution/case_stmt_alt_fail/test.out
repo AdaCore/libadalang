@@ -28,7 +28,7 @@ Expr: <Id "Process" test.adb:12:13-12:20>
 Resolving xrefs for node <CaseStmtAlternative test.adb:13:10-14:21>
 *******************************************************************
 
-test.adb:13:15: error: no such entity
+test.adb:13:15: error: cannot find name 'B'
 13 |          when B =>
    |               ^
 

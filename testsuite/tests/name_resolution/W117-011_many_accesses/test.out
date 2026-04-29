@@ -4,7 +4,7 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["V"] test.adb:5:4-13:16>
 **************************************************************
 
-test.adb:5:17: error: no such entity
+test.adb:5:17: error: cannot find name 'Missing_Vector'
 5 |    V : constant Missing_Vector :=
   |                 ^^^^^^^^^^^^^^
 

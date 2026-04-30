@@ -267,6 +267,14 @@ package body Libadalang.Expr_Eval is
         (Call_Expr : LAL.Call_Expr; Bounds : LAL.Bin_Op) return Eval_Result;
       --  Helper to evaluate function attribute references
 
+      function Eval_Val_For_Enum
+        (Attr_Name : String;
+         Typ       : LAL.Base_Type_Decl;
+         Root_Type : LAL.Base_Type_Decl;
+         Pos       : Big_Integer) return Eval_Result;
+      --  Helper to evaluate 'Val and 'Enum_Val on an enum type: return the
+      --  enum literal at position Pos, with special-casing for char types.
+
       function Expr_Eval (E : LAL.Expr) return Eval_Result;
       --  Helper to evaluate the given expr in the current environment. Note
       --  that this is a regular function (instead of an expression function)
@@ -625,6 +633,48 @@ package body Libadalang.Expr_Eval is
          end case;
       end Eval_Range_Attr;
 
+      -----------------------
+      -- Eval_Val_For_Enum --
+      -----------------------
+
+      function Eval_Val_For_Enum
+        (Attr_Name : String;
+         Typ       : LAL.Base_Type_Decl;
+         Root_Type : LAL.Base_Type_Decl;
+         Pos       : Big_Integer) return Eval_Result
+      is
+         Index    : constant Integer := To_Integer (Pos);
+         Enum_Val : Enum_Literal_Decl := No_Enum_Literal_Decl;
+      begin
+         if Index > -1 then
+            if (Index <= Character'Pos (Character'Last)
+                and then Root_Type = Typ.P_Std_Char_Type)
+              or else (Index <= Wide_Character'Pos (Wide_Character'Last)
+                       and then Root_Type = Typ.P_Std_Wide_Char_Type)
+              or else Root_Type = Typ.P_Std_Wide_Wide_Char_Type
+              --  Do not need to check for Wide_Wide_Character'Last here,
+              --  a runtime exception will be raised if Index is out of range.
+            then
+               --  Due to how we define the Character type in our artificial
+               --  __standard unit (and its Wide_Character and
+               --  Wide_Wide_Character variants), enum literals for these
+               --  types are not defined. Return the corresponding Integer
+               --  value instead so that Eval_As_Int keeps working.
+               return Create_Int_Result (Typ, Pos);
+            end if;
+
+            Enum_Val := Child
+              (Root_Type.As_Type_Decl.F_Type_Def.As_Enum_Type_Def
+               .F_Enum_Literals, Index + 1).As_Enum_Literal_Decl;
+         end if;
+
+         if Enum_Val.Is_Null then
+            raise Property_Error with "out of bounds " & Attr_Name & " on enum";
+         end if;
+
+         return Create_Enum_Result (Typ, Enum_Val);
+      end Eval_Val_For_Enum;
+
       ------------------------
       -- Eval_Function_Attr --
       ------------------------
@@ -747,50 +797,8 @@ package body Libadalang.Expr_Eval is
                if Typ.P_Is_Int_Type then
                   return Create_Int_Result (Typ, Val.Int_Result);
                elsif Typ.P_Is_Enum_Type then
-                  declare
-                     Index : constant Integer :=
-                        To_Integer (Val.Int_Result);
-
-                     Enum_Val : Enum_Literal_Decl :=
-                        No_Enum_Literal_Decl;
-
-                     Root_Type : constant LAL.Base_Type_Decl :=
-                        Typ.P_Root_Type;
-                  begin
-                     if Index > -1 then
-                        if (Index <= Character'Pos (Character'Last)
-                            and then Root_Type = Typ.P_Std_Char_Type)
-                          or else (Index <= Wide_Character'Pos
-                                            (Wide_Character'Last)
-                                   and then Root_Type =
-                                            Typ.P_Std_Wide_Char_Type)
-                          or else Root_Type = Typ.P_Std_Wide_Wide_Char_Type
-                          --  Do not need to check for Wide_Wide_Character'Last
-                          --  here, a runtime exception will be raised if Index
-                          --  is out of range.
-                        then
-                           --  Due to how we define the Character type in our
-                           --  artifical __standard unit (and its
-                           --  Wide_Character and Wide_Wide_Character
-                           --  variants), the 'Val attribute cannot return an
-                           --  Enum_Literal_Decl since they are not defined. In
-                           --  order to not fail the Eval_As_Int function, we
-                           --  return the corresponding Integer value instead.
-                           return Create_Int_Result (Typ, Val.Int_Result);
-                        end if;
-
-                        Enum_Val := Child
-                           (Root_Type.As_Type_Decl.F_Type_Def.As_Enum_Type_Def
-                            .F_Enum_Literals, Index + 1).As_Enum_Literal_Decl;
-                     end if;
-
-                     if Enum_Val.Is_Null then
-                        raise Property_Error with
-                          "out of bounds 'Val on enum";
-                     end if;
-
-                     return Create_Enum_Result (Typ, Enum_Val);
-                  end;
+                  return Eval_Val_For_Enum
+                    ("'Val", Typ, Typ.P_Root_Type, Val.Int_Result);
                else
                   raise Property_Error with
                      "'Val only applicable to scalar types";

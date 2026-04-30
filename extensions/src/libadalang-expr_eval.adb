@@ -927,6 +927,96 @@ package body Libadalang.Expr_Eval is
                      "'Width evaluation is limited to discrete types";
                end if;
             end;
+         elsif Name in "enum_rep" then
+            if not Args.Is_Null and then Args.Children_Count /= 1 then
+               raise Property_Error with
+                  "'Enum_Rep requires exactly one argument";
+            end if;
+
+            declare
+               --  Support two forms:
+               --    T'Enum_Rep (X)  -- type prefix with argument
+               --    X'Enum_Rep      -- object or literal prefix, no argument
+               --  (per GNAT RM 4.21, the no-argument form is equivalent to
+               --  typ'Enum_Rep (X) where typ is the type of X).
+               Ret_Typ : constant Base_Type_Decl :=
+                  AR.P_Universal_Int_Type.As_Base_Type_Decl;
+               Val     : constant Eval_Result :=
+                  (if Args.Is_Null
+                   then Expr_Eval (AR.F_Prefix.As_Expr)
+                   else Expr_Eval (Args.Child (1).As_Param_Assoc.F_R_Expr));
+               Typ     : constant Base_Type_Decl :=
+                  (if Args.Is_Null
+                   then Val.Expr_Type
+                   else AR.F_Prefix.P_Name_Designated_Type);
+            begin
+               if not Args.Is_Null and then not Typ.P_Is_Enum_Type then
+                  raise Property_Error with
+                     "'Enum_Rep only applicable to enum types";
+               end if;
+
+               case Val.Kind is
+               when Int =>
+                  --  Standard char type: representation equals position
+                  return Create_Int_Result (Ret_Typ, Val.Int_Result);
+               when Enum_Lit =>
+                  --  P_Enum_Rep returns the encoding from the representation
+                  --  clause when present, and the position ('Pos) otherwise.
+                  return Create_Int_Result
+                    (Ret_Typ, Val.Enum_Result.P_Enum_Rep);
+               when others =>
+                  raise Property_Error with
+                     "'Enum_Rep expects an enum argument";
+               end case;
+            end;
+         elsif Name in "enum_val" then
+            if Args.Is_Null or else Args.Children_Count /= 1 then
+               raise Property_Error with
+                  "'Enum_Val requires exactly one argument";
+            end if;
+
+            declare
+               Typ : constant Base_Type_Decl :=
+                  AR.F_Prefix.P_Name_Designated_Type;
+               Val : constant Eval_Result :=
+                  Expr_Eval (Args.Child (1).As_Param_Assoc.F_R_Expr);
+            begin
+               if Val.Kind /= Int then
+                  raise Property_Error with
+                     "'Enum_Val expects an integer argument";
+               end if;
+
+               if not Typ.P_Is_Enum_Type then
+                  raise Property_Error with
+                     "'Enum_Val only applicable to enum types";
+               end if;
+
+               declare
+                  Root_Type  : constant Base_Type_Decl := Typ.P_Root_Type;
+                  Rep_Clause : constant LAL.Enum_Rep_Clause :=
+                     Root_Type.P_Get_Enum_Representation_Clause;
+               begin
+                  if not Rep_Clause.Is_Null then
+                     --  'Enum_Val is the inverse of 'Enum_Rep: return the
+                     --  literal whose representation equals the argument.
+                     for Lit of Root_Type.As_Type_Decl.F_Type_Def
+                                  .As_Enum_Type_Def.F_Enum_Literals
+                     loop
+                        if Lit.As_Enum_Literal_Decl.P_Enum_Rep = Val.Int_Result
+                        then
+                           return Create_Enum_Result
+                             (Typ, Lit.As_Enum_Literal_Decl);
+                        end if;
+                     end loop;
+                     raise Property_Error with
+                        "'Enum_Val: no enum value with given representation";
+                  end if;
+
+                  --  No representation clause: argument is the position
+                  return Eval_Val_For_Enum
+                    ("'Enum_Val", Typ, Root_Type, Val.Int_Result);
+               end;
+            end;
          else
             raise Property_Error
               with "Unhandled attribute ref: " & Image (Attr.Text);

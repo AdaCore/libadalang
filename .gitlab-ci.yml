@@ -39,6 +39,12 @@ build_and_test:
     # Gather Cobertura report files
     - TEST_DIR=$(anod info test libadalang -Qcoverage --show working_dir)
     - cp -r $TEST_DIR/build/coverage-report/cobertura coverage
+
+    # Print metrics for integration in MR summary
+    - print-global-coverage coverage/*.xml
+
+    # Display the coverage summary in the job log for convenience
+    - cat $TEST_DIR/results/new/comment
   artifacts:
     paths:
       - xunit-*.xml
@@ -48,6 +54,7 @@ build_and_test:
       coverage_report:
         coverage_format: cobertura
         path: coverage/*.xml
+  coverage: '/^Line Coverage:\s+(\d+\.\d+)$/'
 
 
 check_issue:

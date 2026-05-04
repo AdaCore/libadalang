@@ -14,7 +14,7 @@ import shutil
 import statistics
 import subprocess
 import sys
-from typing import Any, Callable
+from typing import Any, Callable, IO
 
 from e3.collection.dag import DAG
 from e3.testsuite import Testsuite, logger
@@ -288,13 +288,14 @@ class LALTestsuite(Testsuite):
                 ],
             )
 
-    def tear_down(self):
+    def dump_testsuite_result(self) -> None:
         opts = self.main.args
 
         # If requested, produce a coverage report
+        self.coverage_summary = []
         if opts.coverage:
             logger.info("Computing the coverage report")
-            GNATcov().generate_report(
+            coverage_report = GNATcov().generate_report(
                 title='Libadalang Coverage Report',
                 instr_dir=opts.gnatcov_instr_dir,
                 traces=glob.glob(os.path.join(self.env.traces_dir,
@@ -307,16 +308,31 @@ class LALTestsuite(Testsuite):
             )
             logger.info("The coverage report is ready")
 
+            # Produce a code coverage summary
+            self.coverage_summary = coverage_report.format_summary()
+
+        super().dump_testsuite_result()
+        if self.coverage_summary:
+            logger.info("Coverage summary:")
+            for line in self.coverage_summary:
+                logger.info(line)
+
         # If requested, display a short summary of performance metrics
         if self.env.perf_mode:
             self.perf_report()
 
-        super().tear_down()
+    def write_comment_file(self, comment_file: IO[str]) -> None:
+        super().write_comment_file(comment_file)
 
-    def write_comment_file(self, f):
-        f.write('Control condition env:')
+        comment_file.write('\n\nControl condition env:')
         for k, v in sorted(self.env.control_condition_env.items()):
-            f.write('\n  {}={}'.format(k, v))
+            comment_file.write('\n  {}={}'.format(k, v))
+
+        if self.coverage_summary:
+            print("", file=comment_file)
+            print("Coverage summary:", file=comment_file)
+            for line in self.coverage_summary:
+                print(f"  {line}", file=comment_file)
 
     def perf_report(self) -> None:
         """

@@ -842,7 +842,7 @@ procedure Nameres is
          Langkit_Support.Diagnostics.Output.Print_Diagnostic
            (Diag,
             Message.Location.Unit,
-            (if Filename = "__standard"
+            (if In_Standard
              then "in Standard"
              else Filename),
             Style);

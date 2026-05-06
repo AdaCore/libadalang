@@ -1,0 +1,17 @@
+Working on node <SubtypeDecl ["S_1"] test.ads:2:4-2:26>
+=======================================================
+
+Eval 'node.p_get_aspect("Linker_Section")'
+Result: <Aspect exists=True node=<PragmaNode test.ads:9:4-9:47> value=<Str "".my_section"" test.ads:9:32-9:45> inherited=False>
+
+Working on node <SubtypeDecl ["S_2"] test.ads:4:4-4:65>
+=======================================================
+
+Eval 'node.p_get_aspect("Linker_Section")'
+Result: <Aspect exists=True node=<AspectAssoc test.ads:4:31-4:64> value=<ParenExpr test.ads:4:49-4:64> inherited=False>
+
+Working on node <SubtypeDecl ["S_3"] test.ads:6:4-6:26>
+=======================================================
+
+Eval 'node.p_get_aspect("Linker_Section")'
+Result: <Aspect exists=False node=None value=None inherited=False>

@@ -1,0 +1,21 @@
+Analyzing p.ads
+###############
+
+Resolving xrefs for node <PragmaNode p.ads:3:4-3:47>
+****************************************************
+
+Expr: <Id "Linker_Section" p.ads:3:11-3:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "T_1" p.ads:3:27-3:30>
+  references:    <DefiningName "T_1" p.ads:2:12-2:15>
+  type:          None
+  expected type: None
+Expr: <Str "".my_section"" p.ads:3:32-3:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+
+Done.

@@ -22478,6 +22478,20 @@ class Pragma: AdaNode {
              | s"Taint_Sanitizer"
         then
            self.args.at(0).assoc_expr().as[Aggregate].taint_aggregate_equation()
+        elif self.id.name_is(s"Linker_Section")
+        then
+            self.args.at(0).assoc_expr().as![Name].xref_no_overloading()
+            %and self.args.at(1).do(
+                (arg) =>
+                arg.assoc_expr().do(
+                    (section_name) =>
+                    section_name.expected_type_var() <- node.std_string_type()
+                    %and section_name.sub_equation()
+                    %and section_name.matches_expected_type(),
+                    default_val=%true
+                ),
+                default_val=%true
+            )
         else
             self.args.logic_all(
                 (a) =>
@@ -22539,6 +22553,7 @@ class Pragma: AdaNode {
                 | s"Interrupt_Handler"
                 | s"Attach_Handler"
                 | s"Predicate"
+                | s"Linker_Section"
         then self.args.at(0)?.assoc_expr().as[Name].do((v1) => [v1])
         elif self.id.name_is(s"Obsolescent")
         then

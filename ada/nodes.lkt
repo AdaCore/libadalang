@@ -22540,7 +22540,22 @@ class Pragma: AdaNode {
         then
             self.args.logic_all((arg) => {
                 val parg = arg.as[PragmaArgumentAssoc];
-                parg.expr.spark_variant_equation(parg.name.as[BaseId])
+                if parg.expr is BaseAggregate
+                then
+                    parg.name.as[Identifier].do(
+                        (id) => id.bind_assertion_level(),
+                        default_val=%false
+                    )
+                    %and parg.expr.as![BaseAggregate].assocs.logic_all(
+                        (inner_assoc) => {
+                            val ia = inner_assoc.as[AggregateAssoc];
+                            ia.r_expr.spark_variant_equation(
+                                ia.designators[0].as[BaseId]
+                            )
+                        }
+                    )
+                else
+                    parg.expr.spark_variant_equation(parg.name.as[BaseId])
             })
         elif self.id.name_is(s"Debug")
         then

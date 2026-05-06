@@ -1,3 +1,4 @@
+pragma Assertion_Level (L1);
 with Ada.Numerics.Big_Numbers.Big_Integers;
 with SPARK.Big_Integers;
 
@@ -29,6 +30,13 @@ begin
       pragma Loop_Variant (Increases => I);
       pragma Loop_Variant (Decreases => J);
       pragma Loop_Variant (Decreases => K);
+      I := I + 1;
+   end loop;
+   pragma Test_Block;
+
+   --  Assertion level form: (Level => (variant_kind => expr))
+   while I < 10 loop
+      pragma Loop_Variant (L1 => (Increases => I));
       I := I + 1;
    end loop;
    pragma Test_Block;

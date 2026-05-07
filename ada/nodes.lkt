@@ -8386,7 +8386,9 @@ class BaseTypeDecl: BasicDecl {
     |" Whether self is a numeric type (:rmlink:`3.5`).
     @exported
     @with_dynvars(origin=null[AdaNode])
-    fun is_numeric_type(): Bool = self.is_int_type() or self.is_real_type()
+    fun is_numeric_type(): Bool = not node.is_null and (
+        self.is_int_type() or self.is_real_type()
+    )
 
     |" Whether self is an implicitly dereferenceable type or not
     @with_dynvars(origin)
@@ -16499,7 +16501,11 @@ class BinOp: Expr {
             %and node.use_expected_type_or(
                 self.infer_from_either_operands(node.type_var())
             ),
-
+        if node.op is Op.Plus | Op.Minus | Op.Mult | Op.Div | Op.Pow
+                    | Op.Mod | Op.Rem
+                    | Op.Gt | Op.Gte | Op.Lt | Op.Lte
+        then BaseTypeDecl.is_numeric_type%(node.type_var())
+        else %true,
         (
             # We have an expected type: we can directly infer the actual type
             # of the result, and of the operands using the equations above.
@@ -21974,6 +21980,11 @@ class UnOp: Expr {
                         );
                     node.type_var() <-> node.expr.type_var()
                 }
+                %and (
+                    if self.op is Op.Plus | Op.Minus | Op.Abs
+                    then BaseTypeDecl.is_numeric_type%(node.type_var())
+                    else %true
+                )
             )
 
     @with_dynvars(origin)

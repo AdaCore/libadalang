@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:6:4-6:15>
+*******************************************************
+
+test.adb:6:11: error: no matching operator found
+6 |    X := X + Y;
+  |           ^
+
+
+Expected name resolution failure for node <AssignStmt test.adb:6:4-6:15>
+
+Resolving xrefs for node <AssignStmt test.adb:8:4-8:12>
+*******************************************************
+
+test.adb:8:9: error: no matching operator found
+8 |    X := +X;
+  |         ^
+
+
+Expected name resolution failure for node <AssignStmt test.adb:8:4-8:12>
+
+
+Done.

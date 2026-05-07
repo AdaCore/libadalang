@@ -9668,7 +9668,7 @@ class BaseTypeDecl: BasicDecl {
 
     fun parent_primitives_env(): LexicalEnv = null[LexicalEnv]
 
-    fun primitives_env(operators_only: Bool = false): LexicalEnv =
+    fun primitives_env(@ignored operators_only: Bool = false): LexicalEnv =
         null[LexicalEnv]
 
     |" Return whether this type is a record type.

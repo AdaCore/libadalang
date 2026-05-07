@@ -5,11 +5,13 @@ procedure Test is
    --% node.p_is_scalar_type()
    type C is new Float;
    --% node.p_is_scalar_type()
-   type D is null record;
+   type D is (F_1, F_2);
    --% node.p_is_scalar_type()
-   type E is new D;
+   type E is null record;
    --% node.p_is_scalar_type()
-   subtype F is E;
+   type F is new E;
+   --% node.p_is_scalar_type()
+   subtype G is F;
    --% node.p_is_scalar_type()
 begin
    null;

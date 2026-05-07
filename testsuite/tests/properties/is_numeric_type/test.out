@@ -1,41 +1,41 @@
 Working on node <ConcreteTypeDecl ["A"] test.adb:2:4-2:26>
 ==========================================================
 
-Eval 'node.p_is_scalar_type()'
+Eval 'node.p_is_numeric_type()'
 Result: True
 
 Working on node <ConcreteTypeDecl ["B"] test.adb:4:4-4:28>
 ==========================================================
 
-Eval 'node.p_is_scalar_type()'
+Eval 'node.p_is_numeric_type()'
 Result: True
 
 Working on node <ConcreteTypeDecl ["C"] test.adb:6:4-6:24>
 ==========================================================
 
-Eval 'node.p_is_scalar_type()'
+Eval 'node.p_is_numeric_type()'
 Result: True
 
 Working on node <ConcreteTypeDecl ["D"] test.adb:8:4-8:25>
 ==========================================================
 
-Eval 'node.p_is_scalar_type()'
-Result: True
+Eval 'node.p_is_numeric_type()'
+Result: False
 
 Working on node <ConcreteTypeDecl ["E"] test.adb:10:4-10:26>
 ============================================================
 
-Eval 'node.p_is_scalar_type()'
+Eval 'node.p_is_numeric_type()'
 Result: False
 
 Working on node <ConcreteTypeDecl ["F"] test.adb:12:4-12:20>
 ============================================================
 
-Eval 'node.p_is_scalar_type()'
+Eval 'node.p_is_numeric_type()'
 Result: False
 
 Working on node <SubtypeDecl ["G"] test.adb:14:4-14:19>
 =======================================================
 
-Eval 'node.p_is_scalar_type()'
+Eval 'node.p_is_numeric_type()'
 Result: False

@@ -8378,18 +8378,15 @@ class BaseTypeDecl: BasicDecl {
             metadata=null[Metadata]
         )
 
-    |" Whether type is a scalar type.
+    |" Whether self is a scalar type (:rmlink:`3.5`).
     @exported
     @with_dynvars(origin=null[AdaNode])
-    fun is_scalar_type(): Bool =
-        (
-            (
-                (self.is_int_type() or self.is_real_type())
-                or self.is_float_type()
-            )
-            or self.is_fixed_point()
-        )
-        or self.is_enum_type()
+    fun is_scalar_type(): Bool = self.is_numeric_type() or self.is_enum_type()
+
+    |" Whether self is a numeric type (:rmlink:`3.5`).
+    @exported
+    @with_dynvars(origin=null[AdaNode])
+    fun is_numeric_type(): Bool = self.is_int_type() or self.is_real_type()
 
     |" Whether self is an implicitly dereferenceable type or not
     @with_dynvars(origin)

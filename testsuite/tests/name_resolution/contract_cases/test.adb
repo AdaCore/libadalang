@@ -1,3 +1,4 @@
+pragma Assertion_Level (L1);
 procedure Test is
    procedure Foo (I : Integer)
       with Contract_Cases =>
@@ -24,6 +25,14 @@ procedure Test is
    procedure Qux (S : String)
       with Contract_Cases =>
         [True => To_String (S) = [1 .. 10 => 'C']];
+   pragma Test_Block;
+
+   --  Assertion level form: each case in the outer aggregate is
+   --  (Level => (guard => consequence, ...)).
+   procedure Quux (I : Integer)
+      with Contract_Cases =>
+        (L1 => (I < 2 => True,
+                others => False));
    pragma Test_Block;
 begin
    null;

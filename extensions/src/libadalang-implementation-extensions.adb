@@ -1025,8 +1025,8 @@ package body Libadalang.Implementation.Extensions is
       Cache : Nameres_Maps.Map renames Node.Unit.Nodes_Nameres;
       C     : constant Cursor := Cache.Find (Node);
    begin
-      --  If we already resolved this node with the same rebindings and if the
-      --  cache is still fresh, return the memoized result.
+      --  If we already resolved this node and if the cache is still fresh,
+      --  return the memoized result.
 
       if Has_Element (C) then
          declare
@@ -1093,8 +1093,8 @@ package body Libadalang.Implementation.Extensions is
    ----------------------------------------
 
    function Ada_Node_P_Own_Nameres_Diagnostics
-     (Node                 : Bare_Ada_Node;
-      E_Info               : Internal_Entity_Info := No_Entity_Info)
+     (Node   : Bare_Ada_Node;
+      E_Info : Internal_Entity_Info := No_Entity_Info)
       return Internal_Solver_Diagnostic_Array_Access
    is
       use Nameres_Maps;

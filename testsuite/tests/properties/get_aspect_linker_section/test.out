@@ -15,3 +15,15 @@ Working on node <SubtypeDecl ["S_3"] test.ads:6:4-6:26>
 
 Eval 'node.p_get_aspect("Linker_Section")'
 Result: <Aspect exists=False node=None value=None inherited=False>
+
+Working on node <SubtypeDecl ["S_S_1"] test.ads:11:4-11:25>
+===========================================================
+
+Eval 'node.p_get_aspect("Linker_Section")'
+Result: <Aspect exists=True node=<PragmaNode test.ads:9:4-9:47> value=<Str "".my_section"" test.ads:9:32-9:45> inherited=True>
+
+Working on node <ConcreteTypeDecl ["D_S_1"] test.ads:13:4-13:26>
+================================================================
+
+Eval 'node.p_get_aspect("Linker_Section")'
+Result: <Aspect exists=True node=<PragmaNode test.ads:9:4-9:47> value=<Str "".my_section"" test.ads:9:32-9:45> inherited=True>

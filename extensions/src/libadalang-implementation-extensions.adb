@@ -759,6 +759,23 @@ package body Libadalang.Implementation.Extensions is
       end loop;
    end Compilation_Unit_P_Stub_For_Impl;
 
+   -----------------------------------------
+   -- Subunit_P_Emit_Missing_Subunit_Root --
+   -----------------------------------------
+
+   function Subunit_P_Emit_Missing_Subunit_Root
+     (Node : Bare_Subunit) return Boolean
+   is
+   begin
+      if Node.Unit.Context.Event_Handler /= null then
+         Node.Unit.Context.Event_Handler.Unit_Diagnostic_Callback
+           (Context => Node.Unit.Context,
+            Unit    => Node.Unit,
+            Message => To_Text ("orphaned subunit: no stub found in parent body"));
+      end if;
+      return False;
+   end Subunit_P_Emit_Missing_Subunit_Root;
+
    ----------------------
    -- Expr_Eval_In_Env --
    ----------------------

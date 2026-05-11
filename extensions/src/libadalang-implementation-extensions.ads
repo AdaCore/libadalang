@@ -96,6 +96,9 @@ package Libadalang.Implementation.Extensions is
    function Compilation_Unit_P_Stub_For_Impl
      (Node : Bare_Compilation_Unit; Su : Bare_Subunit) return Bare_Body_Stub;
 
+   function Subunit_P_Emit_Missing_Subunit_Root
+     (Node : Bare_Subunit) return Boolean;
+
    -------------------
    -- Defining_Name --
    -------------------

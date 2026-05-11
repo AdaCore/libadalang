@@ -2,7 +2,7 @@ import libadalang as lal
 
 
 ctx = lal.AnalysisContext(event_handler=lal.App.CommandLineEventHandler(
-    keep_going_on_missing_file=True
+    keep_going_on_missing_dependency=True
 ))
 
 test_unit = ctx.get_from_file("test.adb")

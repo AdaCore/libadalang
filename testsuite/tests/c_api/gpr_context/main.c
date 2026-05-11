@@ -193,6 +193,16 @@ eh_unit_requested (void *data, ada_analysis_context ctx, ada_text *name,
   (void) is_not_found_error;
 }
 
+static void
+eh_unit_diagnostic (void *data, ada_analysis_context ctx,
+		    ada_analysis_unit unit, ada_text *message)
+{
+  (void) data;
+  (void) ctx;
+  (void) unit;
+  (void) message;
+}
+
 static int eh_triggered = 0;
 
 static void
@@ -269,7 +279,8 @@ main(void)
 	 /* tab_stop */ 8);
 
   event_handler = ada_create_event_handler (NULL, eh_destroy,
-					    eh_unit_requested, eh_unit_parsed);
+					    eh_unit_requested, eh_unit_parsed,
+					    eh_unit_diagnostic);
   abort_on_exception ();
   check (/* label */ "Simple: event handler",
 	 /* root_project */ "simple/p.gpr",

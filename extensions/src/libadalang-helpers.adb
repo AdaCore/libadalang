@@ -381,10 +381,10 @@ package body Libadalang.Helpers is
          end if;
 
          --  Use the default command line event handler. Forward the value of
-         --  the Keep_Going_On_Missing_File command line option.
+         --  the Keep_Going_On_Missing_Dependency command line option.
 
          EH := Command_Line_Event_Handler
-           (Args.Keep_Going_On_Missing_File.Get);
+           (Args.Keep_Going_On_Missing_Dependency.Get);
 
          Trace.Increase_Indent ("Setting up the unit provider");
          if Length (Args.Project_File.Get) > 0 then
@@ -760,8 +760,9 @@ package body Libadalang.Helpers is
 
       type Cmd_Line_Event_Handler_Type is new Event_Handler_Interface
       with record
-         Keep_Going_On_Missing_File : Boolean;
-         --  False if a missing file should make the App exit, True otherwise
+         Keep_Going_On_Missing_Dependency : Boolean;
+         --  False if a missing dependency should make the App exit, True
+         --  otherwise.
 
          Already_Seen_Missing_Files : Files_Sets.Set;
          --  Set of source files for which we already warned that they are
@@ -782,6 +783,12 @@ package body Libadalang.Helpers is
          Unit     : Analysis_Unit'Class;
          Reparsed : Boolean)
       is null;
+
+      overriding procedure Unit_Diagnostic_Callback
+        (Self    : in out Cmd_Line_Event_Handler_Type;
+         Context : Analysis_Context'Class;
+         Unit    : Analysis_Unit'Class;
+         Message : Text_Type);
 
       overriding procedure Release (Self : in out Cmd_Line_Event_Handler_Type)
       is null;
@@ -818,20 +825,38 @@ package body Libadalang.Helpers is
             end if;
 
             Self.Already_Seen_Missing_Files.Include (Filename);
-
-            Print_Error
-              ((if Self.Keep_Going_On_Missing_File
-                then "WARNING: "
-                else "ERROR: ")
-               & "File "
-               & Ada.Directories.Simple_Name (Image (Name))
-               & " not found");
-
-            if not Self.Keep_Going_On_Missing_File then
-               GNAT.OS_Lib.OS_Exit (1);
-            end if;
+            Self.Unit_Diagnostic_Callback
+              (Context, From,
+               To_Text
+                 ("File "
+                  & Ada.Directories.Simple_Name (Image (Name))
+                  & " not found"));
          end;
       end Unit_Requested_Callback;
+
+      ------------------------------
+      -- Unit_Diagnostic_Callback --
+      ------------------------------
+
+      procedure Unit_Diagnostic_Callback
+        (Self    : in out Cmd_Line_Event_Handler_Type;
+         Context : Analysis_Context'Class;
+         Unit    : Analysis_Unit'Class;
+         Message : Text_Type)
+      is
+         pragma Unreferenced (Context, Unit);
+      begin
+         Print_Error
+           ((if Self.Keep_Going_On_Missing_Dependency
+             then "WARNING: "
+             else "ERROR: ")
+            & Image (Message));
+
+         if not Self.Keep_Going_On_Missing_Dependency then
+            GNAT.OS_Lib.OS_Exit (1);
+         end if;
+      end Unit_Diagnostic_Callback;
+
    end Cmd_Line_Event_Handler;
 
    --------------------------------
@@ -839,12 +864,13 @@ package body Libadalang.Helpers is
    --------------------------------
 
    function Command_Line_Event_Handler
-     (Keep_Going_On_Missing_File : Boolean) return Event_Handler_Reference is
+     (Keep_Going_On_Missing_Dependency : Boolean)
+      return Event_Handler_Reference is
    begin
       return Create_Event_Handler_Reference
         (Cmd_Line_Event_Handler.Cmd_Line_Event_Handler_Type'
-          (Keep_Going_On_Missing_File => Keep_Going_On_Missing_File,
-           Already_Seen_Missing_Files => <>));
+          (Keep_Going_On_Missing_Dependency => Keep_Going_On_Missing_Dependency,
+           Already_Seen_Missing_Files       => <>));
    end Command_Line_Event_Handler;
 
 end Libadalang.Helpers;

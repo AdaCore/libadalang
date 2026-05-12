@@ -1934,14 +1934,23 @@ class AdaNode implements Node[AdaNode] {
         case pe: ParenExpr =>
             self.constrain_range(base, pe.expr)
 
-        case me: MembershipExpr =>
+        case me: MembershipExpr => {
             # If the selector expression is Self, then this imposes a new
             # constraint on the type that we materialize as a list of ranges
             # corresponding to the union of the ranges of each choice.
-            if me.expr.as[Identifier]?.referenced_decl() is SyntheticObjectDecl
-            then me.membership_exprs.mapcat((e) => e.choice_range())
-            elif me.eval_as_int() == 1b then [base]
-            else null[Array[EvalDiscreteRange]]
+            val range =
+                if me.expr.as[Identifier]?.referenced_decl()
+                    is SyntheticObjectDecl
+                then me.membership_exprs.mapcat((e) => e.choice_range())
+                elif me.eval_as_int() == 1b then [base]
+                else null[Array[EvalDiscreteRange]];
+
+            if me.op is Op.NotIn
+            then
+                self.subtract_ranges([base], range)
+            else
+                range
+        }
 
         case ne: UnOp =>
             if ne.op is Op.Not

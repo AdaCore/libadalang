@@ -24,4 +24,9 @@ package body Test is
    type Enum_7 is new Enum_1 with Static_Predicate => not (Enum_7 in B .. C);
    --% node.p_discrete_static_values
 
+   --  Same as Enum_7 but using the `not in` membership operator directly
+   --  instead of the `not (... in ...)` form.
+   type Enum_8 is new Enum_1 with Static_Predicate => Enum_8 not in B .. C;
+   --% node.p_discrete_static_values
+
 end Test;

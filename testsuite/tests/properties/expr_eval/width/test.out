@@ -1,0 +1,137 @@
+Working on node <ObjectDecl ["Unsupported_Float"] invalid.ads:5:4-5:56>
+=======================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Width evaluation is limited to discrete types
+
+Working on node <ObjectDecl ["Unsupported_Fixed"] invalid.ads:8:4-8:59>
+=======================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Width evaluation is limited to discrete types
+
+Working on node <ObjectDecl ["Bad_Record"] invalid.ads:15:4-15:53>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Width evaluation is limited to discrete types
+
+Working on node <ObjectDecl ["Bad_Args"] invalid.ads:18:4-18:53>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Width does not take any parameters
+
+Working on node <NumberDecl ["W1"] valid.ads:26:4-26:34>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 5
+
+Working on node <NumberDecl ["W2"] valid.ads:30:4-30:37>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 3
+
+Working on node <NumberDecl ["W3"] valid.ads:35:4-35:37>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 3
+
+Working on node <NumberDecl ["W4"] valid.ads:39:4-39:36>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["W5"] valid.ads:43:4-43:34>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 2
+
+Working on node <NumberDecl ["W5b"] valid.ads:47:4-47:39>
+=========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 4
+
+Working on node <NumberDecl ["W5c"] valid.ads:51:4-51:40>
+=========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["W6"] valid.ads:55:4-55:35>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 5
+
+Working on node <NumberDecl ["W7"] valid.ads:59:4-59:33>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 6
+
+Working on node <NumberDecl ["W8"] valid.ads:63:4-63:39>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 9
+
+Working on node <NumberDecl ["W9"] valid.ads:67:4-67:35>
+========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 9
+
+Working on node <NumberDecl ["W10"] valid.ads:71:4-71:36>
+=========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 8
+
+Working on node <NumberDecl ["W10b"] valid.ads:75:4-75:40>
+==========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 9
+
+Working on node <NumberDecl ["W10c"] valid.ads:79:4-79:39>
+==========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["W14"] valid.ads:83:4-83:41>
+=========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 9
+
+Working on node <NumberDecl ["W14b"] valid.ads:88:4-88:42>
+==========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 8
+
+Working on node <NumberDecl ["W11"] valid.ads:96:4-96:38>
+=========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 12
+
+Working on node <NumberDecl ["W12"] valid.ads:99:4-99:43>
+=========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 12
+
+Working on node <NumberDecl ["W13"] valid.ads:102:4-102:48>
+===========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 12

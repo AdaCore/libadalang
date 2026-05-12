@@ -839,6 +839,86 @@ package body Libadalang.Expr_Eval is
                      "'Pos only applicable to discrete types";
                end if;
             end;
+         elsif Name in "width" then
+            if not Args.Is_Null then
+               raise Property_Error with "'Width does not take any parameters";
+            end if;
+
+            declare
+               Typ     : constant Base_Type_Decl :=
+                  AR.F_Prefix.P_Name_Designated_Type;
+               Ret_Typ : constant Base_Type_Decl :=
+                  AR.P_Universal_Int_Type.As_Base_Type_Decl;
+
+               function Int_Image_Length (V : Big_Integer) return Natural is
+                 (V.Image'Length + (if V >= 0 then 1 else 0));
+               --  Ada's Image for integers includes a leading space for
+               --  non-negative values, but Big_Integer.Image does not.
+            begin
+               if Is_Std_Char_Type (Typ) then
+                  return Create_Int_Result
+                    (Ret_Typ,
+                     (if Typ = Typ.P_Std_Char_Type
+                      then Character'Width
+                      elsif Typ = Typ.P_Std_Wide_Char_Type
+                      then Wide_Character'Width
+                      else Wide_Wide_Character'Width));
+               elsif Typ.P_Is_Enum_Type then
+                  declare
+                     Root_Type    : constant LAL.Base_Type_Decl :=
+                        Typ.P_Root_Type;
+                     All_Literals : constant LAL.Enum_Literal_Decl_List :=
+                        Root_Type.As_Type_Decl.F_Type_Def.As_Enum_Type_Def
+                        .F_Enum_Literals;
+
+                     --  P_Discrete_Static_Values returns the set of values as
+                     --  an array of pre-evaluated ranges. Using it (rather
+                     --  than Eval_Range_Attr for 'First/'Last) handles two
+                     --  cases that a single range cannot represent:
+                     --  (1) subtypes whose range constraint is inherited via a
+                     --      subtype chain with no explicit constraint, e.g.
+                     --      "subtype S2 is S1" where S1 itself has a range;
+                     --  (2) subtypes with a Static_Predicate that filters out
+                     --      non-contiguous enum values.
+                     Ranges    : constant LAL.Eval_Discrete_Range_Array :=
+                        Typ.P_Discrete_Static_Values;
+                     Max_Width : Natural := 0;
+                  begin
+                     for R of Ranges loop
+                        for I in To_Integer (R.Low_Bound)
+                                 .. To_Integer (R.High_Bound)
+                        loop
+                           Max_Width := Natural'Max
+                             (Max_Width,
+                              All_Literals.Child (I + 1)
+                              .As_Enum_Literal_Decl.F_Name
+                              .F_Name.As_Identifier.Text'Length);
+                        end loop;
+                     end loop;
+                     return Create_Int_Result (Ret_Typ, Max_Width);
+                  end;
+               elsif Typ.P_Is_Int_Type then
+                  declare
+                     First : constant Eval_Result :=
+                        Eval_Range_Attr (Typ.As_Ada_Node, Range_First);
+                     Last  : constant Eval_Result :=
+                        Eval_Range_Attr (Typ.As_Ada_Node, Range_Last);
+                  begin
+                     if First.Int_Result > Last.Int_Result then
+                        return Create_Int_Result (Ret_Typ, 0);
+                     else
+                        return Create_Int_Result
+                          (Ret_Typ,
+                           Natural'Max
+                             (Int_Image_Length (First.Int_Result),
+                              Int_Image_Length (Last.Int_Result)));
+                     end if;
+                  end;
+               else
+                  raise Property_Error with
+                     "'Width evaluation is limited to discrete types";
+               end if;
+            end;
          else
             raise Property_Error
               with "Unhandled attribute ref: " & Image (Attr.Text);

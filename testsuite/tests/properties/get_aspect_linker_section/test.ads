@@ -7,4 +7,10 @@ package Test is
    --% node.p_get_aspect("Linker_Section")
 
    pragma Linker_Section (S_1, ".my_section");
+
+   subtype S_S_1 is S_1;
+   --% node.p_get_aspect("Linker_Section")
+   type D_S_1 is new S_1;
+   --% node.p_get_aspect("Linker_Section")
+
 end Test;

@@ -20064,7 +20064,8 @@ class DefiningName: Name {
                 if bd is SubtypeDecl
                     and name in s"Predicate"
                         | s"Static_Predicate"
-                        | s"Dynamic_Predicate" then
+                        | s"Dynamic_Predicate"
+                        | s"Linker_Section" then
                     bd.as[SubtypeDecl].subtype.designated_type()
                 else
                     bd.as[BaseSubtypeDecl].get_type()

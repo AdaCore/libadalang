@@ -4,6 +4,7 @@
 --
 
 with Ada.Containers.Vectors;
+with Ada.Directories;
 with Ada.Strings.Wide_Wide_Unbounded;
 
 with GNATCOLL.GMP.Integers;
@@ -767,7 +768,11 @@ package body Libadalang.Implementation.Extensions is
      (Node : Bare_Subunit) return Boolean
    is
    begin
-      if Node.Unit.Context.Event_Handler /= null then
+      if Node.Unit.Context.Event_Handler /= null
+        and then Ada.Directories.Simple_Name (Node.Unit.Get_Filename)
+                 /= "g-sthcso.adb"
+        --  Workaround to gnat#1857
+      then
          Node.Unit.Context.Event_Handler.Unit_Diagnostic_Callback
            (Context => Node.Unit.Context,
             Unit    => Node.Unit,

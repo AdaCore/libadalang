@@ -2069,15 +2069,15 @@ class AdaNode implements Node[AdaNode] {
             bd.as[AbstractSubpDecl].subp_decl_spec()
             .primitive_subp_first_type()
             .defining_name()
-        elif bd is BasicSubpDecl
+        elif bd is BasicSubpDecl or bd.as[BaseSubpBody]?.previous_part().is_null
         then
-            bd.as[BasicSubpDecl].subp_decl_spec()
-            .primitive_subp_first_type()
-            .do((prim_typ) => prim_typ.is_tagged_type().do(
-                (_) => prim_typ.private_completion().do(
-                    (pc) => pc.defining_name()
-                ) or? prim_typ.defining_name()
-            ))
+            bd.subp_spec_or_null().primitive_subp_tagged_type().do(
+                (prim_typ) => prim_typ.is_tagged_type().do(
+                    (_) => prim_typ.private_completion().do(
+                        (pc) => pc.defining_name()
+                    ) or? prim_typ.defining_name()
+                )
+            ) or? bd.defining_name()
         elif bd is BaseSubpBody
         then bd.as[BaseSubpBody].subp_spec.subp_name
         else self.as[Name]?.gnat_xref_decl().do((ret) => {

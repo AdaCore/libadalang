@@ -105,5 +105,29 @@ Expr: <Id "F" test.adb:15:25-15:26>
   type:          None
   expected type: None
 
+Resolving xrefs for node <PragmaNode test.adb:24:4-24:35>
+*********************************************************
+
+Expr: <Id "Warnings" test.adb:24:11-24:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Off" test.adb:24:21-24:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:24:26-24:33>
+  references:    <DefiningName "I" test.adb:22:7-22:8>
+  type:          None
+  expected type: None
+Expr: <Id "Inner" test.adb:24:26-24:31>
+  references:    <DefiningName "Inner" test.adb:21:12-21:17>
+  type:          None
+  expected type: None
+Expr: <Id "I" test.adb:24:32-24:33>
+  references:    <DefiningName "I" test.adb:22:7-22:8>
+  type:          None
+  expected type: None
+
 
 Done.

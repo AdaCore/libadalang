@@ -22554,16 +22554,15 @@ class Pragma: AdaNode {
                 (arg) =>
                 arg.assoc_expr().do(
                     (expr) =>
-                    if expr is Identifier
-                    then (
-                        if
-                            expr.as[Identifier].name_symbol() in s"On"
-                                | s"Off"
-                                | s"GNAT"
-                                | s"GNATprove"
-                        then %true
-                        else expr.as[Identifier].xref_no_overloading()
-                    )
+                    if
+                        expr is Identifier
+                        and expr.as[Identifier].name_symbol() in s"On"
+                            | s"Off"
+                            | s"GNAT"
+                            | s"GNATprove"
+                    then %true
+                    elif expr is Identifier | DottedName
+                    then expr.as[Name].xref_no_overloading()
                     else (
                         expr.expected_type_var() <- node.std_string_type()
                         %and expr.sub_equation()

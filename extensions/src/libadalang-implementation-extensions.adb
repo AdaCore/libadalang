@@ -6,6 +6,7 @@
 with Ada.Containers.Vectors;
 with Ada.Directories;
 with Ada.Strings.Wide_Wide_Unbounded;
+with Ada.Unchecked_Deallocation;
 
 with GNATCOLL.GMP.Integers;
 
@@ -1025,8 +1026,8 @@ package body Libadalang.Implementation.Extensions is
       Cache : Nameres_Maps.Map renames Node.Unit.Nodes_Nameres;
       C     : constant Cursor := Cache.Find (Node);
    begin
-      --  If we already resolved this node with the same rebindings and if the
-      --  cache is still fresh, return the memoized result.
+      --  If we already resolved this node and if the cache is still fresh,
+      --  return the memoized result.
 
       if Has_Element (C) then
          declare
@@ -1093,8 +1094,8 @@ package body Libadalang.Implementation.Extensions is
    ----------------------------------------
 
    function Ada_Node_P_Own_Nameres_Diagnostics
-     (Node                 : Bare_Ada_Node;
-      E_Info               : Internal_Entity_Info := No_Entity_Info)
+     (Node   : Bare_Ada_Node;
+      E_Info : Internal_Entity_Info := No_Entity_Info)
       return Internal_Solver_Diagnostic_Array_Access
    is
       use Nameres_Maps;
@@ -1122,6 +1123,124 @@ package body Libadalang.Implementation.Extensions is
 
       return Create_Internal_Solver_Diagnostic_Array (0);
    end Ada_Node_P_Own_Nameres_Diagnostics;
+
+   -----------------------------------------
+   -- Ada_Node_P_Is_Own_Nameres_Ambiguous --
+   -----------------------------------------
+
+   function Ada_Node_P_Is_Own_Nameres_Ambiguous
+     (Node        : Bare_Ada_Node;
+      Env         : Lexical_Env;
+      Origin      : Bare_Ada_Node;
+      Entry_Point : Bare_Ada_Node)
+      return Boolean
+   is
+      use Libadalang.Implementation.Solver;
+
+      Is_Ambiguous : Boolean := False;
+
+      type Tracked_Var is record
+         Var     : Entity_Vars.Logic_Var;
+         Defined : Boolean;
+         Value   : Internal_Entity;
+      end record;
+
+      type Tracked_Var_Array is array (Positive range <>) of Tracked_Var;
+      type Tracked_Var_Array_Access is access Tracked_Var_Array;
+
+      procedure Free is new Ada.Unchecked_Deallocation
+        (Tracked_Var_Array, Tracked_Var_Array_Access);
+
+      Best_Candidate : Tracked_Var_Array_Access := null;
+
+      function Solution_Callback
+        (Vars : Entity_Vars.Logic_Var_Array) return Boolean
+      is
+         Cmp : Integer;
+         Self_Preferred  : Boolean := False;
+         Other_Preferred : Boolean := False;
+      begin
+         --  First run is supposed to be the best candidate: just store its
+         --  values so that we can compare it to future solutions to ensure it
+         --  is indeed the case.
+         if Best_Candidate = null then
+            Best_Candidate := new Tracked_Var_Array (Vars'Range);
+            for I in Vars'Range loop
+               Best_Candidate (I).Var := Vars (I);
+               Best_Candidate (I).Defined := not Vars (I).Reset;
+               Best_Candidate (I).Value := Vars (I).Get_Value;
+            end loop;
+            return True;
+         end if;
+
+         --  We found another candidate: compare individual values to determine
+         --  wether there were other similarly-preferred alternatives.
+         for I in Vars'Range loop
+            if Best_Candidate (I).Defined and then not Vars (I).Reset then
+               --  Check that the value from the initial solution is preferred.
+               --  The value 0 means that the entities designate the same thing
+               --  or are not comparable.
+               Cmp := Ada_Node_P_Is_Preferred_Entity
+                 (Best_Candidate (I).Value.Node,
+                  Vars (I).Get_Value,
+                  Env, Origin, Entry_Point,
+                  Best_Candidate (I).Value.Info);
+
+               if Cmp = 1 then
+                  Self_Preferred := True;
+                  --  We found a reason to strictly prefer the initial
+                  --  candidate, thus there are no ambiguities: exit the loop
+                  --  now.
+                  exit;
+               elsif Cmp = -1 then
+                  Other_Preferred := True;
+               end if;
+            end if;
+         end loop;
+
+         if not Self_Preferred then
+            Is_Ambiguous := Other_Preferred;
+            return False;
+         end if;
+
+         return True;
+      end Solution_Callback;
+
+      procedure Recover_Solution is
+      begin
+         if Best_Candidate = null then
+            return;
+         end if;
+         for I in Best_Candidate'Range loop
+            if Best_Candidate (I).Defined then
+               Best_Candidate (I).Var.Set_Value (Best_Candidate (I).Value);
+            else
+               Entity_Vars.Reset (Best_Candidate (I).Var);
+            end if;
+         end loop;
+      end Recover_Solution;
+
+      R : Relation;
+   begin
+      R := Dispatcher_Ada_Node_P_Xref_Equation
+        (Node, Env, Origin, Entry_Point);
+
+      begin
+         Solver.Solve
+           (R,
+            Solution_Callback'Access,
+            Timeout => Node.Unit.Context.Logic_Resolution_Timeout);
+      exception
+         when Property_Error | Precondition_Failure =>
+            null;
+      end;
+
+      Dec_Ref (R);
+      Recover_Solution;
+      Free (Best_Candidate);
+
+      return Is_Ambiguous;
+   end Ada_Node_P_Is_Own_Nameres_Ambiguous;
 
    -------------------------------
    -- Should_Collect_Env_Caches --

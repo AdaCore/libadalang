@@ -1,0 +1,6 @@
+test.adb:9:4: error: name resolution is ambiguous
+9 |    Bar (Foo);
+  |    ^^^^^^^^^^
+
+Checked 12 entry points.
+Done.

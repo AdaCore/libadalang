@@ -1,0 +1,10 @@
+test.adb:37:7: error: name resolution is ambiguous
+37 |       Foo (2);
+   |       ^^^^^^^^
+
+test.adb:177:10: error: name resolution is ambiguous
+177 |          Baz (Foo, Bar);
+    |          ^^^^^^^^^^^^^^^
+
+Checked 122 entry points.
+Done.

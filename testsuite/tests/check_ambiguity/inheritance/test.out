@@ -1,0 +1,10 @@
+test.adb:23:10: error: name resolution is ambiguous
+23 |          Bar (X);
+   |          ^^^^^^^^
+
+test.adb:51:4: error: name resolution is ambiguous
+51 |    Bar (X);
+   |    ^^^^^^^^
+
+Checked 37 entry points.
+Done.

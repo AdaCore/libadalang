@@ -54,9 +54,16 @@ package Libadalang.Implementation.Extensions is
       return Boolean;
 
    function Ada_Node_P_Own_Nameres_Diagnostics
-     (Node                 : Bare_Ada_Node;
-      E_Info               : Internal_Entity_Info := No_Entity_Info)
+     (Node   : Bare_Ada_Node;
+      E_Info : Internal_Entity_Info := No_Entity_Info)
       return Internal_Solver_Diagnostic_Array_Access;
+
+   function Ada_Node_P_Is_Own_Nameres_Ambiguous
+     (Node        : Bare_Ada_Node;
+      Env         : Lexical_Env;
+      Origin      : Bare_Ada_Node;
+      Entry_Point : Bare_Ada_Node)
+      return Boolean;
 
    -------------
    -- Base_Id --

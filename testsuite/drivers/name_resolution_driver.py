@@ -55,6 +55,12 @@ class NameResolutionDriver(BaseDriver):
 
     * ``runtime_name``: Name of the runtime to use when loading the project
       (``--RTS`` nameres switch).
+
+    * ``strict``: Run nameres in quiet mode (``--quiet``, no output on stdout),
+      and enforce that ``--no-abort-on-failures`` and
+      ``-k/--keep-going-on-missing-dependency`` are not enabled. When
+      activated, this mode can be used to ensure that a nameres run completes
+      without errors or name resolution failures.
     """
 
     perf_supported = True
@@ -71,6 +77,8 @@ class NameResolutionDriver(BaseDriver):
         Additional environment variables for "nameres".
         """
 
+        strict_mode = self.test_env.get("strict", False)
+
         # Path for project files: make directories from the "project_path" key
         # prioritary and append existing paths from the environment.
         env["GPR_PROJECT_PATH"] = os.path.pathsep.join(
@@ -81,9 +89,12 @@ class NameResolutionDriver(BaseDriver):
             + os.environ.get("GPR_PROJECT_PATH", "").split(os.path.pathsep)
         )
 
-        # Some tests intentionally exercize cases with missing source files:
-        # let "navigate" warn about them, but keep it going (-k).
-        args.append("-k")
+        if strict_mode:
+            args.append("--quiet")
+        else:
+            # Some tests intentionally exercize cases with missing source
+            # files: let "navigate" warn about them, but keep it going (-k).
+            args.append("-k")
 
         # List of source files to process and unit provider
         input_sources = self.test_env.get("input_sources", [])
@@ -128,11 +139,10 @@ class NameResolutionDriver(BaseDriver):
         # just on nameres-specific pragmas) and display only error messages,
         # not traceback (for test output stability).
         if self.test_env.get("batch"):
-            args += ["--all", "--no-traceback", "--no-abort-on-failures"]
+            args += ["--all", "--no-traceback"]
 
-            # In perf mode, we need nameres not to print anything
-            if not self.perf_mode:
-                args.append("--only-show-failures")
+            if not strict_mode:
+                args += ["--no-abort-on-failures"]
 
         if self.test_env.get("recursive"):
             args.append("--recursive")

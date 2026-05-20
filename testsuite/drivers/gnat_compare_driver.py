@@ -28,6 +28,9 @@ class GNATCompareDriver(BaseDriver):
 
     * ``comparisons``: Select what differences between GNAT's xrefs and
       Libadalang's to report.
+
+    * ``runtime``: Path (relative to the testsuite root) of the runtime to use
+      when loading the project (passed as ``--RTS`` to ``gnat_compare``).
     """
 
     def run(self):
@@ -57,6 +60,10 @@ class GNATCompareDriver(BaseDriver):
             self.test_env.get("project_vars", {}).items()
         ):
             argv.append(f"-X{name}={value}")
+
+        runtime = self.test_env.get('runtime')
+        if runtime:
+            argv.append(f"--RTS={os.path.join(self.env.root_dir, runtime)}")
 
         # Preprocessor handling
         preprocessor_data_file = self.test_env.get("preprocessor_data_file",

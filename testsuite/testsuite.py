@@ -254,6 +254,10 @@ class LALTestsuite(Testsuite):
         # If requested, enable the performance mode. In this case, make sure
         # that the directory in which to create profile data exists.
         if opts.perf_mode:
+            # Let subprocesses know that we are running in test mode. For
+            # instance, this allows Python scripts ("test.py") to adapt their
+            # behavior (compute perf metrics on their own subprocesses).
+            os.environ["LAL_PERF_MODE"] = "1"
             perf_dir = os.path.abspath(opts.perf_mode)
             if not os.path.exists(perf_dir):
                 os.mkdir(perf_dir)

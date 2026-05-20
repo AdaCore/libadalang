@@ -1,6 +1,7 @@
 import os
 import os.path
 import sys
+import time
 
 from e3.testsuite.driver.classic import TestSkip
 
@@ -10,6 +11,7 @@ from drivers.base_driver import BaseDriver
 class PythonDriver(BaseDriver):
 
     py_file = 'test.py'
+    perf_supported = True
 
     def run(self):
         runner = PythonRunner(self)
@@ -32,7 +34,15 @@ class PythonDriver(BaseDriver):
             self.check_file(project_file)
             args.append(f"-P{project_file}")
 
-        runner.run(self.py_file, args)
+        # For performance profiling, the only thing we can measure here is the
+        # time it takes to run the script. Also hide test output since we have
+        # empty baselines in perf mode.
+        time_start = time.time()
+        runner.run(self.py_file, args, append_output=not self.perf_mode)
+        time_end = time.time()
+        if self.perf_mode:
+            self.result.info["time"] = str(time_end - time_start)
+            self.result.info.setdefault("memory", "0")
 
 
 class PythonRunner(object):
@@ -64,12 +74,13 @@ class PythonRunner(object):
         return ('{}{}{}'.format(new_paths, os.path.pathsep, old_path)
                 if old_path else new_paths)
 
-    def run(self, py_file, py_args):
+    def run(self, py_file, py_args, append_output=True):
         """
         Run the given Python scripts with given arguments.
         """
         return self.driver.run_and_check(
             [self.interpreter, py_file] + py_args,
+            append_output=append_output,
             env={
                 'PYTHONPATH': self.add_paths(
                     os.environ.get('PYTHONPATH'),

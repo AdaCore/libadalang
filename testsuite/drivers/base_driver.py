@@ -139,6 +139,18 @@ class BaseDriver(DiffTestDriver):
 
         return result
 
+    def analyze(self):
+        if self.perf_mode:
+            # It is generally not the memory consumption of the Python
+            # interpreter that we want to measure, but the memory usage of its
+            # own subprocesses: let the Python script measure that and read its
+            # report.
+            filename = self.working_dir("memory-usage.txt")
+            if os.path.exists(filename):
+                with open(filename) as f:
+                    self.result.info["memory"] = f.read().strip()
+        super().analyze()
+
     @property
     def disable_shared(self):
         return self.env.options.disable_shared

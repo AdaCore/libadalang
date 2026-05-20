@@ -19987,7 +19987,10 @@ class DefiningName: Name {
     |" parameters if there are any. For instance, it will return ``A`` for the
     |" ``A (B)`` call.
     |"
-    |" .. note:: This does not yet support calls done inside generics.
+    |" .. note:: When invoked on a subprogram used as actual of a generic
+    |"     formal subprogram, this property will not return the calls to that
+    |"     subprogram done inside the generic code through the formal
+    |"     subprogram.
     @exported
     @with_dynvars(imprecise_fallback=false)
     fun find_all_calls(

@@ -90,7 +90,11 @@ class NameResolutionDriver(BaseDriver):
         )
 
         if strict_mode:
-            args.append("--quiet")
+            if not self.perf_mode:
+                # Perf runs already pass `--quiet` and opt_parse treat multiple
+                # instance of the same flag as error. Add it only when
+                # perf_mode is off.
+                args.append("--quiet")
         else:
             # Some tests intentionally exercize cases with missing source
             # files: let "navigate" warn about them, but keep it going (-k).

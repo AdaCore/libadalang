@@ -139,7 +139,7 @@ class NameResolutionDriver(BaseDriver):
         # just on nameres-specific pragmas) and display only error messages,
         # not traceback (for test output stability).
         if self.test_env.get("batch"):
-            args += ["--all", "--no-traceback"]
+            args += ["--all", "--no-traceback", "--only-show-failures"]
 
             if not strict_mode:
                 args += ["--no-abort-on-failures"]

@@ -385,7 +385,7 @@ procedure Nameres is
      (E   : Ada.Exceptions.Exception_Occurrence;
       Obj : in out J.JSON_Value) is
    begin
-      if not Quiet or else Args.Only_Show_Failures.Get then
+      if not Quiet then
          App.Dump_Exception (E);
       end if;
 

@@ -287,7 +287,7 @@
               "kind": "group",
               "document": [
                 {
-                  "kind": "ifKind",
+                  "kind": "match",
                   "field": "f_ancestor_expr",
                   "absent": [
                     {
@@ -349,7 +349,7 @@
           "field": "f_designators"
         },
         {
-          "kind": "ifKind",
+          "kind": "match",
           "field": "f_designators",
           "default": {
             "kind": "group",
@@ -776,7 +776,7 @@
         "kind": "group",
         "document": [
           {
-            "kind": "ifKind",
+            "kind": "match",
             "field": "f_right",
             "default": {
               "kind": "recurse_field",
@@ -815,7 +815,7 @@
                     "field": "f_op"
                   },
                   {
-                    "kind": "ifKind",
+                    "kind": "match",
                     "field": "f_op",
                     "default": "line",
                     "matchers": [
@@ -892,10 +892,14 @@
       },
       "fields": {
         "f_left": {
-          "kind": "recurse_flatten",
-          "if": [
-            "BinOp"
-          ]
+          "kind": "if",
+          "condition": {
+            "kind": "is_a",
+            "node": "this_field",
+            "kinds": ["BinOp"]
+          },
+          "then": "recurse_flatten",
+          "else": "recurse"
         }
       }
     },
@@ -1071,11 +1075,14 @@
       },
       "fields": {
         "f_name": {
-          "kind": "recurse_flatten",
-          "if": [
-            "DottedName",
-            "CallExpr"
-          ]
+          "kind": "if",
+          "condition": {
+            "kind": "is_a",
+            "node": "this_field",
+            "kinds": ["DottedName", "CallExpr"]
+          },
+          "then": "recurse_flatten",
+          "else": "recurse"
         }
       }
     },
@@ -1259,7 +1266,8 @@
       },
       "fields": {
         "f_pragmas": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "recurse",
@@ -1360,7 +1368,8 @@
       ],
       "fields": {
         "f_prelude": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "recurse",
@@ -1369,7 +1378,8 @@
           ]
         },
         "f_pragmas": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "hardline",
@@ -1536,7 +1546,8 @@
       },
       "fields": {
         "f_components": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "hardlineWithoutBreakParent",
@@ -1544,7 +1555,8 @@
           ]
         },
         "f_variant_part": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "hardlineWithoutBreakParent",
@@ -1734,7 +1746,7 @@
                 ]
               },
               {
-                "kind": "ifKind",
+                "kind": "match",
                 "field": "f_type_def",
                 "default": {
                   "kind": "continuationLineIndent",
@@ -1997,7 +2009,8 @@
       },
       "fields": {
         "f_decls": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": {
             "kind": "group",
@@ -2316,11 +2329,14 @@
       "fields": {
         "f_prefix": [
           {
-            "kind": "recurse_flatten",
-            "if": [
-              "DottedName",
-              "CallExpr"
-            ]
+            "kind": "if",
+            "condition": {
+              "kind": "is_a",
+              "node": "this_field",
+              "kinds": ["DottedName", "CallExpr"]
+            },
+            "then": "recurse_flatten",
+            "else": "recurse"
           },
           "softline"
         ]
@@ -2666,7 +2682,8 @@
           }
         ],
         "f_entry_params": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "line",
@@ -3358,7 +3375,7 @@
                 ]
               },
               {
-                "kind": "ifKind",
+                "kind": "match",
                 "field": "f_type_def",
                 "default": {
                   "kind": "continuationLineIndent",
@@ -3455,7 +3472,8 @@
       },
       "fields": {
         "f_decls": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             {
@@ -3911,7 +3929,7 @@
         "break": true,
         "document": [
           {
-            "kind": "ifKind",
+            "kind": "match",
             "field": "f_exceptions",
             "default": {
               "kind": "indent",
@@ -4015,7 +4033,8 @@
       },
       "fields": {
         "f_alternatives": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "line",
@@ -4114,7 +4133,8 @@
           }
         ],
         "f_alternatives": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "hardlineWithoutBreakParent",
@@ -4447,7 +4467,7 @@
             {
               "kind": "group",
               "document": {
-                "kind": "ifKind",
+                "kind": "match",
                 "field": "f_op",
                 "default": {
                   "kind": "align",
@@ -4866,7 +4886,7 @@
                       "kind": "group",
                       "document": [
                         {
-                          "kind": "ifKind",
+                          "kind": "match",
                           "field": "f_has_aliased",
                           "default": {
                             "kind": "recurse_field",
@@ -4890,7 +4910,7 @@
                           ]
                         },
                         {
-                          "kind": "ifKind",
+                          "kind": "match",
                           "field": "f_has_constant",
                           "default": {
                             "kind": "recurse_field",
@@ -5314,7 +5334,7 @@
     },
     "ParamAssoc": {
       "node": {
-        "kind": "ifKind",
+        "kind": "match",
         "field": "f_designator",
         "default": [
           {
@@ -5542,7 +5562,7 @@
             "field": "f_name"
           },
           {
-            "kind": "ifKind",
+            "kind": "match",
             "field": "f_name",
             "default": {
               "kind": "group",
@@ -5799,7 +5819,8 @@
       },
       "fields": {
         "f_private_part": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             {
@@ -6559,7 +6580,7 @@
             "id": "subp_spec"
           },
           {
-            "kind": "ifKind",
+            "kind": "match",
             "field": "f_aspects",
             "default": {
               "kind": "ifBreak",
@@ -6852,7 +6873,8 @@
           }
         },
         "f_subp_params": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "line",
@@ -7123,7 +7145,8 @@
           }
         ],
         "f_private_part": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             {
@@ -7134,7 +7157,8 @@
           ]
         },
         "f_end_name": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "whitespace",
@@ -7179,7 +7203,7 @@
                     "field": "f_aspects"
                   },
                   {
-                    "kind": "ifKind",
+                    "kind": "match",
                     "field": "f_definition",
                     "default": {
                       "kind": "ifBreak",

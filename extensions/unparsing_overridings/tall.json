@@ -412,7 +412,8 @@
       },
       "fields": {
         "f_alternatives": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "hardlineWithoutBreakParent",
@@ -453,7 +454,7 @@
             {
               "kind": "group",
               "document": {
-                "kind": "ifKind",
+                "kind": "match",
                 "field": "f_op",
                 "default": {
                   "kind": "align",
@@ -600,7 +601,7 @@
             "id": "subp_spec"
           },
           {
-            "kind": "ifKind",
+            "kind": "match",
             "field": "f_aspects",
             "default": {
               "kind": "ifBreak",
@@ -773,7 +774,8 @@
           }
         },
         "f_subp_params": {
-          "kind": "ifEmpty",
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
             "hardlineWithoutBreakParent",

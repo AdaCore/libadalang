@@ -1155,7 +1155,10 @@ class AdaNode implements Node[AdaNode] {
     |" first. In particular, this property returns 1 if self is strictly
     |" preferred, 0 if the given entities are not comparable, and -1 if
     |" ``other`` would have been an equally valid candidate.
-    @with_dynvars(env, origin, entry_point)
+    @with_dynvars(env, origin)
+    # is_preferred_entity is only called from the external property
+    # is_own_nameres_ambiguous, so we need to ignore the warning.
+    @ignored
     fun is_preferred_entity(other: Entity[AdaNode]): Int = {
         val self_bd = self.as[BasicDecl];
         val other_bd = other.as[BasicDecl];

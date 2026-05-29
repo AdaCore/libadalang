@@ -1183,7 +1183,7 @@ package body Libadalang.Implementation.Extensions is
                Cmp := Ada_Node_P_Is_Preferred_Entity
                  (Best_Candidate (I).Value.Node,
                   Vars (I).Get_Value,
-                  Env, Origin, Entry_Point,
+                  Env, Origin,
                   Best_Candidate (I).Value.Info);
 
                if Cmp = 1 then

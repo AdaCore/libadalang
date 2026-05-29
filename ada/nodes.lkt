@@ -15392,10 +15392,10 @@ class Expr: AdaNode {
             %and %domain(
                 node.expected_type_var(),
                 [
-                    null[Entity[BaseTypeDecl]],
-                    node.std_string_type(),
-                    node.std_wide_string_type(),
-                    node.std_wide_wide_string_type()
+                    null[Entity[AdaNode]],
+                    node.std_string_type().as[AdaNode],
+                    node.std_wide_string_type().as[AdaNode],
+                    node.std_wide_wide_string_type().as[AdaNode]
                 ]
             )
         )
@@ -15421,8 +15421,8 @@ class Expr: AdaNode {
                     %domain(
                         self.expected_type_var(),
                         [
-                            self.big_integer_type(),
-                            self.spark_big_integer_type()
+                            self.big_integer_type().as[AdaNode],
+                            self.spark_big_integer_type().as[AdaNode]
                         ]
                     )
                     %and self.matches_expected_type()

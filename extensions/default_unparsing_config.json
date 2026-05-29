@@ -287,9 +287,16 @@
               "kind": "group",
               "document": [
                 {
-                  "kind": "match",
-                  "field": "f_ancestor_expr",
-                  "absent": [
+                  "kind": "if",
+                  "condition": {
+                    "kind": "is_empty",
+                    "node": {
+                      "kind": "eval_member",
+                      "prefix": "this_node",
+                      "member": "f_ancestor_expr"
+                    }
+                  },
+                  "then": [
                     {
                       "kind": "recurse_field",
                       "field": "f_ancestor_expr"
@@ -299,7 +306,7 @@
                       "field": "f_assocs"
                     }
                   ],
-                  "default": [
+                  "else": [
                     {
                       "kind": "recurse_field",
                       "field": "f_ancestor_expr"
@@ -319,8 +326,7 @@
                         }
                       ]
                     }
-                  ],
-                  "matchers": []
+                  ]
                 }
               ]
             }
@@ -349,9 +355,23 @@
           "field": "f_designators"
         },
         {
-          "kind": "match",
-          "field": "f_designators",
-          "default": {
+          "kind": "if",
+          "condition": {
+            "kind": "is_empty",
+            "node": {
+              "kind": "eval_member",
+              "prefix": "this_node",
+              "member": "f_designators"
+            }
+          },
+          "then": {
+            "kind": "group",
+            "document": {
+              "kind": "recurse_field",
+              "field": "f_r_expr"
+            }
+          },
+          "else": {
             "kind": "group",
             "document": {
               "kind": "continuationLineIndent",
@@ -364,15 +384,7 @@
                 }
               ]
             }
-          },
-          "absent": {
-            "kind": "group",
-            "document": {
-              "kind": "recurse_field",
-              "field": "f_r_expr"
-            }
-          },
-          "matchers": []
+          }
         }
       ],
       "fields": {
@@ -3929,20 +3941,17 @@
         "break": true,
         "document": [
           {
-            "kind": "match",
-            "field": "f_exceptions",
-            "default": {
-              "kind": "indent",
-              "contents": [
-                "hardline",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_stmts"
-                }
-              ],
-              "bubbleUpTrailingTrivias": true
+            "kind": "if",
+            "condition": {
+              "kind": "eval_member",
+              "prefix": {
+                "kind": "eval_member",
+                "prefix": "this_node",
+                "member": "f_exceptions"
+              },
+              "member": "is_empty_list"
             },
-            "absent": {
+            "then": {
               "kind": "indent",
               "contents": [
                 "hardline",
@@ -3952,7 +3961,17 @@
                 }
               ]
             },
-            "matchers": []
+            "else": {
+              "kind": "indent",
+              "contents": [
+                "hardline",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_stmts"
+                }
+              ],
+              "bubbleUpTrailingTrivias": true
+            }
           },
           {
             "kind": "recurse_field",
@@ -5334,9 +5353,26 @@
     },
     "ParamAssoc": {
       "node": {
-        "kind": "match",
-        "field": "f_designator",
-        "default": [
+        "kind": "if",
+        "condition": {
+          "kind": "is_empty",
+          "node": {
+            "kind": "eval_member",
+            "prefix": "this_node",
+            "member": "f_designator"
+          }
+        },
+        "then": [
+          {
+            "kind": "recurse_field",
+            "field": "f_designator"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_r_expr"
+          }
+        ],
+        "else": [
           {
             "kind": "recurse_field",
             "field": "f_designator"
@@ -5354,18 +5390,7 @@
               ]
             }
           }
-        ],
-        "absent": [
-          {
-            "kind": "recurse_field",
-            "field": "f_designator"
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_r_expr"
-          }
-        ],
-        "matchers": []
+        ]
       },
       "fields": {
         "f_designator": [
@@ -5562,9 +5587,23 @@
             "field": "f_name"
           },
           {
-            "kind": "match",
-            "field": "f_name",
-            "default": {
+            "kind": "if",
+            "condition": {
+              "kind": "is_empty",
+              "node": {
+                "kind": "eval_member",
+                "prefix": "this_node",
+                "member": "f_name"
+              }
+            },
+            "then": {
+              "kind": "group",
+              "document": {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              }
+            },
+            "else": {
               "kind": "group",
               "document": [
                 {
@@ -5579,15 +5618,7 @@
                   ]
                 }
               ]
-            },
-            "absent": {
-              "kind": "group",
-              "document": {
-                "kind": "recurse_field",
-                "field": "f_expr"
-              }
-            },
-            "matchers": []
+            }
           }
         ]
       },
@@ -6580,46 +6611,16 @@
             "id": "subp_spec"
           },
           {
-            "kind": "match",
-            "field": "f_aspects",
-            "default": {
-              "kind": "ifBreak",
-              "groupId": "subp_spec",
-              "flatContents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "group",
-                    "document": [
-                      "line",
-                      {
-                        "kind": "text",
-                        "text": "is"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
-              },
-              "breakContents": {
-                "kind": "group",
-                "document": [
-                  "hardline",
-                  {
-                    "kind": "text",
-                    "text": "is"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
+            "kind": "if",
+            "condition": {
+              "kind": "is_empty",
+              "node": {
+                "kind": "eval_member",
+                "prefix": "this_node",
+                "member": "f_aspects"
               }
             },
-            "absent": {
+            "then": {
               "kind": "ifBreak",
               "groupId": "subp_spec",
               "flatContents": {
@@ -6656,7 +6657,43 @@
                 ]
               }
             },
-            "matchers": []
+            "else": {
+              "kind": "ifBreak",
+              "groupId": "subp_spec",
+              "flatContents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "group",
+                    "document": [
+                      "line",
+                      {
+                        "kind": "text",
+                        "text": "is"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_decls"
+                  }
+                ]
+              },
+              "breakContents": {
+                "kind": "group",
+                "document": [
+                  "hardline",
+                  {
+                    "kind": "text",
+                    "text": "is"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_decls"
+                  }
+                ]
+              }
+            }
           },
           {
             "kind": "text",
@@ -7203,15 +7240,21 @@
                     "field": "f_aspects"
                   },
                   {
-                    "kind": "match",
-                    "field": "f_definition",
-                    "default": {
+                    "kind": "if",
+                    "condition": {
+                      "kind": "is_empty",
+                      "node": {
+                        "kind": "eval_member",
+                        "prefix": "this_node",
+                        "member": "f_definition"
+                      }
+                    },
+                    "then": [],
+                    "else": {
                       "kind": "ifBreak",
                       "flatContents": "line",
                       "breakContents": "hardlineWithoutBreakParent"
-                    },
-                    "absent": [],
-                    "matchers": []
+                    }
                   }
                 ]
               },

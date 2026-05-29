@@ -454,9 +454,34 @@
             {
               "kind": "group",
               "document": {
-                "kind": "match",
-                "field": "f_op",
-                "default": {
+                "kind": "if",
+                "condition": {
+                  "kind": "is_a",
+                  "node": {
+                    "kind": "eval_member",
+                    "prefix": "this_node",
+                    "member": "f_op"
+                  },
+                  "pattern": {"kind": "node", "type": "OpNotIn"}
+                },
+                "then": {
+                   "kind": "align",
+                   "width": "     ",
+                   "contents": [
+                     {
+                       "kind": "recurse_field",
+                       "field": "f_op"
+                     },
+                     "line",
+                     {
+                       "kind": "recurse_field",
+                       "field": "f_membership_exprs"
+                     }
+                   ],
+                   "bubbleUpLeadingTrivias": true,
+                   "bubbleUpTrailingTrivias": true
+                 },
+                "else": {
                   "kind": "align",
                   "width": " ",
                   "contents": [
@@ -472,29 +497,7 @@
                   ],
                   "bubbleUpLeadingTrivias": true,
                   "bubbleUpTrailingTrivias": true
-                },
-                "matchers": [
-                  {
-                    "kind": "OpNotIn",
-                    "document": {
-                      "kind": "align",
-                      "width": "     ",
-                      "contents": [
-                        {
-                          "kind": "recurse_field",
-                          "field": "f_op"
-                        },
-                        "line",
-                        {
-                          "kind": "recurse_field",
-                          "field": "f_membership_exprs"
-                        }
-                      ],
-                      "bubbleUpLeadingTrivias": true,
-                      "bubbleUpTrailingTrivias": true
-                    }
-                  }
-                ]
+                }
               }
             }
           ]
@@ -601,46 +604,16 @@
             "id": "subp_spec"
           },
           {
-            "kind": "match",
-            "field": "f_aspects",
-            "default": {
-              "kind": "ifBreak",
-              "groupId": "subp_spec",
-              "flatContents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "group",
-                    "document": [
-                      "line",
-                      {
-                        "kind": "text",
-                        "text": "is"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
-              },
-              "breakContents": {
-                "kind": "group",
-                "document": [
-                  "hardline",
-                  {
-                    "kind": "text",
-                    "text": "is"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
+            "kind": "if",
+            "condition": {
+              "kind": "is_empty",
+              "node": {
+                "kind": "eval_member",
+                "prefix": "this_node",
+                "member": "f_aspects"
               }
             },
-            "absent": {
+            "then": {
               "kind": "ifBreak",
               "groupId": "subp_spec",
               "flatContents": {
@@ -677,7 +650,43 @@
                 ]
               }
             },
-            "matchers": []
+            "else": {
+              "kind": "ifBreak",
+              "groupId": "subp_spec",
+              "flatContents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "group",
+                    "document": [
+                      "line",
+                      {
+                        "kind": "text",
+                        "text": "is"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_decls"
+                  }
+                ]
+              },
+              "breakContents": {
+                "kind": "group",
+                "document": [
+                  "hardline",
+                  {
+                    "kind": "text",
+                    "text": "is"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_decls"
+                  }
+                ]
+              }
+            }
           },
           {
             "kind": "text",

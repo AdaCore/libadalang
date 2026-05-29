@@ -788,31 +788,30 @@
         "kind": "group",
         "document": [
           {
-            "kind": "match",
-            "field": "f_right",
-            "default": {
-              "kind": "recurse_field",
-              "field": "f_left"
-            },
-            "matchers": [
-              {
-                "kind": "RelationOp",
-                "document": {
-                  "kind": "recurse_field",
-                  "field": "f_left"
-                }
+            "kind": "if",
+            "condition": {
+              "kind": "is_a",
+              "node": {
+                "kind": "eval_member",
+                "prefix": "this_node",
+                "member": "f_right"
               },
-              {
-                "kind": "BinOp",
-                "document": {
-                  "kind": "group",
-                  "document": {
-                    "kind": "recurse_field",
-                    "field": "f_left"
+              "pattern": {
+                "kind": "or",
+                "patterns": [
+                  {"kind": "node", "type": "RelationOp"},
+                  {
+                    "kind": "not",
+                    "pattern": {"kind": "node", "type": "BinOp"}
                   }
-                }
+                ]
               }
-            ]
+            },
+            "then": {"kind": "recurse_field", "field": "f_left"},
+            "else": {
+              "kind": "group",
+              "document": {"kind": "recurse_field", "field": "f_left"}
+            }
           },
           "line",
           "flushLineBreaks",
@@ -827,60 +826,29 @@
                     "field": "f_op"
                   },
                   {
-                    "kind": "match",
-                    "field": "f_op",
-                    "default": "line",
-                    "matchers": [
-                      {
-                        "kind": "OpPlus",
-                        "document": [
-                          "whitespace",
-                          "flushLineBreaks"
-                        ]
+                    "kind": "if",
+                    "condition": {
+                      "kind": "is_a",
+                      "node": {
+                        "kind": "eval_member",
+                        "prefix": "this_node",
+                        "member": "f_op"
                       },
-                      {
-                        "kind": "OpMinus",
-                        "document": [
-                          "whitespace",
-                          "flushLineBreaks"
-                        ]
-                      },
-                      {
-                        "kind": "OpMult",
-                        "document": [
-                          "whitespace",
-                          "flushLineBreaks"
-                        ]
-                      },
-                      {
-                        "kind": "OpDiv",
-                        "document": [
-                          "whitespace",
-                          "flushLineBreaks"
-                        ]
-                      },
-                      {
-                        "kind": "OpEq",
-                        "document": [
-                          "whitespace",
-                          "flushLineBreaks"
-                        ]
-                      },
-                      {
-                        "kind": "OpGt",
-                        "document": [
-                          "whitespace",
-                          "flushLineBreaks"
-                        ]
-                      },
-                      {
-                        "kind": "OpLt",
-                        "document": [
-                          "whitespace",
-                          "flushLineBreaks"
+                      "pattern": {
+                        "kind": "or",
+                        "patterns": [
+                          {"kind": "node", "type": "OpPlus"},
+                          {"kind": "node", "type": "OpMinus"},
+                          {"kind": "node", "type": "OpMult"},
+                          {"kind": "node", "type": "OpDiv"},
+                          {"kind": "node", "type": "OpEq"},
+                          {"kind": "node", "type": "OpGt"},
+                          {"kind": "node", "type": "OpLt"}
                         ]
                       }
-                    ]
+                    },
+                    "then": ["whitespace", "flushLineBreaks"],
+                    "else": "line"
                   },
                   {
                     "kind": "group",
@@ -908,7 +876,7 @@
           "condition": {
             "kind": "is_a",
             "node": "this_field",
-            "kinds": ["BinOp"]
+            "pattern": {"kind": "node", "type": "BinOp"}
           },
           "then": "recurse_flatten",
           "else": "recurse"
@@ -1091,7 +1059,13 @@
           "condition": {
             "kind": "is_a",
             "node": "this_field",
-            "kinds": ["DottedName", "CallExpr"]
+            "pattern": {
+              "kind": "or",
+              "patterns": [
+                {"kind": "node", "type": "DottedName"},
+                {"kind": "node", "type": "CallExpr"}
+              ]
+            }
           },
           "then": "recurse_flatten",
           "else": "recurse"
@@ -1758,34 +1732,30 @@
                 ]
               },
               {
-                "kind": "match",
-                "field": "f_type_def",
-                "default": {
+                "kind": "if",
+                "condition": {
+                  "kind": "is_a",
+                  "node": {
+                    "kind": "eval_member",
+                    "prefix": "this_node",
+                    "member": "f_type_def"
+                  },
+                  "pattern": {
+                    "kind": "or",
+                    "patterns": [
+                      {"kind": "node", "type": "DerivedTypeDef"},
+                      {"kind": "node", "type": "RecordTypeDef"}
+                    ]
+                  }
+                },
+                "then": {"kind": "recurse_field", "field": "f_type_def"},
+                "else": {
                   "kind": "continuationLineIndent",
                   "contents": [
                     "line",
-                    {
-                      "kind": "recurse_field",
-                      "field": "f_type_def"
-                    }
+                    {"kind": "recurse_field","field": "f_type_def"}
                   ]
-                },
-                "matchers": [
-                  {
-                    "kind": "DerivedTypeDef",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_type_def"
-                    }
-                  },
-                  {
-                    "kind": "RecordTypeDef",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_type_def"
-                    }
-                  }
-                ]
+                }
               }
             ]
           },
@@ -2345,7 +2315,13 @@
             "condition": {
               "kind": "is_a",
               "node": "this_field",
-              "kinds": ["DottedName", "CallExpr"]
+              "pattern": {
+                "kind": "or",
+                "patterns": [
+                  {"kind": "node", "type": "DottedName"},
+                  {"kind": "node", "type": "CallExpr"}
+                ]
+              }
             },
             "then": "recurse_flatten",
             "else": "recurse"
@@ -3387,34 +3363,30 @@
                 ]
               },
               {
-                "kind": "match",
-                "field": "f_type_def",
-                "default": {
+                "kind": "if",
+                "condition": {
+                  "kind": "is_a",
+                  "node": {
+                    "kind": "eval_member",
+                    "prefix": "this_node",
+                    "member": "f_type_def"
+                  },
+                  "pattern": {
+                    "kind": "or",
+                    "patterns": [
+                      {"kind": "node", "type": "DerivedTypeDef"},
+                      {"kind": "node", "type": "RecordTypeDef"}
+                    ]
+                  }
+                },
+                "then": {"kind": "recurse_field", "field": "f_type_def"},
+                "else": {
                   "kind": "continuationLineIndent",
                   "contents": [
                     "line",
-                    {
-                      "kind": "recurse_field",
-                      "field": "f_type_def"
-                    }
+                    {"kind": "recurse_field", "field": "f_type_def"}
                   ]
-                },
-                "matchers": [
-                  {
-                    "kind": "DerivedTypeDef",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_type_def"
-                    }
-                  },
-                  {
-                    "kind": "RecordTypeDef",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_type_def"
-                    }
-                  }
-                ]
+                }
               },
               {
                 "kind": "recurse_field",
@@ -4486,9 +4458,34 @@
             {
               "kind": "group",
               "document": {
-                "kind": "match",
-                "field": "f_op",
-                "default": {
+                "kind": "if",
+                "condition": {
+                  "kind": "is_a",
+                  "node": {
+                    "kind": "eval_member",
+                    "prefix": "this_node",
+                    "member": "f_op"
+                  },
+                  "pattern": {"kind": "node", "type": "OpNotIn"}
+                },
+                "then": {
+                  "kind": "align",
+                  "width": "     ",
+                  "contents": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_op"
+                    },
+                    "whitespace",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_membership_exprs"
+                    }
+                  ],
+                  "bubbleUpLeadingTrivias": true,
+                  "bubbleUpTrailingTrivias": true
+                },
+                "else": {
                   "kind": "align",
                   "width": " ",
                   "contents": [
@@ -4504,29 +4501,7 @@
                   ],
                   "bubbleUpLeadingTrivias": true,
                   "bubbleUpTrailingTrivias": true
-                },
-                "matchers": [
-                  {
-                    "kind": "OpNotIn",
-                    "document": {
-                      "kind": "align",
-                      "width": "     ",
-                      "contents": [
-                        {
-                          "kind": "recurse_field",
-                          "field": "f_op"
-                        },
-                        "whitespace",
-                        {
-                          "kind": "recurse_field",
-                          "field": "f_membership_exprs"
-                        }
-                      ],
-                      "bubbleUpLeadingTrivias": true,
-                      "bubbleUpTrailingTrivias": true
-                    }
-                  }
-                ]
+                }
               }
             }
           ]
@@ -4904,53 +4879,41 @@
                     {
                       "kind": "group",
                       "document": [
+                        {"kind": "recurse_field", "field": "f_has_aliased"},
                         {
-                          "kind": "match",
-                          "field": "f_has_aliased",
-                          "default": {
-                            "kind": "recurse_field",
-                            "field": "f_has_aliased"
-                          },
-                          "absent": {
-                            "kind": "recurse_field",
-                            "field": "f_has_aliased"
-                          },
-                          "matchers": [
-                            {
-                              "kind": "AliasedPresent",
-                              "document": [
-                                {
-                                  "kind": "recurse_field",
-                                  "field": "f_has_aliased"
-                                },
-                                "whitespace"
-                              ]
+                          "kind": "if",
+                          "condition": {
+                            "kind": "is_a",
+                            "node": {
+                              "kind": "eval_member",
+                              "prefix": "this_node",
+                              "member": "f_has_aliased"
+                            },
+                            "pattern": {
+                              "kind": "node",
+                              "type": "AliasedPresent"
                             }
-                          ]
+                          },
+                          "then": "whitespace",
+                          "else": []
                         },
+                        {"kind": "recurse_field", "field": "f_has_constant"},
                         {
-                          "kind": "match",
-                          "field": "f_has_constant",
-                          "default": {
-                            "kind": "recurse_field",
-                            "field": "f_has_constant"
-                          },
-                          "absent": {
-                            "kind": "recurse_field",
-                            "field": "f_has_constant"
-                          },
-                          "matchers": [
-                            {
-                              "kind": "ConstantPresent",
-                              "document": [
-                                {
-                                  "kind": "recurse_field",
-                                  "field": "f_has_constant"
-                                },
-                                "whitespace"
-                              ]
+                          "kind": "if",
+                          "condition": {
+                            "kind": "is_a",
+                            "node": {
+                              "kind": "eval_member",
+                              "prefix": "this_node",
+                              "member": "f_has_constant"
+                            },
+                            "pattern": {
+                              "kind": "node",
+                              "type": "ConstantPresent"
                             }
-                          ]
+                          },
+                          "then": "whitespace",
+                          "else": []
                         },
                         {
                           "kind": "recurse_field",

@@ -2,97 +2,97 @@ Working on node <AssignStmt array_type.adb:8:4-8:17>
 ====================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'type_conversion'
+Result: <CallExprKind.type_conversion: 'type_conversion'>
 
 Working on node <RequeueStmt family_index.adb:12:10-12:24>
 ==========================================================
 
 Eval 'node.f_call_name.p_kind'
-Result: 'family_index'
+Result: <CallExprKind.family_index: 'family_index'>
 
 Working on node <CallStmt family_index.adb:23:4-23:16>
 ======================================================
 
 Eval 'node.f_call.p_kind'
-Result: 'call'
+Result: <CallExprKind.call: 'call'>
 
 Eval 'node.f_call.f_name.p_kind'
-Result: 'family_index'
+Result: <CallExprKind.family_index: 'family_index'>
 
 Working on node <CallStmt kind.adb:26:7-26:14>
 ==============================================
 
 Eval 'node.f_call.p_kind'
-Result: 'call'
+Result: <CallExprKind.call: 'call'>
 
 Working on node <AssignStmt kind.adb:49:4-49:31>
 ================================================
 
 Eval 'node.f_dest.f_prefix.p_kind'
-Result: 'type_conversion'
+Result: <CallExprKind.type_conversion: 'type_conversion'>
 
 Eval 'node.f_expr.f_prefix.p_kind'
-Result: 'type_conversion'
+Result: <CallExprKind.type_conversion: 'type_conversion'>
 
 Working on node <AssignStmt kind.adb:53:4-53:23>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'type_conversion'
+Result: <CallExprKind.type_conversion: 'type_conversion'>
 
 Working on node <AssignStmt kind.adb:56:4-56:15>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'array_index'
+Result: <CallExprKind.array_index: 'array_index'>
 
 Working on node <AssignStmt kind.adb:59:4-59:20>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'array_slice'
+Result: <CallExprKind.array_slice: 'array_slice'>
 
 Working on node <AssignStmt kind.adb:62:4-62:16>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'call'
+Result: <CallExprKind.call: 'call'>
 
 Working on node <AssignStmt kind.adb:65:4-65:21>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'type_conversion'
+Result: <CallExprKind.type_conversion: 'type_conversion'>
 
 Working on node <AssignStmt kind.adb:68:4-68:17>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'generalized_indexing'
+Result: <CallExprKind.generalized_indexing: 'generalized_indexing'>
 
 Working on node <AssignStmt kind.adb:71:4-71:21>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'call'
+Result: <CallExprKind.call: 'call'>
 
 Working on node <AssignStmt kind.adb:74:4-74:23>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'call'
+Result: <CallExprKind.call: 'call'>
 
 Working on node <AssignStmt kind.adb:77:4-77:25>
 ================================================
 
 Eval 'node.f_expr.f_name.p_kind'
-Result: 'call'
+Result: <CallExprKind.call: 'call'>
 
 Eval 'node.f_expr.p_kind'
-Result: 'generalized_indexing'
+Result: <CallExprKind.generalized_indexing: 'generalized_indexing'>
 
 Working on node <AssignStmt kind.adb:82:4-82:17>
 ================================================
 
 Eval 'node.f_expr.p_kind'
-Result: 'generalized_indexing'
+Result: <CallExprKind.generalized_indexing: 'generalized_indexing'>

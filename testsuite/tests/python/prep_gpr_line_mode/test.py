@@ -3,7 +3,7 @@ import libadalang as lal
 
 prj = lal.GPRProject("foo.gpr")
 
-for line_mode in [None] + lal.FileReader.LineMode._c_to_py:
+for line_mode in [None] + list(lal.FileReader.LineMode):
     print(f"== line_mode={line_mode} ==")
     print("")
 

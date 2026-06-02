@@ -5738,7 +5738,10 @@ class BasicDecl: AdaNode {
     |" Return the documentation annotations associated with this decl.
     |" Annotations are any comment line of the form::
     |"
-    |"     --% [annotation_name]: [annotation]
+    |"     --  @annotation_name [annotation]
+    |"
+    |" Valueless annotations (e.g. ``--  @private``) get the boolean value
+    |" ``True``.
     |"
     |" Raises a property error if the doc is incorrectly formatted.
     |"

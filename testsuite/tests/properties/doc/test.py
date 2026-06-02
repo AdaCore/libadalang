@@ -86,23 +86,23 @@ end Foo;
 
 test('Test annotation extraction', b"""
 procedure Foo;
---% belongs-to: Bar
---%        random-annotation: True
---%other-annotation: False
+--  @belongs-to Bar
+--  @private
+--  @private-value
 --  This is the documentation for foo
 """)
 
 test('Test double annotation', b"""
 procedure Foo;
---% a: Foo
---% a: Bar
+--  @belongs-to Foo
+--  @belongs-to Bar
 """)
 
 test('Test whitespace stripping', b"""
 procedure Foo;
---% belongs-to: Bar
---%        random-annotation: True
---%other-annotation: False
+--  @belongs-to Bar
+--      @private
+--  @private-value
 --  This is the documentation for foo
 -- Weirdly formatted
 """)
@@ -132,9 +132,19 @@ test('Test toplevel package without token before "package"',
      b"package Lol is end Lol;")
 
 
-test('Test resilience to wrong annotation format', b"""
+test('Test unknown annotation is rejected', b"""
 procedure Foo;
---% belongs-to
+--  @no-such-annotation Foo
+""")
+
+test('Test belongs-to without a value is rejected', b"""
+procedure Foo;
+--  @belongs-to
+""")
+
+test('Test valueless annotation given a value is rejected', b"""
+procedure Foo;
+--  @private True
 """)
 
 test('Test generic package doc', b"""

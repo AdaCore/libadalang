@@ -88,9 +88,9 @@ package body Libadalang.Doc_Utils is
          return Ret;
       end if;
 
-     --  Process as many comments as possible from our starting point,
-     --  until we find an empty line or anything else than a comment or
-     --  a whitespace.
+      --  Process as many comments as possible from our starting point,
+      --  until we find an empty line or anything else than a comment or
+      --  a whitespace.
       while Tok /= No_Token  loop
          K := Kind (Data (Tok));
          case K is
@@ -104,21 +104,38 @@ package body Libadalang.Doc_Utils is
                --  Strip the "--" from the comment
                T := T.Slice (3, T.Length);
 
-               --  If this is an annotation then
-               if T.Starts_With ("%") then
+               --  Annotations are introduced by "@", possibly preceded by
+               --  whitespace, e.g. "--  @private" or "--  @belongs-to Foo".
+               if T.Trim.Starts_With ("@") then
+                  T := T.Trim;
                   declare
-                     --  Try to split on the ":"
-                     X : constant XString_Array := T.Split (":");
-                     K : constant Wide_Wide_String :=
-                       X (1).Slice (2, X (1).Length).Trim.To_String;
-                     --             ^ Strip % prefix
-                     V : constant Wide_Wide_String :=
-                       (if X'Length < 2
-                        then raise Property_Error
-                          with "Incorrectly formatted docstring"
-                        else X (2).Trim.To_String);
+                     --  Strip the "@" prefix and split the annotation name
+                     --  from its optional value on whitespace.
+                     X : constant XString_Array :=
+                       T.Slice (2, T.Length).Split (" ");
+                     K : constant Wide_Wide_String := X (1).Trim.To_String;
+                     Has_Value : constant Boolean := X'Length >= 2;
                   begin
-                     Ret.Annotations.Include (K, V);
+                     --  Only registered annotations are accepted.
+                     --  "belongs-to" carries the name of the owning entity;
+                     --  "private" and "private-value" are valueless flags
+                     --  recorded with the value "True".
+                     if K = "belongs-to" then
+                        if not Has_Value then
+                           raise Property_Error with
+                             "annotation 'belongs-to' requires a value";
+                        end if;
+                        Ret.Annotations.Include (K, X (2).Trim.To_String);
+                     elsif K = "private" or else K = "private-value" then
+                        if Has_Value then
+                           raise Property_Error with
+                             "valueless annotation given a value";
+                        end if;
+                        Ret.Annotations.Include (K, "True");
+                     else
+                        raise Property_Error with
+                          "unknown documentation annotation";
+                     end if;
                   end;
                else
                   Doc_Vec.Append (T);

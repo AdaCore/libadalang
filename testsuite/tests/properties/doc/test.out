@@ -24,9 +24,9 @@ Test annotation extraction
 Doc: 'This is the documentation for foo'
 
 Annotations:
-  * random-annotation = True
+  * private = True
   * belongs-to = Bar
-  * other-annotation = False
+  * private-value = True
 
 Test double annotation
 ======================
@@ -34,7 +34,7 @@ Test double annotation
 Doc: ''
 
 Annotations:
-  * a = Bar
+  * belongs-to = Bar
 
 Test whitespace stripping
 =========================
@@ -42,9 +42,9 @@ Test whitespace stripping
 Doc: ' This is the documentation for foo\nWeirdly formatted'
 
 Annotations:
-  * random-annotation = True
+  * private = True
   * belongs-to = Bar
-  * other-annotation = False
+  * private-value = True
 
 Test carriage return stripping
 ==============================
@@ -66,10 +66,20 @@ Test toplevel package without token before "package"
 
 Doc: ''
 
-Test resilience to wrong annotation format
-==========================================
+Test unknown annotation is rejected
+===================================
 
-Exception: Incorrectly formatted docstring
+Exception: unknown documentation annotation
+
+Test belongs-to without a value is rejected
+===========================================
+
+Exception: annotation 'belongs-to' requires a value
+
+Test valueless annotation given a value is rejected
+===================================================
+
+Exception: valueless annotation given a value
 
 Test generic package doc
 ========================

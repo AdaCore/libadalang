@@ -61,7 +61,7 @@ package Libadalang.Auto_Provider is
      (Provider : Auto_Unit_Provider;
       Name     : Text_Type;
       Kind     : Analysis_Unit_Kind) return String;
-   --  @private
+   --  @exclude
 
    overriding procedure Get_Unit_Location
      (Provider       : Auto_Unit_Provider;
@@ -69,7 +69,7 @@ package Libadalang.Auto_Provider is
       Kind           : Analysis_Unit_Kind;
       Filename       : in out Unbounded_String;
       PLE_Root_Index : in out Natural);
-   --  @private
+   --  @exclude
 
    overriding function Get_Unit
      (Provider    : Auto_Unit_Provider;
@@ -78,7 +78,7 @@ package Libadalang.Auto_Provider is
       Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return Analysis_Unit'Class;
-   --  @private
+   --  @exclude
 
    overriding procedure Get_Unit_And_PLE_Root
      (Provider       : Auto_Unit_Provider;
@@ -89,10 +89,10 @@ package Libadalang.Auto_Provider is
       Reparse        : Boolean := False;
       Unit           : in out Analysis_Unit'Class;
       PLE_Root_Index : in out Natural);
-   --  @private
+   --  @exclude
 
    overriding procedure Release (Provider : in out Auto_Unit_Provider);
-   --  @private
+   --  @exclude
 
    function Create_Auto_Provider
      (Input_Files : GNATCOLL.VFS.File_Array;

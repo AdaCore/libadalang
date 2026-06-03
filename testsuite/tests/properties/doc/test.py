@@ -87,8 +87,8 @@ end Foo;
 test('Test annotation extraction', b"""
 procedure Foo;
 --  @belongs-to Bar
---  @private
---  @private-value
+--  @exclude
+--  @exclude-value
 --  This is the documentation for foo
 """)
 
@@ -101,8 +101,8 @@ procedure Foo;
 test('Test whitespace stripping', b"""
 procedure Foo;
 --  @belongs-to Bar
---      @private
---  @private-value
+--      @exclude
+--  @exclude-value
 --  This is the documentation for foo
 -- Weirdly formatted
 """)
@@ -144,7 +144,7 @@ procedure Foo;
 
 test('Test valueless annotation given a value is rejected', b"""
 procedure Foo;
---  @private True
+--  @exclude True
 """)
 
 test('Test generic package doc', b"""

@@ -24,9 +24,9 @@ Test annotation extraction
 Doc: 'This is the documentation for foo'
 
 Annotations:
-  * private = True
+  * exclude = True
   * belongs-to = Bar
-  * private-value = True
+  * exclude-value = True
 
 Test double annotation
 ======================
@@ -42,9 +42,9 @@ Test whitespace stripping
 Doc: ' This is the documentation for foo\nWeirdly formatted'
 
 Annotations:
-  * private = True
+  * exclude = True
   * belongs-to = Bar
-  * private-value = True
+  * exclude-value = True
 
 Test carriage return stripping
 ==============================

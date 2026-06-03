@@ -105,7 +105,7 @@ package body Libadalang.Doc_Utils is
                T := T.Slice (3, T.Length);
 
                --  Annotations are introduced by "@", possibly preceded by
-               --  whitespace, e.g. "--  @private" or "--  @belongs-to Foo".
+               --  whitespace, e.g. "--  @exclude" or "--  @belongs-to Foo".
                if T.Trim.Starts_With ("@") then
                   T := T.Trim;
                   declare
@@ -118,7 +118,7 @@ package body Libadalang.Doc_Utils is
                   begin
                      --  Only registered annotations are accepted.
                      --  "belongs-to" carries the name of the owning entity;
-                     --  "private" and "private-value" are valueless flags
+                     --  "exclude" and "exclude-value" are valueless flags
                      --  recorded with the value "True".
                      if K = "belongs-to" then
                         if not Has_Value then
@@ -126,7 +126,7 @@ package body Libadalang.Doc_Utils is
                              "annotation 'belongs-to' requires a value";
                         end if;
                         Ret.Annotations.Include (K, X (2).Trim.To_String);
-                     elsif K = "private" or else K = "private-value" then
+                     elsif K = "exclude" or else K = "exclude-value" then
                         if Has_Value then
                            raise Property_Error with
                              "valueless annotation given a value";

@@ -412,7 +412,9 @@ class GPRProject:
         if line_mode is None:
             c_line_mode_ref = None
         else:
-            c_line_mode = ctypes.c_int(FileReader.LineMode._unwrap(line_mode))
+            c_line_mode = ctypes.c_int(
+                FileReader._LineMode_py_to_c[FileReader.LineMode(line_mode)]
+            )
             c_line_mode_ref = ctypes.byref(c_line_mode)
 
         return FileReader(

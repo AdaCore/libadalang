@@ -1,6 +1,6 @@
 ## vim: ft=makopython
 
-    class LineMode(enum.StrEnum):
+    class LineMode(str, enum.Enum):
         """
         Determine how the preprocessor treats directives and disabled lines in
         the output.
@@ -31,6 +31,9 @@
         blank_lines = "blank_lines"
         comment_lines = "comment_lines"
         empty_comment_lines = "empty_comment_lines"
+
+        def __str__(self) -> str:
+            return self.value
 
     _LineMode_c_to_py = list(LineMode)
     _LineMode_py_to_c = {

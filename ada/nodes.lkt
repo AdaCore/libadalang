@@ -3080,28 +3080,7 @@ class AspectAssoc: AdaNode {
 
         # Finalizable aspect
         elif self.id.name_symbol() in s"Finalizable"
-        then
-            self.expr.as[Aggregate].assocs.unpacked_params().logic_all(
-                (sa) => {
-                    val expr = sa.assoc.expr();
-
-                    if expr.as![Name].name_symbol()
-                        in s"Initialize" | s"Adjust" | s"Finalize"
-                    then
-                        expr.as![Name].xref_no_overloading(
-                            sequential=false, all_els=true
-                        ) %and BasicDecl.is_finalizable_subprogram_for_type%(
-                            expr.as![Name].ref_var(),
-                            target.as![BaseTypeDecl].as_entity
-                        )
-                    else
-                        # The remaining association concerns
-                        # ``Relaxed_Finalization``.
-                        expr.expected_type_var() <- node.bool_type()
-                        %and expr.sub_equation()
-                        %and expr.matches_expected_formal_type()
-                }
-            )
+        then self.expr.sub_equation()
 
         elif self.id.name_symbol() == s"Inline"
         then
@@ -4843,6 +4822,27 @@ class AggregateAssoc: BasicAssoc {
             %and self.r_expr.expected_type_var() <- node.bool_type()
             %and self.r_expr.sub_equation()
             %and self.r_expr.matches_expected_formal_type()
+
+        elif agg.parent.as[AspectAssoc]?.id.name_is(s"Finalizable")
+        then {
+            val target =
+                agg.parent.as![AspectAssoc].target_decl().as![BaseTypeDecl];
+
+            if self.r_expr.as![Name].name_symbol()
+               in s"Initialize" | s"Adjust" | s"Finalize"
+            then
+                self.r_expr.as![Name].xref_no_overloading(
+                    sequential=false, all_els=true
+                ) %and BasicDecl.is_finalizable_subprogram_for_type%(
+                    self.r_expr.as![Name].ref_var(),
+                    target.as_entity
+                )
+            else
+                # The remaining assoc concerns Relaxed_Finalization
+                self.r_expr.expected_type_var() <- node.bool_type()
+                %and self.r_expr.sub_equation()
+                %and self.r_expr.matches_expected_formal_type()
+        }
 
         elif agg.parent.as[AspectAssoc]?.id.name_is(s"Subprogram_Variant")
         then self.r_expr.spark_variant_equation(
@@ -16008,6 +16008,7 @@ class BaseAggregate: Expr {
                 or node.in_aspect(s"Aggregate")
                 or node.in_aspect(s"Annotate")
                 or node.in_aspect(s"Subprogram_Variant")
+                or node.in_aspect(s"Finalizable")
 
                 # Careful: normal aggregates can appear inside a contract_cases
                 # aspect's expression, so we must only special case the direct

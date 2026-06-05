@@ -1,0 +1,60 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ComponentDecl ["Id"] test.adb:4:10-4:28>
+******************************************************************
+
+Expr: <Id "Natural" test.adb:4:15-4:22>
+  references:    <DefiningName "Natural" in Standard>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:4:26-4:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
+
+Resolving xrefs for node <AspectAssoc test.adb:6:15-9:60>
+*********************************************************
+
+Expr: <Id "Finalizable" test.adb:6:15-6:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:6:30-9:60>
+  type:          None
+  expected type: None
+Expr: <Id "Initialize" test.adb:6:31-6:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Initialize" test.adb:6:55-6:65>
+  references:    <DefiningName "Initialize" test.adb:12:17-12:27>
+  type:          None
+  expected type: None
+Expr: <Id "Adjust" test.adb:7:31-7:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Adjust" test.adb:7:55-7:61>
+  references:    <DefiningName "Adjust" test.adb:13:17-13:23>
+  type:          None
+  expected type: None
+Expr: <Id "Finalize" test.adb:8:31-8:39>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Finalize" test.adb:8:55-8:63>
+  references:    <DefiningName "Finalize" test.adb:14:17-14:25>
+  type:          None
+  expected type: None
+Expr: <Id "Relaxed_Finalization" test.adb:9:31-9:51>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "True" test.adb:9:55-9:59>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+
+Done.

@@ -3067,11 +3067,7 @@ class AspectAssoc: AdaNode {
 
         # Iterable aspect
         if self.id.name_symbol() == s"Aggregate"
-        then
-            self.expr.as[Aggregate].assocs.unpacked_params().logic_all(
-                (sa) =>
-                sa.assoc.expr().as![Name].xref_no_overloading(sequential=false)
-            )
+        then self.expr.sub_equation()
 
         # In the case of the Iterable aspec, assocs are their own
         # `xref_entry_point`.
@@ -4848,6 +4844,8 @@ class AggregateAssoc: BasicAssoc {
         then self.r_expr.spark_variant_equation(
             self.designators[0].as[BaseId]
         )
+        elif agg.parent.as[AspectAssoc]?.id.name_symbol() == s"Aggregate"
+        then self.r_expr.as![Name].xref_no_overloading(sequential=false)
         elif agg is BracketAggregate and td?.has_aspect(s"Aggregate")
         then self.container_aggregate_equation(td)
         # For the Annotate aspect, the first two assocs (tool name and

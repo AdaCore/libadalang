@@ -312,5 +312,46 @@ Expr: <Id "False" test.adb:35:27-35:32>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
+Resolving xrefs for node <PragmaNode test.adb:39:4-41:34>
+*********************************************************
+
+Expr: <Id "Contract_Cases" test.adb:39:11-39:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:40:7-41:32>
+  type:          None
+  expected type: None
+Expr: <Id "L1" test.adb:40:8-40:10>
+  references:    <SyntheticDefiningName "l1" test.adb:0:0-0:0>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:40:14-41:31>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:40:15-40:20>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "I" test.adb:40:15-40:16>
+  references:    <DefiningName "I" test.adb:38:21-38:22>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpLt "<" test.adb:40:17-40:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:40:19-40:20>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "True" test.adb:40:24-40:28>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "False" test.adb:41:25-41:30>
+  references:    <DefiningName "False" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
 
 Done.

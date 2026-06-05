@@ -3164,40 +3164,7 @@ class AspectAssoc: AdaNode {
                     %and node.expr.matches_expected_formal_type()
             )
         }
-        elif self.id.name_symbol() in s"Contract_Cases"
-        then
-            # Support for multiple levels of ghost code: the assertion level
-            # can be optionally given using the following syntax:
-            # .. code:: ada
-            #
-            #   procedure Foo (I : Integer)
-            #      with Contract_Cases =>
-            #        (Level => (guard => consequence, ...))
-            #
-            # In that case, the level is the designator of an outer aggregate
-            # association and the actual contract cases list is the r_expr.
-            self.expr.as[Aggregate].do(
-                (outer_agg) =>
-                if outer_agg.is_assertion_level_contract_cases_agg()
-                then
-                    outer_agg.assocs.logic_all(
-                        (outer_assoc) =>
-                        outer_assoc.names().at(0).as[Identifier].do(
-                            (id) => id.as_entity.bind_assertion_level(),
-                            default_val=%false
-                        )
-                        %and outer_assoc.expr().as![BaseAggregate]
-                            .assocs.logic_all(
-                                (inner_assoc) =>
-                                inner_assoc.as[AggregateAssoc]
-                                    .contract_cases_assoc_equation()
-                            )
-                    )
-                else
-                    self.expr.sub_equation(),
-                default_val=self.expr.sub_equation()
-            )
-        elif self.id.name_symbol() in s"Subprogram_Variant"
+        elif self.id.name_symbol() in s"Contract_Cases" | s"Subprogram_Variant"
         then self.expr.sub_equation()
 
         # Put_Image aspect
@@ -4859,23 +4826,28 @@ class AggregateAssoc: BasicAssoc {
         then self.iterable_assoc_equation()
 
         # In the case of Contract_Cases aspect, the top-level aggregate's
-        # assocs use the special contract case equation, unless the assertion
-        # level form is used, in which case the resolution is done inline by
-        # AspectAssoc.xref_equation.
-        elif agg.parent.as[AspectAssoc]?.id.name_is(s"Contract_Cases")
+        # assocs use the special contract case equation. For the assertion
+        # level form, each outer assoc binds its assertion level and resolves
+        # the inner contract cases inline.
+        elif agg.is_contract_cases_base_aggregate()
         then
             if agg.is_assertion_level_contract_cases_agg()
-            then %true
-            else self.contract_cases_assoc_equation()
+            then
+                self.names().at(0).as[Identifier].do(
+                    (id) => id.as_entity.bind_assertion_level(),
+                    default_val=%false
+                )
+            else
+                self.contract_cases_assoc_equation()
 
         # For the assertion level form of Contract_Cases, the inner aggregate's
-        # assocs are resolved inline by AspectAssoc.xref_equation.
+        # assocs resolve themselves lazily via the stop-resolution mechanism.
         elif agg.parent.as[AggregateAssoc].do(
             (outer_assoc) =>
             outer_assoc.base_aggregate()
                 .is_assertion_level_contract_cases_agg()
         )
-        then %true
+        then self.contract_cases_assoc_equation()
         elif agg.parent.as[AspectAssoc]?.id.name_is(s"Subprogram_Variant")
         then self.r_expr.spark_variant_equation(
             self.designators[0].as[BaseId]
@@ -16059,11 +16031,15 @@ class BaseAggregate: Expr {
     }
 
     |" Return whether this is the aggregate directly used as the RHS of the
-    |" ``Contract_Cases`` aspect.
+    |" ``Contract_Cases`` aspect or pragma.
     fun is_contract_cases_base_aggregate(): Bool =
-        node.parent.as[AspectAssoc].do(
-            (aspect) => aspect.id.name_is(s"Contract_Cases")
-        )
+        match node.parent {
+            case aspect: AspectAssoc =>
+                aspect.id.name_is(s"Contract_Cases")
+            case parg: PragmaArgumentAssoc =>
+                parg.in_aspect(s"Contract_Cases")
+            case _ => false
+        }
 
     |" Return whether this is the assertion level form of the
     |" ``Contract_Cases`` aspect, i.e. this aggregate is directly under a
@@ -22672,11 +22648,7 @@ class Pragma: AdaNode {
                 %and arg.assoc_expr().matches_expected_formal_type()
             )
         elif self.id.name_is(s"Contract_Cases")
-        then
-            self.args.at(0).assoc_expr().as[BaseAggregate].assocs.logic_all(
-                (assoc) =>
-                assoc.as[AggregateAssoc].contract_cases_assoc_equation()
-            )
+        then self.args.at(0).assoc_expr().sub_equation()
         elif self.id.name_is(s"Loop_Variant")
         then
             self.args.logic_all((arg) => {

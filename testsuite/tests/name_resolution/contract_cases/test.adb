@@ -34,6 +34,12 @@ procedure Test is
         (L1 => (I < 2 => True,
                 others => False));
    pragma Test_Block;
+
+   procedure Corge (I : Integer);
+   pragma Contract_Cases
+     ((L1 => (I < 2 => True,
+              others => False)));
+   pragma Test_Statement;
 begin
    null;
 end Test;

@@ -3204,16 +3204,8 @@ class AspectAssoc: AdaNode {
             self.expr.as![Identifier].ref_var()
             <- target.as[TypeDecl].as_entity.variable_indexing_fns().at(0)
 
-        # For the Annotate aspect, the first two identifiers are not
-        # analyzed. The rest are arbitrary expressions (see
-        # `Expr.annotate_argument_equation`).
         elif self.id.name_is(s"Annotate")
-        then
-            self.expr.as[BaseAggregate].assocs.unpacked_params().ilogic_all(
-                (sa, i) =>
-                if i < 2 then %true
-                else sa.assoc.expr().annotate_argument_equation()
-            )
+        then self.expr.sub_equation()
         elif self.id.name_is(s"Implicit_Dereference")
         then self.implicit_dereference_equation(target.as[TypeDecl])
 
@@ -4847,6 +4839,14 @@ class AggregateAssoc: BasicAssoc {
         )
         elif agg is BracketAggregate and td?.has_aspect(s"Aggregate")
         then self.container_aggregate_equation(td)
+        # For the Annotate aspect, the first two assocs (tool name and
+        # category) are not Ada entities and are left unresolved.
+        elif agg.parent.as[AspectAssoc]?.id.name_is(s"Annotate")
+        then
+            if node.child_index < 2
+            then %true
+            else self.r_expr.annotate_argument_equation()
+
         elif agg.parent is AspectClause | AspectAssoc | PragmaArgumentAssoc
         then %true
         elif agg is DeltaAggregate then self.delta_aggregate_assoc_equation()
@@ -15995,6 +15995,7 @@ class BaseAggregate: Expr {
                 or node.in_aspect(s"Test_Case")
                 or node.in_aspect(s"Refined_State")
                 or node.in_aspect(s"Aggregate")
+                or node.in_aspect(s"Annotate")
                 or node.in_aspect(s"Subprogram_Variant")
 
                 # Careful: normal aggregates can appear inside a contract_cases

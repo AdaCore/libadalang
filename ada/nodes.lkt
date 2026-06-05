@@ -132,6 +132,8 @@ class AdaNode implements Node[AdaNode] {
             | s"Default_Initial_Condition"
             | s"Initial_Condition"
             | s"Contract_Cases"
+            | s"Exceptional_Cases"
+            | s"Exit_Cases"
             | s"Test_Case"
             | s"Global"
             | s"Refined_Global"
@@ -3122,7 +3124,11 @@ class AspectAssoc: AdaNode {
                 default_val=%true
             )
         }
-        elif self.id.name_symbol() in s"Contract_Cases" | s"Subprogram_Variant"
+        elif
+            self.id.name_symbol() in s"Contract_Cases"
+                | s"Subprogram_Variant"
+                | s"Exceptional_Cases"
+                | s"Exit_Cases"
         then self.expr.sub_equation()
 
         # Put_Image aspect
@@ -3298,6 +3304,7 @@ class AspectAssoc: AdaNode {
     @exported
     fun is_ghost_code(): Bool =
         self.id.name_symbol() in s"Pre" | s"Post" | s"Contract_Cases"
+            | s"Exceptional_Cases" | s"Exit_Cases"
 }
 
 |" Base class for aspect clauses.
@@ -4857,6 +4864,21 @@ class AggregateAssoc: BasicAssoc {
         )
         elif agg.parent.as[AspectAssoc]?.id.name_symbol() == s"Aggregate"
         then self.r_expr.as![Name].xref_no_overloading(sequential=false)
+        # Exceptional_Cases: each designator is an exception name; the
+        # consequence is a Boolean postcondition.
+        elif agg.in_aspect(s"Exceptional_Cases")
+             and not (agg.parent is AggregateAssoc)
+        then self.exceptional_cases_assoc_equation()
+        # Exit_Cases: boolean guard, SPARK exit-kind r_expr (left unresolved
+        # by this equation; the inner aggregate form is handled below).
+        elif agg.in_aspect(s"Exit_Cases")
+             and not (agg.parent is AggregateAssoc)
+        then self.exit_cases_assoc_equation()
+        # Inner assoc of the (Exception_Raised => exception_name) form in
+        # Exit_Cases: only the r_expr (the exception name) needs resolution.
+        elif agg.in_aspect(s"Exit_Cases") and agg.parent is AggregateAssoc
+        then self.r_expr.sub_equation()
+
         elif agg is BracketAggregate and td?.has_aspect(s"Aggregate")
         then self.container_aggregate_equation(td)
         # For the Annotate aspect, the first two assocs (tool name and
@@ -5177,11 +5199,11 @@ class AggregateAssoc: BasicAssoc {
         )
     }
 
-    |" Equation for the case where this is an aggregate assoc for a
-    |" Contract_Cases aspect. Both the ``guard`` and the ``consequence`` must
-    |" be of type Boolean.
+    |" Shared equation for the boolean guard part of ``Contract_Cases``
+    |" and ``Exit_Cases`` assocs. Each designator is expected to be of
+    |" type Boolean; ``others`` designators are skipped.
     @with_dynvars(env, origin, entry_point)
-    fun contract_cases_assoc_equation(): Equation =
+    fun bool_guard_equation(): Equation =
         self.designators.logic_all(
             (d) => d.as[Expr].do(
                 (e) =>
@@ -5192,9 +5214,35 @@ class AggregateAssoc: BasicAssoc {
                 default_val=%true
             )
         )
+
+    |" Equation for the case where this is an aggregate assoc for a
+    |" Contract_Cases aspect. Both the ``guard`` and the ``consequence``
+    |" must be of type Boolean.
+    @with_dynvars(env, origin, entry_point)
+    fun contract_cases_assoc_equation(): Equation =
+        self.bool_guard_equation()
         %and self.expr().expected_type_var() <- node.bool_type()
         %and self.expr().sub_equation()
         %and self.expr().matches_expected_formal_type()
+
+    |" Equation for the case where this is an aggregate assoc for an
+    |" Exceptional_Cases aspect. Each designator is an exception name;
+    |" the consequence must be of type Boolean.
+    @with_dynvars(env, origin, entry_point)
+    fun exceptional_cases_assoc_equation(): Equation =
+        self.designators.logic_all((d) => d.sub_equation())
+        %and self.r_expr.expected_type_var() <- node.bool_type()
+        %and self.r_expr.sub_equation()
+        %and self.r_expr.matches_expected_formal_type()
+
+    |" Equation for the case where this is an aggregate assoc for an
+    |" Exit_Cases aspect. The ``guard`` must be of type Boolean. The
+    |" ``consequence`` is a SPARK exit kind identifier or an
+    |" ``(Exception_Raised => exception_name)`` aggregate, both of which
+    |" are handled separately by ``resolve_children_names``.
+    @with_dynvars(env, origin, entry_point)
+    fun exit_cases_assoc_equation(): Equation =
+        self.bool_guard_equation()
 
     |" Return the xref equation for the case where this is an aggregate assoc
     |" in which all the designator as well as the RHS are usual expressions
@@ -16021,6 +16069,8 @@ class BaseAggregate: Expr {
                 or node.in_aspect(s"Taint_Source")
                 or node.in_aspect(s"Taint_Sink")
                 or node.in_aspect(s"Taint_Sanitizer")
+                or node.in_aspect(s"Exceptional_Cases")
+                or node.in_aspect(s"Exit_Cases")
 
                 # Careful: normal aggregates can appear inside a contract_cases
                 # aspect's expression, so we must only special case the direct
@@ -22674,7 +22724,9 @@ class Pragma: AdaNode {
                 %and arg.assoc_expr().sub_equation()
                 %and arg.assoc_expr().matches_expected_formal_type()
             )
-        elif self.id.name_is(s"Contract_Cases")
+        elif
+            self.id.name_symbol() in s"Contract_Cases"
+                | s"Exceptional_Cases" | s"Exit_Cases"
         then self.args.at(0).assoc_expr().sub_equation()
         elif self.id.name_is(s"Loop_Variant")
         then
@@ -22977,6 +23029,8 @@ class Pragma: AdaNode {
                 | s"Postcondition'Class"
                 | s"Test_Case"
                 | s"Contract_Cases"
+                | s"Exceptional_Cases"
+                | s"Exit_Cases"
                 | s"Taint_Source"
                 | s"Taint_Sink"
                 | s"Taint_Sanitizer"

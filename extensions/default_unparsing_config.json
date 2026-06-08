@@ -357,11 +357,16 @@
         {
           "kind": "if",
           "condition": {
-            "kind": "is_empty",
+            "kind": "is_a",
             "node": {
               "kind": "eval_member",
               "prefix": "this_node",
               "member": "f_designators"
+            },
+            "pattern": {
+              "kind": "node",
+              "type": "AlternativesList",
+              "members": [{"member": "is_empty_list", "pattern": true}]
             }
           },
           "then": {

@@ -15,6 +15,7 @@ Contents:
    ada_api_ref
    python_api_tutorial
    python_api_ref
+   unparsing_config_format
    examples/index.rst
 
 Indices and tables

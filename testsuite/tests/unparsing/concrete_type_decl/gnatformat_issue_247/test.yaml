@@ -1,0 +1,3 @@
+driver: unparser
+description: Missing whithespace before with keyword in type declaration.
+rule: compilation_unit

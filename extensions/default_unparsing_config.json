@@ -2370,7 +2370,8 @@
               "kind": "recurse_field",
               "field": "f_stmts"
             }
-          ]
+          ],
+          "bubbleUpTrailingTrivias": true
         }
       ]
     },

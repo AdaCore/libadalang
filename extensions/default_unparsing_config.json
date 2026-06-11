@@ -6999,23 +6999,40 @@
         "kind": "group",
         "document": [
           {
-            "kind": "text",
-            "text": "separate"
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "separate"
+              },
+              {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  "line",
+                  {
+                    "kind": "align",
+                    "width": " ",
+                    "contents": [
+                      {
+                        "kind": "text",
+                        "text": "("
+                      },
+                      "flushLineBreaks",
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_name"
+                      },
+                      {
+                        "kind": "text",
+                        "text": ")"
+                      }
+                    ]
+                  } 
+                ]
+              }
+            ]
           },
-          "whitespace",
-          {
-            "kind": "text",
-            "text": "("
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_name"
-          },
-          {
-            "kind": "text",
-            "text": ")"
-          },
-          "hardlineWithoutBreakParent",
+          "hardline",
           "flushLineBreaks",
           {
             "kind": "recurse_field",

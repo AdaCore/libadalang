@@ -2206,7 +2206,27 @@
               "recurse"
             ]
           }
-        ]
+        ],
+        "f_has_with_private": {
+          "kind": "if",
+          "condition": {
+            "kind": "is_a",
+            "node": {
+              "kind": "eval_member",
+              "member": "f_has_with_private",
+              "prefix": "this_node"
+            },
+            "pattern": {
+              "kind": "node",
+              "type": "WithPrivateAbsent"
+            }
+          },
+          "then": "recurse",
+          "else": [
+            "whitespace",
+            "recurse" 
+          ]            
+        }        
       }
     },
     "DigitsConstraint": {},

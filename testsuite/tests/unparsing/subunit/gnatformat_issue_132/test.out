@@ -1,0 +1,10 @@
+separate -- some junk
+  ( -- some junk
+   Parent_1  -- some junk
+     .  -- some junk
+     Parent_2  -- some junk
+   ) -- some junk
+procedure Sub is
+begin
+   null;
+end;

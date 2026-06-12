@@ -1,0 +1,89 @@
+procedure test is
+
+procedure P1 is null;
+procedure P2 is null;
+procedure P3 is null;
+
+Condition : Boolean := True;
+Condition_bis : Boolean := True;
+
+begin
+
+if Condition then
+
+      --  It is important to call P1 here
+
+      P1;
+
+   --  Otherwise, do domething else
+
+-- Elsif comment
+elsif Condition_bis then
+
+      --  It is important to call P1 here
+
+      P1;
+
+   --  Otherwise, do domething else
+
+-- Elsif comment
+elsif Condition_bis then
+
+      --  It is important to call P1 here
+
+      P1;
+
+   --  Otherwise, do domething else
+
+   -- else comment
+   else
+
+      P2;
+
+      --  Note that P3 must not be called at this point
+
+   end if;
+
+   if not Condition then
+
+      P3;
+
+   --  Note that P3 must not be called at this point
+
+   end if;
+
+
+if Foo then
+   Bar;
+-- This one is common
+elsif Baz then
+   Qux;
+end if;
+
+
+   if Condition then
+
+      P3;
+
+   --  Note that P3 must not be called at this point
+-- Elsif comment
+elsif Condition_bis then
+
+      --  It is important to call P1 here
+
+      P1;
+
+   --  Otherwise, do domething else
+
+-- Elsif comment
+elsif Condition_bis then
+
+      --  It is important to call P1 here
+
+      P1;
+
+   --  Otherwise, do domething else
+   end if;
+
+
+end test;

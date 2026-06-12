@@ -20542,56 +20542,68 @@ class DottedName: Name {
     fun complete_items(): Array[CompletionItem] = {
         bind origin = node.origin_node();
         bind env = node.node_env;
-        val complete_env = {
-            bind no_visibility = true;
-            self.prefix.designated_env()
-        };
-        val visible_env = {
-            bind no_visibility = false;
-            self.prefix.designated_env()
-        };
-        # In completion we always want to return everything, and flag invisible
-        # things as invisible, so we first query `complete_env` to discover all
-        # possible items, and then check whether they are actually visible by
-        # querying `visible_env`.
-        node.env_get_public(complete_env, null[Symbol], LookupKind.flat)
-        .filtermap(
-            (n) =>
-            CompletionItem(
-                decl=n.as[BasicDecl],
-                is_dot_call=n.info.md.dottable_subp,
-                is_visible=(
-                    # Dottable subprograms are always visible
-                    n.info.md.dottable_subp
-                )
-                or (
-                    # Else check visibility on the unit containing n
-                    node.has_visibility(n)
-                    and node.env_get_public(
-                        visible_env,
-                        n.as[BasicDecl].name_symbol(),
-                        LookupKind.flat
+
+        val with_clause =
+            node.parents().find((p) => p is WithClause).as[WithClause];
+
+        # Completion for a name in a with clause is handled by the clause
+        # itself, see ``WithClause.complete_items_for``.
+        if not with_clause.is_null
+        then with_clause.as_bare_entity.complete_items_for(node)
+        else {
+            val complete_env = {
+                bind no_visibility = true;
+                self.prefix.designated_env()
+            };
+            val visible_env = {
+                bind no_visibility = false;
+                self.prefix.designated_env()
+            };
+
+            # In completion we always want to return everything, and flag
+            # invisible things as invisible, so we first query `complete_env`
+            # to discover all possible items, and then check whether they are
+            # actually visible by querying `visible_env`.
+            node.env_get_public(complete_env, null[Symbol], LookupKind.flat)
+            .filtermap(
+                (n) =>
+                CompletionItem(
+                    decl=n.as[BasicDecl],
+                    is_dot_call=n.info.md.dottable_subp,
+                    is_visible=(
+                        # Dottable subprograms are always visible
+                        n.info.md.dottable_subp
                     )
-                    .contains(n)
+                    or (
+                        # Else check visibility on the unit containing n
+                        node.has_visibility(n)
+                        and node.env_get_public(
+                            visible_env,
+                            n.as[BasicDecl].name_symbol(),
+                            LookupKind.flat
+                        )
+                        .contains(n)
+                    ),
+                    weight=self.complete_item_weight(n.as[BasicDecl])
                 ),
-                weight=self.complete_item_weight(n.as[BasicDecl])
-            ),
-            (n) =>
-            (
-                # Filter elements that are coming from a body that is not
-                # visible. This can happen with dottable subprograms
-                # defined in bodies.
-                # NOTE: We also filter `PrivatePart`s here as they are
-                # useless from the completion point of view.
-                # Order matters here, `has_visibility` below should not
-                # be called with n being a PrivatePart.
-                not n is PrivatePart
+                (n) =>
+                (
+                    # Filter elements that are coming from a body that is
+                    # not visible. This can happen with dottable subprograms
+                    # defined in bodies.
+                    # NOTE: We also filter `PrivatePart`s here as they are
+                    # useless from the completion point of view.
+                    # Order matters here, `has_visibility` below should not
+                    # be called with n being a PrivatePart.
+                    not n is PrivatePart
+                )
+                and (
+                    n.owning_unit_kind()
+                    == AnalysisUnitKind.unit_specification
+                    or node.has_visibility(n)
+                )
             )
-            and (
-                n.owning_unit_kind() == AnalysisUnitKind.unit_specification
-                or node.has_visibility(n)
-            )
-        )
+        }
     }
 
     @with_dynvars(origin)
@@ -26259,6 +26271,42 @@ class WithClause: AdaNode {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         node.packages.logic_all((p) => self.child_unit_xref_equation(p))
+
+    |" Return the completion items for ``name``, one of the package names
+    |" of this clause: the child units of the unit designated by its
+    |" prefix. Only units already loaded in the analysis context can be
+    |" proposed: loading the units of interest is up to the user.
+    |"
+    |" Every item is flagged as visible: visibility is meaningless when
+    |" completing the import itself, and computing it would crash on an
+    |" incomplete clause (e.g. ``with Ada.``, whose null suffix breaks
+    |" the with clause resolution that ``has_visibility`` relies on).
+    |"
+    |" This is implemented here rather than in
+    |" ``DottedName.complete_items`` because the two completions share no
+    |" logic: candidates, item fields and filtering all differ.
+    @with_dynvars(origin)
+    fun complete_items_for(name: DottedName): Array[CompletionItem] = {
+        bind env = node.node_env;
+
+        val units_env = {
+            bind no_visibility = true;
+            name.prefix.as_bare_entity.designated_env()
+        };
+
+        node.env_get_public(units_env, null[Symbol], LookupKind.flat)
+        .filtermap(
+            (n) =>
+            CompletionItem(
+                decl=n.as[BasicDecl],
+                is_dot_call=false,
+                is_visible=true,
+                weight=0
+            ),
+            # Only library units are legal completions in a with clause
+            (n) => n.as[BasicDecl]?.is_compilation_unit_root()
+        )
+    }
 
     env_spec {
         set_initial_env(

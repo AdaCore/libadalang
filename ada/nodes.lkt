@@ -3104,14 +3104,7 @@ class AspectAssoc: AdaNode {
         elif self.id.name_symbol() == s"Ghost"
         then
             self.expr.do(
-                (expr) => expr.as[Identifier].do(
-                    (id) => id.bind_assertion_level(),
-                    default_val=%true
-                ) %or (
-                    self.expr.expected_type_var() <- node.bool_type()
-                    %and self.expr.sub_equation()
-                    %and self.expr.matches_expected_formal_type()
-                ),
+                (expr) => expr.ghost_equation(),
                 default_val=%true
             )
 
@@ -15336,6 +15329,20 @@ class Expr: AdaNode {
             node.expected_type_var()
         )
 
+    |" Equation for the ``Ghost`` aspect or pragma: try to bind the
+    |" expression as an assertion level; if it is not an identifier or
+    |" the binding fails, resolve it as a boolean expression instead.
+    @with_dynvars(env, origin, entry_point)
+    fun ghost_equation(): Equation =
+        self.as[Identifier].do(
+            (id) => id.bind_assertion_level(),
+            default_val=%false
+        ) %or (
+            self.expected_type_var() <- node.bool_type()
+            %and self.sub_equation()
+            %and self.matches_expected_formal_type()
+        )
+
     |" Construct an equation which asserts that the expected type of this
     |" expression is the standard boolean type or any type that derives from
     |" it.
@@ -22578,17 +22585,7 @@ class Pragma: AdaNode {
             self.id.name_symbol() == s"Ghost"
         then
             self.args.at(0).do(
-                (arg) => {
-                    val expr = arg.assoc_expr();
-                    expr.as[Identifier].do(
-                        (id) => id.bind_assertion_level(),
-                        default_val=%false
-                    ) %or (
-                        expr.expected_type_var() <- node.bool_type()
-                        %and expr.sub_equation()
-                        %and expr.matches_expected_formal_type()
-                    )
-                },
+                (arg) => arg.assoc_expr().ghost_equation(),
                 default_val=%true
             )
         elif

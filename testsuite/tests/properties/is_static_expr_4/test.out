@@ -1,0 +1,32 @@
+Working on node <NumberDecl ["A"] test.adb:9:4-9:32>
+====================================================
+
+Eval 'node.f_expr.p_is_static_expr()'
+Result: True
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 128
+
+Working on node <ObjectDecl ["B"] test.adb:13:4-13:32>
+======================================================
+
+Eval 'node.f_default_expr.p_is_static_expr()'
+Result: False
+
+Working on node <NumberDecl ["C"] test.adb:16:4-16:32>
+======================================================
+
+Eval 'node.f_expr.p_is_static_expr()'
+Result: True
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 128
+
+Working on node <NumberDecl ["D"] test.adb:20:4-20:43>
+======================================================
+
+Eval 'node.f_expr.p_is_static_expr()'
+Result: True
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 128

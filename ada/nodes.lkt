@@ -3051,6 +3051,16 @@ class AspectAssoc: AdaNode {
     |" Return the basic declaration on which this aspect is defined.
     fun target_decl(): BasicDecl = node.parent.parent.parent.as![BasicDecl]
 
+    |" Return whether this is a boolean contract aspect that supports the
+    |" assertion level form, i.e. whose expression can be either a boolean
+    |" predicate or an aggregate of assertion level => predicate pairs.
+    fun is_bool_contract_aspect(): Bool =
+        node.id.name_symbol() in s"Pre" | s"Post" | s"Refined_Post"
+            | s"Type_Invariant" | s"Invariant" | s"Predicate"
+            | s"Static_Predicate" | s"Dynamic_Predicate"
+            | s"Initial_Condition" | s"Program_Exit"
+            | s"Always_Terminates"
+
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = {
         val target = node.target_decl();
@@ -3109,16 +3119,7 @@ class AspectAssoc: AdaNode {
             )
 
         # Contracts
-        elif
-            self.id.name_symbol() in s"Pre"
-                | s"Post"
-                | s"Refined_Post"
-                | s"Type_Invariant"
-                | s"Invariant"
-                | s"Predicate"
-                | s"Static_Predicate"
-                | s"Dynamic_Predicate"
-                | s"Initial_Condition"
+        elif self.is_bool_contract_aspect()
         then {
             # Ada 2022 allows Pre and Post aspects for
             # access-to-subprogram types. In such case, visibility
@@ -3131,30 +3132,19 @@ class AspectAssoc: AdaNode {
                 then target.as[TypeDecl].type_def.children_env
                 else self.node_env;
 
-            # Support for multiple levels of ghost code: the assertion level
-            # can be optionally given using the following syntax:
-            # .. code:: ada
-            #
-            #   function Foo (X : Integer) return Integer
-            #      with Pre => (Level_1 => <predicate>, Level_2 => <predicate>)
-            #
-            # In that case, the levels are the designators of each aggregate
-            # associations, and are necessarily identifiers. There can only be
-            # one designator in each association.
-            self.expr.as[Aggregate].do(
-                (agg) => agg.assocs.logic_all((assoc) =>
-                    assoc.names().at(0).as[Identifier].do(
-                        (id) => id.as_entity.bind_assertion_level(),
-                        default_val=%false
-                    )
-                    %and assoc.expr().expected_type_var() <- node.bool_type()
-                    %and assoc.expr().sub_equation()
-                    %and assoc.expr().matches_expected_formal_type()
-                ),
-                default_val=
-                    node.expr.expected_type_var() <- node.bool_type()
-                    %and self.expr.sub_equation()
-                    %and node.expr.matches_expected_formal_type()
+            # The assertion level form uses an aggregate where each assoc
+            # has a level designator and a predicate as r_expr. The per-assoc
+            # logic is handled by AggregateAssoc.xref_equation. When expr
+            # is absent (e.g. ``with Always_Terminates``), default to %true.
+            self.expr.do(
+                (e) =>
+                if e is Aggregate
+                then e.sub_equation()
+                else
+                    e.expected_type_var() <- node.bool_type()
+                    %and e.sub_equation()
+                    %and e.matches_expected_formal_type(),
+                default_val=%true
             )
         }
         elif self.id.name_symbol() in s"Contract_Cases" | s"Subprogram_Variant"
@@ -4833,6 +4823,27 @@ class AggregateAssoc: BasicAssoc {
                 .is_assertion_level_contract_cases_agg()
         )
         then self.contract_cases_assoc_equation()
+        # For boolean contract aspects that support the assertion level form:
+        #
+        # .. code:: ada
+        #
+        #   function Foo (X : Integer) return Integer
+        #      with Pre => (Level_1 => <predicate>, Level_2 => <predicate>)
+        #
+        # Each assoc has a single assertion level identifier as designator
+        # and a boolean predicate as r_expr.
+        elif agg.parent.as[AspectAssoc].do(
+            (aspect) => aspect.is_bool_contract_aspect()
+        )
+        then
+            self.names().at(0).as[Identifier].do(
+                (id) => id.as_entity.bind_assertion_level(),
+                default_val=%false
+            )
+            %and self.r_expr.expected_type_var() <- node.bool_type()
+            %and self.r_expr.sub_equation()
+            %and self.r_expr.matches_expected_formal_type()
+
         elif agg.parent.as[AspectAssoc]?.id.name_is(s"Subprogram_Variant")
         then self.r_expr.spark_variant_equation(
             self.designators[0].as[BaseId]
@@ -16002,6 +16013,11 @@ class BaseAggregate: Expr {
                 # aspect's expression, so we must only special case the direct
                 # aggregate of that aspect.
                 or node.is_contract_cases_base_aggregate()
+
+                # Same for the assertion level form of boolean contract
+                # aspects (Pre, Post, Program_Exit, etc.): the aggregate is
+                # a pure syntactic construct, not a real array or record.
+                or node.parent.as[AspectAssoc]?.is_bool_contract_aspect()
             then %true
             else {
                 bind origin = node.origin_node();

@@ -15580,31 +15580,39 @@ class Expr: AdaNode {
                     and not sl.referenced_decl().is_predefined_operator()
                 )
             case ar: AttributeRef =>
-                (
-                    ar.prefix.is_static_expr()
-                    and (
-                        (
-                            not ar.prefix.name_designated_type()?.root_type()
-                            ?.is_formal()
-                            and ar.attribute.name_symbol() == s"Base"
-                        )
-                        or (
-                            ar.prefix.name_designated_type()?.is_static_decl()
-                            and ar.attribute.name_symbol() in s"First"
-                                | s"Last"
-                                | s"Range"
-                                | s"Val"
-                                | s"Pos"
-                        )
-                        or (
-                            ar.prefix.referenced_decl()?.is_array()
-                            and ar.attribute.name_symbol() in s"First"
-                                | s"Last"
-                                | s"Length"
-                                | s"Range"
+                {
+                    val attr = ar.attribute.name_symbol();
+                    (
+                        ar.prefix.is_static_expr() and (
+                            (
+                                not ar.prefix.name_designated_type()
+                                ?.root_type()?.is_formal()
+                                and attr == s"Base"
+                            )
+                            or (
+                                ar.prefix.name_designated_type()
+                                ?.is_static_decl()
+                                and attr in s"First"
+                                    | s"Last"
+                                    | s"Range"
+                                    | s"Val"
+                                    | s"Pos"
+                            )
                         )
                     )
-                )
+                    or (
+                        # RM 4.9/8
+                        ar.prefix.referenced_decl().do(
+                            (d) =>
+                            d.as[ObjectDecl]?.is_statically_constrained()
+                            or d.as[BaseTypeDecl]?.is_statically_constrained()
+                        )
+                        and attr in s"First"
+                            | s"Last"
+                            | s"Length"
+                            | s"Range"
+                    )
+                }
                 and ar.args.do(
                     (args) => args.all((arg) => arg.expr().is_static_expr()),
                     default_val=true

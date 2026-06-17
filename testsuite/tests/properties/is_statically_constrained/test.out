@@ -81,3 +81,9 @@ Working on node <ObjectDecl ["O"] test.adb:43:4-43:16>
 
 Eval 'node.p_is_statically_constrained'
 Result: True
+
+Working on node <ObjectDecl ["X"] test.adb:46:4-46:51>
+======================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False

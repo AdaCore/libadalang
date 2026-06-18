@@ -42,6 +42,9 @@ procedure Test (X, Y : Integer) is
 
    O : Integer;
    --% node.p_is_statically_constrained
+
+   X : constant String := "a" & Integer'Image (X);
+   --% node.p_is_statically_constrained
 begin
    null;
 end;

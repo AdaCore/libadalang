@@ -14079,6 +14079,7 @@ class ObjectDecl: BasicDecl {
         or (
             self.has_constant.do((c) => c.as_bool())
             and self.type_expr.designated_type().is_str_type()
+            and self.default_expr.is_static_expr()
         )
     }
 

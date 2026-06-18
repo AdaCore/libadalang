@@ -3199,7 +3199,7 @@ class AspectAssoc: AdaNode {
              | s"Taint_Sanitizer"
         then
             self.expr.as[Aggregate].do(
-                (agg) => agg.taint_aggregate_equation(),
+                (agg) => agg.sub_equation(),
                 default_val=%false
             )
 
@@ -4768,9 +4768,20 @@ class AggregateAssoc: BasicAssoc {
              or agg.in_aspect(s"Taint_Sink")
              or agg.in_aspect(s"Taint_Sanitizer")
         then
-            # Aggregates within taint aspects are directly handled by
-            # the AspectAssoc equations.
-            %true
+            # GNATSAS taint aspects: designators are regular names resolved
+            # with sub_equation; associated expressions are identifiers for
+            # the taint kind. Designators can also be an aggregate to
+            # designate multiple taint targets.
+            self.names().at(0).as[Aggregate].do(
+                (targets) =>
+                targets.assocs.logic_all(
+                    (target) => target.as_entity.expr().sub_equation()
+                ),
+                default_val=self.names().at(0).do(
+                    (n) => n.as_entity.sub_equation(),
+                    default_val=%true
+                )
+            )
 
         elif agg.in_aspect(s"Iterable")
         then self.iterable_assoc_equation()
@@ -16007,6 +16018,9 @@ class BaseAggregate: Expr {
                 or node.in_aspect(s"Annotate")
                 or node.in_aspect(s"Subprogram_Variant")
                 or node.in_aspect(s"Finalizable")
+                or node.in_aspect(s"Taint_Source")
+                or node.in_aspect(s"Taint_Sink")
+                or node.in_aspect(s"Taint_Sanitizer")
 
                 # Careful: normal aggregates can appear inside a contract_cases
                 # aspect's expression, so we must only special case the direct
@@ -16356,26 +16370,6 @@ class Aggregate: BaseAggregate {
         or? self.universal_int_type()
     }
 
-    |" Equation for GNATSAS taint aspects.
-    |" The designators are regular names that can be resolved with sub_equation.
-    |" The associated expressions are identifiers for the taint kind.
-    |" Designators can also be an aggregate to designate multiple taint targets.
-    @with_dynvars(env, origin, entry_point)
-    fun taint_aggregate_equation(): Equation =
-        self.assocs.logic_all((assoc) =>
-            # The designator correspond to the target of the
-            # taint aspect.
-            # Handle the aggregate case that can occur when
-            # multiple targets are specified.
-            assoc.names().at(0).as[Aggregate].do(
-                (targets) =>
-                targets.assocs.logic_all(
-                    (target) =>
-                    target.as_entity.expr().sub_equation()
-                ),
-                default_val=assoc.names().at(0).as_entity.sub_equation()
-            )
-        )
 }
 
 |" Bracket array or container aggregate (Ada 2020, :rmlink:`4.3`).
@@ -22743,7 +22737,7 @@ class Pragma: AdaNode {
              | s"Taint_Sink"
              | s"Taint_Sanitizer"
         then
-           self.args.at(0).assoc_expr().as[Aggregate].taint_aggregate_equation()
+           self.args.at(0).assoc_expr().sub_equation()
         elif self.id.name_is(s"Linker_Section")
         then
             self.args.at(0).assoc_expr().as![Name].xref_no_overloading()

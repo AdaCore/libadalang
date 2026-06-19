@@ -320,6 +320,11 @@ procedure GNAT_Compare is
       Args.Append (+"-c");
       Args.Append (+"-p");
 
+      --  Forward the Ada runtime to use
+      if App.Args.RTS.Get /= "" then
+         Args.Append (+("--RTS:Ada=" & App.Args.RTS.Get));
+      end if;
+
       --  Keep gprbuild quiet and hide GNAT compilation warnings as well as
       --  style checks (they would pollute baselines).
 

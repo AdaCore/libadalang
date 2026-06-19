@@ -5,23 +5,23 @@ Resolving xrefs for node <CallStmt test.adb:10:4-10:37>
 *******************************************************
 
 Expr: <CallExpr test.adb:10:4-10:36>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <Id "Put_Line" test.adb:10:4-10:12>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:10:14-10:35>
-  references:    <SyntheticDefiningName "image" in Standard>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  references:    standard.image((standard.integer) -> standard.string)
+  type:          standard.string
+  expected type: standard.string
 Expr: <AttributeRef test.adb:10:14-10:27>
-  references:    <SyntheticDefiningName "image" in Standard>
+  references:    standard.image((standard.integer) -> standard.string)
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:10:14-10:21>
-  references:    <DefiningName "Integer" in Standard>
+  references:    standard.integer
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:10:22-10:27>
@@ -29,20 +29,20 @@ Expr: <Id "Image" test.adb:10:22-10:27>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:10:29-10:34>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          standard.integer
+  expected type: standard.integer
 Expr: <Id "A" test.adb:10:29-10:30>
-  references:    <DefiningName "A" test.adb:6:4-6:5>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  references:    test().a
+  type:          standard.integer
+  expected type: standard.integer
 Expr: <OpPlus "+" test.adb:10:31-10:32>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "B" test.adb:10:33-10:34>
-  references:    <DefiningName "B" test.adb:7:4-7:5>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  references:    test().b
+  type:          standard.integer
+  expected type: standard.integer
 
 Resolving xrefs for node <CallStmt test.adb:15:4-15:41>
 *******************************************************
@@ -58,23 +58,23 @@ Resolving xrefs for node <CallStmt test.adb:20:4-20:41>
 *******************************************************
 
 Expr: <CallExpr test.adb:20:4-20:40>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <Id "Put_Line" test.adb:20:4-20:12>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:20:14-20:39>
-  references:    <SyntheticDefiningName "image" in Standard>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  references:    standard.image((standard.integer) -> standard.string)
+  type:          standard.string
+  expected type: standard.string
 Expr: <AttributeRef test.adb:20:14-20:27>
-  references:    <SyntheticDefiningName "image" in Standard>
+  references:    standard.image((standard.integer) -> standard.string)
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:20:14-20:21>
-  references:    <DefiningName "Integer" in Standard>
+  references:    standard.integer
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:20:22-20:27>
@@ -82,31 +82,31 @@ Expr: <Id "Image" test.adb:20:22-20:27>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:20:29-20:38>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          standard.integer
+  expected type: standard.integer
 Expr: <BinOp test.adb:20:29-20:34>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          standard.integer
+  expected type: standard.integer
 Expr: <Id "A" test.adb:20:29-20:30>
-  references:    <DefiningName "A" test.adb:6:4-6:5>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  references:    test().a
+  type:          standard.integer
+  expected type: standard.integer
 Expr: <OpPlus "+" test.adb:20:31-20:32>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "B" test.adb:20:33-20:34>
-  references:    <DefiningName "B" test.adb:7:4-7:5>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  references:    test().b
+  type:          standard.integer
+  expected type: standard.integer
 Expr: <OpPlus "+" test.adb:20:35-20:36>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "C" test.adb:20:37-20:38>
-  references:    <DefiningName "C" test.adb:19:4-19:5>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  references:    test().c
+  type:          standard.integer
+  expected type: standard.integer
 
 Resolving xrefs for node <AssignStmt test.adb:24:4-24:20>
 *********************************************************

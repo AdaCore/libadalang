@@ -493,48 +493,48 @@ Resolving xrefs for node <CallStmt interpolation.adb:19:4-19:67>
 ****************************************************************
 
 Expr: <CallExpr interpolation.adb:19:4-19:66>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <Id "Put_Line" interpolation.adb:19:4-19:12>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <ConcatOp interpolation.adb:19:14-19:65>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <FormatStringLiteral interpolation.adb:19:14-19:43>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <Id "Name" interpolation.adb:19:29-19:33>
-  references:    <DefiningName "Name" interpolation.adb:6:4-6:8>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
+  references:    interpolation().name
+  type:          standard.string
   expected type: None
 Expr: <ConcatOperand interpolation.adb:19:44-19:65>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <OpConcat "&" interpolation.adb:19:44-19:45>
   references:    None
   type:          None
   expected type: None
 Expr: <FormatStringLiteral interpolation.adb:19:46-19:65>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <BinOp interpolation.adb:19:57-19:62>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          standard.integer
   expected type: None
 Expr: <Id "X" interpolation.adb:19:57-19:58>
-  references:    <DefiningName "X" interpolation.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  references:    interpolation().x
+  type:          standard.integer
+  expected type: standard.integer
 Expr: <OpPlus "+" interpolation.adb:19:59-19:60>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Y" interpolation.adb:19:61-19:62>
-  references:    <DefiningName "Y" interpolation.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Integer"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  references:    interpolation().y
+  type:          standard.integer
+  expected type: standard.integer
 
 
 Done.

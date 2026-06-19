@@ -17,5 +17,5 @@ begin
    pragma Test_Statement;
 
    Put_Line (f"The name is {Name} and the" & f" sum is {X + Y}.");
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 end Interpolation;

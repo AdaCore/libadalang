@@ -10,9 +10,9 @@ procedure Test_Basic is
    S : String := "Cruel";
 begin
    Put_Line(f"Hello {S} world {S & S} world");
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
    Put_Line(f"1 + 2 = {1 + 2}");
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
    Put_Line(f"Rec = {Rec'(13, 15)}");
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 end Test_Basic;

@@ -8,17 +8,17 @@ begin
 
    --  Basic test: A & B should be visible
    Put_Line (Integer'Image (A + B));
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 
    --  Sequential visibility test: This should fail because C is not declared
    --  yet.
    Put_Line (Integer'Image (A + B + C));
-   pragma Test_Statement (Expect_Fail => True);
+   pragma Test_Statement_UID (Expect_Fail => True);
 
    --  Renamings test: this should work
    C : Integer renames B;
    Put_Line (Integer'Image (A + B + C));
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 
    --  FQN test
    Test.Outer := A;

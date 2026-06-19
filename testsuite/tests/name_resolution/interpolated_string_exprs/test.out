@@ -5,102 +5,102 @@ Resolving xrefs for node <CallStmt test_basic.adb:12:4-12:47>
 *************************************************************
 
 Expr: <CallExpr test_basic.adb:12:4-12:46>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <Id "Put_Line" test_basic.adb:12:4-12:12>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <FormatStringLiteral test_basic.adb:12:13-12:45>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <Id "S" test_basic.adb:12:22-12:23>
-  references:    <DefiningName "S" test_basic.adb:10:4-10:5>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
+  references:    test_basic().s
+  type:          standard.string
   expected type: None
 Expr: <ConcatOp test_basic.adb:12:32-12:37>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
   expected type: None
 Expr: <Id "S" test_basic.adb:12:32-12:33>
-  references:    <DefiningName "S" test_basic.adb:10:4-10:5>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  references:    test_basic().s
+  type:          standard.string
+  expected type: standard.string
 Expr: <ConcatOperand test_basic.adb:12:34-12:37>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
   expected type: None
 Expr: <OpConcat "&" test_basic.adb:12:34-12:35>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "S" test_basic.adb:12:36-12:37>
-  references:    <DefiningName "S" test_basic.adb:10:4-10:5>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  references:    test_basic().s
+  type:          standard.string
+  expected type: standard.string
 
 Resolving xrefs for node <CallStmt test_basic.adb:14:4-14:33>
 *************************************************************
 
 Expr: <CallExpr test_basic.adb:14:4-14:32>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <Id "Put_Line" test_basic.adb:14:4-14:12>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <FormatStringLiteral test_basic.adb:14:13-14:31>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <BinOp test_basic.adb:14:24-14:29>
-  type:          <ConcreteTypeDecl ["root_integer"] in Standard>
+  type:          standard.root_types_.root_integer
   expected type: None
 Expr: <Int test_basic.adb:14:24-14:25>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+  type:          standard.universal_int_type_
+  expected type: standard.root_types_.root_integer
 Expr: <OpPlus "+" test_basic.adb:14:26-14:27>
-  references:    <SyntheticDefiningName ""+"" in Standard>
+  references:    standard.root_types_."+"
   type:          None
   expected type: None
 Expr: <Int test_basic.adb:14:28-14:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+  type:          standard.universal_int_type_
+  expected type: standard.root_types_.root_integer
 
 Resolving xrefs for node <CallStmt test_basic.adb:16:4-16:38>
 *************************************************************
 
 Expr: <CallExpr test_basic.adb:16:4-16:37>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <Id "Put_Line" test_basic.adb:16:4-16:12>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <FormatStringLiteral test_basic.adb:16:13-16:36>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <QualExpr test_basic.adb:16:22-16:34>
-  references:    <DefiningName "Rec" test_basic.adb:6:9-6:12>
-  type:          <ConcreteTypeDecl ["Rec"] test_basic.adb:6:4-8:15>
+  references:    test_basic().rec
+  type:          test_basic().rec
   expected type: None
 Expr: <Id "Rec" test_basic.adb:16:22-16:25>
-  references:    <DefiningName "Rec" test_basic.adb:6:9-6:12>
+  references:    test_basic().rec
   type:          None
   expected type: None
 Expr: <Aggregate test_basic.adb:16:26-16:34>
-  type:          <ConcreteTypeDecl ["Rec"] test_basic.adb:6:4-8:15>
-  expected type: <ConcreteTypeDecl ["Rec"] test_basic.adb:6:4-8:15>
+  type:          test_basic().rec
+  expected type: test_basic().rec
 Expr: <Int test_basic.adb:16:27-16:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          standard.universal_int_type_
+  expected type: standard.integer
 Expr: <Int test_basic.adb:16:31-16:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+  type:          standard.universal_int_type_
+  expected type: standard.integer
 
 
 Analyzing test_complex.adb
@@ -293,61 +293,61 @@ Resolving xrefs for node <CallStmt test_nested_string_expr.adb:7:4-7:45>
 ************************************************************************
 
 Expr: <CallExpr test_nested_string_expr.adb:7:4-7:44>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <Id "Put_Line" test_nested_string_expr.adb:7:4-7:12>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <FormatStringLiteral test_nested_string_expr.adb:7:14-7:43>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <BinOp test_nested_string_expr.adb:7:34-7:41>
-  type:          <ConcreteTypeDecl ["root_integer"] in Standard>
+  type:          standard.root_types_.root_integer
   expected type: None
 Expr: <Int test_nested_string_expr.adb:7:34-7:36>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+  type:          standard.universal_int_type_
+  expected type: standard.root_types_.root_integer
 Expr: <OpPlus "+" test_nested_string_expr.adb:7:37-7:38>
-  references:    <SyntheticDefiningName ""+"" in Standard>
+  references:    standard.root_types_."+"
   type:          None
   expected type: None
 Expr: <Int test_nested_string_expr.adb:7:39-7:41>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+  type:          standard.universal_int_type_
+  expected type: standard.root_types_.root_integer
 
 Resolving xrefs for node <CallStmt test_nested_string_expr.adb:10:4-10:52>
 **************************************************************************
 
 Expr: <CallExpr test_nested_string_expr.adb:10:4-10:51>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <Id "Put_Line" test_nested_string_expr.adb:10:4-10:12>
-  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  references:    ada.text_io.put_line(standard.string)
   type:          None
   expected type: None
 Expr: <FormatStringLiteral test_nested_string_expr.adb:10:14-10:50>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <QualExpr test_nested_string_expr.adb:10:34-10:48>
-  references:    <DefiningName "String" in Standard>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
+  references:    standard.string
+  type:          standard.string
   expected type: None
 Expr: <Id "String" test_nested_string_expr.adb:10:34-10:40>
-  references:    <DefiningName "String" in Standard>
+  references:    standard.string
   type:          None
   expected type: None
 Expr: <ParenExpr test_nested_string_expr.adb:10:41-10:48>
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 Expr: <Str ""lol"" test_nested_string_expr.adb:10:42-10:47>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 
 Resolving xrefs for node <CallStmt test_nested_string_expr.adb:13:4-13:43>
 **************************************************************************

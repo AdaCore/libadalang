@@ -1,0 +1,4 @@
+driver: unparser
+rule: subp_spec
+description: |
+  Test a suffix comment after the ";" separator.

@@ -28,6 +28,7 @@ from drivers import (
     name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
     prep_driver, python_driver, unparser_driver,
 )
+from drivers.base_driver import TestsuiteMode
 
 
 class PerfTestFinder(YAMLTestFinder):
@@ -122,8 +123,19 @@ class LALTestsuite(Testsuite):
             help='If provided, use as the Python interpreter in testcases.'
         )
         parser.add_argument(
-            '--skip-internal-tests', action='store_true',
-            help='Skip tests from the internal testsuite'
+            "--skip-internal-tests",
+            dest="mode",
+            action="store_const",
+            const=TestsuiteMode.public,
+            default=TestsuiteMode.default,
+            help="Skip tests from the internal testsuite."
+        )
+        parser.add_argument(
+            "--internal-tests-only",
+            dest="mode",
+            action="store_const",
+            const=TestsuiteMode.internal,
+            help="Skip tests not from the internal testsuite.",
         )
         parser.add_argument(
             '--build-mode', default='dev',

@@ -1860,64 +1860,6 @@
       ],
       "table": null
     },
-    "ContractCaseAssoc": {
-      "node": {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "recurse_field",
-            "field": "f_guard"
-          },
-          "whitespace",
-          {
-            "kind": "text",
-            "text": "=>"
-          },
-          {
-            "kind": "continuationLineIndent",
-            "contents": [
-              "line",
-              {
-                "kind": "recurse_field",
-                "field": "f_consequence"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "ContractCaseAssocList": {
-      "sep": [
-        "recurse",
-        "line"
-      ]
-    },
-    "ContractCases": {
-      "node": {
-        "kind": "group",
-        "document": {
-          "kind": "align",
-          "width": " ",
-          "contents": [
-            {
-              "kind": "text",
-              "text": "("
-            },
-            {
-              "kind": "innerRoot",
-              "contents": {
-                "kind": "recurse_field",
-                "field": "f_contract_cases"
-              }
-            },
-            {
-              "kind": "text",
-              "text": ")"
-            }
-          ]
-        }
-      }
-    },
     "DecimalFixedPointDef": {
       "node": {
         "kind": "group",

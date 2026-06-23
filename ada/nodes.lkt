@@ -3469,16 +3469,6 @@ class BaseAssoc: AdaNode {
     fun assoc_expr(): Entity[Expr]
 }
 
-|" Single association for the ``Contract_Case`` aspect.
-class ContractCaseAssoc: BaseAssoc {
-    @parse_field
-    guard: AdaNode
-    @parse_field
-    consequence: Expr
-
-    fun assoc_expr(): Entity[Expr] = self.consequence
-}
-
 |" Argument association in a pragma.
 class PragmaArgumentAssoc: BaseAssoc {
     @parse_field
@@ -17271,16 +17261,6 @@ class IfExpr: CondExpr {
                 <- BaseTypeDecl.base_subtype%(e.type_var())
             )
         )
-}
-
-|" List of associations for the ``Contract_Case`` aspect.
-|"
-|" Contract cases is a non standard Ada extension that's mainly useful in
-|" SPARK. See `the SPARK RM <https://docs.adacore.com/spark2014-docs/>`_ for
-|" more details.
-class ContractCases: Expr {
-    @parse_field
-    contract_cases: ASTList[ContractCaseAssoc]
 }
 
 |" Declare expression (Ada 2022, :rmlink:`4.5.9`).

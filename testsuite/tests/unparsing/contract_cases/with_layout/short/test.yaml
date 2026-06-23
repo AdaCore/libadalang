@@ -3,6 +3,6 @@ description: |
     It is expected the declaration stays on a single line.
  
 driver: unparser
-rule: contract_cases_expr
+rule: expr
 overridings:
   - tall

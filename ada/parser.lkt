@@ -451,12 +451,6 @@ grammar ada_grammar {
     number_decl <- NumberDecl(
         defining_id_list ":" "constant" / ":=" simple_expr !";"
     )
-    contract_case_assoc <- ContractCaseAssoc(
-        or(expr | others_designator) "=>" expr
-    )
-    contract_cases_expr <- ContractCases(
-        "(" list+(contract_case_assoc, ",") ")"
-    )
     abstract_state_decl <- or(
         | AbstractStateDecl(defining_name aspect_spec)
         | ParenAbstractStateDecl("(" abstract_state_decl ")")
@@ -478,7 +472,7 @@ grammar ada_grammar {
                 )
             )
         )
-        | AspectAssoc(name ?pick("=>" or(expr | contract_cases_expr)))
+        | AspectAssoc(name ?pick("=>" expr))
     )
     aspect_spec <- ?AspectSpec("with" / list+(aspect_assoc, ","))
     single_task_decl <- SingleTaskDecl(
@@ -680,7 +674,7 @@ grammar ada_grammar {
         "pragma"
         /
         identifier
-        ?pick("(" / list+(or(pragma_argument | contract_case_assoc), ",") ")")
+        ?pick("(" / ASTList[BaseAssoc]+(pragma_argument, ",") ")")
         !";"
     )
     subunit <- Subunit(

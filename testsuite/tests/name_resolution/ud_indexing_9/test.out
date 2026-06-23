@@ -1,0 +1,41 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:21:4-21:21>
+*********************************************************
+
+Expr: <DottedName test.adb:21:4-21:15>
+  references:    test().rec.x
+  type:          standard.integer
+  expected type: None
+Expr: <CallExpr test.adb:21:4-21:13>
+  references:    test().m
+  type:          test().lang_value_list_map.constant_reference_type
+  expected type: test().rec
+Expr: <CallExpr test.adb:21:4-21:9>
+  references:    test().m
+  type:          test().lang_value_list_map_maps.constant_reference_type
+  expected type: None
+Expr: <Id "M" test.adb:21:4-21:5>
+  references:    test().m
+  type:          test().lang_value_list_map_maps.map
+  expected type: None
+Expr: <Int test.adb:21:7-21:8>
+  references:    None
+  type:          standard.universal_int_type_
+  expected type: standard.positive
+Expr: <Int test.adb:21:11-21:12>
+  references:    None
+  type:          standard.universal_int_type_
+  expected type: standard.positive
+Expr: <Id "X" test.adb:21:14-21:15>
+  references:    test().rec.x
+  type:          standard.integer
+  expected type: None
+Expr: <Int test.adb:21:19-21:20>
+  references:    None
+  type:          standard.universal_int_type_
+  expected type: standard.integer
+
+
+Done.

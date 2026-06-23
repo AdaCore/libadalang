@@ -1,3 +1,4 @@
+import enum
 import os
 import os.path
 import sys
@@ -12,6 +13,20 @@ from e3.testsuite.driver.diff import (
 )
 
 from drivers.valgrind import Valgrind
+
+
+class TestsuiteMode(enum.Enum):
+    """
+    Determine the set of tests that can run.
+    """
+    # All tests found by the test finder
+    default = enum.auto()
+
+    # Intenral tests are skipped
+    public = enum.auto()
+
+    # Non-internal tests are skipped
+    internal = enum.auto()
 
 
 class BaseDriver(DiffTestDriver):
@@ -54,12 +69,21 @@ class BaseDriver(DiffTestDriver):
                 delete=False,
             )
 
-        # If requested, skip internal testcases
-        if (
-            self.env.options.skip_internal_tests and
-            self.test_env['test_name'].startswith('internal__tests')
-        ):
-            raise TestSkip('Skipping internal testcase')
+        # If requested, skip public or internal testcases
+        is_internal = self.test_env['test_name'].startswith('internal__tests')
+        match self.env.options.mode:
+            case TestsuiteMode.default:
+                pass
+
+            case TestsuiteMode.public:
+                if is_internal:
+                    raise TestSkip("Skipping internal testcase")
+
+            case TestsuiteMode.internal:
+                if not is_internal:
+                    raise TestSkip("Skipping public testcase")
+
+        # Otherwise
 
         # If asked to run under Valgrind, prepare a Valgrind instance
         if self.env.options.valgrind:

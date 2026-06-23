@@ -75,8 +75,10 @@ def main(argv: list[str] | None = None) -> None:
                     "--with-java-bindings", os.path.join(build_dir, "java")
                 ]
 
-            if args.testsuite != "internal":
-                script_argv.append("--skip-internal")
+            if args.testsuite == "internal":
+                script_argv.append("--internal-tests-only")
+            else:
+                script_argv.append("--skip-internal-tests")
 
             if args.build_mode:
                 script_argv.append(build_mode_arg)

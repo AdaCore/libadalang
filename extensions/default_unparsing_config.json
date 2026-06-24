@@ -351,41 +351,97 @@
     "AggregateAssoc": {
       "node": [
         {
-          "kind": "recurse_field",
-          "field": "f_designators"
+          "field": "f_designators",
+          "kind": "recurse_field"
         },
         {
           "kind": "if",
           "condition": {
-            "kind": "is_a",
-            "node": {
+            "kind": "eval_member",
+            "prefix": {
               "kind": "eval_member",
               "prefix": "this_node",
               "member": "f_designators"
             },
-            "pattern": {
-              "kind": "node",
-              "type": "AlternativesList",
-              "members": [{"member": "is_empty_list", "pattern": true}]
-            }
+            "member": "is_empty_list"
           },
           "then": {
             "kind": "group",
-            "document": {
-              "kind": "recurse_field",
-              "field": "f_r_expr"
-            }
+            "document": [
+              {
+                "field": "f_r_expr",
+                "kind": "recurse_field"
+              }
+            ]
           },
           "else": {
             "kind": "group",
             "document": {
               "kind": "continuationLineIndent",
               "contents": [
-                "line",
+                {
+                  "kind": "match",
+                  "node": {
+                    "kind": "eval_member",
+                    "member": "parent",
+                    "prefix": "this_node"
+                  },
+                  "matchers": [
+                    {
+                      "pattern": {
+                        "kind": "node",
+                        "type": "AssocList",
+                        "members": [
+                          {
+                            "member": "parent",
+                            "pattern": {
+                              "kind": "node",
+                              "type": "Aggregate",
+                              "members": [
+                                {
+                                  "member": "parent",
+                                  "pattern": {
+                                    "kind": "node",
+                                    "type": "AspectAssoc",
+                                    "members": [
+                                      {
+                                        "member": "f_id",
+                                        "pattern": {
+                                          "kind": "node",
+                                          "type": "Identifier",
+                                          "members": [
+                                            {
+                                              "member": "p_canonical_text",
+                                              "pattern": {
+                                                "kind": "symbol_literal",
+                                                "value": "depends"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "document": []
+                    },
+                    {
+                      "pattern": "*",
+                      "document": [
+                        "line"
+                      ]
+                    }
+                  ]
+                },
                 "flushLineBreaks",
                 {
-                  "kind": "recurse_field",
-                  "field": "f_r_expr"
+                  "field": "f_r_expr",
+                  "kind": "recurse_field"
                 }
               ]
             }
@@ -7356,14 +7412,95 @@
         "kind": "group",
         "document": [
           {
-            "kind": "recurse_field",
-            "field": "f_op"
+            "field": "f_op",
+            "kind": "recurse_field"
+          },
+          {
+            "kind": "match",
+            "node": "this_node",
+            "matchers": [
+              {
+                "pattern": {
+                  "kind": "node",
+                  "type": "UnOp",
+                  "members": [
+                    {
+                      "member": "f_op",
+                      "pattern": {
+                        "kind": "node",
+                        "type": "OpPlus"
+                      }
+                    },
+                    {
+                      "member": "parent",
+                      "pattern": {
+                        "kind": "node",
+                        "type": "AggregateAssoc",
+                        "members": [
+                          {
+                            "member": "parent",
+                            "pattern": {
+                              "kind": "node",
+                              "type": "AssocList",
+                              "members": [
+                                {
+                                  "member": "parent",
+                                  "pattern": {
+                                    "kind": "node",
+                                    "type": "Aggregate",
+                                    "members": [
+                                      {
+                                        "member": "parent",
+                                        "pattern": {
+                                          "kind": "node",
+                                          "type": "AspectAssoc",
+                                          "members": [
+                                            {
+                                              "member": "f_id",
+                                              "pattern": {
+                                                "kind": "node",
+                                                "type": "Identifier",
+                                                "members": [
+                                                  {
+                                                    "member": "p_canonical_text",
+                                                    "pattern": {
+                                                      "kind": "symbol_literal",
+                                                      "value": "depends"
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "document": [
+                  "line",
+                  "flushLineBreaks"
+                ]
+              },
+              {
+                "pattern": "*",
+                "document": []
+              }
+            ]
           },
           {
             "kind": "group",
             "document": {
-              "kind": "recurse_field",
-              "field": "f_expr"
+              "field": "f_expr",
+              "kind": "recurse_field"
             }
           }
         ]

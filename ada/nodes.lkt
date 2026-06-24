@@ -3990,7 +3990,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
         )
 
     |" Helper for BasicDecl.defining_env.
-    @with_dynvars(origin)
+    @with_dynvars(origin, include_ud_indexing)
     fun defining_env(): LexicalEnv =
         if self.returns().is_null then null[LexicalEnv]
         else self.return_type().defining_env()
@@ -10713,16 +10713,13 @@ class TypeDecl: BaseTypeDecl {
         if not imp_deref.is_null
         then [self_env, self.accessed_type().defining_env()].env_group()
         elif include_ud_indexing and self.has_ud_indexing()
-        then {
-            bind include_ud_indexing = false;
-
+        then
             (
                 (self.constant_indexing_fns() & self.variable_indexing_fns())
                 .map((fn) => fn.defining_env())
                 & [self_env]
             )
             .env_group()
-        }
         else self_env
     }
 

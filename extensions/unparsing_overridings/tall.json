@@ -175,12 +175,6 @@
       ],
       "table": null
     },
-    "ContractCaseAssocList": {
-      "sep": [
-        "recurse",
-        "hardline"
-      ]
-    },
     "ElsifExprPartList": {
       "sep": [
         "recurse",

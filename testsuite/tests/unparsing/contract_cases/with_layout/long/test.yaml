@@ -5,6 +5,6 @@ description: |
     to the first association.
  
 driver: unparser
-rule: contract_cases_expr
+rule: expr
 overridings:
   - tall

@@ -4,6 +4,6 @@ description: |
     continuation-line indentation is added after `=>`.
  
 driver: unparser
-rule: contract_cases_expr
+rule: expr
 overridings:
   - tall

@@ -1,0 +1,1 @@
+pragma Modifies ((G when B, H when not B));

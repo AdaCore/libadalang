@@ -1,0 +1,16 @@
+PragmaNode[1:1-1:30]
+|f_id:
+|  Id[1:8-1:16]: Modifies
+|f_args:
+|  BaseAssocList[1:18-1:28]
+|  |  PragmaArgumentAssoc[1:18-1:28]
+|  |  |f_name: <null>
+|  |  |f_expr:
+|  |  |  ModifiesExpr[1:18-1:28]
+|  |  |  |f_clauses:
+|  |  |  |  ModifiesClauseList[1:19-1:27]
+|  |  |  |  |  ModifiesClause[1:19-1:27]
+|  |  |  |  |  |f_objects:
+|  |  |  |  |  |  Id[1:19-1:20]: G
+|  |  |  |  |  |f_guard:
+|  |  |  |  |  |  Id[1:26-1:27]: B

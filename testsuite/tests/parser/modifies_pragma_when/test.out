@@ -1,0 +1,9 @@
+PragmaNode[1:1-1:21]
+|f_id:
+|  Id[1:8-1:16]: Modifies
+|f_args:
+|  BaseAssocList[1:18-1:19]
+|  |  PragmaArgumentAssoc[1:18-1:19]
+|  |  |f_name: <null>
+|  |  |f_expr:
+|  |  |  Id[1:18-1:19]: G

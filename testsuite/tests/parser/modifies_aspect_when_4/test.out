@@ -1,0 +1,25 @@
+AspectAssoc[1:1-1:28]
+|f_id:
+|  Id[1:1-1:9]: Modifies
+|f_expr:
+|  ModifiesExpr[1:13-1:28]
+|  |f_clauses:
+|  |  ModifiesClauseList[1:14-1:27]
+|  |  |  ModifiesClause[1:14-1:27]
+|  |  |  |f_objects:
+|  |  |  |  Aggregate[1:14-1:20]
+|  |  |  |  |f_ancestor_expr: <null>
+|  |  |  |  |f_assocs:
+|  |  |  |  |  AssocList[1:15-1:19]
+|  |  |  |  |  |  AggregateAssoc[1:15-1:16]
+|  |  |  |  |  |  |f_designators:
+|  |  |  |  |  |  |  AlternativesList[1:15-1:15]: <empty list>
+|  |  |  |  |  |  |f_r_expr:
+|  |  |  |  |  |  |  Id[1:15-1:16]: G
+|  |  |  |  |  |  AggregateAssoc[1:18-1:19]
+|  |  |  |  |  |  |f_designators:
+|  |  |  |  |  |  |  AlternativesList[1:17-1:17]: <empty list>
+|  |  |  |  |  |  |f_r_expr:
+|  |  |  |  |  |  |  Id[1:18-1:19]: H
+|  |  |  |f_guard:
+|  |  |  |  Id[1:26-1:27]: B

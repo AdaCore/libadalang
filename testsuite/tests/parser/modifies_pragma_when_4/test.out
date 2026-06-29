@@ -1,0 +1,29 @@
+PragmaNode[1:1-1:35]
+|f_id:
+|  Id[1:8-1:16]: Modifies
+|f_args:
+|  BaseAssocList[1:18-1:33]
+|  |  PragmaArgumentAssoc[1:18-1:33]
+|  |  |f_name: <null>
+|  |  |f_expr:
+|  |  |  ModifiesExpr[1:18-1:33]
+|  |  |  |f_clauses:
+|  |  |  |  ModifiesClauseList[1:19-1:32]
+|  |  |  |  |  ModifiesClause[1:19-1:32]
+|  |  |  |  |  |f_objects:
+|  |  |  |  |  |  Aggregate[1:19-1:25]
+|  |  |  |  |  |  |f_ancestor_expr: <null>
+|  |  |  |  |  |  |f_assocs:
+|  |  |  |  |  |  |  AssocList[1:20-1:24]
+|  |  |  |  |  |  |  |  AggregateAssoc[1:20-1:21]
+|  |  |  |  |  |  |  |  |f_designators:
+|  |  |  |  |  |  |  |  |  AlternativesList[1:20-1:20]: <empty list>
+|  |  |  |  |  |  |  |  |f_r_expr:
+|  |  |  |  |  |  |  |  |  Id[1:20-1:21]: G
+|  |  |  |  |  |  |  |  AggregateAssoc[1:23-1:24]
+|  |  |  |  |  |  |  |  |f_designators:
+|  |  |  |  |  |  |  |  |  AlternativesList[1:22-1:22]: <empty list>
+|  |  |  |  |  |  |  |  |f_r_expr:
+|  |  |  |  |  |  |  |  |  Id[1:23-1:24]: H
+|  |  |  |  |  |f_guard:
+|  |  |  |  |  |  Id[1:31-1:32]: B

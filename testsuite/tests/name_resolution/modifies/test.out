@@ -1,0 +1,498 @@
+Analyzing test_aspect.adb
+#########################
+
+Resolving xrefs for node <SubpSpec test_aspect.adb:19:7-19:24>
+**************************************************************
+
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:20:15-20:40>
+******************************************************************
+
+Expr: <Id "Global" test_aspect.adb:20:15-20:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:20:27-20:40>
+  type:          None
+  expected type: None
+Expr: <Id "Output" test_aspect.adb:20:28-20:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:20:38-20:39>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:21:15-21:28>
+******************************************************************
+
+Expr: <Id "Modifies" test_aspect.adb:21:15-21:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:21:27-21:28>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test_aspect.adb:25:7-25:43>
+**************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["B"] test_aspect.adb:25:31-25:42>
+**********************************************************************
+
+Expr: <Id "Boolean" test_aspect.adb:25:35-25:42>
+  references:    <DefiningName "Boolean" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:26:15-26:40>
+******************************************************************
+
+Expr: <Id "Global" test_aspect.adb:26:15-26:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:26:27-26:40>
+  type:          None
+  expected type: None
+Expr: <Id "In_Out" test_aspect.adb:26:28-26:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:26:38-26:39>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:27:15-27:37>
+******************************************************************
+
+Expr: <Id "Modifies" test_aspect.adb:27:15-27:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ModifiesExpr test_aspect.adb:27:27-27:37>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:27:28-27:29>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "B" test_aspect.adb:27:35-27:36>
+  references:    <DefiningName "B" test_aspect.adb:25:31-25:32>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+Resolving xrefs for node <SubpSpec test_aspect.adb:31:7-31:49>
+**************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X"] test_aspect.adb:31:31-31:48>
+**********************************************************************
+
+Expr: <Id "Nested" test_aspect.adb:31:42-31:48>
+  references:    <DefiningName "Nested" test_aspect.adb:10:12-10:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:32:14-32:33>
+******************************************************************
+
+Expr: <Id "Modifies" test_aspect.adb:32:14-32:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName test_aspect.adb:32:26-32:33>
+  references:    <DefiningName "F1" test_aspect.adb:7:10-7:12>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <DottedName test_aspect.adb:32:26-32:30>
+  references:    <DefiningName "G1" test_aspect.adb:11:10-11:12>
+  type:          <ConcreteTypeDecl ["Inner"] test_aspect.adb:6:7-8:18>
+  expected type: <ConcreteTypeDecl ["Inner"] test_aspect.adb:6:7-8:18>
+Expr: <Id "X" test_aspect.adb:32:26-32:27>
+  references:    <DefiningName "X" test_aspect.adb:31:31-31:32>
+  type:          <ConcreteTypeDecl ["Nested"] test_aspect.adb:10:7-12:18>
+  expected type: <ConcreteTypeDecl ["Nested"] test_aspect.adb:10:7-12:18>
+Expr: <Id "G1" test_aspect.adb:32:28-32:30>
+  references:    <DefiningName "G1" test_aspect.adb:11:10-11:12>
+  type:          <ConcreteTypeDecl ["Inner"] test_aspect.adb:6:7-8:18>
+  expected type: <ConcreteTypeDecl ["Inner"] test_aspect.adb:6:7-8:18>
+Expr: <Id "F1" test_aspect.adb:32:31-32:33>
+  references:    <DefiningName "F1" test_aspect.adb:7:10-7:12>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test_aspect.adb:36:7-36:47>
+**************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["P"] test_aspect.adb:36:32-36:46>
+**********************************************************************
+
+Expr: <Id "Int_Access" test_aspect.adb:36:36-36:46>
+  references:    <DefiningName "Int_Access" test_aspect.adb:16:12-16:22>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:37:15-37:32>
+******************************************************************
+
+Expr: <Id "Modifies" test_aspect.adb:37:15-37:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ExplicitDeref test_aspect.adb:37:27-37:32>
+  references:    <DefiningName "P" test_aspect.adb:36:32-36:33>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "P" test_aspect.adb:37:27-37:28>
+  references:    <DefiningName "P" test_aspect.adb:36:32-36:33>
+  type:          <ConcreteTypeDecl ["Int_Access"] test_aspect.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Int_Access"] test_aspect.adb:16:7-16:45>
+
+Resolving xrefs for node <SubpSpec test_aspect.adb:41:7-41:43>
+**************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["I"] test_aspect.adb:41:31-41:42>
+**********************************************************************
+
+Expr: <Id "Integer" test_aspect.adb:41:35-41:42>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:42:15-42:40>
+******************************************************************
+
+Expr: <Id "Global" test_aspect.adb:42:15-42:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:42:27-42:40>
+  type:          None
+  expected type: None
+Expr: <Id "In_Out" test_aspect.adb:42:28-42:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "A" test_aspect.adb:42:38-42:39>
+  references:    <DefiningName "A" test_aspect.adb:14:7-14:8>
+  type:          <AnonymousTypeDecl ["None"] test_aspect.adb:14:11-14:37>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:43:15-43:32>
+******************************************************************
+
+Expr: <Id "Modifies" test_aspect.adb:43:15-43:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test_aspect.adb:43:27-43:32>
+  references:    <DefiningName "A" test_aspect.adb:14:7-14:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "A" test_aspect.adb:43:27-43:28>
+  references:    <DefiningName "A" test_aspect.adb:14:7-14:8>
+  type:          <AnonymousTypeDecl ["None"] test_aspect.adb:14:11-14:37>
+  expected type: None
+Expr: <Id "I" test_aspect.adb:43:30-43:31>
+  references:    <DefiningName "I" test_aspect.adb:41:31-41:32>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <SubpSpec test_aspect.adb:47:7-47:43>
+**************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["B"] test_aspect.adb:47:31-47:42>
+**********************************************************************
+
+Expr: <Id "Boolean" test_aspect.adb:47:35-47:42>
+  references:    <DefiningName "Boolean" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:48:15-48:45>
+******************************************************************
+
+Expr: <Id "Global" test_aspect.adb:48:15-48:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:48:27-48:45>
+  type:          None
+  expected type: None
+Expr: <Id "In_Out" test_aspect.adb:48:28-48:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:48:38-48:44>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:48:39-48:40>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "H" test_aspect.adb:48:42-48:43>
+  references:    <DefiningName "H" test_aspect.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:49:15-49:51>
+******************************************************************
+
+Expr: <Id "Modifies" test_aspect.adb:49:15-49:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ModifiesExpr test_aspect.adb:49:27-49:51>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:49:28-49:29>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "B" test_aspect.adb:49:35-49:36>
+  references:    <DefiningName "B" test_aspect.adb:47:31-47:32>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "H" test_aspect.adb:49:38-49:39>
+  references:    <DefiningName "H" test_aspect.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <UnOp test_aspect.adb:49:45-49:50>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <OpNot "not" test_aspect.adb:49:45-49:48>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "B" test_aspect.adb:49:49-49:50>
+  references:    <DefiningName "B" test_aspect.adb:47:31-47:32>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+Resolving xrefs for node <SubpSpec test_aspect.adb:53:7-53:46>
+**************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["B"] test_aspect.adb:53:34-53:45>
+**********************************************************************
+
+Expr: <Id "Boolean" test_aspect.adb:53:38-53:45>
+  references:    <DefiningName "Boolean" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:54:15-54:45>
+******************************************************************
+
+Expr: <Id "Global" test_aspect.adb:54:15-54:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:54:27-54:45>
+  type:          None
+  expected type: None
+Expr: <Id "In_Out" test_aspect.adb:54:28-54:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:54:38-54:44>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:54:39-54:40>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "H" test_aspect.adb:54:42-54:43>
+  references:    <DefiningName "H" test_aspect.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:55:15-55:42>
+******************************************************************
+
+Expr: <Id "Modifies" test_aspect.adb:55:15-55:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ModifiesExpr test_aspect.adb:55:27-55:42>
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:55:28-55:34>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:55:29-55:30>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "H" test_aspect.adb:55:32-55:33>
+  references:    <DefiningName "H" test_aspect.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "B" test_aspect.adb:55:40-55:41>
+  references:    <DefiningName "B" test_aspect.adb:53:34-53:35>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+Resolving xrefs for node <SubpSpec test_aspect.adb:59:7-59:27>
+**************************************************************
+
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:60:15-60:45>
+******************************************************************
+
+Expr: <Id "Global" test_aspect.adb:60:15-60:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:60:27-60:45>
+  type:          None
+  expected type: None
+Expr: <Id "In_Out" test_aspect.adb:60:28-60:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.adb:60:38-60:44>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:60:39-60:40>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "H" test_aspect.adb:60:42-60:43>
+  references:    <DefiningName "H" test_aspect.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.adb:61:15-61:33>
+******************************************************************
+
+Expr: <Id "Modifies" test_aspect.adb:61:15-61:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ModifiesExpr test_aspect.adb:61:27-61:33>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_aspect.adb:61:28-61:29>
+  references:    <DefiningName "G" test_aspect.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "H" test_aspect.adb:61:31-61:32>
+  references:    <DefiningName "H" test_aspect.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+
+Analyzing test_pragma.adb
+#########################
+
+Resolving xrefs for node <PragmaNode test_pragma.adb:16:7-16:36>
+****************************************************************
+
+Expr: <Id "Modifies" test_pragma.adb:16:14-16:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ModifiesExpr test_pragma.adb:16:24-16:34>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_pragma.adb:16:25-16:26>
+  references:    <DefiningName "G" test_pragma.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "B" test_pragma.adb:16:32-16:33>
+  references:    <DefiningName "B" test_pragma.adb:15:31-15:32>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+Resolving xrefs for node <PragmaNode test_pragma.adb:21:7-21:33>
+****************************************************************
+
+Expr: <Id "Modifies" test_pragma.adb:21:14-21:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName test_pragma.adb:21:24-21:31>
+  references:    <DefiningName "F1" test_pragma.adb:7:10-7:12>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <DottedName test_pragma.adb:21:24-21:28>
+  references:    <DefiningName "G1" test_pragma.adb:11:10-11:12>
+  type:          <ConcreteTypeDecl ["Inner"] test_pragma.adb:6:7-8:18>
+  expected type: <ConcreteTypeDecl ["Inner"] test_pragma.adb:6:7-8:18>
+Expr: <Id "X" test_pragma.adb:21:24-21:25>
+  references:    <DefiningName "X" test_pragma.adb:20:31-20:32>
+  type:          <ConcreteTypeDecl ["Nested"] test_pragma.adb:10:7-12:18>
+  expected type: <ConcreteTypeDecl ["Nested"] test_pragma.adb:10:7-12:18>
+Expr: <Id "G1" test_pragma.adb:21:26-21:28>
+  references:    <DefiningName "G1" test_pragma.adb:11:10-11:12>
+  type:          <ConcreteTypeDecl ["Inner"] test_pragma.adb:6:7-8:18>
+  expected type: <ConcreteTypeDecl ["Inner"] test_pragma.adb:6:7-8:18>
+Expr: <Id "F1" test_pragma.adb:21:29-21:31>
+  references:    <DefiningName "F1" test_pragma.adb:7:10-7:12>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test_pragma.adb:26:7-26:32>
+****************************************************************
+
+Expr: <Id "Modifies" test_pragma.adb:26:14-26:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ModifiesExpr test_pragma.adb:26:24-26:30>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_pragma.adb:26:25-26:26>
+  references:    <DefiningName "G" test_pragma.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "H" test_pragma.adb:26:28-26:29>
+  references:    <DefiningName "H" test_pragma.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test_pragma.adb:31:7-31:50>
+****************************************************************
+
+Expr: <Id "Modifies" test_pragma.adb:31:14-31:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ModifiesExpr test_pragma.adb:31:24-31:48>
+  type:          None
+  expected type: None
+Expr: <Id "G" test_pragma.adb:31:25-31:26>
+  references:    <DefiningName "G" test_pragma.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "B" test_pragma.adb:31:32-31:33>
+  references:    <DefiningName "B" test_pragma.adb:30:31-30:32>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "H" test_pragma.adb:31:35-31:36>
+  references:    <DefiningName "H" test_pragma.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <UnOp test_pragma.adb:31:42-31:47>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <OpNot "not" test_pragma.adb:31:42-31:45>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "B" test_pragma.adb:31:46-31:47>
+  references:    <DefiningName "B" test_pragma.adb:30:31-30:32>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+
+Done.

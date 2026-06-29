@@ -146,6 +146,7 @@ class AdaNode implements Node[AdaNode] {
             | s"Taint_Source"
             | s"Taint_Sink"
             | s"Taint_Sanitizer"
+            | s"Modifies"
 
     |" Return True if the given ``name`` is that of an Ada aspect in which
     |" references can designate entities declared *after* the entity on which
@@ -3129,6 +3130,7 @@ class AspectAssoc: AdaNode {
                 | s"Subprogram_Variant"
                 | s"Exceptional_Cases"
                 | s"Exit_Cases"
+                | s"Modifies"
         then self.expr.sub_equation()
 
         # Put_Image aspect
@@ -4782,6 +4784,9 @@ class AggregateAssoc: BasicAssoc {
 
         elif agg.in_aspect(s"Iterable")
         then self.iterable_assoc_equation()
+
+        elif agg.in_aspect(s"Modifies")
+        then self.exprs_assoc_equation()
 
         # In the case of Contract_Cases aspect, the top-level aggregate's
         # assocs use the special contract case equation. For the assertion
@@ -16075,6 +16080,7 @@ class BaseAggregate: Expr {
                 or node.in_aspect(s"Taint_Sanitizer")
                 or node.in_aspect(s"Exceptional_Cases")
                 or node.in_aspect(s"Exit_Cases")
+                or node.in_aspect(s"Modifies")
 
                 # Careful: normal aggregates can appear inside a contract_cases
                 # aspect's expression, so we must only special case the direct
@@ -17301,6 +17307,16 @@ class ModifiesClause: BaseAssoc {
     guard: Expr
 
     fun assoc_expr(): Entity[Expr] = self.objects
+
+    @with_dynvars(env, origin, entry_point)
+    fun xref_equation(): Equation =
+        self.objects.sub_equation()
+        %and self.guard.do((g) =>
+            g.expected_type_var() <- node.bool_type()
+            %and g.sub_equation()
+            %and g.matches_expected_formal_type(),
+            default_val=%true
+        )
 }
 
 |" Specification node for the ``Modifies`` SPARK aspect or pragma (list of
@@ -17309,6 +17325,10 @@ class ModifiesClause: BaseAssoc {
 class ModifiesExpr: Expr {
     @parse_field
     clauses: ASTList[ModifiesClause]
+
+    @with_dynvars(env, origin, entry_point)
+    fun xref_equation(): Equation =
+        self.clauses.logic_all((c) => c.sub_equation())
 }
 
 |" Declare expression (Ada 2022, :rmlink:`4.5.9`).
@@ -22772,6 +22792,13 @@ class Pragma: AdaNode {
                 %and arg.assoc_expr().sub_equation()
                 %and arg.assoc_expr().matches_expected_formal_type()
             )
+        elif self.id.name_is(s"Modifies")
+        then self.args.logic_all(
+            (arg) => arg.as[PragmaArgumentAssoc].do(
+                (parg) => parg.expr.sub_equation(),
+                default_val=%true
+            )
+        )
         elif
             self.id.name_symbol() in s"Contract_Cases"
                 | s"Exceptional_Cases" | s"Exit_Cases"
@@ -23083,6 +23110,7 @@ class Pragma: AdaNode {
                 | s"Taint_Sink"
                 | s"Taint_Sanitizer"
                 | s"Predicate"
+                | s"Modifies"
         then
             node.as_bare_entity.associated_entities().at(0).do(
                 (ent) =>

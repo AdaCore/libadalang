@@ -92,7 +92,7 @@
 --  * ``Builder.Default_Switches``
 --  * ``Builder.Switches``
 --  * ``Compiler.Default_Switches``
---  * ``Compiler.Switches``
+--  * ``Compiler.Switches``.
 --
 --  Note that these functions produce an approximation, assuming that all
 --  compiler switches affect all files. This approximation should be a good fit
@@ -185,6 +185,8 @@
 --
 --  Package contents
 --  ~~~~~~~~~~~~~~~~
+--
+--  The ``Libadalang.Preprocessing`` package provides the following API.
 
 with Ada.Containers.Hashed_Maps;
 private with Ada.Finalization;
@@ -270,26 +272,18 @@ package Libadalang.Preprocessing is
    --  Determine how the preprocessor treats directives and disabled lines in
    --  the output.
    --
-   --  ``Delete_Lines``
+   --  * ``Delete_Lines``: Just delete these lines: this breaks line number
+   --    correspondance between the original source and the preprocessed one.
+   --    This corresponds to GNATprep's default mode.
    --
-   --    Just delete these lines: this breaks line number correspondance
-   --    between the original source and the preprocessed one. This corresponds
-   --    to GNATprep's default mode.
+   --  * ``Blank_Lines``:: Replace these lines with empty lines. This
+   --    corresponds to GNATprep's ``-b`` option.
    --
-   --  ``Blank_Lines``
+   --  * ``Comment_Lines``: Preserve these lines and emit a ``--!`` comment
+   --    marker in front of them. This corresponds to GNATprep's ``-c`` option.
    --
-   --    Replace these lines with empty lines. This corresponds to GNATprep's
-   --    ``-b`` option.
-   --
-   --  ``Comment_Lines``
-   --
-   --    Preserve these lines and emit a ``--!`` comment marker in front of
-   --    them. This corresponds to GNATprep's ``-c`` option.
-   --
-   --  ``Empty_Comment_Lines``
-   --
-   --    These lines are replaced with exactly ``--!``. This corresponds to
-   --    GNATprep's ``-e`` option.
+   --  * ``Empty_Comment_Lines``: These lines are replaced with exactly
+   --    ``--!``. This corresponds to GNATprep's ``-e`` option.
 
    type File_Config (Enabled : Boolean := False) is record
       case Enabled is

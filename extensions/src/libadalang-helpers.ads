@@ -12,9 +12,9 @@ with GNATCOLL.Traces; use GNATCOLL.Traces;
 with GNATCOLL.Utils;  use GNATCOLL.Utils;
 with GPR2.Project.Tree;
 
-with Libadalang.Project_Provider;
-with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Analysis;       use Libadalang.Analysis;
 with Libadalang.Config_Pragmas; use Libadalang.Config_Pragmas;
+with Libadalang.Project_Provider;
 
 --  This package provides various helpers to build applications based on
 --  Libadalang.

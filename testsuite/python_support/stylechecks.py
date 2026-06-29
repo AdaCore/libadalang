@@ -16,7 +16,7 @@ def in_test(*args):
 python_support_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = join(python_support_dir, '..', '..')
 
-dirs = ['ada', 'contrib', 'testsuite', 'utils']
+dirs = ['ada', 'contrib', 'extensions', 'testsuite', 'utils']
 excludes = ['tmp', 'doc',
             # See eng/libadalang/langkit#849
             join('ada', 'tokens.lkt'),

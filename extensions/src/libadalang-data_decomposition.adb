@@ -3,9 +3,9 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
-with Ada.Directories; use Ada.Directories;
 with Ada.Containers.Hashed_Sets;
 with Ada.Containers.Vectors;
+with Ada.Directories; use Ada.Directories;
 with Ada.Exceptions;  use Ada.Exceptions;
 with Ada.IO_Exceptions;
 with Ada.Text_IO;     use Ada.Text_IO;
@@ -127,7 +127,7 @@ package body Libadalang.Data_Decomposition is
    --  having the right number of variants.
    --
    --  ``Collection`` is used to wrap variant representations, ``Decl`` is used
-   --  for error message formatting
+   --  for error message formatting.
 
    function Load_JSON (Filename : String) return JSON_Value;
    --  Open ``Filename`` in read mode, parse its content and return the
@@ -2228,7 +2228,7 @@ package body Libadalang.Data_Decomposition is
       --  * Addition, substraction: 4
       --  * Multiplications, divisions, remainders: 5
       --  * Bitwise operators (and, or): 6
-      --  * Unary operators (not, abs, -), discriminants and literals: 7
+      --  * Unary operators (not, abs, -), discriminants and literals: 7.
       --
       --  Min and max have special treatment since they already contain parens:
       --  we never need extra parens to disambiguate.

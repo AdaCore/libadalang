@@ -11,8 +11,8 @@ with GNATCOLL.Projects;
 with GNATCOLL.Traces; use GNATCOLL.Traces;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
-with GPR2.Project.View.Vector;
 with GPR2.Project.View.Set;
+with GPR2.Project.View.Vector;
 
 with Libadalang.Analysis;
 with Libadalang.Common; use Libadalang.Common;
@@ -116,12 +116,12 @@ package Libadalang.Project_Provider is
    --  sources are considered depends on ``Mode``:
    --
    --  * ``Default``: sources in the root project and its non-externally built
-   --    dependencies;
+   --    dependencies.
    --
-   --  * ``Root_Project``: sources in the root project only;
+   --  * ``Root_Project``: sources in the root project only.
    --
    --  * ``Whole_Project``: sources in the whole project tree (i.e. including
-   --    externally built dependencies);
+   --    externally built dependencies).
    --
    --  * ``Whole_Project_With_Runtime``: sources in the whole project tree plus
    --    runtime sources.
@@ -221,12 +221,12 @@ package Libadalang.Project_Provider is
    --  sources are considered depends on ``Mode``:
    --
    --  * ``Default``: sources in the root project and its non-externally built
-   --    dependencies;
+   --    dependencies.
    --
-   --  * ``Root_Project``: sources in the root project only;
+   --  * ``Root_Project``: sources in the root project only.
    --
    --  * ``Whole_Project``: sources in the whole project tree (i.e. including
-   --    externally built dependencies);
+   --    externally built dependencies).
    --
    --  * ``Whole_Project_With_Runtime``: sources in the whole project tree plus
    --    runtime sources.

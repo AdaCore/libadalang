@@ -740,7 +740,7 @@ package body Libadalang.Sources is
    begin
       --  Evaluate the numeral parts of the literal
       declare
-         --  A real literal is of the following form:
+         --  A real literal is of the following form::
          --
          --    numeral.numeral [exponent]
          --

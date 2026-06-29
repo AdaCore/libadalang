@@ -424,7 +424,7 @@ package Libadalang.Data_Decomposition is
    --
    --  Note that more discriminants than required are accepted: the evaluation
    --  of the attribute of a component for a record with 2 discriminants may
-   --  need only the first discriminant that record has
+   --  need only the first discriminant that record has.
 
    ----------------------------------
    -- Record components resolution --

@@ -4,9 +4,9 @@
 --
 
 with Ada.Command_Line;
+with Ada.Containers.Hashed_Sets;
 with Ada.Containers.Synchronized_Queue_Interfaces;
 with Ada.Containers.Unbounded_Synchronized_Queues;
-with Ada.Containers.Hashed_Sets;
 with Ada.Directories;
 with Ada.Exceptions; use Ada.Exceptions;
 with Ada.Text_IO;    use Ada.Text_IO;
@@ -696,7 +696,7 @@ package body Libadalang.Helpers is
       Iterate_Scenario_Vars (Scenario_Vars, Set_Scenario_Var'Access);
 
       --  Load the project tree with either a config file (if given) or the
-      --  requested target/runtime, and beware of loading errors
+      --  requested target/runtime, and beware of loading errors.
 
       Options.Add_Switch (GPR2.Options.P, Project_File);
 

@@ -248,7 +248,7 @@ package body Libadalang.Env_Hooks is
          --  For example, given the name ``("Text_IO", "Complex_IO")``, and
          --  given ``"Text_IO"`` designates a package renaming to
          --  ``Ada.Text_IO``, we will resolve the package renaming, and the
-         --  first recursive call to ``Step`` will be
+         --  first recursive call to ``Step`` will be.
          --
          --  ``Step (("Ada", "Text_IO", "Complex_IO"), 3)`` where we
          --  substituted the renaming package to the renamed entity, and
@@ -326,7 +326,8 @@ package body Libadalang.Env_Hooks is
 
                Comp_Unit : constant Compilation_Unit := Wrap_Node
                  (Ada_Node_P_Compilation_Unit_With_Name
-                    (Unit.Ast_Root, Unit, Internal_Name, I_Kind)).As_Compilation_Unit;
+                    (Unit.Ast_Root, Unit, Internal_Name, I_Kind))
+                 .As_Compilation_Unit;
 
                Decl : constant Basic_Decl :=
                  (if Comp_Unit.Is_Null

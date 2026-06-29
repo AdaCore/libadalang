@@ -126,7 +126,7 @@
 --     for Switches ("bar.adb") use ("-gnateDX=2");
 --
 --  Then the preprocessor configuration used when analyzing ``foo.ads`` will
---  depend on whether it’s done during the compilation of ``foo.adb`` or of
+--  depend on whether it's done during the compilation of ``foo.adb`` or of
 --  ``bar.adb``, which cannot be represented with the preprocessor data model
 --  coming from GNATprep and GNAT itself.
 --

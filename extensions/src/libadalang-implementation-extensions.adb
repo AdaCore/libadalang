@@ -777,7 +777,8 @@ package body Libadalang.Implementation.Extensions is
          Node.Unit.Context.Event_Handler.Unit_Diagnostic_Callback
            (Context => Node.Unit.Context,
             Unit    => Node.Unit,
-            Message => To_Text ("orphaned subunit: no stub found in parent body"));
+            Message => To_Text
+                         ("orphaned subunit: no stub found in parent body"));
       end if;
       return False;
    end Subunit_P_Emit_Missing_Subunit_Root;

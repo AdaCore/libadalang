@@ -3,8 +3,8 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
-with Ada.Containers.Vectors;
 with Ada.Characters.Handling; use Ada.Characters.Handling;
+with Ada.Containers.Vectors;
 with Ada.Unchecked_Deallocation;
 
 with System;
@@ -84,7 +84,7 @@ package body Libadalang.PP_Impl is
       --  active.
 
       Last_Was_Else : Boolean;
-      --  Whether the last directive in this sequence was ``#else``.
+      --  Whether the last directive in this sequence was ``#else``
    end record;
    --  Describes the state of evaluation for a given sequence of
    --  #if/#elsif/#else directives.

@@ -87,3 +87,31 @@ Working on node <ObjectDecl ["X"] test.adb:46:4-46:51>
 
 Eval 'node.p_is_statically_constrained'
 Result: False
+
+Working on node <FormalTypeDecl ["Formal_Int"] test.adb:50:7-50:35>
+===================================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <FormalTypeDecl ["Formal_Discrete"] test.adb:53:7-53:36>
+========================================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <FormalTypeDecl ["Formal_Arr"] test.adb:56:7-56:63>
+===================================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <GenericPackageInstantiation ["My_Gen"] test.adb:67:4-67:59>
+============================================================================
+
+Set 'subtypes' to 'node.p_designated_generic_decl.findall(lal.SubtypeDecl)'
+Result: [<| SubtypeDecl ["Int_Ref"] test.adb:59:7-59:37 [test.adb:67:4] |>,
+         <| SubtypeDecl ["Arr_Ref"] test.adb:60:7-60:37 [test.adb:67:4] |>]
+
+Eval '[s.p_is_statically_constrained for s in subtypes]'
+Result: [True, False]

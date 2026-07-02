@@ -45,6 +45,28 @@ procedure Test (X, Y : Integer) is
 
    X : constant String := "a" & Integer'Image (X);
    --% node.p_is_statically_constrained
+
+   generic
+      type Formal_Int is range <>;
+      --% node.p_is_statically_constrained
+
+      type Formal_Discrete is (<>);
+      --% node.p_is_statically_constrained
+
+      type Formal_Arr is array (Positive range <>) of Integer;
+      --% node.p_is_statically_constrained
+   package Gen is
+      subtype Int_Ref is Formal_Int;
+      subtype Arr_Ref is Formal_Arr;
+   end Gen;
+
+   type Cons_Arr is array (Positive range <>) of Integer;
+
+   --  From an instantiation, a formal is statically constrained iff its
+   --  actual is.
+   package My_Gen is new Gen (Integer, Boolean, Cons_Arr);
+   --% subtypes = node.p_designated_generic_decl.findall(lal.SubtypeDecl)
+   --% [s.p_is_statically_constrained for s in subtypes]
 begin
    null;
 end;

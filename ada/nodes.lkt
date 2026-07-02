@@ -9438,13 +9438,24 @@ class BaseTypeDecl: BasicDecl {
     |" is known at compile time).
     |"
     |" All types are statically constrained, except for records and arrays
-    |" when they are either unconstrained or dynamically constrained.
+    |" when they are either unconstrained or dynamically constrained, and
+    |" generic formal types when viewed from within their generic (as the
+    |" actual is not known there).
     |"
     |" For convenience, this will return ``False`` for incomplete types, even
     |" though the correct answer is more akin to "non applicable".
     @exported
     fun is_statically_constrained(): Bool = match self {
         case _: IncompleteTypeDecl => false
+        case ft: FormalTypeDecl => {
+            val actual = ft.get_actual();
+
+            # Without an actual (``get_actual`` returns the formal itself) the
+            # constraints are not known statically; otherwise delegate to it.
+            if actual.node == ft.node
+            then false
+            else actual.is_statically_constrained()
+        }
         case td: TypeDecl => match td.type_def {
             case dtd: DerivedTypeDef =>
                 dtd.subtype_indication.is_statically_constrained()

@@ -1,0 +1,185 @@
+Working on node <ObjectDecl ["Derived_Color_Base_First"] enumeration.ads:11:4-12:31>
+====================================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Derived_Color_Base_Last"] enumeration.ads:14:4-15:30>
+===================================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <ObjectDecl ["Color_Sub_Base_First"] enumeration.ads:20:4-20:74>
+================================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Color_Sub_Base_Last"] enumeration.ads:22:4-22:72>
+===============================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <ObjectDecl ["Flt_Base_Wider_Than_Last"] real.ads:13:4-13:78>
+=============================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Fix_Base_Wider_Than_Last"] real.ads:20:4-20:78>
+=============================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Int_Base_Last"] signed.ads:9:4-9:55>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 127
+
+Working on node <ObjectDecl ["Sub_Base_First"] signed.ads:15:4-15:57>
+=====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -128
+
+Working on node <ObjectDecl ["Sub_Base_Last"] signed.ads:17:4-17:55>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 127
+
+Working on node <ObjectDecl ["Der_Base_First"] signed.ads:23:4-23:57>
+=====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -128
+
+Working on node <ObjectDecl ["Der_Base_Last"] signed.ads:25:4-25:55>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 127
+
+Working on node <ObjectDecl ["R16_Base_First"] signed.ads:32:4-32:57>
+=====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -32768
+
+Working on node <ObjectDecl ["R16_Base_Last"] signed.ads:34:4-34:55>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 32767
+
+Working on node <ObjectDecl ["R32_Base_First"] signed.ads:38:4-38:57>
+=====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -2147483648
+
+Working on node <ObjectDecl ["R32_Base_Last"] signed.ads:40:4-40:55>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2147483647
+
+Working on node <ObjectDecl ["R64_Base_First"] signed.ads:44:4-44:57>
+=====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -9223372036854775808
+
+Working on node <ObjectDecl ["R64_Base_Last"] signed.ads:46:4-46:55>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 9223372036854775807
+
+Working on node <ObjectDecl ["Biased_Base_First"] signed.ads:54:4-54:66>
+========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -32768
+
+Working on node <ObjectDecl ["Biased_Base_Last"] signed.ads:56:4-56:64>
+=======================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 32767
+
+Working on node <ObjectDecl ["Integer_Base_First"] signed.ads:61:4-61:69>
+=========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -2147483648
+
+Working on node <ObjectDecl ["Integer_Base_Last"] signed.ads:63:4-63:67>
+========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2147483647
+
+Working on node <ObjectDecl ["Natural_Base_First"] signed.ads:65:4-65:69>
+=========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -2147483648
+
+Working on node <ObjectDecl ["Positive_Base_First"] signed.ads:67:4-67:72>
+==========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -2147483648
+
+Working on node <ObjectDecl ["Short_Integer_Base_Last"] signed.ads:69:4-70:30>
+==============================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 32767
+
+Working on node <ObjectDecl ["Long_Integer_Base_Last"] signed.ads:72:4-73:29>
+=============================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 9223372036854775807
+
+Working on node <ObjectDecl ["Mod8_Base_First"] unsigned.ads:9:4-9:55>
+======================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Mod8_Base_Last"] unsigned.ads:11:4-11:53>
+=======================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 255
+
+Working on node <ObjectDecl ["Mod8_Sub_Base_First"] unsigned.ads:17:4-17:63>
+============================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Mod8_Sub_Base_Last"] unsigned.ads:19:4-19:61>
+===========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 255
+
+Working on node <ObjectDecl ["Mod100_Base_Last"] unsigned.ads:24:4-24:59>
+=========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 99
+
+Working on node <ObjectDecl ["Derived_Mod_Base_Last"] unsigned.ads:29:4-29:74>
+==============================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 255

@@ -15836,6 +15836,13 @@ class Expr: AdaNode {
     |"     can verify whether an expression is static with the
     |"     ``is_static_expr`` property.
     |"
+    |" .. note::
+    |"     For the ``'Base`` attribute of a signed integer type, the
+    |"     implementation-defined base range is approximated by the range of
+    |"     the smallest predefined integer type that covers the type,
+    |"     according to the analysis context's target information (a power of
+    |"     two by default, accurate once target information is set).
+    |"
     |" .. ATTENTION::
     |"     This is an experimental feature, so even if it is exposed to allow
     |"     experiments, it is totally unsupported and the API and behavior are

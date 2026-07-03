@@ -1,2 +1,2 @@
 driver: inline-playground
-input_sources: [valid.ads, invalid.ads]
+input_sources: [base.ads, explicit.ads, invalid.ads]

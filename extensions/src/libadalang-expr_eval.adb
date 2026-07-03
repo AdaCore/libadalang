@@ -266,6 +266,14 @@ package body Libadalang.Expr_Eval is
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result;
       --  Helper to evaluate a 'First or 'Last attribute reference
 
+      function Eval_Val_For_Enum
+        (Attr_Name : String;
+         Typ       : LAL.Base_Type_Decl;
+         Root_Type : LAL.Base_Type_Decl;
+         Pos       : Big_Integer) return Eval_Result;
+      --  Helper to evaluate 'Val and 'Enum_Val on an enum type: return the
+      --  enum literal at position Pos, with special-casing for char types.
+
       function Eval_Function_Attr
         (AR : LAL.Attribute_Ref; Args : LAL.Assoc_List) return Eval_Result;
       --  Helper to evaluate function attribute references
@@ -288,13 +296,10 @@ package body Libadalang.Expr_Eval is
         (Call_Expr : LAL.Call_Expr; Bounds : LAL.Bin_Op) return Eval_Result;
       --  Helper to evaluate function attribute references
 
-      function Eval_Val_For_Enum
-        (Attr_Name : String;
-         Typ       : LAL.Base_Type_Decl;
-         Root_Type : LAL.Base_Type_Decl;
-         Pos       : Big_Integer) return Eval_Result;
-      --  Helper to evaluate 'Val and 'Enum_Val on an enum type: return the
-      --  enum literal at position Pos, with special-casing for char types.
+      function Eval_Operator_Call
+        (Call_Expr : LAL.Call_Expr) return Eval_Result;
+      --  Helper to evaluate an explicit call expr to a predefined operator.
+      --  Dispatches to the various `Eval_*_Op` helpers.
 
       function Expr_Eval (E : LAL.Expr) return Eval_Result;
       --  Helper to evaluate the given expr in the current environment. Note
@@ -1644,6 +1649,86 @@ package body Libadalang.Expr_Eval is
          end if;
       end Eval_Array_Slice;
 
+      ------------------------
+      -- Eval_Operator_Call --
+      ------------------------
+
+      function Eval_Operator_Call
+        (Call_Expr : LAL.Call_Expr) return Eval_Result
+      is
+         Op_Sym : constant Unbounded_Text_Type :=
+           Call_Expr.F_Name.P_Relative_Name.P_Canonical_Text;
+         Params : constant LAL.Param_Actual_Array := Call_Expr.P_Call_Params;
+         Op : Ada_Node_Kind_Type;
+      begin
+         if Op_Sym = """=""" then
+            Op := Ada_Op_Eq;
+         elsif Op_Sym = """/=""" then
+            Op := Ada_Op_Neq;
+         elsif Op_Sym = """<""" then
+            Op := Ada_Op_Lt;
+         elsif Op_Sym = """<=""" then
+            Op := Ada_Op_Lte;
+         elsif Op_Sym = """>""" then
+            Op := Ada_Op_Gt;
+         elsif Op_Sym = """>=""" then
+            Op := Ada_Op_Gte;
+         elsif Op_Sym = """and""" then
+            Op := Ada_Op_And;
+         elsif Op_Sym = """or""" then
+            Op := Ada_Op_Or;
+         elsif Op_Sym = """xor""" then
+            Op := Ada_Op_Xor;
+         elsif Op_Sym = """abs""" then
+            Op := Ada_Op_Abs;
+         elsif Op_Sym = """*""" then
+            Op := Ada_Op_Mult;
+         elsif Op_Sym = """**""" then
+            Op := Ada_Op_Pow;
+         elsif Op_Sym = """/""" then
+            Op := Ada_Op_Div;
+         elsif Op_Sym = """mod""" then
+            Op := Ada_Op_Mod;
+         elsif Op_Sym = """rem""" then
+            Op := Ada_Op_Rem;
+         elsif Op_Sym = """+""" then
+            Op := Ada_Op_Plus;
+         elsif Op_Sym = """-""" then
+            Op := Ada_Op_Minus;
+         elsif Op_Sym = """&""" then
+            Op := Ada_Op_Concat;
+         elsif Op_Sym = """not""" then
+            Op := Ada_Op_Not;
+         end if;
+
+         if Params'Length = 1 then
+            declare
+               E : constant LAL.Expr :=
+                 LAL.Actual (Params (Params'First)).As_Expr;
+            begin
+               return Eval_Un_Op (Call_Expr.As_Ada_Node, Op, E);
+            end;
+         elsif Params'Length = 2 then
+            declare
+               L : constant LAL.Expr :=
+                 LAL.Actual (Params (Params'First)).As_Expr;
+               R : constant LAL.Expr :=
+                 LAL.Actual (Params (Params'Last)).As_Expr;
+            begin
+               case Op is
+                  when Ada_Op_Eq | Ada_Op_Neq | Ada_Op_Lt |
+                        Ada_Op_Lte | Ada_Op_Gt | Ada_Op_Gte =>
+                     return Eval_Rel_Op (Call_Expr.As_Ada_Node, Op, L, R);
+                  when Ada_Op_Concat =>
+                     return Eval_Concat_Op (Call_Expr.As_Ada_Node, (L, R));
+                  when others =>
+                     return Eval_Bin_Op (Call_Expr.As_Ada_Node, Op, L, R);
+               end case;
+            end;
+         end if;
+         raise Property_Error with "Unhandled operator";
+      end Eval_Operator_Call;
+
       ---------------
       -- Expr_Eval --
       ---------------
@@ -1923,6 +2008,11 @@ package body Libadalang.Expr_Eval is
                if C.F_Name.Kind in Ada_Attribute_Ref then
                   return Eval_Function_Attr
                     (C.F_Name.As_Attribute_Ref, S.As_Assoc_List);
+               elsif
+                  C.F_Name.P_Is_Operator_Name
+                  and then C.F_Name.P_Referenced_Decl.P_Is_Predefined_Operator
+               then
+                  return Eval_Operator_Call (C);
                end if;
 
                --  Avoid displaying LAL's internal property errors on calls to

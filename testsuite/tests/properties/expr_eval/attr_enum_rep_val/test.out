@@ -1,0 +1,251 @@
+Working on node <ObjectDecl ["Bad_Rep_Val"] invalid.ads:8:4-8:57>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Enum_Val: no enum value with given representation
+
+Working on node <ObjectDecl ["Out_Of_Range"] invalid.ads:16:4-16:56>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: out of bounds 'Enum_Val on enum
+
+Working on node <NumberDecl ["Bad_Type"] invalid.ads:22:4-22:49>
+================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Exception: 'Enum_Rep only applicable to enum types
+
+Working on node <ObjectDecl ["Char_Val_OOR"] invalid.ads:28:4-28:66>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: out of bounds 'Enum_Val on enum
+
+Working on node <ObjectDecl ["CC_Bad_Val"] invalid.ads:38:4-38:63>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Enum_Val: no enum value with given representation
+
+Working on node <NumberDecl ["Enum_Rep_Too_Many"] invalid.ads:44:4-44:64>
+=========================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Exception: 'Enum_Rep requires exactly one argument
+
+Working on node <NumberDecl ["Enum_Rep_Real_Arg"] invalid.ads:50:4-50:57>
+=========================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Exception: 'Enum_Rep expects an enum argument
+
+Working on node <ObjectDecl ["Enum_Val_No_Args"] invalid.ads:56:4-56:56>
+========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Enum_Val requires exactly one argument
+
+Working on node <ObjectDecl ["Enum_Val_Too_Many"] invalid.ads:62:4-62:64>
+=========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Enum_Val requires exactly one argument
+
+Working on node <ObjectDecl ["Enum_Val_Real_Arg"] invalid.ads:68:4-68:63>
+=========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Enum_Val expects an integer argument
+
+Working on node <ObjectDecl ["Enum_Val_Bad_Type"] invalid.ads:74:4-74:65>
+=========================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: 'Enum_Val only applicable to enum types
+
+Working on node <NumberDecl ["Color_Rep_Red"] valid.ads:7:4-7:55>
+=================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["Color_Rep_Green"] valid.ads:11:4-11:57>
+=====================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 1
+
+Working on node <NumberDecl ["Color_Rep_Blue"] valid.ads:15:4-15:56>
+====================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 2
+
+Working on node <ObjectDecl ["Color_Val_0"] valid.ads:19:4-19:55>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Color_Val_2"] valid.ads:23:4-23:55>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <NumberDecl ["Status_Rep_Off"] valid.ads:32:4-32:58>
+====================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["Status_Rep_Idle"] valid.ads:36:4-36:59>
+=====================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 5
+
+Working on node <NumberDecl ["Status_Rep_Active"] valid.ads:40:4-40:61>
+=======================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 10
+
+Working on node <ObjectDecl ["Status_Val_0"] valid.ads:47:4-47:59>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Status_Val_5"] valid.ads:51:4-51:59>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Status_Val_10"] valid.ads:55:4-55:60>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <NumberDecl ["T_Rep_A"] valid.ads:64:4-64:41>
+=============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: -4
+
+Working on node <NumberDecl ["T_Rep_B"] valid.ads:68:4-68:41>
+=============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["T_Rep_C"] valid.ads:72:4-72:41>
+=============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 999
+
+Working on node <ObjectDecl ["T_Val_Neg4"] valid.ads:76:4-76:47>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["T_Val_0"] valid.ads:80:4-80:45>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["T_Val_999"] valid.ads:84:4-84:47>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <ObjectDecl ["T_Rep_O"] valid.ads:94:4-94:49>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -4
+
+Working on node <ObjectDecl ["T_Rep_P"] valid.ads:98:4-98:49>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["T_Rep_Q"] valid.ads:102:4-102:49>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 999
+
+Working on node <ObjectDecl ["U_Rep_X"] valid.ads:112:4-112:49>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -4
+
+Working on node <NumberDecl ["T_Rep_A_2"] valid.ads:118:4-118:39>
+=================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: -4
+
+Working on node <NumberDecl ["T_Rep_B_2"] valid.ads:122:4-122:39>
+=================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["T_Rep_O_2"] valid.ads:126:4-126:47>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: -4
+
+Working on node <NumberDecl ["Char_Rep_A"] valid.ads:133:4-133:55>
+==================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 65
+
+Working on node <ObjectDecl ["Char_Val_65"] valid.ads:137:4-137:64>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 65
+
+Working on node <NumberDecl ["CC_Rep_A"] valid.ads:149:4-149:52>
+================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 10
+
+Working on node <NumberDecl ["CC_Rep_C"] valid.ads:153:4-153:52>
+================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 30
+
+Working on node <ObjectDecl ["CC_Val_20"] valid.ads:157:4-157:62>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <NumberDecl ["Sub_CC_Rep_A"] valid.ads:161:4-161:60>
+====================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 10
+
+Working on node <ObjectDecl ["Sub_CC_Val_10"] valid.ads:165:4-165:74>
+=====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0

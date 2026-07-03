@@ -267,6 +267,14 @@ package body Libadalang.Expr_Eval is
         (Call_Expr : LAL.Call_Expr; Bounds : LAL.Bin_Op) return Eval_Result;
       --  Helper to evaluate function attribute references
 
+      function Eval_Val_For_Enum
+        (Attr_Name : String;
+         Typ       : LAL.Base_Type_Decl;
+         Root_Type : LAL.Base_Type_Decl;
+         Pos       : Big_Integer) return Eval_Result;
+      --  Helper to evaluate 'Val and 'Enum_Val on an enum type: return the
+      --  enum literal at position Pos, with special-casing for char types.
+
       function Expr_Eval (E : LAL.Expr) return Eval_Result;
       --  Helper to evaluate the given expr in the current environment. Note
       --  that this is a regular function (instead of an expression function)
@@ -625,6 +633,48 @@ package body Libadalang.Expr_Eval is
          end case;
       end Eval_Range_Attr;
 
+      -----------------------
+      -- Eval_Val_For_Enum --
+      -----------------------
+
+      function Eval_Val_For_Enum
+        (Attr_Name : String;
+         Typ       : LAL.Base_Type_Decl;
+         Root_Type : LAL.Base_Type_Decl;
+         Pos       : Big_Integer) return Eval_Result
+      is
+         Index    : constant Integer := To_Integer (Pos);
+         Enum_Val : Enum_Literal_Decl := No_Enum_Literal_Decl;
+      begin
+         if Index > -1 then
+            if (Index <= Character'Pos (Character'Last)
+                and then Root_Type = Typ.P_Std_Char_Type)
+              or else (Index <= Wide_Character'Pos (Wide_Character'Last)
+                       and then Root_Type = Typ.P_Std_Wide_Char_Type)
+              or else Root_Type = Typ.P_Std_Wide_Wide_Char_Type
+              --  Do not need to check for Wide_Wide_Character'Last here,
+              --  a runtime exception will be raised if Index is out of range.
+            then
+               --  Due to how we define the Character type in our artificial
+               --  __standard unit (and its Wide_Character and
+               --  Wide_Wide_Character variants), enum literals for these
+               --  types are not defined. Return the corresponding Integer
+               --  value instead so that Eval_As_Int keeps working.
+               return Create_Int_Result (Typ, Pos);
+            end if;
+
+            Enum_Val := Child
+              (Root_Type.As_Type_Decl.F_Type_Def.As_Enum_Type_Def
+               .F_Enum_Literals, Index + 1).As_Enum_Literal_Decl;
+         end if;
+
+         if Enum_Val.Is_Null then
+            raise Property_Error with "out of bounds " & Attr_Name & " on enum";
+         end if;
+
+         return Create_Enum_Result (Typ, Enum_Val);
+      end Eval_Val_For_Enum;
+
       ------------------------
       -- Eval_Function_Attr --
       ------------------------
@@ -747,50 +797,8 @@ package body Libadalang.Expr_Eval is
                if Typ.P_Is_Int_Type then
                   return Create_Int_Result (Typ, Val.Int_Result);
                elsif Typ.P_Is_Enum_Type then
-                  declare
-                     Index : constant Integer :=
-                        To_Integer (Val.Int_Result);
-
-                     Enum_Val : Enum_Literal_Decl :=
-                        No_Enum_Literal_Decl;
-
-                     Root_Type : constant LAL.Base_Type_Decl :=
-                        Typ.P_Root_Type;
-                  begin
-                     if Index > -1 then
-                        if (Index <= Character'Pos (Character'Last)
-                            and then Root_Type = Typ.P_Std_Char_Type)
-                          or else (Index <= Wide_Character'Pos
-                                            (Wide_Character'Last)
-                                   and then Root_Type =
-                                            Typ.P_Std_Wide_Char_Type)
-                          or else Root_Type = Typ.P_Std_Wide_Wide_Char_Type
-                          --  Do not need to check for Wide_Wide_Character'Last
-                          --  here, a runtime exception will be raised if Index
-                          --  is out of range.
-                        then
-                           --  Due to how we define the Character type in our
-                           --  artifical __standard unit (and its
-                           --  Wide_Character and Wide_Wide_Character
-                           --  variants), the 'Val attribute cannot return an
-                           --  Enum_Literal_Decl since they are not defined. In
-                           --  order to not fail the Eval_As_Int function, we
-                           --  return the corresponding Integer value instead.
-                           return Create_Int_Result (Typ, Val.Int_Result);
-                        end if;
-
-                        Enum_Val := Child
-                           (Root_Type.As_Type_Decl.F_Type_Def.As_Enum_Type_Def
-                            .F_Enum_Literals, Index + 1).As_Enum_Literal_Decl;
-                     end if;
-
-                     if Enum_Val.Is_Null then
-                        raise Property_Error with
-                          "out of bounds 'Val on enum";
-                     end if;
-
-                     return Create_Enum_Result (Typ, Enum_Val);
-                  end;
+                  return Eval_Val_For_Enum
+                    ("'Val", Typ, Typ.P_Root_Type, Val.Int_Result);
                else
                   raise Property_Error with
                      "'Val only applicable to scalar types";
@@ -918,6 +926,96 @@ package body Libadalang.Expr_Eval is
                   raise Property_Error with
                      "'Width evaluation is limited to discrete types";
                end if;
+            end;
+         elsif Name in "enum_rep" then
+            if not Args.Is_Null and then Args.Children_Count /= 1 then
+               raise Property_Error with
+                  "'Enum_Rep requires exactly one argument";
+            end if;
+
+            declare
+               --  Support two forms:
+               --    T'Enum_Rep (X)  -- type prefix with argument
+               --    X'Enum_Rep      -- object or literal prefix, no argument
+               --  (per GNAT RM 4.21, the no-argument form is equivalent to
+               --  typ'Enum_Rep (X) where typ is the type of X).
+               Ret_Typ : constant Base_Type_Decl :=
+                  AR.P_Universal_Int_Type.As_Base_Type_Decl;
+               Val     : constant Eval_Result :=
+                  (if Args.Is_Null
+                   then Expr_Eval (AR.F_Prefix.As_Expr)
+                   else Expr_Eval (Args.Child (1).As_Param_Assoc.F_R_Expr));
+               Typ     : constant Base_Type_Decl :=
+                  (if Args.Is_Null
+                   then Val.Expr_Type
+                   else AR.F_Prefix.P_Name_Designated_Type);
+            begin
+               if not Args.Is_Null and then not Typ.P_Is_Enum_Type then
+                  raise Property_Error with
+                     "'Enum_Rep only applicable to enum types";
+               end if;
+
+               case Val.Kind is
+               when Int =>
+                  --  Standard char type: representation equals position
+                  return Create_Int_Result (Ret_Typ, Val.Int_Result);
+               when Enum_Lit =>
+                  --  P_Enum_Rep returns the encoding from the representation
+                  --  clause when present, and the position ('Pos) otherwise.
+                  return Create_Int_Result
+                    (Ret_Typ, Val.Enum_Result.P_Enum_Rep);
+               when others =>
+                  raise Property_Error with
+                     "'Enum_Rep expects an enum argument";
+               end case;
+            end;
+         elsif Name in "enum_val" then
+            if Args.Is_Null or else Args.Children_Count /= 1 then
+               raise Property_Error with
+                  "'Enum_Val requires exactly one argument";
+            end if;
+
+            declare
+               Typ : constant Base_Type_Decl :=
+                  AR.F_Prefix.P_Name_Designated_Type;
+               Val : constant Eval_Result :=
+                  Expr_Eval (Args.Child (1).As_Param_Assoc.F_R_Expr);
+            begin
+               if Val.Kind /= Int then
+                  raise Property_Error with
+                     "'Enum_Val expects an integer argument";
+               end if;
+
+               if not Typ.P_Is_Enum_Type then
+                  raise Property_Error with
+                     "'Enum_Val only applicable to enum types";
+               end if;
+
+               declare
+                  Root_Type  : constant Base_Type_Decl := Typ.P_Root_Type;
+                  Rep_Clause : constant LAL.Enum_Rep_Clause :=
+                     Root_Type.P_Get_Enum_Representation_Clause;
+               begin
+                  if not Rep_Clause.Is_Null then
+                     --  'Enum_Val is the inverse of 'Enum_Rep: return the
+                     --  literal whose representation equals the argument.
+                     for Lit of Root_Type.As_Type_Decl.F_Type_Def
+                                  .As_Enum_Type_Def.F_Enum_Literals
+                     loop
+                        if Lit.As_Enum_Literal_Decl.P_Enum_Rep = Val.Int_Result
+                        then
+                           return Create_Enum_Result
+                             (Typ, Lit.As_Enum_Literal_Decl);
+                        end if;
+                     end loop;
+                     raise Property_Error with
+                        "'Enum_Val: no enum value with given representation";
+                  end if;
+
+                  --  No representation clause: argument is the position
+                  return Eval_Val_For_Enum
+                    ("'Enum_Val", Typ, Root_Type, Val.Int_Result);
+               end;
             end;
          else
             raise Property_Error

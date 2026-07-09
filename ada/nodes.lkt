@@ -9466,6 +9466,11 @@ class BaseTypeDecl: BasicDecl {
             case _ => true
         }
         case st: SubtypeDecl => st.subtype.is_statically_constrained()
+        # A scalar base subtype (``T'Base``) is statically constrained iff its
+        # type is, so that ``T'Base`` of a formal type is not (see the
+        # FormalTypeDecl case above).
+        case dbs: DiscreteBaseSubtypeDecl =>
+            dbs.get_type().is_statically_constrained()
         case _ => true
     } and not self.is_dynamically_predicated()
 

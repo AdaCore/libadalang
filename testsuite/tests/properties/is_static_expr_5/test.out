@@ -1,0 +1,14 @@
+Working on node <GenericPackageInstantiation ["My_Pkg"] inst.ads:7:4-7:45>
+==========================================================================
+
+Set 'relop' to 'node.p_designated_generic_decl.find(lal.RelationOp)'
+Result: <| RelationOp pkg.ads:9:6-9:62 [inst.ads:7:4] |>
+
+Eval 'relop.p_is_static_expr()'
+Result: True
+
+Working on node <ObjectDecl ["B"] pkg.ads:8:4-9:63>
+===================================================
+
+Eval 'node.f_default_expr.p_is_static_expr()'
+Result: False

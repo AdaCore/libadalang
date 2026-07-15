@@ -280,6 +280,13 @@ package body Libadalang.Expr_Eval is
       --  that this is a regular function (instead of an expression function)
       --  to workaround a GNAT bug.
 
+      function Is_Modular_Type (T : LAL.Base_Type_Decl) return Boolean;
+      --  Return whether T's root type is a modular integer type
+
+      function Get_Modulus (T : LAL.Base_Type_Decl) return Big_Integer
+        with Pre => Is_Modular_Type (T);
+      --  Return the modulus of T
+
       ---------------
       -- Eval_Decl --
       ---------------
@@ -1241,6 +1248,28 @@ package body Libadalang.Expr_Eval is
          return Expr_Eval_In_Env (E, Env);
       end Expr_Eval;
 
+      ---------------------
+      -- Is_Modular_Type --
+      ---------------------
+
+      function Is_Modular_Type (T : LAL.Base_Type_Decl) return Boolean is
+         Root : constant LAL.Type_Decl := T.P_Root_Type.As_Type_Decl;
+      begin
+         return not Root.Is_Null
+            and then Root.F_Type_Def.Kind = Ada_Mod_Int_Type_Def;
+      end Is_Modular_Type;
+
+      -----------------
+      -- Get_Modulus --
+      -----------------
+
+      function Get_Modulus (T : LAL.Base_Type_Decl) return Big_Integer is
+         Root : constant LAL.Type_Decl := T.P_Root_Type.As_Type_Decl;
+      begin
+         return As_Int
+           (Expr_Eval (Root.F_Type_Def.As_Mod_Int_Type_Def.F_Expr));
+      end Get_Modulus;
+
    begin
       --  Processings on invalid Ada sources may lead to calling Expr_Eval on a
       --  null node. In this case, regular Ada runtime checks in code below
@@ -1467,7 +1496,7 @@ package body Libadalang.Expr_Eval is
 
                case R.Kind is
                when Int =>
-                  --  Handle arithmetic operators on Int values
+                  --  Handle arithmetic and bitwise operators on Int values
                   declare
                      Result : Big_Integer;
                   begin
@@ -1485,6 +1514,39 @@ package body Libadalang.Expr_Eval is
                         Result.Set (L.Int_Result / R.Int_Result);
                      when Ada_Op_Pow =>
                         Raise_To_N (L.Int_Result, R.Int_Result, Result);
+                     when Ada_Op_And | Ada_Op_Or | Ada_Op_Xor =>
+                        --  Logical operators on modular integer types perform
+                        --  bitwise operations (ARM 4.5.1). For non-power-of-2
+                        --  moduli, or/xor results must be reduced. Use the
+                        --  BinOp expression type rather than the operand type,
+                        --  as literal operands have universal integer type.
+                        declare
+                           Expr_Type : constant LAL.Base_Type_Decl :=
+                              BO.P_Expression_Type.As_Base_Type_Decl;
+                        begin
+                           if not Is_Modular_Type (Expr_Type) then
+                              raise Property_Error with
+                                 "Logical operators on integer types only "
+                                 & "supported for modular types";
+                           end if;
+                           case Op.Kind is
+                           when Ada_Op_And =>
+                              --  AND can only clear bits, so the result is
+                              --  always within range without mod reduction.
+                              Result.Set (L.Int_Result and R.Int_Result);
+                           when Ada_Op_Or =>
+                              Result.Set
+                                ((L.Int_Result or R.Int_Result)
+                                 mod Get_Modulus (Expr_Type));
+                           when Ada_Op_Xor =>
+                              Result.Set
+                                ((L.Int_Result xor R.Int_Result)
+                                 mod Get_Modulus (Expr_Type));
+                           when others =>
+                              raise Program_Error with "Impossible path";
+                           end case;
+                           return Create_Int_Result (Expr_Type, Result);
+                        end;
                      when others =>
                         raise Property_Error with
                            "Unhandled operator: " & Op.Kind'Image;
@@ -1615,11 +1677,21 @@ package body Libadalang.Expr_Eval is
                      when Ada_Op_Abs =>
                         Result.Set (abs Operand);
                      when Ada_Op_Not =>
-                        --  TODO??? Here, we need to check that the operand
-                        --  type is a modular type, and flip bits according to
-                        --  its size.
-                        raise Property_Error with
-                           """not"" not implemented yet";
+                        --  "not" on a modular type: result = Modulus - 1 -
+                        --  Operand (ARM 4.5.6). This equals bitwise complement
+                        --  for power-of-2 moduli.
+                        declare
+                           Expr_Type : constant LAL.Base_Type_Decl :=
+                              UO.P_Expression_Type.As_Base_Type_Decl;
+                        begin
+                           if not Is_Modular_Type (Expr_Type) then
+                              raise Property_Error with
+                                 """not"" on integer types only supported "
+                                 & "for modular types";
+                           end if;
+                           Result.Set (Get_Modulus (Expr_Type) - 1 - Operand);
+                           return Create_Int_Result (Expr_Type, Result);
+                        end;
                      end case;
                      return Create_Int_Result (Operand_Type, Result);
                   end;

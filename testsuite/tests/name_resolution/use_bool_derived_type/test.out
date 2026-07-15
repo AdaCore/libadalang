@@ -264,9 +264,11 @@ test_invalid.adb:7:19: error: expected 'Boolean', got 'My_Bool'
 Resolving xrefs for node <AspectAssoc test_invalid.adb:8:12-9:53>
 *****************************************************************
 
-test_invalid.adb:8:46: error: expected 'Boolean', got 'My_Bool'
-8 |            Contract_Cases => (X and not Y => X and not Y,
-  |                                              ^
+test_invalid.adb:8:12: error: resolution failed
+8 |             Contract_Cases => (X and not Y => X and not Y,
+  | ____________^
+9 ||                               others => X and not Y);
+  ||____________________________________________________^
 
 
 Expected name resolution failure for block <ExprFunction ["Foo"] test_invalid.adb:6:4-9:54>

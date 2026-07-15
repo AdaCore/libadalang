@@ -1,0 +1,77 @@
+Working on node <ObjectDecl ["Int_And"] invalid.ads:5:4-5:42>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: Logical operators on integer types only supported for modular types
+
+Working on node <ObjectDecl ["Int_Not"] invalid.ads:10:4-10:40>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: "not" on integer types only supported for modular types
+
+Working on node <ObjectDecl ["Mod_And"] valid.ads:7:4-7:43>
+===========================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 136
+
+Working on node <ObjectDecl ["Mod_Or"] valid.ads:11:4-11:41>
+============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 238
+
+Working on node <ObjectDecl ["Mod_Xor"] valid.ads:15:4-15:43>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 102
+
+Working on node <ObjectDecl ["Mod_Not"] valid.ads:21:4-21:39>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 85
+
+Working on node <ObjectDecl ["Mod_Not_Zero"] valid.ads:25:4-25:42>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 255
+
+Working on node <ObjectDecl ["Mod_Not_Max"] valid.ads:29:4-29:43>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Mod5_And"] valid.ads:37:4-37:40>
+==============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Mod5_Or"] valid.ads:41:4-41:38>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <ObjectDecl ["Mod5_Xor"] valid.ads:45:4-45:40>
+==============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <ObjectDecl ["Mod5_Not"] valid.ads:49:4-49:38>
+==============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Mod_Chain"] valid.ads:55:4-55:52>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 137

@@ -52,7 +52,7 @@ Expr: <Id "Integer" set.adb:13:42-13:49>
   type:          None
   expected type: None
 Expr: <UnOp set.adb:13:51-13:53>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpMinus "-" set.adb:13:51-13:52>
   references:    None

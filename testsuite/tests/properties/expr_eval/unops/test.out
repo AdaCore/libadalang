@@ -2,7 +2,7 @@ Working on node <NumberDecl ["Int_Not"] invalid.ads:3:4-3:35>
 =============================================================
 
 Eval 'node.f_expr.p_eval_as_int'
-Exception: "not" not implemented yet
+Exception: "not" on integer types only supported for modular types
 
 Working on node <ObjectDecl ["Enum_Neg"] invalid.ads:8:4-8:37>
 ==============================================================

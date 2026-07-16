@@ -1,0 +1,184 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <NumberDecl ["Root_Int"] test.adb:9:4-9:31>
+********************************************************************
+
+Expr: <UnOp test.adb:9:28-9:30>
+  type:          <ConcreteTypeDecl ["root_integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+Expr: <OpMinus "-" test.adb:9:28-9:29>
+  references:    <SyntheticDefiningName ""-"" in Standard>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:9:29-9:30>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+
+Resolving xrefs for node <NumberDecl ["Root_Real"] test.adb:11:4-11:33>
+***********************************************************************
+
+Expr: <UnOp test.adb:11:28-11:32>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+Expr: <OpMinus "-" test.adb:11:28-11:29>
+  references:    <SyntheticDefiningName ""-"" in Standard>
+  type:          None
+  expected type: None
+Expr: <Real test.adb:11:29-11:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+
+Resolving xrefs for node <NumberDecl ["Abs_Real"] test.adb:15:4-15:40>
+**********************************************************************
+
+Expr: <UnOp test.adb:15:28-15:39>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+Expr: <OpAbs "abs" test.adb:15:28-15:31>
+  references:    <SyntheticDefiningName ""abs"" in Standard>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:15:32-15:39>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+Expr: <UnOp test.adb:15:33-15:38>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+Expr: <OpMinus "-" test.adb:15:33-15:34>
+  references:    <SyntheticDefiningName ""-"" in Standard>
+  type:          None
+  expected type: None
+Expr: <Real test.adb:15:34-15:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+
+Resolving xrefs for node <NumberDecl ["Mul_Real"] test.adb:17:4-17:44>
+**********************************************************************
+
+Expr: <BinOp test.adb:17:28-17:43>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+Expr: <ParenExpr test.adb:17:28-17:34>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+Expr: <UnOp test.adb:17:29-17:33>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+Expr: <OpMinus "-" test.adb:17:29-17:30>
+  references:    <SyntheticDefiningName ""-"" in Standard>
+  type:          None
+  expected type: None
+Expr: <Real test.adb:17:30-17:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+Expr: <OpMult "*" test.adb:17:35-17:36>
+  references:    <SyntheticDefiningName ""*"" in Standard>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:17:37-17:43>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+Expr: <UnOp test.adb:17:38-17:42>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+Expr: <OpMinus "-" test.adb:17:38-17:39>
+  references:    <SyntheticDefiningName ""-"" in Standard>
+  type:          None
+  expected type: None
+Expr: <Real test.adb:17:39-17:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["Typed_Int"] test.adb:21:4-21:30>
+***********************************************************************
+
+Expr: <Id "Integer" test.adb:21:16-21:23>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <UnOp test.adb:21:27-21:29>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpMinus "-" test.adb:21:27-21:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:21:28-21:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <AssignStmt test.adb:27:4-27:26>
+*********************************************************
+
+Expr: <Id "R" test.adb:27:4-27:5>
+  references:    <DefiningName "R" test.adb:24:4-24:5>
+  type:          <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+  expected type: None
+Expr: <CallExpr test.adb:27:9-27:25>
+  references:    <DefiningName "Sqrt" test.adb:5:13-5:17>
+  type:          <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+  expected type: <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+Expr: <Id "Sqrt" test.adb:27:9-27:13>
+  references:    <DefiningName "Sqrt" test.adb:5:13-5:17>
+  type:          <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+  expected type: None
+Expr: <Id "Root_Real" test.adb:27:15-27:24>
+  references:    <DefiningName "Root_Real" test.adb:11:4-11:13>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+
+Resolving xrefs for node <AssignStmt test.adb:32:4-32:21>
+*********************************************************
+
+Expr: <Id "R" test.adb:32:4-32:5>
+  references:    <DefiningName "R" test.adb:24:4-24:5>
+  type:          <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+  expected type: None
+Expr: <CallExpr test.adb:32:9-32:20>
+  references:    <DefiningName "Sqrt" test.adb:5:13-5:17>
+  type:          <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+  expected type: <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+Expr: <Id "Sqrt" test.adb:32:9-32:13>
+  references:    <DefiningName "Sqrt" test.adb:5:13-5:17>
+  type:          <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+  expected type: None
+Expr: <UnOp test.adb:32:15-32:19>
+  type:          <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+  expected type: <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+Expr: <OpMinus "-" test.adb:32:15-32:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:32:16-32:19>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Real"] test.adb:2:4-2:26>
+
+Resolving xrefs for node <AssignStmt test.adb:37:4-37:17>
+*********************************************************
+
+Expr: <Id "M" test.adb:37:4-37:5>
+  references:    <DefiningName "M" test.adb:25:4-25:5>
+  type:          <ConcreteTypeDecl ["Mod_Type"] test.adb:3:4-3:29>
+  expected type: None
+Expr: <UnOp test.adb:37:9-37:16>
+  type:          <ConcreteTypeDecl ["Mod_Type"] test.adb:3:4-3:29>
+  expected type: <ConcreteTypeDecl ["Mod_Type"] test.adb:3:4-3:29>
+Expr: <OpNot "not" test.adb:37:9-37:12>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:37:13-37:16>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Mod_Type"] test.adb:3:4-3:29>
+
+
+Done.

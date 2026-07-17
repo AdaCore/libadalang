@@ -241,9 +241,38 @@ package body Libadalang.Expr_Eval is
       function Eval_Decl (D : LAL.Basic_Decl) return Eval_Result;
       --  Helper to evaluate the value associated to a declaration
 
+      function Eval_Un_Op
+        (N : LAL.Ada_Node; Op : Ada_Node_Kind_Type; E : LAL.Expr)
+         return Eval_Result;
+      --  Helper to evaluate an unary operation
+
+      function Eval_Rel_Op
+        (N : LAL.Ada_Node; Op : Ada_Node_Kind_Type; LHS, RHS : LAL.Expr)
+         return Eval_Result;
+      --  Helper to evaluate a relational operation
+
+      function Eval_Concat_Op
+        (N : LAL.Ada_Node; Operands : LAL.Expr_Array) return Eval_Result;
+      --  Helper to evaluate a concatenation operation
+
+      function Eval_Bin_Op
+        (N : LAL.Ada_Node; Op : Ada_Node_Kind_Type; LHS, RHS : LAL.Expr)
+         return Eval_Result;
+      --  Helper to evaluate a binary operation (excepted for relational
+      --  operations which are handled by the `Eval_Rel_Op` helper, and
+      --  concatenations which are handled by `Eval_Concat_Op`).
+
       function Eval_Range_Attr
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result;
       --  Helper to evaluate a 'First or 'Last attribute reference
+
+      function Eval_Val_For_Enum
+        (Attr_Name : String;
+         Typ       : LAL.Base_Type_Decl;
+         Root_Type : LAL.Base_Type_Decl;
+         Pos       : Big_Integer) return Eval_Result;
+      --  Helper to evaluate 'Val and 'Enum_Val on an enum type: return the
+      --  enum literal at position Pos, with special-casing for char types.
 
       function Eval_Function_Attr
         (AR : LAL.Attribute_Ref; Args : LAL.Assoc_List) return Eval_Result;
@@ -267,13 +296,10 @@ package body Libadalang.Expr_Eval is
         (Call_Expr : LAL.Call_Expr; Bounds : LAL.Bin_Op) return Eval_Result;
       --  Helper to evaluate function attribute references
 
-      function Eval_Val_For_Enum
-        (Attr_Name : String;
-         Typ       : LAL.Base_Type_Decl;
-         Root_Type : LAL.Base_Type_Decl;
-         Pos       : Big_Integer) return Eval_Result;
-      --  Helper to evaluate 'Val and 'Enum_Val on an enum type: return the
-      --  enum literal at position Pos, with special-casing for char types.
+      function Eval_Operator_Call
+        (Call_Expr : LAL.Call_Expr) return Eval_Result;
+      --  Helper to evaluate an explicit call expr to a predefined operator.
+      --  Dispatches to the various `Eval_*_Op` helpers.
 
       function Expr_Eval (E : LAL.Expr) return Eval_Result;
       --  Helper to evaluate the given expr in the current environment. Note
@@ -351,6 +377,390 @@ package body Libadalang.Expr_Eval is
                  with "Cannot eval decl " & D.Kind'Image;
          end case;
       end Eval_Decl;
+
+      ----------------
+      -- Eval_Un_Op --
+      ----------------
+
+      function Eval_Un_Op
+        (N : LAL.Ada_Node; Op : Ada_Node_Kind_Type; E : LAL.Expr)
+         return Eval_Result
+      is
+         Operand_Val : constant Eval_Result := Expr_Eval (E);
+         Operand_Type : LAL.Base_Type_Decl renames Operand_Val.Expr_Type;
+
+         subtype Valid_Unop_Kind is Ada_Node_Kind_Type with
+            Static_Predicate => Valid_Unop_Kind in
+               Ada_Op_Minus | Ada_Op_Plus | Ada_Op_Abs | Ada_Op_Not;
+
+         Op_Kind : constant Valid_Unop_Kind := Op;
+         --  Parsers can only build unary operators with the above
+         --  operations. Using a subtype here saves us from writing dead
+         --  code.
+      begin
+         case Operand_Val.Kind is
+         when Enum_Lit =>
+            --  Unary operators are not valid on enums. This is not a
+            --  legality check: since we process standard character types
+            --  as integers, this guard will not reject them, but at
+            --  least code below can assume we are dealing with integers
+            --  or reals.
+            raise Property_Error with
+               "Unary operator invalid on enumerations";
+
+         when String_Lit =>
+            raise Property_Error with
+               "Unary operator invalid on strings";
+
+         when Int =>
+            declare
+               Operand : Big_Integer renames Operand_Val.Int_Result;
+               Result  : Big_Integer;
+            begin
+               case Op_Kind is
+               when Ada_Op_Minus =>
+                  Result.Set (-Operand);
+               when Ada_Op_Plus =>
+                  Result.Set (Operand);
+               when Ada_Op_Abs =>
+                  Result.Set (abs Operand);
+               when Ada_Op_Not =>
+                  --  "not" on a modular type: result = Modulus - 1 -
+                  --  Operand (ARM 4.5.6). This equals bitwise complement
+                  --  for power-of-2 moduli.
+                  declare
+                     Expr_Type : constant LAL.Base_Type_Decl :=
+                        N.As_Expr.P_Expression_Type.As_Base_Type_Decl;
+                  begin
+                     if not Is_Modular_Type (Expr_Type) then
+                        raise Property_Error with
+                           """not"" on integer types only supported "
+                           & "for modular types";
+                     end if;
+                     Result.Set (Get_Modulus (Expr_Type) - 1 - Operand);
+                     return Create_Int_Result (Expr_Type, Result);
+                  end;
+               end case;
+               return Create_Int_Result (Operand_Type, Result);
+            end;
+
+         when Real =>
+            declare
+               Operand : Rational renames Operand_Val.Real_Result;
+               Result  : Rational;
+            begin
+               begin
+                  case Op_Kind is
+                  when Ada_Op_Minus =>
+                     Result.Set (-Operand);
+                  when Ada_Op_Plus =>
+                     Result.Set (Operand);
+                  when Ada_Op_Abs =>
+                     Result.Set (abs Operand);
+                  when Ada_Op_Not =>
+                     raise Property_Error with
+                        "Invalid ""not"" operator for floating point"
+                        & " value";
+                  end case;
+               exception
+                  when Exc : Constraint_Error =>
+                     raise Property_Error with
+                        "Floating point computation error: "
+                        & Ada.Exceptions.Exception_Message (Exc);
+               end;
+               return Create_Real_Result (Operand_Type, Result);
+            end;
+         end case;
+      end Eval_Un_Op;
+
+      -----------------
+      -- Eval_Rel_Op --
+      -----------------
+
+      function Eval_Rel_Op
+        (N : LAL.Ada_Node; Op : Ada_Node_Kind_Type; LHS, RHS : LAL.Expr)
+         return Eval_Result
+      is
+         function Bool (X : Boolean; N : LAL.Ada_Node'Class := E)
+            return Eval_Result renames Create_Bool_Result;
+
+         L  : constant Eval_Result := Expr_Eval (LHS);
+         R  : constant Eval_Result := Expr_Eval (RHS);
+      begin
+         if L.Kind /= R.Kind then
+            raise Property_Error with "Unsupported type discrepancy";
+         end if;
+
+         case R.Kind is
+         when Int =>
+            case Op is
+            when Ada_Op_Eq =>
+               return Bool (L.Int_Result = R.Int_Result);
+            when Ada_Op_Neq =>
+               return Bool (L.Int_Result /= R.Int_Result);
+            when Ada_Op_Lt =>
+               return Bool (L.Int_Result < R.Int_Result);
+            when Ada_Op_Lte =>
+               return Bool (L.Int_Result <= R.Int_Result);
+            when Ada_Op_Gt =>
+               return Bool (L.Int_Result > R.Int_Result);
+            when Ada_Op_Gte =>
+               return Bool (L.Int_Result >= R.Int_Result);
+            when others =>
+               raise Program_Error with "Impossible path";
+            end case;
+
+         when Real =>
+            case Op is
+            when Ada_Op_Eq =>
+               return Bool (L.Real_Result = R.Real_Result);
+            when Ada_Op_Neq =>
+               return Bool (L.Real_Result /= R.Real_Result);
+            when Ada_Op_Lt =>
+               return Bool (L.Real_Result < R.Real_Result);
+            when Ada_Op_Lte =>
+               return Bool (L.Real_Result <= R.Real_Result);
+            when Ada_Op_Gt =>
+               return Bool (L.Real_Result > R.Real_Result);
+            when Ada_Op_Gte =>
+               return Bool (L.Real_Result >= R.Real_Result);
+            when others =>
+               raise Program_Error with "Impossible path";
+            end case;
+
+         when Enum_Lit =>
+            case Op is
+            when Ada_Op_Eq =>
+               return Bool (L.Enum_Result = R.Enum_Result);
+            when Ada_Op_Neq =>
+               return Bool (L.Enum_Result /= R.Enum_Result);
+            when others =>
+               raise Property_Error with
+                  "Unhandled relation operator on enum values: "
+                  & Op'Image;
+            end case;
+
+         when String_Lit =>
+            case Op is
+            when Ada_Op_Eq =>
+               return Bool
+                 (Langkit_Support.Text."="
+                   (L.String_Result, R.String_Result));
+            when Ada_Op_Neq =>
+               return Bool
+                 (Langkit_Support.Text."/="
+                   (L.String_Result, R.String_Result));
+            when others =>
+               raise Property_Error with
+                  "Unhandled relation operator on string values: "
+                  & Op'Image;
+            end case;
+         end case;
+      end Eval_Rel_Op;
+
+      --------------------
+      -- Eval_Concat_Op --
+      --------------------
+
+      function Eval_Concat_Op
+        (N : LAL.Ada_Node; Operands : LAL.Expr_Array) return Eval_Result
+      is
+         Concat_Result : Unbounded_Text_Type;
+         First         : Natural := 0;
+      begin
+         for I of Operands loop
+            declare
+               ER : constant Eval_Result := Expr_Eval (I);
+            begin
+               if First = 0 then
+                  First := ER.First;
+               end if;
+               Concat_Result := Concat_Result & ER.String_Result;
+            end;
+         end loop;
+         return
+           (String_Lit,
+            E.P_Expression_Type,
+            Concat_Result,
+            First,
+            First + Length (Concat_Result) - 1);
+      end Eval_Concat_Op;
+
+      -----------------
+      -- Eval_Bin_Op --
+      -----------------
+
+      function Eval_Bin_Op
+        (N : LAL.Ada_Node; Op : Ada_Node_Kind_Type; LHS, RHS : LAL.Expr)
+         return Eval_Result
+      is
+         L  : constant Eval_Result := Expr_Eval (LHS);
+         R  : constant Eval_Result := Expr_Eval (RHS);
+      begin
+         if L.Kind /= R.Kind then
+            if L.Kind = Int and then R.Kind = Real
+              and then Op = Ada_Op_Mult
+            then
+               declare
+                  Result : Rational;
+                  Left : Rational;
+               begin
+                  Left.Set (L.Int_Result);
+                  Result.Set (Left * R.Real_Result);
+                  return Create_Real_Result (R.Expr_Type, Result);
+               end;
+            elsif L.Kind = Real and then R.Kind = Int
+              and then Op = Ada_Op_Mult
+            then
+               declare
+                  Result : Rational;
+                  Right : Rational;
+               begin
+                  Right.Set (R.Int_Result);
+                  Result.Set (L.Real_Result * Right);
+                  return Create_Real_Result (L.Expr_Type, Result);
+               end;
+            elsif L.Kind = Real and then R.Kind = Int
+              and then Op = Ada_Op_Div
+            then
+               declare
+                  Result : Rational;
+                  Right : Rational;
+               begin
+                  Right.Set (R.Int_Result);
+                  Result.Set (L.Real_Result / Right);
+                  return Create_Real_Result (L.Expr_Type, Result);
+               end;
+            elsif L.Kind = Real and then R.Kind = Int
+              and then Op = Ada_Op_Pow
+            then
+               declare
+                  Result : Rational;
+               begin
+                  Result.Set (L.Real_Result ** R.Int_Result);
+                  return Create_Real_Result (L.Expr_Type, Result);
+               end;
+            else
+               raise Property_Error with "Unsupported type discrepancy";
+            end if;
+         end if;
+
+         case R.Kind is
+         when Int =>
+            --  Handle arithmetic operators on Int values
+            declare
+               Result : Big_Integer;
+            begin
+               case Op is
+               when Ada_Op_Plus =>
+                  Result.Set (L.Int_Result + R.Int_Result);
+               when Ada_Op_Minus =>
+                  Result.Set (L.Int_Result - R.Int_Result);
+               when Ada_Op_Mult =>
+                  Result.Set (L.Int_Result * R.Int_Result);
+               when Ada_Op_Div =>
+                  if R.Int_Result = 0 then
+                     raise Property_Error with "Division by zero";
+                  end if;
+                  Result.Set (L.Int_Result / R.Int_Result);
+               when Ada_Op_Pow =>
+                  Raise_To_N (L.Int_Result, R.Int_Result, Result);
+               when Ada_Op_And | Ada_Op_Or | Ada_Op_Xor =>
+                  --  Logical operators on modular integer types perform
+                  --  bitwise operations (ARM 4.5.1). For non-power-of-2
+                  --  moduli, or/xor results must be reduced. Use the
+                  --  BinOp expression type rather than the operand type,
+                  --  as literal operands have universal integer type.
+                  declare
+                     Expr_Type : constant LAL.Base_Type_Decl :=
+                        N.As_Expr.P_Expression_Type.As_Base_Type_Decl;
+                  begin
+                     if not Is_Modular_Type (Expr_Type) then
+                        raise Property_Error with
+                           "Logical operators on integer types only "
+                           & "supported for modular types";
+                     end if;
+                     case Op is
+                     when Ada_Op_And =>
+                        --  AND can only clear bits, so the result is
+                        --  always within range without mod reduction.
+                        Result.Set (L.Int_Result and R.Int_Result);
+                     when Ada_Op_Or =>
+                        Result.Set
+                          ((L.Int_Result or R.Int_Result)
+                           mod Get_Modulus (Expr_Type));
+                     when Ada_Op_Xor =>
+                        Result.Set
+                          ((L.Int_Result xor R.Int_Result)
+                           mod Get_Modulus (Expr_Type));
+                     when others =>
+                        raise Program_Error with "Impossible path";
+                     end case;
+                     return Create_Int_Result (Expr_Type, Result);
+                  end;
+               when others =>
+                  raise Property_Error with
+                     "Unhandled operator: " & Op'Image;
+               end case;
+
+               return Create_Int_Result (R.Expr_Type, Result);
+            end;
+
+         when Real =>
+            --  Handle arithmetic operators on Real values
+            declare
+               Result : Rational;
+            begin
+               begin
+                  case Op is
+                  when Ada_Op_Plus =>
+                     Result.Set (L.Real_Result + R.Real_Result);
+                  when Ada_Op_Minus =>
+                     Result.Set (L.Real_Result - R.Real_Result);
+                  when Ada_Op_Mult =>
+                     Result.Set (L.Real_Result * R.Real_Result);
+                  when Ada_Op_Div =>
+                     Result.Set (L.Real_Result / R.Real_Result);
+                  when others =>
+                     raise Property_Error with
+                        "Unhandled operator: " & Op'Image;
+                  end case;
+               exception
+                  when Exc : Constraint_Error =>
+                     raise Property_Error with
+                        "Floating point computation error: "
+                        & Ada.Exceptions.Exception_Message (Exc);
+               end;
+               return Create_Real_Result (R.Expr_Type, Result);
+            end;
+
+         when Enum_Lit =>
+            --  Handle relational operators on boolean values
+            declare
+               LB        : constant Boolean := As_Bool (L);
+               RB        : constant Boolean := As_Bool (R);
+               Result    : Boolean;
+            begin
+               case Op is
+               when Ada_Op_And | Ada_Op_And_Then =>
+                  Result := LB and then RB;
+               when Ada_Op_Or | Ada_Op_Or_Else =>
+                  Result := LB or else RB;
+               when Ada_Op_Xor =>
+                  Result := LB xor RB;
+               when others =>
+                  raise Property_Error with
+                     "Wrong operator for boolean: " & Op'Image;
+               end case;
+
+               return Create_Bool_Result (Result, N);
+            end;
+
+         when String_Lit =>
+            raise Property_Error with
+               "Wrong operator for string: " & Op'Image;
+         end case;
+      end Eval_Bin_Op;
 
       ---------------------
       -- Eval_Range_Attr --
@@ -1239,6 +1649,86 @@ package body Libadalang.Expr_Eval is
          end if;
       end Eval_Array_Slice;
 
+      ------------------------
+      -- Eval_Operator_Call --
+      ------------------------
+
+      function Eval_Operator_Call
+        (Call_Expr : LAL.Call_Expr) return Eval_Result
+      is
+         Op_Sym : constant Unbounded_Text_Type :=
+           Call_Expr.F_Name.P_Relative_Name.P_Canonical_Text;
+         Params : constant LAL.Param_Actual_Array := Call_Expr.P_Call_Params;
+         Op : Ada_Node_Kind_Type;
+      begin
+         if Op_Sym = """=""" then
+            Op := Ada_Op_Eq;
+         elsif Op_Sym = """/=""" then
+            Op := Ada_Op_Neq;
+         elsif Op_Sym = """<""" then
+            Op := Ada_Op_Lt;
+         elsif Op_Sym = """<=""" then
+            Op := Ada_Op_Lte;
+         elsif Op_Sym = """>""" then
+            Op := Ada_Op_Gt;
+         elsif Op_Sym = """>=""" then
+            Op := Ada_Op_Gte;
+         elsif Op_Sym = """and""" then
+            Op := Ada_Op_And;
+         elsif Op_Sym = """or""" then
+            Op := Ada_Op_Or;
+         elsif Op_Sym = """xor""" then
+            Op := Ada_Op_Xor;
+         elsif Op_Sym = """abs""" then
+            Op := Ada_Op_Abs;
+         elsif Op_Sym = """*""" then
+            Op := Ada_Op_Mult;
+         elsif Op_Sym = """**""" then
+            Op := Ada_Op_Pow;
+         elsif Op_Sym = """/""" then
+            Op := Ada_Op_Div;
+         elsif Op_Sym = """mod""" then
+            Op := Ada_Op_Mod;
+         elsif Op_Sym = """rem""" then
+            Op := Ada_Op_Rem;
+         elsif Op_Sym = """+""" then
+            Op := Ada_Op_Plus;
+         elsif Op_Sym = """-""" then
+            Op := Ada_Op_Minus;
+         elsif Op_Sym = """&""" then
+            Op := Ada_Op_Concat;
+         elsif Op_Sym = """not""" then
+            Op := Ada_Op_Not;
+         end if;
+
+         if Params'Length = 1 then
+            declare
+               E : constant LAL.Expr :=
+                 LAL.Actual (Params (Params'First)).As_Expr;
+            begin
+               return Eval_Un_Op (Call_Expr.As_Ada_Node, Op, E);
+            end;
+         elsif Params'Length = 2 then
+            declare
+               L : constant LAL.Expr :=
+                 LAL.Actual (Params (Params'First)).As_Expr;
+               R : constant LAL.Expr :=
+                 LAL.Actual (Params (Params'Last)).As_Expr;
+            begin
+               case Op is
+                  when Ada_Op_Eq | Ada_Op_Neq | Ada_Op_Lt |
+                        Ada_Op_Lte | Ada_Op_Gt | Ada_Op_Gte =>
+                     return Eval_Rel_Op (Call_Expr.As_Ada_Node, Op, L, R);
+                  when Ada_Op_Concat =>
+                     return Eval_Concat_Op (Call_Expr.As_Ada_Node, (L, R));
+                  when others =>
+                     return Eval_Bin_Op (Call_Expr.As_Ada_Node, Op, L, R);
+               end case;
+            end;
+         end if;
+         raise Property_Error with "Unhandled operator";
+      end Eval_Operator_Call;
+
       ---------------
       -- Expr_Eval --
       ---------------
@@ -1364,365 +1854,31 @@ package body Libadalang.Expr_Eval is
                   return Eval_Result renames Create_Bool_Result;
 
                BO : constant LAL.Bin_Op := E.As_Bin_Op;
-               Op : constant LAL.Op := BO.F_Op;
-               L  : constant Eval_Result := Expr_Eval (BO.F_Left);
-               R  : constant Eval_Result := Expr_Eval (BO.F_Right);
+               Op : constant Ada_Node_Kind_Type := BO.F_Op.Kind;
             begin
-               if L.Kind /= R.Kind then
-                  raise Property_Error with "Unsupported type discrepancy";
-               end if;
-
-               case R.Kind is
-               when Int =>
-                  case Op.Kind is
-                  when Ada_Op_Eq =>
-                     return Bool (L.Int_Result = R.Int_Result);
-                  when Ada_Op_Neq =>
-                     return Bool (L.Int_Result /= R.Int_Result);
-                  when Ada_Op_Lt =>
-                     return Bool (L.Int_Result < R.Int_Result);
-                  when Ada_Op_Lte =>
-                     return Bool (L.Int_Result <= R.Int_Result);
-                  when Ada_Op_Gt =>
-                     return Bool (L.Int_Result > R.Int_Result);
-                  when Ada_Op_Gte =>
-                     return Bool (L.Int_Result >= R.Int_Result);
-                  when others =>
-                     raise Program_Error with "Impossible path";
-                  end case;
-
-               when Real =>
-                  case Op.Kind is
-                  when Ada_Op_Eq =>
-                     return Bool (L.Real_Result = R.Real_Result);
-                  when Ada_Op_Neq =>
-                     return Bool (L.Real_Result /= R.Real_Result);
-                  when Ada_Op_Lt =>
-                     return Bool (L.Real_Result < R.Real_Result);
-                  when Ada_Op_Lte =>
-                     return Bool (L.Real_Result <= R.Real_Result);
-                  when Ada_Op_Gt =>
-                     return Bool (L.Real_Result > R.Real_Result);
-                  when Ada_Op_Gte =>
-                     return Bool (L.Real_Result >= R.Real_Result);
-                  when others =>
-                     raise Program_Error with "Impossible path";
-                  end case;
-
-               when Enum_Lit =>
-                  case Op.Kind is
-                  when Ada_Op_Eq =>
-                     return Bool (L.Enum_Result = R.Enum_Result);
-                  when Ada_Op_Neq =>
-                     return Bool (L.Enum_Result /= R.Enum_Result);
-                  when others =>
-                     raise Property_Error with
-                        "Unhandled relation operator on enum values: "
-                        & Op.Kind'Image;
-                  end case;
-
-               when String_Lit =>
-                  case Op.Kind is
-                  when Ada_Op_Eq =>
-                     return Bool
-                       (Langkit_Support.Text."="
-                         (L.String_Result, R.String_Result));
-                  when Ada_Op_Neq =>
-                     return Bool
-                       (Langkit_Support.Text."/="
-                         (L.String_Result, R.String_Result));
-                  when others =>
-                     raise Property_Error with
-                        "Unhandled relation operator on string values: "
-                        & Op.Kind'Image;
-                  end case;
-               end case;
+               return Eval_Rel_Op (BO.As_Ada_Node, Op, BO.F_Left, BO.F_Right);
             end;
 
          when Ada_Bin_Op =>
             declare
                BO : constant LAL.Bin_Op := E.As_Bin_Op;
-               Op : constant LAL.Op := BO.F_Op;
-               L  : constant Eval_Result := Expr_Eval (BO.F_Left);
-               R  : constant Eval_Result := Expr_Eval (BO.F_Right);
+               Op : constant Ada_Node_Kind_Type := BO.F_Op.Kind;
             begin
-               if L.Kind /= R.Kind then
-                  if L.Kind = Int and then R.Kind = Real
-                    and then Op.Kind = Ada_Op_Mult
-                  then
-                     declare
-                        Result : Rational;
-                        Left : Rational;
-                     begin
-                        Left.Set (L.Int_Result);
-                        Result.Set (Left * R.Real_Result);
-                        return Create_Real_Result (R.Expr_Type, Result);
-                     end;
-                  elsif L.Kind = Real and then R.Kind = Int
-                    and then Op.Kind = Ada_Op_Mult
-                  then
-                     declare
-                        Result : Rational;
-                        Right : Rational;
-                     begin
-                        Right.Set (R.Int_Result);
-                        Result.Set (L.Real_Result * Right);
-                        return Create_Real_Result (L.Expr_Type, Result);
-                     end;
-                  elsif L.Kind = Real and then R.Kind = Int
-                    and then Op.Kind = Ada_Op_Div
-                  then
-                     declare
-                        Result : Rational;
-                        Right : Rational;
-                     begin
-                        Right.Set (R.Int_Result);
-                        Result.Set (L.Real_Result / Right);
-                        return Create_Real_Result (L.Expr_Type, Result);
-                     end;
-                  elsif L.Kind = Real and then R.Kind = Int
-                    and then Op.Kind = Ada_Op_Pow
-                  then
-                     declare
-                        Result : Rational;
-                     begin
-                        Result.Set (L.Real_Result ** R.Int_Result);
-                        return Create_Real_Result (L.Expr_Type, Result);
-                     end;
-                  else
-                     raise Property_Error with "Unsupported type discrepancy";
-                  end if;
-               end if;
-
-               case R.Kind is
-               when Int =>
-                  --  Handle arithmetic and bitwise operators on Int values
-                  declare
-                     Result : Big_Integer;
-                  begin
-                     case Op.Kind is
-                     when Ada_Op_Plus =>
-                        Result.Set (L.Int_Result + R.Int_Result);
-                     when Ada_Op_Minus =>
-                        Result.Set (L.Int_Result - R.Int_Result);
-                     when Ada_Op_Mult =>
-                        Result.Set (L.Int_Result * R.Int_Result);
-                     when Ada_Op_Div =>
-                        if R.Int_Result = 0 then
-                           raise Property_Error with "Division by zero";
-                        end if;
-                        Result.Set (L.Int_Result / R.Int_Result);
-                     when Ada_Op_Pow =>
-                        Raise_To_N (L.Int_Result, R.Int_Result, Result);
-                     when Ada_Op_And | Ada_Op_Or | Ada_Op_Xor =>
-                        --  Logical operators on modular integer types perform
-                        --  bitwise operations (ARM 4.5.1). For non-power-of-2
-                        --  moduli, or/xor results must be reduced. Use the
-                        --  BinOp expression type rather than the operand type,
-                        --  as literal operands have universal integer type.
-                        declare
-                           Expr_Type : constant LAL.Base_Type_Decl :=
-                              BO.P_Expression_Type.As_Base_Type_Decl;
-                        begin
-                           if not Is_Modular_Type (Expr_Type) then
-                              raise Property_Error with
-                                 "Logical operators on integer types only "
-                                 & "supported for modular types";
-                           end if;
-                           case Op.Kind is
-                           when Ada_Op_And =>
-                              --  AND can only clear bits, so the result is
-                              --  always within range without mod reduction.
-                              Result.Set (L.Int_Result and R.Int_Result);
-                           when Ada_Op_Or =>
-                              Result.Set
-                                ((L.Int_Result or R.Int_Result)
-                                 mod Get_Modulus (Expr_Type));
-                           when Ada_Op_Xor =>
-                              Result.Set
-                                ((L.Int_Result xor R.Int_Result)
-                                 mod Get_Modulus (Expr_Type));
-                           when others =>
-                              raise Program_Error with "Impossible path";
-                           end case;
-                           return Create_Int_Result (Expr_Type, Result);
-                        end;
-                     when others =>
-                        raise Property_Error with
-                           "Unhandled operator: " & Op.Kind'Image;
-                     end case;
-
-                     return Create_Int_Result (R.Expr_Type, Result);
-                  end;
-
-               when Real =>
-                  --  Handle arithmetic operators on Real values
-                  declare
-                     Result : Rational;
-                  begin
-                     begin
-                        case Op.Kind is
-                        when Ada_Op_Plus =>
-                           Result.Set (L.Real_Result + R.Real_Result);
-                        when Ada_Op_Minus =>
-                           Result.Set (L.Real_Result - R.Real_Result);
-                        when Ada_Op_Mult =>
-                           Result.Set (L.Real_Result * R.Real_Result);
-                        when Ada_Op_Div =>
-                           Result.Set (L.Real_Result / R.Real_Result);
-                        when others =>
-                           raise Property_Error with
-                              "Unhandled operator: " & Op.Kind'Image;
-                        end case;
-                     exception
-                        when Exc : Constraint_Error =>
-                           raise Property_Error with
-                              "Floating point computation error: "
-                              & Ada.Exceptions.Exception_Message (Exc);
-                     end;
-                     return Create_Real_Result (R.Expr_Type, Result);
-                  end;
-
-               when Enum_Lit =>
-                  --  Handle relational operators on boolean values
-                  declare
-                     LB        : constant Boolean := As_Bool (L);
-                     RB        : constant Boolean := As_Bool (R);
-                     Result    : Boolean;
-                  begin
-                     case Op.Kind is
-                     when Ada_Op_And | Ada_Op_And_Then =>
-                        Result := LB and then RB;
-                     when Ada_Op_Or | Ada_Op_Or_Else =>
-                        Result := LB or else RB;
-                     when Ada_Op_Xor =>
-                        Result := LB xor RB;
-                     when others =>
-                        raise Property_Error with
-                           "Wrong operator for boolean: " & Op.Kind'Image;
-                     end case;
-
-                     return Create_Bool_Result (Result, BO.As_Ada_Node);
-                  end;
-
-               when String_Lit =>
-                  raise Property_Error with
-                     "Wrong operator for string: " & Op.Kind'Image;
-               end case;
+               return Eval_Bin_Op (BO.As_Ada_Node, Op, BO.F_Left, BO.F_Right);
             end;
 
          when Ada_Concat_Op =>
             declare
-               CO            : constant LAL.Concat_Op := E.As_Concat_Op;
-               Concat_Result : Unbounded_Text_Type;
-               First         : Natural := 0;
+               CO : constant LAL.Concat_Op := E.As_Concat_Op;
             begin
-               for I of CO.P_Operands loop
-                  declare
-                     ER : constant Eval_Result := Expr_Eval (I);
-                  begin
-                     if First = 0 then
-                        First := ER.First;
-                     end if;
-                     Concat_Result := Concat_Result & ER.String_Result;
-                  end;
-               end loop;
-               return
-                 (String_Lit,
-                  E.P_Expression_Type,
-                  Concat_Result,
-                  First,
-                  First + Length (Concat_Result) - 1);
+               return Eval_Concat_Op (CO.As_Ada_Node, CO.P_Operands);
             end;
 
          when Ada_Un_Op =>
             declare
-               UO           : constant LAL.Un_Op := E.As_Un_Op;
-               Op           : constant LAL.Op := UO.F_Op;
-               Operand_Val  : constant Eval_Result := Expr_Eval (UO.F_Expr);
-               Operand_Type : LAL.Base_Type_Decl renames Operand_Val.Expr_Type;
-
-               subtype Valid_Unop_Kind is Ada_Node_Kind_Type with
-                  Static_Predicate => Valid_Unop_Kind in
-                     Ada_Op_Minus | Ada_Op_Plus | Ada_Op_Abs | Ada_Op_Not;
-               Op_Kind : constant Valid_Unop_Kind := Op.Kind;
-               --  Parsers can only build unary operators with the above
-               --  operations. Using a subtype here saves us from writing dead
-               --  code.
+               UO : constant LAL.Un_Op := E.As_Un_Op;
             begin
-               case Operand_Val.Kind is
-               when Enum_Lit =>
-                  --  Unary operators are not valid on enums. This is not a
-                  --  legality check: since we process standard character types
-                  --  as integers, this guard will not reject them, but at
-                  --  least code below can assume we are dealing with integers
-                  --  or reals.
-                  raise Property_Error with
-                     "Unary operator invalid on enumerations";
-
-               when String_Lit =>
-                  raise Property_Error with
-                     "Unary operator invalid on strings";
-
-               when Int =>
-                  declare
-                     Operand : Big_Integer renames Operand_Val.Int_Result;
-                     Result  : Big_Integer;
-                  begin
-                     case Op_Kind is
-                     when Ada_Op_Minus =>
-                        Result.Set (-Operand);
-                     when Ada_Op_Plus =>
-                        Result.Set (Operand);
-                     when Ada_Op_Abs =>
-                        Result.Set (abs Operand);
-                     when Ada_Op_Not =>
-                        --  "not" on a modular type: result = Modulus - 1 -
-                        --  Operand (ARM 4.5.6). This equals bitwise complement
-                        --  for power-of-2 moduli.
-                        declare
-                           Expr_Type : constant LAL.Base_Type_Decl :=
-                              UO.P_Expression_Type.As_Base_Type_Decl;
-                        begin
-                           if not Is_Modular_Type (Expr_Type) then
-                              raise Property_Error with
-                                 """not"" on integer types only supported "
-                                 & "for modular types";
-                           end if;
-                           Result.Set (Get_Modulus (Expr_Type) - 1 - Operand);
-                           return Create_Int_Result (Expr_Type, Result);
-                        end;
-                     end case;
-                     return Create_Int_Result (Operand_Type, Result);
-                  end;
-
-               when Real =>
-                  declare
-                     Operand : Rational renames Operand_Val.Real_Result;
-                     Result  : Rational;
-                  begin
-                     begin
-                        case Op_Kind is
-                        when Ada_Op_Minus =>
-                           Result.Set (-Operand);
-                        when Ada_Op_Plus =>
-                           Result.Set (Operand);
-                        when Ada_Op_Abs =>
-                           Result.Set (abs Operand);
-                        when Ada_Op_Not =>
-                           raise Property_Error with
-                              "Invalid ""not"" operator for floating point"
-                              & " value";
-                        end case;
-                     exception
-                        when Exc : Constraint_Error =>
-                           raise Property_Error with
-                              "Floating point computation error: "
-                              & Ada.Exceptions.Exception_Message (Exc);
-                     end;
-                     return Create_Real_Result (Operand_Type, Result);
-                  end;
-               end case;
+               return Eval_Un_Op (UO.As_Ada_Node, UO.F_Op.Kind, UO.F_Expr);
             end;
 
          when Ada_Attribute_Ref =>
@@ -1852,6 +2008,11 @@ package body Libadalang.Expr_Eval is
                if C.F_Name.Kind in Ada_Attribute_Ref then
                   return Eval_Function_Attr
                     (C.F_Name.As_Attribute_Ref, S.As_Assoc_List);
+               elsif
+                  C.F_Name.P_Is_Operator_Name
+                  and then C.F_Name.P_Referenced_Decl.P_Is_Predefined_Operator
+               then
+                  return Eval_Operator_Call (C);
                end if;
 
                --  Avoid displaying LAL's internal property errors on calls to

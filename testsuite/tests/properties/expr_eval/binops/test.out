@@ -1,3 +1,207 @@
+Working on node <NumberDecl ["Int_Add"] base.ads:7:4-7:32>
+==========================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 5
+
+Working on node <NumberDecl ["Int_Sub"] base.ads:10:4-10:32>
+============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: -1
+
+Working on node <NumberDecl ["Int_Mul"] base.ads:13:4-13:32>
+============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 6
+
+Working on node <NumberDecl ["Int_Div"] base.ads:16:4-16:32>
+============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["Int_Pow"] base.ads:19:4-19:33>
+============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 8
+
+Working on node <ObjectDecl ["Bool_And_Then_1"] base.ads:29:4-29:61>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Bool_And_Then_2"] base.ads:32:4-32:62>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_And_Then_3"] base.ads:35:4-35:63>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_And_Then_4"] base.ads:38:4-38:62>
+====================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_And"] base.ads:41:4-41:50>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_Or_Else_1"] base.ads:44:4-44:59>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Bool_Or_Else_2"] base.ads:47:4-47:60>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Bool_Or_Else_3"] base.ads:50:4-50:61>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_Or_Else_4"] base.ads:53:4-53:60>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Bool_Or"] base.ads:56:4-56:48>
+============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Bool_Xor_1"] base.ads:59:4-59:52>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Bool_Xor_2"] base.ads:62:4-62:53>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_Xor_3"] base.ads:65:4-65:51>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["Int_Add"] explicit.ads:3:4-3:37>
+==============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 5
+
+Working on node <NumberDecl ["Int_Add_2"] explicit.ads:6:4-6:48>
+================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 5
+
+Working on node <NumberDecl ["Int_Sub"] explicit.ads:9:4-9:37>
+==============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: -1
+
+Working on node <NumberDecl ["Int_Mul"] explicit.ads:12:4-12:37>
+================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 6
+
+Working on node <NumberDecl ["Int_Div"] explicit.ads:15:4-15:37>
+================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 0
+
+Working on node <NumberDecl ["Int_Pow"] explicit.ads:18:4-18:38>
+================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 8
+
+Working on node <ObjectDecl ["Int_Eq"] explicit.ads:21:4-21:44>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Int_Ne"] explicit.ads:24:4-24:45>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Int_Lt"] explicit.ads:27:4-27:44>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Int_Gt"] explicit.ads:30:4-30:44>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Int_Lte"] explicit.ads:33:4-33:46>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Int_Gte"] explicit.ads:36:4-36:46>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_And"] explicit.ads:39:4-39:55>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_Or"] explicit.ads:42:4-42:53>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Bool_Xor_1"] explicit.ads:45:4-45:57>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <NumberDecl ["Above_Len"] explicit.ads:49:4-49:46>
+==================================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 2
+
 Working on node <NumberDecl ["Int_Div_By_0"] invalid.ads:3:4-3:37>
 ==================================================================
 
@@ -39,111 +243,3 @@ Working on node <NumberDecl ["Incomplete_Binop"] invalid.ads:21:4-24:1>
 
 Eval 'node.f_expr.p_eval_as_int'
 Exception: attempt to evaluate a null node
-
-Working on node <NumberDecl ["Int_Add"] valid.ads:7:4-7:32>
-===========================================================
-
-Eval 'node.f_expr.p_eval_as_int'
-Result: 5
-
-Working on node <NumberDecl ["Int_Sub"] valid.ads:10:4-10:32>
-=============================================================
-
-Eval 'node.f_expr.p_eval_as_int'
-Result: -1
-
-Working on node <NumberDecl ["Int_Mul"] valid.ads:13:4-13:32>
-=============================================================
-
-Eval 'node.f_expr.p_eval_as_int'
-Result: 6
-
-Working on node <NumberDecl ["Int_Div"] valid.ads:16:4-16:32>
-=============================================================
-
-Eval 'node.f_expr.p_eval_as_int'
-Result: 0
-
-Working on node <NumberDecl ["Int_Pow"] valid.ads:19:4-19:33>
-=============================================================
-
-Eval 'node.f_expr.p_eval_as_int'
-Result: 8
-
-Working on node <ObjectDecl ["Bool_And_Then_1"] valid.ads:29:4-29:61>
-=====================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 1
-
-Working on node <ObjectDecl ["Bool_And_Then_2"] valid.ads:32:4-32:62>
-=====================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 0
-
-Working on node <ObjectDecl ["Bool_And_Then_3"] valid.ads:35:4-35:63>
-=====================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 0
-
-Working on node <ObjectDecl ["Bool_And_Then_4"] valid.ads:38:4-38:62>
-=====================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 0
-
-Working on node <ObjectDecl ["Bool_And"] valid.ads:41:4-41:50>
-==============================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 0
-
-Working on node <ObjectDecl ["Bool_Or_Else_1"] valid.ads:44:4-44:59>
-====================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 1
-
-Working on node <ObjectDecl ["Bool_Or_Else_2"] valid.ads:47:4-47:60>
-====================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 1
-
-Working on node <ObjectDecl ["Bool_Or_Else_3"] valid.ads:50:4-50:61>
-====================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 0
-
-Working on node <ObjectDecl ["Bool_Or_Else_4"] valid.ads:53:4-53:60>
-====================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 1
-
-Working on node <ObjectDecl ["Bool_Or"] valid.ads:56:4-56:48>
-=============================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 1
-
-Working on node <ObjectDecl ["Bool_Xor_1"] valid.ads:59:4-59:52>
-================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 1
-
-Working on node <ObjectDecl ["Bool_Xor_2"] valid.ads:62:4-62:53>
-================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 0
-
-Working on node <ObjectDecl ["Bool_Xor_3"] valid.ads:65:4-65:51>
-================================================================
-
-Eval 'node.f_default_expr.p_eval_as_int'
-Result: 0

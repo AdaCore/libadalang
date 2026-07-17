@@ -504,17 +504,6 @@ class AdaNode implements Node[AdaNode] {
             [head] & tail
         }
 
-    |" If the rebindings in ``base`` end with ``suffix``, ``base`` is
-    |" returned without it. Otherwise ``base`` is returned as-is.
-    fun remove_rebindings(
-        base: EnvRebindings,
-        suffix: EnvRebindings
-    ): EnvRebindings =
-        if base.is_null or suffix.is_null then base
-        elif base.old_env == suffix.old_env and base.new_env == suffix.new_env
-        then node.remove_rebindings(base.get_parent, suffix.get_parent)
-        else base
-
     |" Append a new entry ``old_env -> new_env`` to ``base``. This also takes
     |" care of collapsing a subset of the rebindings if ``new_env`` is
     |" actually inside an envinonment which is rebound by an existing entry.
@@ -690,10 +679,10 @@ class AdaNode implements Node[AdaNode] {
     |" Return the parent basic decl for this node, if applicable, null
     |" otherwise.
     |"
-    |" .. note:: If the parent BasicDecl of the given node is a generic
-    |"     declaration, this call will return the instantiation from which
-    |"     the node was retrieved instead, if any. This also applies to bodies
-    |"     of generic declarations.
+    |" .. note:: If the given node is itself a generic declaration (or the
+    |"     body of one) that was retrieved through an instantiation, this call
+    |"     will return that instantiation instead of the node's regular parent
+    |"     basic decl, if any.
     |"
     |" .. note:: When called on a subunit's body, this property will return
     |"     its corresponding body stub.
@@ -6028,15 +6017,16 @@ class BasicDecl: AdaNode {
         then
             Entity[GenericInstantiation](
                 node=inst_node,
-                info=EntityInfo(
-                    md=Metadata(),
-                    # Since we return the instantiation itself, remove
-                    # it from its rebindings.
-                    rebindings=node.remove_rebindings(
-                        self.info.rebindings,
-                        designated_decl.info.rebindings
-                    ),
-                    from_rebound=self.info.from_rebound
+                # Keep only the rebindings relevant to where the
+                # instantiation node lies. This sheds both the rebinding
+                # that was introduced to enter this instantiation and the
+                # ones that only apply to enclosing generics.
+                info=inst_node.node_env.shed_rebindings(
+                    EntityInfo(
+                        md=Metadata(),
+                        rebindings=self.info.rebindings,
+                        from_rebound=self.info.from_rebound
+                    )
                 )
             )
         else null[Entity[GenericInstantiation]]

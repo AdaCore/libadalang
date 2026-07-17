@@ -1,0 +1,20 @@
+Working on node <ObjectDecl ["V"] test.adb:19:4-19:17>
+======================================================
+
+Set 't' to 'node.f_type_expr.p_designated_type_decl'
+Result: <| ConcreteTypeDecl ["T"] test.adb:6:10-6:32 [test.adb:10:4, test.adb:17:4, test.adb:14:7] |>
+
+Set 'p1' to 't.p_parent_basic_decl'
+Result: <| GenericPackageDecl ["G_Nested"] test.adb:4:7-7:20 [test.adb:10:4, test.adb:17:4, test.adb:14:7] |>
+
+Set 'p2' to 'p1.p_parent_basic_decl'
+Result: <| GenericPackageInstantiation ["Inst"] test.adb:14:7-14:38 [test.adb:17:4] |>
+
+Set 'p3' to 'p2.p_parent_basic_decl'
+Result: <| GenericPackageDecl ["C"] test.adb:12:4-15:10 [test.adb:17:4] |>
+
+Set 'p4' to 'p3.p_parent_basic_decl'
+Result: <GenericPackageInstantiation ["D"] test.adb:17:4-17:23>
+
+Set 'p5' to 'p4.p_parent_basic_decl'
+Result: <SubpBody ["Test"] test.adb:1:1-28:10>

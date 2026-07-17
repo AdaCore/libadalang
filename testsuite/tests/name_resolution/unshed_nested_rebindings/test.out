@@ -209,11 +209,11 @@ Resolving xrefs for node <| EndName test.adb:7:11-7:19 [test.adb:41:4, test.adb:
 *******************************************************************************************************
 
 Expr: <| EndName test.adb:7:11-7:19 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
-  references:    <| DefiningName "Buffer" test.adb:28:15-28:21 [test.adb:41:4, test.adb:42:4] |>
+  references:    <| DefiningName "Buffer" test.adb:28:15-28:21 [test.adb:42:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Buffer_G" test.adb:7:11-7:19 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
-  references:    <| DefiningName "Buffer" test.adb:28:15-28:21 [test.adb:41:4, test.adb:42:4] |>
+  references:    <| DefiningName "Buffer" test.adb:28:15-28:21 [test.adb:42:4] |>
   type:          None
   expected type: None
 

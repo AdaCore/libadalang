@@ -274,6 +274,14 @@ package body Libadalang.Expr_Eval is
       --  Helper to evaluate 'Val and 'Enum_Val on an enum type: return the
       --  enum literal at position Pos, with special-casing for char types.
 
+      function Signed_Int_Base_Range
+        (Typ : LAL.Base_Type_Decl; A : Range_Attr) return Eval_Result;
+      --  Evaluate 'First/'Last on the base subtype of the signed integer type
+      --  Typ. Its base range is the range of the smallest predefined integer
+      --  type covering Typ's declared range, per the context's target
+      --  information: exact when target information is set, a power-of-two
+      --  approximation otherwise.
+
       function Eval_Function_Attr
         (AR : LAL.Attribute_Ref; Args : LAL.Assoc_List) return Eval_Result;
       --  Helper to evaluate function attribute references
@@ -762,6 +770,55 @@ package body Libadalang.Expr_Eval is
          end case;
       end Eval_Bin_Op;
 
+      ---------------------------
+      -- Signed_Int_Base_Range --
+      ---------------------------
+
+      function Signed_Int_Base_Range
+        (Typ : LAL.Base_Type_Decl; A : Range_Attr) return Eval_Result
+      is
+         TI : constant Libadalang.Target_Info.Target_Information :=
+           Get_Target_Information (Typ.Unit.Context);
+
+         --  Sizes of the predefined signed integer types, smallest first (as
+         --  used by env_hooks to declare them in Standard).
+         Sizes : constant array (Positive range <>) of Positive :=
+           (TI.Char_Size,            --  Short_Short_Integer
+            TI.Short_Size,           --  Short_Integer
+            TI.Int_Size,             --  Integer
+            TI.Long_Size,            --  Long_Integer
+            TI.Long_Long_Size,       --  Long_Long_Integer
+            TI.Long_Long_Long_Size); --  Long_Long_Long_Integer
+
+         --  Declared bounds of the type
+         Lo : constant Big_Integer :=
+           As_Int (Eval_Range_Attr (Typ.As_Ada_Node, Range_First));
+         Hi : constant Big_Integer :=
+           As_Int (Eval_Range_Attr (Typ.As_Ada_Node, Range_Last));
+
+         Two : constant Big_Integer := GNATCOLL.GMP.Integers.Make ("2");
+      begin
+         for Size of Sizes loop
+            declare
+               Half  : constant Big_Integer :=
+                 Two ** GNATCOLL.GMP.Unsigned_Long (Size - 1);
+               First : constant Big_Integer := -Half;
+               Last  : constant Big_Integer := Half - 1;
+            begin
+               if Lo >= First and then Hi <= Last then
+                  case A is
+                     when Range_First => return Create_Int_Result (Typ, First);
+                     when Range_Last  => return Create_Int_Result (Typ, Last);
+                  end case;
+               end if;
+            end;
+         end loop;
+
+         --  No predefined integer type covers the declared range: fall back
+         --  to that range.
+         return Eval_Range_Attr (Typ.As_Ada_Node, A);
+      end Signed_Int_Base_Range;
+
       ---------------------
       -- Eval_Range_Attr --
       ---------------------
@@ -781,6 +838,29 @@ package body Libadalang.Expr_Eval is
          when Ada_Subtype_Decl =>
             return Eval_Range_Attr
               (D.As_Subtype_Decl.F_Subtype.As_Ada_Node, A);
+
+         when Ada_Discrete_Base_Subtype_Decl =>
+            --  'Base denotes the base range of the type, computed from the
+            --  root type so that subtype and derived-type constraints are
+            --  ignored:
+            --    * signed integer: the smallest predefined integer type
+            --      covering the declared range (see Signed_Int_Base_Range);
+            --    * enumeration and modular: the declared range (exact);
+            --    * real: the declared range too, which is wrong as the base
+            --      range is wider; fixing it is deferred.
+            declare
+               Root : constant LAL.Base_Type_Decl :=
+                 D.Parent.As_Base_Type_Decl.P_Root_Type;
+            begin
+               if Root.Kind in Ada_Type_Decl
+                 and then Root.As_Type_Decl.F_Type_Def.Kind
+                          = Ada_Signed_Int_Type_Def
+               then
+                  return Signed_Int_Base_Range (Root, A);
+               else
+                  return Eval_Range_Attr (Root.As_Ada_Node, A);
+               end if;
+            end;
 
          when Ada_Anonymous_Type =>
             return Eval_Range_Attr
@@ -872,6 +952,17 @@ package body Libadalang.Expr_Eval is
             when Ada_Signed_Int_Type_Def =>
                return Eval_Range_Attr
                  (D.As_Signed_Int_Type_Def.F_Range.F_Range.As_Ada_Node, A);
+            when Ada_Mod_Int_Type_Def =>
+               --  A modular type covers 0 .. modulus - 1, and its base range
+               --  is the same (no widening).
+               case A is
+                  when Range_First =>
+                     return Create_Int_Result (D.Parent.As_Base_Type_Decl, 0);
+                  when Range_Last =>
+                     return Create_Int_Result
+                       (D.Parent.As_Base_Type_Decl,
+                        As_Int (Expr_Eval (D.As_Mod_Int_Type_Def.F_Expr)) - 1);
+               end case;
             when Ada_Enum_Type_Def =>
                declare
                   Lits      : constant LAL.Enum_Literal_Decl_List :=

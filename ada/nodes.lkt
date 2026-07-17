@@ -22148,31 +22148,46 @@ class UnOp: Expr {
         %and if
             node.in_aspect(s"Depends") or node.in_aspect(s"Refined_Depends")
         then %true
-        else
-            self.overload_equation()
-            %or (
-                node.expected_type_var() <-> node.expr.expected_type_var()
-                %and {
-                    bind logic_context =
-                        LogicContext(
-                            ref_node=self.op,
-                            decl_node=null[Entity[AdaNode]]
-                        );
-                    # If the operand has a universal type (e.g. an integer
-                    # literal), infer the operator's type from the expected
-                    # type provided by the context, rather than propagating
-                    # the universal type upward.
-                    BaseTypeDecl.is_universal_type%(node.expr.type_var())
-                    %and node.type_var() <- BaseTypeDecl.derefed_base_subtype%(
-                        node.expr.expected_type_var()
-                    ) %or node.type_var() <-> node.expr.type_var()
-                }
-                %and (
-                    if self.op is Op.Plus | Op.Minus | Op.Abs
-                    then BaseTypeDecl.is_numeric_type%(node.type_var())
-                    else %true
+        else %any(
+            self.overload_equation(),
+            self.no_overload_equation()
+        )
+
+    |" When no subprogram is found for this node's operator, use this
+    |" property to construct the xref equation for this node, for the
+    |" single-operand profile ``function "op" (X : T) return T``.
+    @with_dynvars(origin)
+    fun no_overload_equation(): Equation = {
+        bind logic_context =
+            LogicContext(ref_node=self.op, decl_node=null[Entity[AdaNode]]);
+
+        %all(
+            # Operand and result share type ``T``: push the expected type
+            # down to the operand, or fall back to the result type if
+            # there is none.
+            (
+                AdaNode.is_not_null%(node.expected_type_var())
+                %and node.expected_type_var()
+                <-> node.expr.expected_type_var()
+            ) %or node.type_var() <-> node.expr.expected_type_var(),
+            (
+                # Universal operand (e.g. a literal): take the type from the
+                # context (the root numeric type in a universal context).
+                BaseTypeDecl.is_universal_type%(node.expr.type_var())
+                %and AdaNode.is_not_null%(node.expected_type_var())
+                %and node.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                    node.expected_type_var()
                 )
-            )
+            ) %or (
+                # Non-universal operand (e.g. a derived boolean): keep it.
+                node.type_var() <-> node.expr.type_var()
+            ),
+            if node.op is Op.Plus | Op.Minus | Op.Abs
+            then BaseTypeDecl.is_numeric_type%(node.type_var())
+            else %true,
+            node.expr.matches_expected_formal_type()
+        )
+    }
 
     @with_dynvars(origin)
     fun overload_equation(): Equation =

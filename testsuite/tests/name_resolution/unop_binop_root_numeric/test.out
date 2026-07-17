@@ -1,0 +1,81 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <NumberDecl ["X"] test.adb:2:4-2:26>
+*************************************************************
+
+Expr: <BinOp test.adb:2:20-2:25>
+  type:          <ConcreteTypeDecl ["root_integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+Expr: <Int test.adb:2:20-2:21>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+Expr: <OpPlus "+" test.adb:2:22-2:23>
+  references:    <SyntheticDefiningName ""+"" in Standard>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:2:24-2:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["X_2"] test.adb:5:4-5:27>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:5:10-5:17>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <BinOp test.adb:5:21-5:26>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Int test.adb:5:21-5:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpPlus "+" test.adb:5:23-5:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:5:25-5:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <NumberDecl ["Y"] test.adb:8:4-8:23>
+*************************************************************
+
+Expr: <UnOp test.adb:8:20-8:22>
+  type:          <ConcreteTypeDecl ["root_integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+Expr: <OpMinus "-" test.adb:8:20-8:21>
+  references:    <SyntheticDefiningName ""-"" in Standard>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:8:21-8:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["Y_2"] test.adb:11:4-11:24>
+*****************************************************************
+
+Expr: <Id "Integer" test.adb:11:10-11:17>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <UnOp test.adb:11:21-11:23>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpMinus "-" test.adb:11:21-11:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:11:22-11:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Done.

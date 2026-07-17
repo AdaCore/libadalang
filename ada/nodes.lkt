@@ -3211,6 +3211,26 @@ class AspectAssoc: AdaNode {
                 default_val=%false
             )
 
+        # The expected type of the aspect expression is the type on which
+        # the aspect is defined for Default_Value, and the component type of
+        # that type for Default_Component_Value (:rmlink:`3.5`(56.5/3)).
+        elif self.id.name_symbol() in s"Default_Value"
+             | s"Default_Component_Value"
+        then
+            target.as[BaseTypeDecl].as_entity.do(
+                (t) => {
+                    val expected =
+                        if self.id.name_is(s"Default_Component_Value")
+                        then t.comp_type()
+                        else t;
+
+                    self.expr.expected_type_var() <- expected
+                    %and self.expr.sub_equation()
+                    %and self.expr.matches_expected_type()
+                },
+                default_val=%false
+            )
+
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
         # name resolve the expression.

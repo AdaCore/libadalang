@@ -1,0 +1,15 @@
+AspectAssoc[1:1-1:19]
+|f_id:
+|  Id[1:1-1:9]: Modifies
+|f_expr:
+|  ModifiesExpr[1:13-1:19]
+|  |f_clauses:
+|  |  ModifiesClauseList[1:14-1:18]
+|  |  |  ModifiesClause[1:14-1:15]
+|  |  |  |f_objects:
+|  |  |  |  Id[1:14-1:15]: G
+|  |  |  |f_guard: <null>
+|  |  |  ModifiesClause[1:17-1:18]
+|  |  |  |f_objects:
+|  |  |  |  Id[1:17-1:18]: H
+|  |  |  |f_guard: <null>

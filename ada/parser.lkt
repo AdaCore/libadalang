@@ -451,6 +451,10 @@ grammar ada_grammar {
     number_decl <- NumberDecl(
         defining_id_list ":" "constant" / ":=" simple_expr !";"
     )
+    modifies_clause_item <- ModifiesClause(
+        or(aggregate | name) ?pick("when" expr)
+    )
+    modifies_expr <- ModifiesExpr("(" list+(modifies_clause_item, ",") ")")
     abstract_state_decl <- or(
         | AbstractStateDecl(defining_name aspect_spec)
         | ParenAbstractStateDecl("(" abstract_state_decl ")")
@@ -471,6 +475,11 @@ grammar ada_grammar {
                     | AbstractStateDeclExpr(multi_abstract_state_decl)
                 )
             )
+        )
+        | AspectAssoc(
+            Identifier(@Identifier("Modifies"))
+            "=>"
+            modifies_expr
         )
         | AspectAssoc(name ?pick("=>" expr))
     )
@@ -670,11 +679,24 @@ grammar ada_grammar {
         )
         expr
     )
-    pragma <- Pragma(
+    pragma <- or(
+        | pragma_modifies
+        | Pragma(
+            "pragma"
+            /
+            identifier
+            ?pick("(" / ASTList[BaseAssoc]+(pragma_argument, ",") ")")
+            !";"
+        )
+    )
+    pragma_modifies_arg <- PragmaArgumentAssoc(
+        null(Name) or(modifies_expr | expr)
+    )
+    pragma_modifies <- Pragma(
         "pragma"
+        Identifier(@Identifier("Modifies"))
         /
-        identifier
-        ?pick("(" / ASTList[BaseAssoc]+(pragma_argument, ",") ")")
+        ?pick("(" / ASTList[BaseAssoc]+(pragma_modifies_arg, ",") ")")
         !";"
     )
     subunit <- Subunit(

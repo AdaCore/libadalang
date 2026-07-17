@@ -4572,6 +4572,57 @@
         "whitespace"
       ]
     },
+    "ModifiesClause": {
+      "node": [
+        {
+          "kind": "recurse_field",
+          "field": "f_objects"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_guard"
+        }
+      ],
+      "fields": {
+        "f_guard": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "when"
+          },
+          "whitespace",
+          "recurse"
+        ]
+      }
+    },
+    "ModifiesClauseList": {
+      "sep": [
+        "recurse",
+        "whitespace"
+      ]
+    },
+    "ModifiesExpr": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_clauses"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          }
+        ]
+      }
+    },
     "MultiAbstractStateDecl": {},
     "NameList": {
       "sep": [

@@ -104,7 +104,7 @@ main (void)
     printf ("Identifier: tok = ");
     ada_text token_text;
     ada_token_range_text (&tok, &tok, &token_text);
-    fprint_text (stderr, token_text, false);
+    fprint_text (stdout, token_text, false);
     ada_destroy_text (&token_text);
     putchar ('\n');
 

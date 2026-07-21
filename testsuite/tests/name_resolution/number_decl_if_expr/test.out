@@ -25,7 +25,7 @@ Expr: <Id "Machine_Mantissa" test.adb:2:40-2:56>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:2:57-2:58>
+Expr: <OpEq test.adb:2:57-2:58>
   references:    <SyntheticDefiningName ""="" in Standard>
   type:          None
   expected type: None
@@ -52,7 +52,7 @@ Expr: <Id "N" test.adb:4:20-4:21>
   references:    <DefiningName "N" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpMult "*" test.adb:4:22-4:23>
+Expr: <OpMult test.adb:4:22-4:23>
   references:    <SyntheticDefiningName ""*"" in Standard>
   type:          None
   expected type: None
@@ -93,7 +93,7 @@ Expr: <Id "F" test.adb:9:20-9:21>
   references:    <DefiningName "F" test.adb:7:4-7:5>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_real"] in Standard>
-Expr: <OpMult "*" test.adb:9:22-9:23>
+Expr: <OpMult test.adb:9:22-9:23>
   references:    <SyntheticDefiningName ""*"" in Standard>
   type:          None
   expected type: None

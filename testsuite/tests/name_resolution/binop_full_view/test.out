@@ -15,7 +15,7 @@ Expr: <Id "I1" repro.adb:19:21-19:23>
   references:    <DefiningName "I1" repro.adb:17:7-17:9>
   type:          <ConcreteTypeDecl ["Typ"] repro.adb:15:7-15:45>
   expected type: <ConcreteTypeDecl ["Typ"] repro.adb:15:7-15:45>
-Expr: <OpAnd "and" repro.adb:19:24-19:27>
+Expr: <OpAnd repro.adb:19:24-19:27>
   references:    <DefiningName ""and"" repro.adb:6:16-6:21>
   type:          None
   expected type: None

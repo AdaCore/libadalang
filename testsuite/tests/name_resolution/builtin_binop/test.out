@@ -15,7 +15,7 @@ Expr: <Int testbinop.adb:3:25-3:26>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpDoubleDot ".." testbinop.adb:3:27-3:29>
+Expr: <OpDoubleDot testbinop.adb:3:27-3:29>
   references:    None
   type:          None
   expected type: None

@@ -18,7 +18,7 @@ Expr: <Id "X" test.adb:6:9-6:10>
 Expr: <ConcatOperand test.adb:6:11-6:24>
   type:          ada.strings.unbounded.unbounded_string
   expected type: ada.strings.unbounded.unbounded_string
-Expr: <OpConcat "&" test.adb:6:11-6:12>
+Expr: <OpConcat test.adb:6:11-6:12>
   references:    ada.strings.unbounded."&"((ada.strings.unbounded.unbounded_string, ada.strings.unbounded.unbounded_string) -> ada.strings.unbounded.unbounded_string)
   type:          None
   expected type: None

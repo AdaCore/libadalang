@@ -26,7 +26,7 @@ Expr: <Id "Left" test.adb:11:16-11:20>
   references:    <DefiningName "Left" test.adb:9:18-9:22>
   type:          <ConcreteTypeDecl ["Uint8"] test.adb:7:4-7:29>
   expected type: <ConcreteTypeDecl ["Uint8"] test.adb:7:4-7:29>
-Expr: <OpPlus "+" test.adb:11:21-11:22>
+Expr: <OpPlus test.adb:11:21-11:22>
   references:    None
   type:          None
   expected type: None
@@ -34,7 +34,7 @@ Expr: <Int test.adb:11:23-11:24>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Uint8"] test.adb:7:4-7:29>
-Expr: <OpPlus "+" test.adb:11:26-11:27>
+Expr: <OpPlus test.adb:11:26-11:27>
   references:    None
   type:          None
   expected type: None
@@ -48,7 +48,7 @@ Expr: <Id "Right" test.adb:11:29-11:34>
   references:    <DefiningName "Right" test.adb:9:24-9:29>
   type:          <ConcreteTypeDecl ["Uint8"] test.adb:7:4-7:29>
   expected type: <ConcreteTypeDecl ["Uint8"] test.adb:7:4-7:29>
-Expr: <OpPlus "+" test.adb:11:35-11:36>
+Expr: <OpPlus test.adb:11:35-11:36>
   references:    None
   type:          None
   expected type: None
@@ -56,7 +56,7 @@ Expr: <Int test.adb:11:37-11:38>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Uint8"] test.adb:7:4-7:29>
-Expr: <OpPlus "+" test.adb:11:40-11:41>
+Expr: <OpPlus test.adb:11:40-11:41>
   references:    None
   type:          None
   expected type: None
@@ -64,7 +64,7 @@ Expr: <Int test.adb:11:42-11:43>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Uint8"] test.adb:7:4-7:29>
-Expr: <OpEq "=" test.adb:11:45-11:46>
+Expr: <OpEq test.adb:11:45-11:46>
   references:    None
   type:          None
   expected type: None

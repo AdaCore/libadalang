@@ -35,7 +35,7 @@ Expr: <Id "A" test.adb:10:29-10:30>
   references:    test().a
   type:          standard.integer
   expected type: standard.integer
-Expr: <OpPlus "+" test.adb:10:31-10:32>
+Expr: <OpPlus test.adb:10:31-10:32>
   references:    None
   type:          None
   expected type: None
@@ -91,7 +91,7 @@ Expr: <Id "A" test.adb:20:29-20:30>
   references:    test().a
   type:          standard.integer
   expected type: standard.integer
-Expr: <OpPlus "+" test.adb:20:31-20:32>
+Expr: <OpPlus test.adb:20:31-20:32>
   references:    None
   type:          None
   expected type: None
@@ -99,7 +99,7 @@ Expr: <Id "B" test.adb:20:33-20:34>
   references:    test().b
   type:          standard.integer
   expected type: standard.integer
-Expr: <OpPlus "+" test.adb:20:35-20:36>
+Expr: <OpPlus test.adb:20:35-20:36>
   references:    None
   type:          None
   expected type: None
@@ -182,7 +182,7 @@ Expr: <Id "A" exc_handler.adb:7:15-7:16>
   references:    <DefiningName "A" exc_handler.adb:6:7-6:8>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" exc_handler.adb:7:17-7:18>
+Expr: <OpEq exc_handler.adb:7:17-7:18>
   references:    None
   type:          None
   expected type: None
@@ -209,7 +209,7 @@ Expr: <Id "A" exc_handler.adb:13:18-13:19>
   references:    <DefiningName "A" exc_handler.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" exc_handler.adb:13:20-13:21>
+Expr: <OpEq exc_handler.adb:13:20-13:21>
   references:    None
   type:          None
   expected type: None

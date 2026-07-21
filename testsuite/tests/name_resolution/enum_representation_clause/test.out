@@ -30,7 +30,7 @@ Expr: <Int test.adb:9:12-9:13>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpPlus "+" test.adb:9:14-9:15>
+Expr: <OpPlus test.adb:9:14-9:15>
   references:    <SyntheticDefiningName ""+"" in Standard>
   type:          None
   expected type: None

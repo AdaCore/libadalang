@@ -11,7 +11,7 @@ Expr: <Id "F" test.adb:9:20-9:21>
   references:    <DefiningName "F" test.adb:6:13-6:14>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" test.adb:9:22-9:23>
+Expr: <OpEq test.adb:9:22-9:23>
   references:    None
   type:          None
   expected type: None

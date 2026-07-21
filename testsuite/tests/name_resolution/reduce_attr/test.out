@@ -18,7 +18,7 @@ Expr: <Int reduce.adb:19:17-19:18>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." reduce.adb:19:19-19:21>
+Expr: <OpDoubleDot reduce.adb:19:19-19:21>
   references:    None
   type:          None
   expected type: None
@@ -145,7 +145,7 @@ Expr: <Int reduce.adb:49:25-49:26>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." reduce.adb:49:27-49:29>
+Expr: <OpDoubleDot reduce.adb:49:27-49:29>
   references:    None
   type:          None
   expected type: None
@@ -188,7 +188,7 @@ Expr: <Int reduce.adb:52:25-52:26>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." reduce.adb:52:27-52:29>
+Expr: <OpDoubleDot reduce.adb:52:27-52:29>
   references:    None
   type:          None
   expected type: None
@@ -231,7 +231,7 @@ Expr: <Int reduce.adb:55:25-55:26>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." reduce.adb:55:27-55:29>
+Expr: <OpDoubleDot reduce.adb:55:27-55:29>
   references:    None
   type:          None
   expected type: None
@@ -340,7 +340,7 @@ Expr: <Id "Val" acc.adb:17:28-17:31>
   references:    <DefiningName "Val" acc.adb:17:14-17:17>
   type:          <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
   expected type: <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
-Expr: <OpGt ">" acc.adb:17:32-17:33>
+Expr: <OpGt acc.adb:17:32-17:33>
   references:    None
   type:          None
   expected type: None
@@ -367,7 +367,7 @@ Expr: <Id "Sum" acc.adb:20:18-20:21>
   references:    <DefiningName "Sum" acc.adb:7:7-7:10>
   type:          <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
   expected type: <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
-Expr: <OpDiv "/" acc.adb:20:22-20:23>
+Expr: <OpDiv acc.adb:20:22-20:23>
   references:    None
   type:          None
   expected type: None

@@ -57,7 +57,7 @@ Expr: <Int test.adb:4:21-4:22>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:4:23-4:25>
+Expr: <OpDoubleDot test.adb:4:23-4:25>
   references:    None
   type:          None
   expected type: None

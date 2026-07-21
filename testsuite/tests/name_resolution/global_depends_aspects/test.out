@@ -205,7 +205,7 @@ Expr: <Id "Result" test_globals.adb:30:28-30:34>
 Expr: <UnOp test_globals.adb:30:39-30:41>
   type:          None
   expected type: None
-Expr: <OpPlus "+" test_globals.adb:30:39-30:40>
+Expr: <OpPlus test_globals.adb:30:39-30:40>
   references:    None
   type:          None
   expected type: None

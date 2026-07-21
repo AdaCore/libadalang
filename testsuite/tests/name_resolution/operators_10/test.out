@@ -19,7 +19,7 @@ Expr: <Int test.adb:11:9-11:10>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:30>
-Expr: <OpPlus "+" test.adb:11:11-11:12>
+Expr: <OpPlus test.adb:11:11-11:12>
   references:    None
   type:          None
   expected type: None
@@ -50,7 +50,7 @@ Expr: <Int test.adb:14:12-14:13>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpMult "*" test.adb:14:14-14:15>
+Expr: <OpMult test.adb:14:14-14:15>
   references:    <SyntheticDefiningName ""*"" in Standard>
   type:          None
   expected type: None

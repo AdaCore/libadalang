@@ -146,7 +146,7 @@ Expr: <Int test.adb:15:50-15:51>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:15:52-15:54>
+Expr: <OpDoubleDot test.adb:15:52-15:54>
   references:    None
   type:          None
   expected type: None
@@ -185,7 +185,7 @@ Expr: <Int test.adb:18:38-18:39>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:18:40-18:42>
+Expr: <OpDoubleDot test.adb:18:40-18:42>
   references:    None
   type:          None
   expected type: None

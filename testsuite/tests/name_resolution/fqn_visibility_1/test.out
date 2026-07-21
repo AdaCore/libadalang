@@ -26,7 +26,7 @@ Expr: <Id "Public_Int" b.adb:4:21-4:31>
   references:    <DefiningName "Public_Int" b.ads:3:4-3:14>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" b.adb:4:32-4:33>
+Expr: <OpPlus b.adb:4:32-4:33>
   references:    None
   type:          None
   expected type: None
@@ -42,7 +42,7 @@ Expr: <Id "Private_Int" b.adb:4:36-4:47>
   references:    <DefiningName "Private_Int" b.ads:5:4-5:15>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" b.adb:4:48-4:49>
+Expr: <OpPlus b.adb:4:48-4:49>
   references:    None
   type:          None
   expected type: None

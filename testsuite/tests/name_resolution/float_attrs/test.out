@@ -87,7 +87,7 @@ Expr: <Id "B" test_float_attrs.adb:8:32-8:33>
   references:    <DefiningName "B" test_float_attrs.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["Float"] in Standard>
   expected type: <ConcreteTypeDecl ["Float"] in Standard>
-Expr: <OpPlus "+" test_float_attrs.adb:8:34-8:35>
+Expr: <OpPlus test_float_attrs.adb:8:34-8:35>
   references:    None
   type:          None
   expected type: None
@@ -126,7 +126,7 @@ Expr: <Id "C" test_float_attrs.adb:11:35-11:36>
   references:    <DefiningName "C" test_float_attrs.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Float"] in Standard>
   expected type: <ConcreteTypeDecl ["Float"] in Standard>
-Expr: <OpPlus "+" test_float_attrs.adb:11:37-11:38>
+Expr: <OpPlus test_float_attrs.adb:11:37-11:38>
   references:    None
   type:          None
   expected type: None

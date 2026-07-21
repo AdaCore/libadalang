@@ -42,7 +42,7 @@ Expr: <Id "A" test.adb:11:18-11:19>
 Expr: <ConcatOperand test.adb:11:20-11:23>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:11:20-11:21>
+Expr: <OpConcat test.adb:11:20-11:21>
   references:    None
   type:          None
   expected type: None
@@ -96,7 +96,7 @@ Expr: <Id "A" test_2.adb:10:18-10:19>
 Expr: <ConcatOperand test_2.adb:10:20-10:23>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test_2.adb:10:20-10:21>
+Expr: <OpConcat test_2.adb:10:20-10:21>
   references:    None
   type:          None
   expected type: None

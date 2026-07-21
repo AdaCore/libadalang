@@ -19,7 +19,7 @@ Expr: <Id "First" test_new_int.adb:2:34-2:39>
   references:    None
   type:          None
   expected type: None
-Expr: <OpDoubleDot ".." test_new_int.adb:2:40-2:42>
+Expr: <OpDoubleDot test_new_int.adb:2:40-2:42>
   references:    None
   type:          None
   expected type: None

@@ -109,7 +109,7 @@ Expr: <Id "D" foo.adb:30:17-30:18>
   references:    <DefiningName "D" foo.adb:29:23-29:24>
   type:          <ConcreteTypeDecl ["Date"] foo.adb:12:4-16:15>
   expected type: <ConcreteTypeDecl ["Date"] foo.adb:12:4-16:15>
-Expr: <OpEq "=" foo.adb:30:19-30:20>
+Expr: <OpEq foo.adb:30:19-30:20>
   references:    None
   type:          None
   expected type: None
@@ -171,7 +171,7 @@ Expr: <Id "V" foo.adb:35:17-35:18>
   references:    <DefiningName "V" foo.adb:33:26-33:27>
   type:          <ConcreteTypeDecl ["Vector"] foo.adb:18:4-18:53>
   expected type: <ConcreteTypeDecl ["Vector"] foo.adb:18:4-18:53>
-Expr: <OpEq "=" foo.adb:35:19-35:20>
+Expr: <OpEq foo.adb:35:19-35:20>
   references:    None
   type:          None
   expected type: None
@@ -197,7 +197,7 @@ Expr: <Id "A" foo.adb:35:39-35:40>
   references:    <DefiningName "A" foo.adb:34:26-34:27>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." foo.adb:35:41-35:43>
+Expr: <OpDoubleDot foo.adb:35:41-35:43>
   references:    None
   type:          None
   expected type: None
@@ -252,7 +252,7 @@ Expr: <Id "D" foo.adb:44:17-44:18>
   references:    <DefiningName "D" foo.adb:43:29-43:30>
   type:          <ConcreteTypeDecl ["Histo_Date"] foo.adb:38:4-41:18>
   expected type: <ConcreteTypeDecl ["Histo_Date"] foo.adb:38:4-41:18>
-Expr: <OpEq "=" foo.adb:44:19-44:20>
+Expr: <OpEq foo.adb:44:19-44:20>
   references:    None
   type:          None
   expected type: None
@@ -306,7 +306,7 @@ Expr: <Id "D" foo.adb:48:17-48:18>
   references:    <DefiningName "D" foo.adb:47:33-47:34>
   type:          <ConcreteTypeDecl ["Histo_Date"] foo.adb:38:4-41:18>
   expected type: <ConcreteTypeDecl ["Histo_Date"] foo.adb:38:4-41:18>
-Expr: <OpEq "=" foo.adb:48:19-48:20>
+Expr: <OpEq foo.adb:48:19-48:20>
   references:    None
   type:          None
   expected type: None

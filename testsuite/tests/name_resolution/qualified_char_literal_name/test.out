@@ -19,7 +19,7 @@ Expr: <Chr "'A'" test.adb:7:11-7:14>
   references:    <DefiningName "'A'" test.adb:3:18-3:21>
   type:          <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>
   expected type: <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>
-Expr: <OpEq "=" test.adb:7:15-7:16>
+Expr: <OpEq test.adb:7:15-7:16>
   references:    None
   type:          None
   expected type: None

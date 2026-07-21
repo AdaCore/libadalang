@@ -5,4 +5,4 @@ Set 'neq' to 'node.p_get_primitives()[1]'
 Result: <SyntheticSubpDecl [""/=""] test.adb:7:7-7:56>
 
 Eval 'neq.p_defining_name.p_find_all_references([neq.unit])'
-Result: [<RefResult ref=<OpNeq "/=" test.adb:14:9-14:11> kind=precise>]
+Result: [<RefResult ref=<OpNeq test.adb:14:9-14:11> kind=precise>]

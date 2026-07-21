@@ -71,7 +71,7 @@ Expr: <Id "C" test.ads:13:32-13:33>
   references:    <DefiningName "C" test.ads:12:9-12:10>
   type:          <ConcreteTypeDecl ["C"] test.ads:12:4-13:38>
   expected type: <ConcreteTypeDecl ["C"] test.ads:12:4-13:38>
-Expr: <OpEq "=" test.ads:13:34-13:35>
+Expr: <OpEq test.ads:13:34-13:35>
   references:    None
   type:          None
   expected type: None

@@ -23,7 +23,7 @@ Expr: <Id "Public_Int" b-c.ads:3:31-3:41>
   references:    <DefiningName "Public_Int" b.ads:3:4-3:14>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" b-c.ads:3:42-3:43>
+Expr: <OpPlus b-c.ads:3:42-3:43>
   references:    None
   type:          None
   expected type: None

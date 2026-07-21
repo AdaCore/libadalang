@@ -54,7 +54,7 @@ Expr: <Id "Integer" set.adb:13:42-13:49>
 Expr: <UnOp set.adb:13:51-13:53>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMinus "-" set.adb:13:51-13:52>
+Expr: <OpMinus set.adb:13:51-13:52>
   references:    None
   type:          None
   expected type: None

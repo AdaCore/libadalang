@@ -29,7 +29,7 @@ Expr: <Id "S" test_basic.adb:12:32-12:33>
 Expr: <ConcatOperand test_basic.adb:12:34-12:37>
   type:          standard.string
   expected type: None
-Expr: <OpConcat "&" test_basic.adb:12:34-12:35>
+Expr: <OpConcat test_basic.adb:12:34-12:35>
   references:    None
   type:          None
   expected type: None
@@ -59,7 +59,7 @@ Expr: <Int test_basic.adb:14:24-14:25>
   references:    None
   type:          standard.universal_int_type_
   expected type: standard.root_types_.root_integer
-Expr: <OpPlus "+" test_basic.adb:14:26-14:27>
+Expr: <OpPlus test_basic.adb:14:26-14:27>
   references:    standard.root_types_."+"
   type:          None
   expected type: None
@@ -310,7 +310,7 @@ Expr: <Int test_nested_string_expr.adb:7:34-7:36>
   references:    None
   type:          standard.universal_int_type_
   expected type: standard.root_types_.root_integer
-Expr: <OpPlus "+" test_nested_string_expr.adb:7:37-7:38>
+Expr: <OpPlus test_nested_string_expr.adb:7:37-7:38>
   references:    standard.root_types_."+"
   type:          None
   expected type: None

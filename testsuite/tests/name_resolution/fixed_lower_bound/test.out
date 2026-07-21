@@ -47,7 +47,7 @@ Expr: <Int test.adb:15:36-15:37>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:15:38-15:40>
+Expr: <OpDoubleDot test.adb:15:38-15:40>
   references:    None
   type:          None
   expected type: None
@@ -73,7 +73,7 @@ Expr: <Int test.adb:18:52-18:53>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:18:54-18:56>
+Expr: <OpDoubleDot test.adb:18:54-18:56>
   references:    None
   type:          None
   expected type: None
@@ -175,7 +175,7 @@ Expr: <Int test.adb:34:31-34:32>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:34:33-34:35>
+Expr: <OpDoubleDot test.adb:34:33-34:35>
   references:    None
   type:          None
   expected type: None
@@ -189,7 +189,7 @@ Expr: <Int test.adb:34:40-34:41>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:34:42-34:44>
+Expr: <OpDoubleDot test.adb:34:42-34:44>
   references:    None
   type:          None
   expected type: None
@@ -215,7 +215,7 @@ Expr: <Int test.adb:36:46-36:47>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:36:48-36:50>
+Expr: <OpDoubleDot test.adb:36:48-36:50>
   references:    None
   type:          None
   expected type: None
@@ -233,7 +233,7 @@ Expr: <Int test.adb:36:69-36:70>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:36:71-36:73>
+Expr: <OpDoubleDot test.adb:36:71-36:73>
   references:    None
   type:          None
   expected type: None

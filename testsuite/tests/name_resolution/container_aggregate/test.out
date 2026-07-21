@@ -131,7 +131,7 @@ Expr: <BracketAggregate test3.adb:62:6-70:40>
 Expr: <UnOp test3.adb:62:7-66:39>
   type:          <ConcreteTypeDecl ["JSON_Value"] test3.adb:6:7-7:70>
   expected type: <ConcreteTypeDecl ["JSON_Value"] test3.adb:6:7-7:70>
-Expr: <OpPlus "+" test3.adb:62:7-62:8>
+Expr: <OpPlus test3.adb:62:7-62:8>
   references:    <DefiningName ""+"" test3.adb:56:13-56:16>
   type:          None
   expected type: None
@@ -153,7 +153,7 @@ Expr: <Str ""phones"" test3.adb:63:9-63:17>
 Expr: <UnOp test3.adb:63:21-65:38>
   type:          <ConcreteTypeDecl ["JSON_Value"] test3.adb:6:7-7:70>
   expected type: <ConcreteTypeDecl ["JSON_Value"] test3.adb:6:7-7:70>
-Expr: <OpMinus "-" test3.adb:63:21-63:22>
+Expr: <OpMinus test3.adb:63:21-63:22>
   references:    <DefiningName ""-"" test3.adb:58:13-58:16>
   type:          None
   expected type: None
@@ -183,7 +183,7 @@ Expr: <Str ""info@domain.com"" test3.adb:66:21-66:38>
 Expr: <UnOp test3.adb:67:7-70:39>
   type:          <ConcreteTypeDecl ["JSON_Value"] test3.adb:6:7-7:70>
   expected type: <ConcreteTypeDecl ["JSON_Value"] test3.adb:6:7-7:70>
-Expr: <OpPlus "+" test3.adb:67:7-67:8>
+Expr: <OpPlus test3.adb:67:7-67:8>
   references:    <DefiningName ""+"" test3.adb:56:13-56:16>
   type:          None
   expected type: None
@@ -205,7 +205,7 @@ Expr: <Str ""phones"" test3.adb:68:9-68:17>
 Expr: <UnOp test3.adb:68:21-69:40>
   type:          <ConcreteTypeDecl ["JSON_Value"] test3.adb:6:7-7:70>
   expected type: <ConcreteTypeDecl ["JSON_Value"] test3.adb:6:7-7:70>
-Expr: <OpMinus "-" test3.adb:68:21-68:22>
+Expr: <OpMinus test3.adb:68:21-68:22>
   references:    <DefiningName ""-"" test3.adb:58:13-58:16>
   type:          None
   expected type: None
@@ -274,7 +274,7 @@ Expr: <Id "E" pkg.adb:11:40-11:41>
   references:    <DefiningName "E" pkg.adb:11:26-11:27>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" pkg.adb:11:42-11:43>
+Expr: <OpLt pkg.adb:11:42-11:43>
   references:    None
   type:          None
   expected type: None
@@ -315,7 +315,7 @@ Expr: <Id "E" pkg.adb:12:40-12:41>
   references:    <DefiningName "E" pkg.adb:12:26-12:27>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" pkg.adb:12:42-12:43>
+Expr: <OpLt pkg.adb:12:42-12:43>
   references:    None
   type:          None
   expected type: None
@@ -323,7 +323,7 @@ Expr: <Int pkg.adb:12:44-12:45>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpOrElse "or else" pkg.adb:12:46-12:53>
+Expr: <OpOrElse pkg.adb:12:46-12:53>
   references:    None
   type:          None
   expected type: None
@@ -334,7 +334,7 @@ Expr: <Id "E" pkg.adb:12:54-12:55>
   references:    <DefiningName "E" pkg.adb:12:26-12:27>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" pkg.adb:12:56-12:57>
+Expr: <OpGt pkg.adb:12:56-12:57>
   references:    None
   type:          None
   expected type: None
@@ -360,7 +360,7 @@ Expr: <Int pkg.adb:13:34-13:35>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpDoubleDot ".." pkg.adb:13:36-13:38>
+Expr: <OpDoubleDot pkg.adb:13:36-13:38>
   references:    None
   type:          None
   expected type: None
@@ -375,7 +375,7 @@ Expr: <Id "Item" pkg.adb:13:44-13:48>
   references:    <DefiningName "Item" pkg.adb:13:26-13:30>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMult "*" pkg.adb:13:49-13:50>
+Expr: <OpMult pkg.adb:13:49-13:50>
   references:    None
   type:          None
   expected type: None
@@ -451,7 +451,7 @@ Expr: <Int ai12_0212.adb:129:22-129:23>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpDoubleDot ".." ai12_0212.adb:129:24-129:26>
+Expr: <OpDoubleDot ai12_0212.adb:129:24-129:26>
   references:    None
   type:          None
   expected type: None
@@ -466,7 +466,7 @@ Expr: <Id "Item" ai12_0212.adb:129:32-129:36>
   references:    <DefiningName "Item" ai12_0212.adb:129:14-129:18>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMult "*" ai12_0212.adb:129:37-129:38>
+Expr: <OpMult ai12_0212.adb:129:37-129:38>
   references:    None
   type:          None
   expected type: None
@@ -492,7 +492,7 @@ Expr: <Int ai12_0212.adb:133:22-133:23>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpDoubleDot ".." ai12_0212.adb:133:24-133:26>
+Expr: <OpDoubleDot ai12_0212.adb:133:24-133:26>
   references:    None
   type:          None
   expected type: None
@@ -511,7 +511,7 @@ Expr: <Int ai12_0212.adb:134:22-134:23>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpDoubleDot ".." ai12_0212.adb:134:24-134:26>
+Expr: <OpDoubleDot ai12_0212.adb:134:24-134:26>
   references:    None
   type:          None
   expected type: None
@@ -522,7 +522,7 @@ Expr: <Int ai12_0212.adb:134:27-134:28>
 Expr: <UnOp ai12_0212.adb:134:32-134:37>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <SubtypeDecl ["Small_Integer"] ai12_0212.adb:19:7-19:58>
-Expr: <OpMinus "-" ai12_0212.adb:134:32-134:33>
+Expr: <OpMinus ai12_0212.adb:134:32-134:33>
   references:    None
   type:          None
   expected type: None
@@ -698,7 +698,7 @@ Expr: <Int ai12_0212.adb:177:19-177:20>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpDoubleDot ".." ai12_0212.adb:177:21-177:23>
+Expr: <OpDoubleDot ai12_0212.adb:177:21-177:23>
   references:    None
   type:          None
   expected type: None

@@ -64,7 +64,7 @@ Expr: <| Id "X" test.adb:7:16-7:17 [test.adb:14:4] |>
   references:    <| DefiningName "X" test.adb:5:7-5:8 [test.adb:14:4] |>
   type:          <DiscreteBaseSubtypeDecl ["Integer"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
-Expr: <| OpMult "*" test.adb:7:18-7:19 [test.adb:14:4] |>
+Expr: <| OpMult test.adb:7:18-7:19 [test.adb:14:4] |>
   references:    None
   type:          None
   expected type: None

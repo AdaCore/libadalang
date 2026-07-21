@@ -15,7 +15,7 @@ Expr: <Id "I" p.adb:7:19-7:20>
   references:    <DefiningName "I" p.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" p.adb:7:21-7:22>
+Expr: <OpEq p.adb:7:21-7:22>
   references:    None
   type:          None
   expected type: None
@@ -38,7 +38,7 @@ Expr: <Id "J" p.adb:10:33-10:34>
   references:    <DefiningName "J" p.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpLt "<" p.adb:10:35-10:36>
+Expr: <OpLt p.adb:10:35-10:36>
   references:    <SyntheticDefiningName ""<"" in Standard>
   type:          None
   expected type: None
@@ -65,7 +65,7 @@ Expr: <Id "J" p.adb:13:31-13:32>
   references:    <DefiningName "J" p.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpLt "<" p.adb:13:33-13:34>
+Expr: <OpLt p.adb:13:33-13:34>
   references:    <SyntheticDefiningName ""<"" in Standard>
   type:          None
   expected type: None
@@ -92,7 +92,7 @@ Expr: <Id "I" p.adb:16:19-16:20>
   references:    <DefiningName "I" p.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" p.adb:16:21-16:22>
+Expr: <OpEq p.adb:16:21-16:22>
   references:    None
   type:          None
   expected type: None
@@ -113,7 +113,7 @@ Expr: <Id "I" p.adb:16:30-16:31>
   references:    <DefiningName "I" p.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" p.adb:16:32-16:33>
+Expr: <OpLt p.adb:16:32-16:33>
   references:    None
   type:          None
   expected type: None

@@ -15,7 +15,7 @@ Expr: <Id "X" test.adb:5:9-5:10>
   references:    <DefiningName "X" test.adb:3:4-3:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
-Expr: <OpDiv "/" test.adb:5:11-5:12>
+Expr: <OpDiv test.adb:5:11-5:12>
   references:    None
   type:          None
   expected type: None
@@ -38,7 +38,7 @@ Expr: <Id "X" test.adb:8:9-8:10>
   references:    <DefiningName "X" test.adb:3:4-3:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
-Expr: <OpMult "*" test.adb:8:11-8:12>
+Expr: <OpMult test.adb:8:11-8:12>
   references:    None
   type:          None
   expected type: None
@@ -61,7 +61,7 @@ Expr: <Id "X" test.adb:11:9-11:10>
   references:    <DefiningName "X" test.adb:3:4-3:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
-Expr: <OpMult "*" test.adb:11:11-11:12>
+Expr: <OpMult test.adb:11:11-11:12>
   references:    None
   type:          None
   expected type: None
@@ -95,7 +95,7 @@ Expr: <Real test.adb:14:9-14:12>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
-Expr: <OpMult "*" test.adb:14:13-14:14>
+Expr: <OpMult test.adb:14:13-14:14>
   references:    None
   type:          None
   expected type: None

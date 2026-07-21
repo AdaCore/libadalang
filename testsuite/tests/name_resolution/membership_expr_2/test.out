@@ -15,7 +15,7 @@ Expr: <Chr "'Q'" test.adb:16:9-16:12>
   references:    <DefiningName "'Q'" test.adb:2:21-2:24>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
-Expr: <OpIn "in" test.adb:16:13-16:15>
+Expr: <OpIn test.adb:16:13-16:15>
   references:    None
   type:          None
   expected type: None
@@ -38,7 +38,7 @@ Expr: <Id "Foo" test.adb:19:9-19:12>
   references:    <DefiningName "Foo" test.adb:9:13-9:16>
   type:          <ClasswideTypeDecl ["V"] test.adb:6:4-6:37>
   expected type: None
-Expr: <OpIn "in" test.adb:19:13-19:15>
+Expr: <OpIn test.adb:19:13-19:15>
   references:    None
   type:          None
   expected type: None
@@ -69,7 +69,7 @@ Expr: <Id "Foo" test.adb:22:9-22:12>
   references:    <DefiningName "Foo" test.adb:9:13-9:16>
   type:          <ClasswideTypeDecl ["V"] test.adb:6:4-6:37>
   expected type: None
-Expr: <OpIn "in" test.adb:22:13-22:15>
+Expr: <OpIn test.adb:22:13-22:15>
   references:    None
   type:          None
   expected type: None

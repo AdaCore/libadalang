@@ -87,7 +87,7 @@ Expr: <Id "L1" pkg.ads:7:27-7:29>
   references:    <DefiningName "L1" pkg.ads:4:4-4:6>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" pkg.ads:7:30-7:31>
+Expr: <OpGt pkg.ads:7:30-7:31>
   references:    None
   type:          None
   expected type: None
@@ -165,7 +165,7 @@ Expr: <Id "X" defaults.ads:3:30-3:31>
   references:    <DefiningName "X" defaults.ads:2:18-2:19>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" defaults.ads:3:32-3:33>
+Expr: <OpGt defaults.ads:3:32-3:33>
   references:    None
   type:          None
   expected type: None

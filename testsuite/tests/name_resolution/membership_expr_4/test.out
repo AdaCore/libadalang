@@ -11,7 +11,7 @@ Expr: <Id "O" test.adb:8:14-8:15>
   references:    <DefiningName "O" test.adb:6:16-6:17>
   type:          <AnonymousTypeDecl ["None"] test.adb:6:20-6:28>
   expected type: <ConcreteTypeDecl ["U_Ptr"] test.adb:4:4-4:27>
-Expr: <OpIn "in" test.adb:8:16-8:18>
+Expr: <OpIn test.adb:8:16-8:18>
   references:    None
   type:          None
   expected type: None

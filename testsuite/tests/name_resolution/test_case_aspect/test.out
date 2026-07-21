@@ -122,7 +122,7 @@ Expr: <Int test.ads:13:37-13:39>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" test.ads:13:41-13:42>
+Expr: <OpEq test.ads:13:41-13:42>
   references:    None
   type:          None
   expected type: None
@@ -171,7 +171,7 @@ Expr: <Id "Old" test.ads:14:41-14:44>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.ads:14:45-14:46>
+Expr: <OpEq test.ads:14:45-14:46>
   references:    None
   type:          None
   expected type: None
@@ -195,7 +195,7 @@ Expr: <Int test.ads:14:52-14:54>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpAndThen "and then" test.ads:15:32-15:40>
+Expr: <OpAndThen test.ads:15:32-15:40>
   references:    None
   type:          None
   expected type: None
@@ -230,7 +230,7 @@ Expr: <Id "Old" test.ads:15:59-15:62>
   references:    None
   type:          None
   expected type: None
-Expr: <OpGt ">" test.ads:15:63-15:64>
+Expr: <OpGt test.ads:15:63-15:64>
   references:    None
   type:          None
   expected type: None
@@ -238,7 +238,7 @@ Expr: <Int test.ads:15:65-15:66>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpAndThen "and then" test.ads:16:32-16:40>
+Expr: <OpAndThen test.ads:16:32-16:40>
   references:    None
   type:          None
   expected type: None
@@ -257,7 +257,7 @@ Expr: <Id "Old" test.ads:16:43-16:46>
   references:    None
   type:          None
   expected type: None
-Expr: <OpGt ">" test.ads:16:47-16:48>
+Expr: <OpGt test.ads:16:47-16:48>
   references:    None
   type:          None
   expected type: None

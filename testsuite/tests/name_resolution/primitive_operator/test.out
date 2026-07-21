@@ -18,7 +18,7 @@ Expr: <Id "X" test.adb:19:9-19:10>
 Expr: <ConcatOperand test.adb:19:11-19:14>
   type:          <ConcreteTypeDecl ["T"] test.adb:3:7-3:36>
   expected type: <ConcreteTypeDecl ["T"] test.adb:3:7-3:36>
-Expr: <OpConcat "&" test.adb:19:11-19:12>
+Expr: <OpConcat test.adb:19:11-19:12>
   references:    <DefiningName ""&"" test.adb:5:16-5:19>
   type:          None
   expected type: None
@@ -44,7 +44,7 @@ Expr: <Id "Y" test.adb:21:9-21:10>
 Expr: <ConcatOperand test.adb:21:11-21:14>
   type:          <ConcreteTypeDecl ["My_T"] test.adb:11:7-11:47>
   expected type: <ConcreteTypeDecl ["My_T"] test.adb:11:7-11:47>
-Expr: <OpConcat "&" test.adb:21:11-21:12>
+Expr: <OpConcat test.adb:21:11-21:12>
   references:    <DefiningName ""&"" test.adb:5:16-5:19>
   type:          None
   expected type: None

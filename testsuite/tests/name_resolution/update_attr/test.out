@@ -30,7 +30,7 @@ Expr: <Int test.adb:14:23-14:24>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:14:25-14:27>
+Expr: <OpDoubleDot test.adb:14:25-14:27>
   references:    None
   type:          None
   expected type: None

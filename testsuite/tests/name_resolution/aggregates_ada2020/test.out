@@ -122,7 +122,7 @@ Expr: <Int test_brack_aggr.adb:21:26-21:27>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
-Expr: <OpDoubleDot ".." test_brack_aggr.adb:21:28-21:30>
+Expr: <OpDoubleDot test_brack_aggr.adb:21:28-21:30>
   references:    None
   type:          None
   expected type: None
@@ -137,7 +137,7 @@ Expr: <Id "I" test_brack_aggr.adb:21:38-21:39>
   references:    <DefiningName "I" test_brack_aggr.adb:21:21-21:22>
   type:          <SubtypeDecl ["Positive"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMult "*" test_brack_aggr.adb:21:40-21:41>
+Expr: <OpMult test_brack_aggr.adb:21:40-21:41>
   references:    None
   type:          None
   expected type: None

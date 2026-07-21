@@ -178,7 +178,7 @@ Expr: <Int nag.adb:15:28-15:29>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." nag.adb:15:29-15:31>
+Expr: <OpDoubleDot nag.adb:15:29-15:31>
   references:    None
   type:          None
   expected type: None
@@ -193,7 +193,7 @@ Expr: <Int nag.adb:15:34-15:35>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." nag.adb:15:35-15:37>
+Expr: <OpDoubleDot nag.adb:15:35-15:37>
   references:    None
   type:          None
   expected type: None

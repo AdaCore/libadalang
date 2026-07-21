@@ -18,7 +18,7 @@ Expr: <Real test.adb:12:9-12:12>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_real"] in Standard>
-Expr: <OpMult "*" test.adb:12:13-12:14>
+Expr: <OpMult test.adb:12:13-12:14>
   references:    <SyntheticDefiningName ""*"" in Standard>
   type:          None
   expected type: None
@@ -28,7 +28,7 @@ Expr: <ParenExpr test.adb:12:15-12:19>
 Expr: <UnOp test.adb:12:16-12:18>
   type:          <ConcreteTypeDecl ["root_integer"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpPlus "+" test.adb:12:16-12:17>
+Expr: <OpPlus test.adb:12:16-12:17>
   references:    <SyntheticDefiningName ""+"" in Standard>
   type:          None
   expected type: None
@@ -36,7 +36,7 @@ Expr: <Int test.adb:12:17-12:18>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpIn "in" test.adb:12:20-12:22>
+Expr: <OpIn test.adb:12:20-12:22>
   references:    None
   type:          None
   expected type: None
@@ -47,7 +47,7 @@ Expr: <Real test.adb:12:23-12:26>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_real"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:12:27-12:29>
+Expr: <OpDoubleDot test.adb:12:27-12:29>
   references:    None
   type:          None
   expected type: None

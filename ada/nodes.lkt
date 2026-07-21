@@ -18468,7 +18468,7 @@ class Name: Expr {
     |" For instance, a node with name ``A.B.C`` is turned into
     |" ``['A', 'B', 'C']``.
     |"
-    |" Only simple name kinds are allowed: Identifier, DottedName and
+    |" Only simple name kinds are allowed: Identifier, Op, DottedName and
     |" DefiningName. Any other kind will trigger a PreconditionFailure.
     @exported
     fun as_symbol_array(): Array[Symbol] =
@@ -18476,7 +18476,7 @@ class Name: Expr {
 
     |" Return a canonicalized version of this name's text.
     |"
-    |" Only simple name kinds are allowed: Identifier, DottedName and
+    |" Only simple name kinds are allowed: Identifier, Op, DottedName and
     |" DefiningName. Any other kind will trigger a PreconditionFailure.
     @exported
     fun canonical_text(): Symbol =
@@ -20020,12 +20020,12 @@ class DefiningName: Name {
                 (n) => self.find_refs_impl(n, skip_name)
             )
         )
-        & root.as[BaseId].do(
-            (id) =>
-            self.is_referenced_by(id).do(
+        & root.as[Name].do(
+            (name) =>
+            self.is_referenced_by(name).do(
                 (ref_kind) =>
                 if ref_kind in RefResultKind.precise | RefResultKind.imprecise
-                then [RefResult(ref=id, kind=ref_kind)]
+                then [RefResult(ref=name, kind=ref_kind)]
                 else null[Array[RefResult]]
             )
         )
@@ -20040,23 +20040,23 @@ class DefiningName: Name {
     |" subprograms that override it if the identifier appears in a dispatching
     |" call.
     @with_dynvars(imprecise_fallback=false)
-    fun is_referenced_by(id: Entity[BaseId]): RefResultKind =
-        if node.name_is(id.name_symbol()) then
+    fun is_referenced_by(name: Entity[Name]): RefResultKind =
+        if name is BaseId | Op and node.name_is(name.name_symbol()) then
             (
-                if id.is_defining()
+                if name.is_defining()
                 then
                     RefdDecl(
-                        def_name=id.enclosing_defining_name(),
+                        def_name=name.enclosing_defining_name(),
                         kind=RefResultKind.precise
                     )
-                else id.failsafe_referenced_decl()
+                else name.failsafe_referenced_decl()
             ).do((def_res) => {
                 val canon = def_res.def_name?.canonical_part()?.node;
 
                 if
-                    # Either `id` is a direct reference
+                    # Either `name` is a direct reference
                     node == canon
-                    # Or `id` refers to one of the base subprograms of
+                    # Or `name` refers to one of the base subprograms of
                     # defined by self, and `x` appears in a dispatching
                     # call context.
                     or self.basic_decl().base_subp_declarations().do(
@@ -20064,7 +20064,7 @@ class DefiningName: Name {
                         decls.any(
                             (d) => d.defining_name().node == canon
                         )
-                        and id.is_dispatching_call()
+                        and name.is_dispatching_call()
                     )
                 then def_res.kind
                 else RefResultKind.no_ref
@@ -21922,7 +21922,7 @@ class Identifier: BaseId implements TokenNode {
 |"
 |" Note that the ARM does not consider "double_dot" ("..") as a binary
 |" operator, but we process it this way here anyway to keep things simple.
-enum class Op: BaseId implements TokenNode {
+enum class Op: Name {
     case
         And,
         Or,
@@ -21949,6 +21949,15 @@ enum class Op: BaseId implements TokenNode {
         Gte,
         DoubleDot
 
+    r_ref_var: LogicVar
+    r_called_spec: LogicVar
+
+    fun ref_var(): LogicVar = node.r_ref_var
+    fun subp_spec_var(): LogicVar = node.r_called_spec
+    fun defines_subp_spec_var(): Bool = true
+
+    fun relative_name(): Entity[Name] = self
+
     |" Return the symbol that needs to be used to define an overload of this
     |" operator.
     fun subprogram_symbol(): Symbol = match node {
@@ -21971,7 +21980,8 @@ enum class Op: BaseId implements TokenNode {
         case _: Op.Lte => s"\"<=\""
         case _: Op.Gt => s"\">\""
         case _: Op.Gte => s"\">=\""
-        case _ => s"<<>>"
+        case _ =>
+            raise[Symbol] PreconditionFailure("operator is not overloadable")
     }
 
     |" Return the list of all operator definitions for the given operator
@@ -22007,7 +22017,16 @@ enum class Op: BaseId implements TokenNode {
     fun subprograms(): Array[Entity[BasicDecl]] =
         node.subprograms_for_symbol(node.subprogram_symbol(), self)
 
-    fun name_symbol(): Symbol = node.subprogram_symbol()
+    fun name_symbol(): Symbol = match node {
+        case _: Op.AndThen => s"\"and then\""
+        case _: Op.OrElse => s"\"or else\""
+        case _: Op.In => s"\"in\""
+        case _: Op.NotIn => s"\"not in\""
+        case _: Op.DoubleDot => s"\"..\""
+        case _ => node.subprogram_symbol()
+    }
+
+    fun as_symbol_array(): Array[Symbol] = [node.name_symbol()]
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
@@ -26660,7 +26679,7 @@ struct ParamMatch {
 
 |" Result for a cross reference query returning a reference.
 struct RefResult {
-    ref: Entity[BaseId]
+    ref: Entity[Name]
     kind: RefResultKind = RefResultKind.no_ref
 }
 

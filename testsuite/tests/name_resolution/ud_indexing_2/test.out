@@ -19,7 +19,7 @@ Expr: <Int test.adb:8:22-8:23>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:8:24-8:26>
+Expr: <OpDoubleDot test.adb:8:24-8:26>
   references:    None
   type:          None
   expected type: None

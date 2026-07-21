@@ -40,7 +40,7 @@ Expr: <Id "I" foo.ads:9:66-9:67>
   references:    <DefiningName "I" foo.ads:9:16-9:17>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMult "*" foo.ads:9:68-9:69>
+Expr: <OpMult foo.ads:9:68-9:69>
   references:    None
   type:          None
   expected type: None

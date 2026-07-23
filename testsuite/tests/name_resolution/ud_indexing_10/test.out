@@ -1,0 +1,29 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:16:4-16:14>
+*******************************************************
+
+Expr: <DottedName test.adb:16:4-16:13>
+  references:    <DefiningName "Foo" test.adb:11:17-11:20>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:16:4-16:9>
+  references:    <DefiningName "X" test.adb:14:4-14:5>
+  type:          <ConcreteTypeDecl ["Tree"] test.adb:3:7-4:46>
+  expected type: <ConcreteTypeDecl ["Tree"] test.adb:3:7-4:46>
+Expr: <Id "X" test.adb:16:4-16:5>
+  references:    <DefiningName "X" test.adb:14:4-14:5>
+  type:          <ConcreteTypeDecl ["Tree"] test.adb:3:7-4:46>
+  expected type: None
+Expr: <Int test.adb:16:7-16:8>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Foo" test.adb:16:10-16:13>
+  references:    <DefiningName "Foo" test.adb:11:17-11:20>
+  type:          None
+  expected type: None
+
+
+Done.

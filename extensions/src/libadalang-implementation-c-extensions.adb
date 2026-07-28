@@ -99,7 +99,9 @@ package body Libadalang.Implementation.C.Extensions is
    end record;
 
    overriding procedure Internal_Report
-     (Self : in out GPR2_Reporter_Type; Message : GPR2.Message.Object);
+     (Self    : in out GPR2_Reporter_Type;
+      Message : GPR2.Message.Object;
+      Binary  : Boolean := False);
 
    overriding function Verbosity
      (Self : GPR2_Reporter_Type) return GPR2.Reporter.Verbosity_Level
@@ -225,8 +227,14 @@ package body Libadalang.Implementation.C.Extensions is
    ------------
 
    overriding procedure Internal_Report
-     (Self : in out GPR2_Reporter_Type; Message : GPR2.Message.Object) is
+     (Self    : in out GPR2_Reporter_Type;
+      Message : GPR2.Message.Object;
+      Binary  : Boolean := False) is
    begin
+      pragma Unreferenced (Binary);
+      --  Binary mode only affects file descriptor output, which is
+      --  not the case here.
+
       Self.Messages.Get.Append (To_Unbounded_String (Message.Format));
    end Internal_Report;
 

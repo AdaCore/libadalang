@@ -3991,7 +3991,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
         )
 
     |" Helper for BasicDecl.defining_env.
-    @with_dynvars(origin, include_ud_indexing)
+    @with_dynvars(origin)
     fun defining_env(): LexicalEnv =
         if self.returns().is_null then null[LexicalEnv]
         else self.return_type().defining_env()
@@ -10722,6 +10722,35 @@ class TypeDecl: BaseTypeDecl {
         case _ => self
     }
 
+    |" Compute the transitive closure of all types that are ultimately
+    |" reachable via an arbitrary chain of user-defined indexing operations.
+    fun ud_indexing_types_helper(
+        visited: Array[Entity[BaseTypeDecl]],
+        to_visit: Array[Entity[BaseTypeDecl]]
+    ): Array[Entity[BaseTypeDecl]] = {
+        val now_visited = visited & to_visit;
+        val new_types = to_visit.mapcat(
+            (t) => t.constant_indexing_fns() & t.variable_indexing_fns()
+        ).mapcat(
+            (fn) => fn.subp_spec_or_null().return_type().do(
+                (t) =>
+                # If the resulting type of the user defined indexing operation
+                # has an implicit dereference attribute, its underlying type
+                # may support user-defined indexing as well.
+                if t.get_imp_deref().is_null
+                then [t]
+                else [t, t.accessed_type()]
+            )
+        ).unique();
+
+        val to_visit_next =
+            new_types.filter((c) => not now_visited.contains(c));
+
+        if to_visit_next.length() > 0
+        then node.ud_indexing_types_helper(now_visited, to_visit_next)
+        else now_visited
+    }
+
     @with_dynvars(
         origin, include_ud_indexing=false, dottable_type=null[AdaNode]
     )
@@ -10735,12 +10764,23 @@ class TypeDecl: BaseTypeDecl {
         then [self_env, self.accessed_type().defining_env()].env_group()
         elif include_ud_indexing and self.has_ud_indexing()
         then
-            (
-                (self.constant_indexing_fns() & self.variable_indexing_fns())
-                .map((fn) => fn.defining_env())
-                & [self_env]
-            )
-            .env_group()
+            {
+                # The defining env of this type is needed by the xref equation
+                # of a (chain of) user-defined indexing operation. Since we
+                # cannot know the nesting level of that operation here, we
+                # compute all the types that could result from any chain of
+                # user-defined indexing operations, by explicitly computing the
+                # transitive closure. For that, we can't rely on simple
+                # recursion, as it is possible for a user-defined indexing to
+                # return the container type itself, which in turn would make
+                # this property recurse infinitely. Thus we implement this
+                # logic in the dedicated ``ud_indexing_types_helper`` property.
+                bind include_ud_indexing = false;
+                node.ud_indexing_types_helper(
+                    null[Array[Entity[BaseTypeDecl]]],
+                    [self.as[BaseTypeDecl]]
+                ).map((t) => t.defining_env())
+            }.env_group()
         else self_env
     }
 

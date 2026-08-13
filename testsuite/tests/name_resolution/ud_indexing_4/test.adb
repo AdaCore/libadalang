@@ -14,13 +14,18 @@ procedure Test is
       with Implicit_Dereference => Element;
 
       function Reference (X : in out Map; I : Integer) return Reference_Type is
-        ((Element => X.E'Access));
+        ((Element => X.E'Unchecked_Access));
 
       type Map_Access is access all Map;
    end Pkg;
 
    M : Pkg.Map_Access := new Pkg.Map;
    I : Integer := M.all (3).Val;
+   pragma Test_Statement;
+
+   function Get_Map return Pkg.Map_Access is (M);
+
+   J : Integer := Get_Map.all (3).Val;
    pragma Test_Statement;
 begin
    null;

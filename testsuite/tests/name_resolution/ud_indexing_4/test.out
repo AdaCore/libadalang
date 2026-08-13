@@ -33,5 +33,37 @@ Expr: <Id "Val" test.adb:23:29-23:32>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
+Resolving xrefs for node <ObjectDecl ["J"] test.adb:28:4-28:39>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:28:8-28:15>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:28:19-28:38>
+  references:    <DefiningName "Val" test.adb:3:7-3:10>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <CallExpr test.adb:28:19-28:34>
+  references:    <DefiningName "Get_Map" test.adb:26:13-26:20>
+  type:          <ConcreteTypeDecl ["Reference_Type"] test.adb:12:7-14:44>
+  expected type: <ConcreteTypeDecl ["Int"] test.adb:2:4-4:15>
+Expr: <ExplicitDeref test.adb:28:19-28:30>
+  references:    <DefiningName "Get_Map" test.adb:26:13-26:20>
+  type:          <ConcreteTypeDecl ["Map"] test.adb:7:7-10:46>
+  expected type: None
+Expr: <Id "Get_Map" test.adb:28:19-28:26>
+  references:    <DefiningName "Get_Map" test.adb:26:13-26:20>
+  type:          <ConcreteTypeDecl ["Map_Access"] test.adb:19:7-19:41>
+  expected type: <ConcreteTypeDecl ["Map_Access"] test.adb:19:7-19:41>
+Expr: <Int test.adb:28:32-28:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Val" test.adb:28:35-28:38>
+  references:    <DefiningName "Val" test.adb:3:7-3:10>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
 
 Done.

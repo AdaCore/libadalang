@@ -14,7 +14,7 @@ procedure Test is
       with Implicit_Dereference => Element;
 
       function Reference (X : in out Map; I : Integer) return Reference_Type is
-        ((Element => X.E'Access));
+        ((Element => X.E'Unchecked_Access));
 
       type Map_Access is access all Map;
    end Pkg;

@@ -22,6 +22,11 @@ procedure Test is
    M : Pkg.Map_Access := new Pkg.Map;
    I : Integer := M.all (3).Val;
    pragma Test_Statement;
+
+   function Get_Map return Pkg.Map_Access is (M);
+
+   J : Integer := Get_Map.all (3).Val;
+   pragma Test_Statement;
 begin
    null;
 end Test;

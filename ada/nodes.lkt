@@ -3991,7 +3991,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
         )
 
     |" Helper for BasicDecl.defining_env.
-    @with_dynvars(origin)
+    @with_dynvars(origin, include_ud_indexing)
     fun defining_env(): LexicalEnv =
         if self.returns().is_null then null[LexicalEnv]
         else self.return_type().defining_env()

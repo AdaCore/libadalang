@@ -37,6 +37,8 @@ class CAPIDriver(BaseDriver):
                              can_be_empty=False)
         self.check_file_list('"input_sources"', input_sources)
 
+        exec_name = self.test_env["test_name"]
+
         with open(self.working_dir('p.gpr'), 'w') as f:
             f.write('''
             with "libadalang";
@@ -68,7 +70,7 @@ class CAPIDriver(BaseDriver):
                 end Compiler;
             end P;
             '''.format(main_source=compile_units[0],
-                       exec_name=self.test_program,
+                       exec_name=exec_name,
                        support_include_dir=self.support_include_dir))
 
         # Build the test program and then run it. Whether we use static or
@@ -77,12 +79,7 @@ class CAPIDriver(BaseDriver):
         # use static ones.
         argv = ['gprbuild', '-Pp'] + self.gpr_args
         self.run_and_check(argv, append_output=False)
-        self.run_and_check([self.test_program], memcheck=True)
-
-    @property
-    def test_program(self):
-        """Return the absolute path to the program to run for this testcase."""
-        return self.working_dir(self.test_env['test_name'])
+        self.run_and_check([self.working_dir(exec_name)], memcheck=True)
 
     @property
     def support_include_dir(self):

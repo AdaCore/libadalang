@@ -5477,9 +5477,16 @@ class BasicDecl: AdaNode {
         # self.
         if self.info.md.dottable_subp
         then
+            # Warning: we explicitly call `designated_type()` here instead of
+            # relying on `real_designated_type()` (which would be used by
+            # `formal_type()`) because dottable subprograms corresponding to
+            # inherited primitives currently do not carry enough information to
+            # recover the rebindings of the `real_primitive_type`. This should
+            # probably be reworked as part of the work on synthesization of
+            # inherited primitives (#952).
             prefix.expected_type_var()
             <- self.subp_spec_or_null().unpacked_formal_params().at(0)
-            ?.formal_decl().formal_type()
+            ?.formal_decl().type_expression().designated_type()
             %and prefix.matches_expected_prefix_type()
         else %true
 
@@ -7498,7 +7505,10 @@ class BaseFormalParamDecl: BasicDecl {
     @exported
     @with_dynvars(origin=null[AdaNode])
     fun formal_type(): Entity[BaseTypeDecl] =
-        self.type_expression()?.designated_type()
+        self.parent.parent.parent.as[BaseFormalParamHolder].do(
+            (h) => h.real_designated_type(self.type_expression()),
+            default_val=self.type_expression()?.designated_type()
+        )
 
     fun parent_decl(): Entity[BasicDecl] = self.semantic_parent().as[BasicDecl]
 

@@ -24,7 +24,6 @@ html:
 		../extensions/src/libadalang-expr_eval.ads \
 		../extensions/src/libadalang-helpers.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-iterators.ads \
-		$(LAL_BUILD_DIR)/src/libadalang-lexer.ads \
 		../extensions/src/libadalang-preprocessing.ads \
 		../extensions/src/libadalang-project_provider.ads \
 		../extensions/src/libadalang-target_info.ads \

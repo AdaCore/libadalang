@@ -2,3 +2,5 @@ driver: c-api
 compile_units: [main.c]
 input_sources: []
 valgrind_suppressions: valgrind.supp
+control:
+  - [XFAIL, "True", "Pending resolution of eng/gpr/gpr-issues#913"]

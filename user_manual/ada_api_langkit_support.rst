@@ -7,17 +7,17 @@ framework, and as such, it depends on Langkit's runtime, which is Langkit
 support. Some parts of Langkit support are thus part of the public API of
 Libadalang.
 
-.. include:: generated/langkit_support-diagnostics.rst
-.. include:: generated/langkit_support-diagnostics-output.rst
-.. include:: generated/langkit_support-errors.rst
-.. include:: generated/langkit_support-file_readers.rst
-.. include:: generated/langkit_support-generic_api.rst
-.. include:: generated/langkit_support-generic_api-analysis.rst
-.. include:: generated/langkit_support-generic_api-introspection.rst
-.. include:: generated/langkit_support-generic_api-rewriting.rst
-.. include:: generated/langkit_support-generic_api-unparsing.rst
-.. include:: generated/langkit_support-names.rst
-.. include:: generated/langkit_support-names-maps.rst
-.. include:: generated/langkit_support-slocs.rst
-.. include:: generated/langkit_support-symbols.rst
-.. include:: generated/langkit_support-text.rst
+.. include:: generated/ada___langkit_support__diagnostics___spec.rst
+.. include:: generated/ada___langkit_support__diagnostics__output___spec.rst
+.. include:: generated/ada___langkit_support__errors___spec.rst
+.. include:: generated/ada___langkit_support__file_readers___spec.rst
+.. include:: generated/ada___langkit_support__generic_api___spec.rst
+.. include:: generated/ada___langkit_support__generic_api__analysis___spec.rst
+.. include:: generated/ada___langkit_support__generic_api__introspection___spec.rst
+.. include:: generated/ada___langkit_support__generic_api__rewriting___spec.rst
+.. include:: generated/ada___langkit_support__generic_api__unparsing___spec.rst
+.. include:: generated/ada___langkit_support__names___spec.rst
+.. include:: generated/ada___langkit_support__names__maps___spec.rst
+.. include:: generated/ada___langkit_support__slocs___spec.rst
+.. include:: generated/ada___langkit_support__symbols___spec.rst
+.. include:: generated/ada___langkit_support__text___spec.rst

@@ -3,5 +3,5 @@
 Unit providers
 ==============
 
-.. include:: generated/libadalang-project_provider.rst
-.. include:: generated/libadalang-auto_provider.rst
+.. include:: generated/ada___libadalang__project_provider___spec.rst
+.. include:: generated/ada___libadalang__auto_provider___spec.rst

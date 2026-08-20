@@ -169,9 +169,8 @@ source code (conversely for Python). As a consequence, you need either to have
 Libadalang installed (and in particular its Python bindings) or to update your
 environment without installing it: see the corresponding section above.
 
-In addition, you need to install the ``laldoc`` Python project, which contains
-documentation extraction helpers, as well as ``sphinxcontrib-adadomain`` to
-properly generate Sphinx that documents Ada API:
+In addition, you need to install ``sphinxcontrib-adadomain`` and have
+``gnatdoc`` available in your environment:
 
 .. code-block:: sh
 
@@ -179,7 +178,6 @@ properly generate Sphinx that documents Ada API:
    $ cd sphinxcontrib-adadomain
    $ make
    $ pip install wheels/sphinxcontrib_adadomain-*.whl
-   $ pip install laldoc/wheels/laldoc-*.whl
 
 From there, building this documentation as a set of static HTML pages is as
 easy as running the following command from the ``user_manual`` directory:

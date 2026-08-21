@@ -57,7 +57,7 @@ Expr: <Id "Kind" reduced.adb:55:19-55:23>
   references:    <DefiningName "Kind" reduced.adb:37:24-37:28>
   type:          <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
   expected type: <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
-Expr: <OpEq "=" reduced.adb:55:24-55:25>
+Expr: <OpEq reduced.adb:55:24-55:25>
   references:    None
   type:          None
   expected type: None

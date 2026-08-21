@@ -23,7 +23,7 @@ Expr: <Id "Size" pkg-gen__test.adb:2:21-2:25>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" pkg-gen__test.adb:2:26-2:27>
+Expr: <OpEq pkg-gen__test.adb:2:26-2:27>
   references:    <SyntheticDefiningName ""="" in Standard>
   type:          None
   expected type: None

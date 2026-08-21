@@ -268,7 +268,7 @@ Expr: <Id "H" test_aspect.adb:49:38-49:39>
 Expr: <UnOp test_aspect.adb:49:45-49:50>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <OpNot "not" test_aspect.adb:49:45-49:48>
+Expr: <OpNot test_aspect.adb:49:45-49:48>
   references:    None
   type:          None
   expected type: None
@@ -485,7 +485,7 @@ Expr: <Id "H" test_pragma.adb:31:35-31:36>
 Expr: <UnOp test_pragma.adb:31:42-31:47>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <OpNot "not" test_pragma.adb:31:42-31:45>
+Expr: <OpNot test_pragma.adb:31:42-31:45>
   references:    None
   type:          None
   expected type: None

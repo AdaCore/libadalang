@@ -51,7 +51,7 @@ Expr: <Id "A" test.adb:7:33-7:34>
   references:    <DefiningName "A" test.adb:3:17-3:18>
   type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
   expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-68:38>
-Expr: <OpEq "=" test.adb:7:36-7:37>
+Expr: <OpEq test.adb:7:36-7:37>
   references:    None
   type:          None
   expected type: None

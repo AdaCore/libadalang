@@ -79,7 +79,7 @@ Expr: <Id "Code_Address" subp.adb:19:15-19:27>
   references:    None
   type:          None
   expected type: None
-Expr: <OpNeq "/=" subp.adb:19:28-19:30>
+Expr: <OpNeq subp.adb:19:28-19:30>
   references:    None
   type:          None
   expected type: None

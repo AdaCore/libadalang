@@ -23,7 +23,7 @@ Expr: <Id "B" testderenum.adb:4:29-4:30>
   references:    <DefiningName "B" testderenum.adb:2:19-2:20>
   type:          <ConcreteTypeDecl ["En"] testderenum.adb:2:4-2:25>
   expected type: <ConcreteTypeDecl ["En"] testderenum.adb:2:4-2:25>
-Expr: <OpDoubleDot ".." testderenum.adb:4:31-4:33>
+Expr: <OpDoubleDot testderenum.adb:4:31-4:33>
   references:    None
   type:          None
   expected type: None

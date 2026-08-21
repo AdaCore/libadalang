@@ -23,7 +23,7 @@ Expr: <Id "Get" test.adb:21:13-21:16>
   references:    <DefiningName "Get" test.adb:15:16-15:19>
   type:          <| ConcreteTypeDecl ["Reference_Type"] test.adb:5:7-7:47 [test.adb:13:7] |>
   expected type: None
-Expr: <OpIn "in" test.adb:21:17-21:19>
+Expr: <OpIn test.adb:21:17-21:19>
   references:    None
   type:          None
   expected type: None

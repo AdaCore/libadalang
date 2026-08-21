@@ -18,7 +18,7 @@ Expr: <Str ""Pouet"" testexcmsg.adb:3:32-3:39>
 Expr: <ConcatOperand testexcmsg.adb:3:40-3:60>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" testexcmsg.adb:3:40-3:41>
+Expr: <OpConcat testexcmsg.adb:3:40-3:41>
   references:    None
   type:          None
   expected type: None

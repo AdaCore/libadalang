@@ -35,7 +35,7 @@ Expr: <Int testfirst.adb:3:32-3:33>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." testfirst.adb:3:34-3:36>
+Expr: <OpDoubleDot testfirst.adb:3:34-3:36>
   references:    None
   type:          None
   expected type: None
@@ -109,7 +109,7 @@ Expr: <Int testfirst.adb:10:18-10:19>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." testfirst.adb:10:20-10:22>
+Expr: <OpDoubleDot testfirst.adb:10:20-10:22>
   references:    None
   type:          None
   expected type: None

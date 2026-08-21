@@ -74,7 +74,7 @@ Expr: <Id "I" bodies.ada:9:17-9:18>
   references:    <DefiningName "I" bodies.ada:4:19-4:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMult "*" bodies.ada:9:19-9:20>
+Expr: <OpMult bodies.ada:9:19-9:20>
   references:    None
   type:          None
   expected type: None
@@ -109,7 +109,7 @@ Expr: <Id "I" bodies.ada:9:36-9:37>
   references:    <DefiningName "I" bodies.ada:4:19-4:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMinus "-" bodies.ada:9:38-9:39>
+Expr: <OpMinus bodies.ada:9:38-9:39>
   references:    None
   type:          None
   expected type: None

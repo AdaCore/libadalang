@@ -37,7 +37,7 @@ Expr: <Id "Index" base_types.ads:6:11-6:16>
   references:    <DefiningName "Index" base_types.ads:4:24-4:29>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" base_types.ads:6:17-6:18>
+Expr: <OpGt base_types.ads:6:17-6:18>
   references:    None
   type:          None
   expected type: None
@@ -68,7 +68,7 @@ Expr: <Id "Result" base_types.ads:6:48-6:54>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" base_types.ads:6:55-6:56>
+Expr: <OpEq base_types.ads:6:55-6:56>
   references:    None
   type:          None
   expected type: None
@@ -79,7 +79,7 @@ Expr: <Id "Index" base_types.ads:6:57-6:62>
   references:    <DefiningName "Index" base_types.ads:4:24-4:29>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMinus "-" base_types.ads:6:63-6:64>
+Expr: <OpMinus base_types.ads:6:63-6:64>
   references:    None
   type:          None
   expected type: None
@@ -102,7 +102,7 @@ Expr: <Id "Result" base_types.ads:7:23-7:29>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" base_types.ads:7:30-7:31>
+Expr: <OpEq base_types.ads:7:30-7:31>
   references:    None
   type:          None
   expected type: None

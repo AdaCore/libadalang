@@ -34,14 +34,14 @@ Expr: <Id "I" test.adb:8:30-8:31>
   references:    <DefiningName "I" test.adb:6:19-6:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:8:32-8:33>
+Expr: <OpGt test.adb:8:32-8:33>
   references:    None
   type:          None
   expected type: None
 Expr: <UnOp test.adb:8:34-8:38>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMinus "-" test.adb:8:34-8:35>
+Expr: <OpMinus test.adb:8:34-8:35>
   references:    None
   type:          None
   expected type: None
@@ -87,7 +87,7 @@ Expr: <Id "I" test.adb:14:44-14:45>
   references:    <DefiningName "I" test.adb:13:19-13:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:14:46-14:47>
+Expr: <OpGt test.adb:14:46-14:47>
   references:    None
   type:          None
   expected type: None

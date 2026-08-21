@@ -15,7 +15,7 @@ Expr: <Id "I2" b-c.adb:4:19-4:21>
   references:    <DefiningName "I2" b-c.adb:2:4-2:6>
   type:          <ConcreteTypeDecl ["Typ"] b-c.ads:4:4-4:26>
   expected type: <ConcreteTypeDecl ["Typ"] b-c.ads:4:4-4:26>
-Expr: <OpAnd "and" b-c.adb:4:22-4:25>
+Expr: <OpAnd b-c.adb:4:22-4:25>
   references:    <DefiningName ""and"" b.ads:5:13-5:18>
   type:          None
   expected type: None

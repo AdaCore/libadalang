@@ -38,7 +38,7 @@ Expr: <Id "X" pp_formal.ads:3:19-3:20>
   references:    <DefiningName "X" pp_formal.ads:2:21-2:22>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMod "mod" pp_formal.ads:3:21-3:24>
+Expr: <OpMod pp_formal.ads:3:21-3:24>
   references:    None
   type:          None
   expected type: None
@@ -46,7 +46,7 @@ Expr: <Int pp_formal.ads:3:25-3:26>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" pp_formal.ads:3:27-3:28>
+Expr: <OpEq pp_formal.ads:3:27-3:28>
   references:    None
   type:          None
   expected type: None
@@ -69,7 +69,7 @@ Expr: <Id "X" pp_formal.ads:3:40-3:41>
   references:    <DefiningName "X" pp_formal.ads:2:21-2:22>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" pp_formal.ads:3:42-3:43>
+Expr: <OpGt pp_formal.ads:3:42-3:43>
   references:    None
   type:          None
   expected type: None

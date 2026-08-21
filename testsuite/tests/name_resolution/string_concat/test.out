@@ -66,7 +66,7 @@ Expr: <Chr "'c'" test.adb:6:27-6:30>
 Expr: <ConcatOperand test.adb:6:31-6:38>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:6:31-6:32>
+Expr: <OpConcat test.adb:6:31-6:32>
   references:    None
   type:          None
   expected type: None
@@ -92,7 +92,7 @@ Expr: <Id "C" test.adb:7:27-7:28>
 Expr: <ConcatOperand test.adb:7:29-7:36>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:7:29-7:30>
+Expr: <OpConcat test.adb:7:29-7:30>
   references:    None
   type:          None
   expected type: None
@@ -118,7 +118,7 @@ Expr: <Id "A" test.adb:8:27-8:28>
 Expr: <ConcatOperand test.adb:8:29-8:32>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:8:29-8:30>
+Expr: <OpConcat test.adb:8:29-8:30>
   references:    None
   type:          None
   expected type: None
@@ -144,7 +144,7 @@ Expr: <Str ""lol"" test.adb:9:27-9:32>
 Expr: <ConcatOperand test.adb:9:33-9:36>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:9:33-9:34>
+Expr: <OpConcat test.adb:9:33-9:34>
   references:    None
   type:          None
   expected type: None
@@ -178,7 +178,7 @@ Expr: <Str ""lol"" test.adb:11:35-11:40>
 Expr: <ConcatOperand test.adb:11:41-11:44>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
-Expr: <OpConcat "&" test.adb:11:41-11:42>
+Expr: <OpConcat test.adb:11:41-11:42>
   references:    None
   type:          None
   expected type: None
@@ -204,7 +204,7 @@ Expr: <Str ""a"" test.adb:13:27-13:30>
 Expr: <ConcatOperand test.adb:13:31-13:36>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:13:31-13:32>
+Expr: <OpConcat test.adb:13:31-13:32>
   references:    None
   type:          None
   expected type: None
@@ -215,7 +215,7 @@ Expr: <Str ""a"" test.adb:13:33-13:36>
 Expr: <ConcatOperand test.adb:13:37-13:42>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:13:37-13:38>
+Expr: <OpConcat test.adb:13:37-13:38>
   references:    None
   type:          None
   expected type: None
@@ -249,7 +249,7 @@ Expr: <Str ""lol"" test.adb:15:35-15:40>
 Expr: <ConcatOperand test.adb:15:41-15:44>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:15:41-15:42>
+Expr: <OpConcat test.adb:15:41-15:42>
   references:    None
   type:          None
   expected type: None
@@ -260,7 +260,7 @@ Expr: <Id "G" test.adb:15:43-15:44>
 Expr: <ConcatOperand test.adb:15:45-15:53>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
-Expr: <OpConcat "&" test.adb:15:45-15:46>
+Expr: <OpConcat test.adb:15:45-15:46>
   references:    None
   type:          None
   expected type: None
@@ -294,7 +294,7 @@ Expr: <Str ""a"" test.adb:20:25-20:28>
 Expr: <ConcatOperand test.adb:20:29-20:34>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <SubtypeDecl ["T"] test.adb:18:7-18:27>
-Expr: <OpConcat "&" test.adb:20:29-20:30>
+Expr: <OpConcat test.adb:20:29-20:30>
   references:    None
   type:          None
   expected type: None
@@ -328,7 +328,7 @@ Expr: <Id "K" test.adb:22:28-22:29>
 Expr: <ConcatOperand test.adb:22:30-22:35>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" test.adb:22:30-22:31>
+Expr: <OpConcat test.adb:22:30-22:31>
   references:    None
   type:          None
   expected type: None
@@ -339,7 +339,7 @@ Expr: <Chr "'c'" test.adb:22:32-22:35>
 Expr: <ConcatOperand test.adb:22:36-22:39>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
-Expr: <OpConcat "&" test.adb:22:36-22:37>
+Expr: <OpConcat test.adb:22:36-22:37>
   references:    None
   type:          None
   expected type: None
@@ -373,7 +373,7 @@ Expr: <Id "K" test.adb:24:28-24:29>
 Expr: <ConcatOperand test.adb:24:30-24:33>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
-Expr: <OpConcat "&" test.adb:24:30-24:31>
+Expr: <OpConcat test.adb:24:30-24:31>
   references:    None
   type:          None
   expected type: None
@@ -430,7 +430,7 @@ Expr: <FormatStringLiteral interpolation.adb:10:9-10:14>
 Expr: <ConcatOperand interpolation.adb:10:15-10:21>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" interpolation.adb:10:15-10:16>
+Expr: <OpConcat interpolation.adb:10:15-10:16>
   references:    None
   type:          None
   expected type: None
@@ -456,7 +456,7 @@ Expr: <Str ""S1"" interpolation.adb:13:9-13:13>
 Expr: <ConcatOperand interpolation.adb:13:14-13:20>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" interpolation.adb:13:14-13:15>
+Expr: <OpConcat interpolation.adb:13:14-13:15>
   references:    None
   type:          None
   expected type: None
@@ -481,7 +481,7 @@ Expr: <FormatStringLiteral interpolation.adb:16:9-16:14>
 Expr: <ConcatOperand interpolation.adb:16:15-16:22>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" interpolation.adb:16:15-16:16>
+Expr: <OpConcat interpolation.adb:16:15-16:16>
   references:    None
   type:          None
   expected type: None
@@ -513,7 +513,7 @@ Expr: <Id "Name" interpolation.adb:19:29-19:33>
 Expr: <ConcatOperand interpolation.adb:19:44-19:65>
   type:          standard.string
   expected type: standard.string
-Expr: <OpConcat "&" interpolation.adb:19:44-19:45>
+Expr: <OpConcat interpolation.adb:19:44-19:45>
   references:    None
   type:          None
   expected type: None
@@ -527,7 +527,7 @@ Expr: <Id "X" interpolation.adb:19:57-19:58>
   references:    interpolation().x
   type:          standard.integer
   expected type: standard.integer
-Expr: <OpPlus "+" interpolation.adb:19:59-19:60>
+Expr: <OpPlus interpolation.adb:19:59-19:60>
   references:    None
   type:          None
   expected type: None

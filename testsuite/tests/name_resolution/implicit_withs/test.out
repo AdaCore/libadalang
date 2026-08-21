@@ -26,7 +26,7 @@ Expr: <Id "Identity" test.adb:12:22-12:30>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:12:31-12:32>
+Expr: <OpEq test.adb:12:31-12:32>
   references:    None
   type:          None
   expected type: None
@@ -68,7 +68,7 @@ Expr: <Id "Tag" test.adb:19:31-19:34>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:19:35-19:36>
+Expr: <OpEq test.adb:19:35-19:36>
   references:    None
   type:          None
   expected type: None

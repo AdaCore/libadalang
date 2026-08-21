@@ -31,7 +31,7 @@ Expr: <Id "Index" index.ads:11:20-11:25>
   references:    None
   type:          None
   expected type: None
-Expr: <OpLt "<" index.ads:11:26-11:27>
+Expr: <OpLt index.ads:11:26-11:27>
   references:    None
   type:          None
   expected type: None
@@ -62,7 +62,7 @@ Expr: <Id "Index" index.ads:12:33-12:38>
   references:    None
   type:          None
   expected type: None
-Expr: <OpGte ">=" index.ads:12:39-12:41>
+Expr: <OpGte index.ads:12:39-12:41>
   references:    None
   type:          None
   expected type: None
@@ -101,7 +101,7 @@ Expr: <Id "Index" index.ads:14:21-14:26>
   references:    None
   type:          None
   expected type: None
-Expr: <OpGte ">=" index.ads:14:27-14:29>
+Expr: <OpGte index.ads:14:27-14:29>
   references:    None
   type:          None
   expected type: None
@@ -132,7 +132,7 @@ Expr: <Id "Index" index.ads:15:32-15:37>
   references:    None
   type:          None
   expected type: None
-Expr: <OpLt "<" index.ads:15:38-15:39>
+Expr: <OpLt index.ads:15:38-15:39>
   references:    None
   type:          None
   expected type: None

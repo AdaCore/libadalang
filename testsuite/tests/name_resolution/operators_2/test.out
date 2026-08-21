@@ -15,7 +15,7 @@ Expr: <Id "B" testop.adb:14:9-14:10>
   references:    <DefiningName "B" testop.adb:8:7-8:8>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" testop.adb:14:11-14:12>
+Expr: <OpPlus testop.adb:14:11-14:12>
   references:    <DefiningName ""+"" testop.adb:5:13-5:16>
   type:          None
   expected type: None
@@ -38,7 +38,7 @@ Expr: <Id "B" testop.adb:17:11-17:12>
   references:    <DefiningName "B" testop.adb:8:7-8:8>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" testop.adb:17:13-17:14>
+Expr: <OpLt testop.adb:17:13-17:14>
   references:    None
   type:          None
   expected type: None
@@ -61,7 +61,7 @@ Expr: <Id "P" testop.adb:20:9-20:10>
   references:    <DefiningName "P" testop.adb:10:7-10:8>
   type:          <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
   expected type: <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
-Expr: <OpPlus "+" testop.adb:20:11-20:12>
+Expr: <OpPlus testop.adb:20:11-20:12>
   references:    None
   type:          None
   expected type: None

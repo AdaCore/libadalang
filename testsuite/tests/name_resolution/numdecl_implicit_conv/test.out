@@ -11,7 +11,7 @@ Expr: <Id "B" testcst.adb:5:7-5:8>
   references:    <DefiningName "B" testcst.adb:3:4-3:5>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_real"] in Standard>
-Expr: <OpEq "=" testcst.adb:5:9-5:10>
+Expr: <OpEq testcst.adb:5:9-5:10>
   references:    <SyntheticDefiningName ""="" in Standard>
   type:          None
   expected type: None

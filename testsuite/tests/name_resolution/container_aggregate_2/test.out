@@ -18,7 +18,7 @@ Expr: <Int test.adb:24:34-24:35>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:24:36-24:38>
+Expr: <OpDoubleDot test.adb:24:36-24:38>
   references:    None
   type:          None
   expected type: None
@@ -48,7 +48,7 @@ Expr: <Id "Lb" test.adb:28:25-28:27>
   references:    <DefiningName "Lb" test.adb:27:4-27:6>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:28:28-28:30>
+Expr: <OpDoubleDot test.adb:28:28-28:30>
   references:    None
   type:          None
   expected type: None

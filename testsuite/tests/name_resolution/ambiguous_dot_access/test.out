@@ -19,7 +19,7 @@ Expr: <Id "Foo" test.adb:18:9-18:12>
   references:    <DefiningName "Foo" test.adb:6:10-6:13>
   type:          <ConcreteTypeDecl ["Integer_Access"] test.adb:2:4-2:46>
   expected type: <ConcreteTypeDecl ["Integer_Access"] test.adb:2:4-2:46>
-Expr: <OpNeq "/=" test.adb:18:13-18:15>
+Expr: <OpNeq test.adb:18:13-18:15>
   references:    None
   type:          None
   expected type: None

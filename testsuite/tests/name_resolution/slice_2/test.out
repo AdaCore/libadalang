@@ -22,7 +22,7 @@ Expr: <Int test.adb:6:7-6:8>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" test.adb:6:9-6:10>
+Expr: <OpPlus test.adb:6:9-6:10>
   references:    None
   type:          None
   expected type: None
@@ -30,7 +30,7 @@ Expr: <Int test.adb:6:11-6:12>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:6:13-6:15>
+Expr: <OpDoubleDot test.adb:6:13-6:15>
   references:    None
   type:          None
   expected type: None
@@ -56,7 +56,7 @@ Expr: <Int test.adb:6:25-6:26>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" test.adb:6:27-6:28>
+Expr: <OpPlus test.adb:6:27-6:28>
   references:    None
   type:          None
   expected type: None
@@ -64,7 +64,7 @@ Expr: <Int test.adb:6:29-6:30>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:6:31-6:33>
+Expr: <OpDoubleDot test.adb:6:31-6:33>
   references:    None
   type:          None
   expected type: None

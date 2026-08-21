@@ -151,7 +151,7 @@ Expr: <Id "Overlaps_Storage" storage.adb:3:13-3:29>
   references:    None
   type:          None
   expected type: None
-Expr: <OpAnd "and" storage.adb:3:34-3:37>
+Expr: <OpAnd storage.adb:3:34-3:37>
   references:    None
   type:          None
   expected type: None

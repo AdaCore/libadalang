@@ -11,7 +11,7 @@ Expr: <Id "Compile_Time_Error" test.adb:3:11-3:29>
 Expr: <UnOp test.adb:3:31-3:53>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <OpNot "not" test.adb:3:31-3:34>
+Expr: <OpNot test.adb:3:31-3:34>
   references:    None
   type:          None
   expected type: None
@@ -62,7 +62,7 @@ Expr: <Id "Compile_Time_Error" test.adb:17:14-17:32>
 Expr: <UnOp test.adb:17:34-17:53>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <OpNot "not" test.adb:17:34-17:37>
+Expr: <OpNot test.adb:17:34-17:37>
   references:    None
   type:          None
   expected type: None

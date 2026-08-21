@@ -46,7 +46,7 @@ Expr: <Id "Offset" test.adb:26:51-26:57>
   references:    test().write(test.memory_stream_type, ada.streams.stream_element_array).fill_block(ada.streams.stream_element_offset, ada.streams.stream_element_array).offset
   type:          ada.streams.stream_element_offset
   expected type: ada.streams.stream_element_offset
-Expr: <OpPlus "+" test.adb:26:58-26:59>
+Expr: <OpPlus test.adb:26:58-26:59>
   references:    None
   type:          None
   expected type: None
@@ -54,7 +54,7 @@ Expr: <Id "I" test.adb:26:60-26:61>
   references:    test().write(test.memory_stream_type, ada.streams.stream_element_array).fill_block(ada.streams.stream_element_offset, ada.streams.stream_element_array).i
   type:          ada.streams.stream_element_offset
   expected type: ada.streams.stream_element_offset
-Expr: <OpMinus "-" test.adb:26:62-26:63>
+Expr: <OpMinus test.adb:26:62-26:63>
   references:    None
   type:          None
   expected type: None

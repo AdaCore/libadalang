@@ -22,7 +22,7 @@ Expr: <Id "Scalar_Storage_Order" test.adb:8:12-8:32>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:8:33-8:34>
+Expr: <OpEq test.adb:8:33-8:34>
   references:    None
   type:          None
   expected type: None
@@ -52,7 +52,7 @@ Expr: <Id "Bit_Order" test.adb:16:12-16:21>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:16:22-16:23>
+Expr: <OpEq test.adb:16:22-16:23>
   references:    None
   type:          None
   expected type: None
@@ -82,7 +82,7 @@ Expr: <Id "Scalar_Storage_Order" test.adb:20:12-20:32>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:20:33-20:34>
+Expr: <OpEq test.adb:20:33-20:34>
   references:    None
   type:          None
   expected type: None

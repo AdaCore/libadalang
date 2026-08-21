@@ -15,7 +15,7 @@ Expr: <Int testloop.adb:5:26-5:27>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["My_Int"] testloop.adb:2:4-2:55>
-Expr: <OpDoubleDot ".." testloop.adb:5:28-5:30>
+Expr: <OpDoubleDot testloop.adb:5:28-5:30>
   references:    None
   type:          None
   expected type: None

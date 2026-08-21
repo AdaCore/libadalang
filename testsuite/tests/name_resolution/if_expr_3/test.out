@@ -17,7 +17,7 @@ Expr: <Id "Selector" test.adb:9:13-9:21>
   references:    <DefiningName "Selector" test.adb:7:4-7:12>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" test.adb:9:22-9:23>
+Expr: <OpLt test.adb:9:22-9:23>
   references:    None
   type:          None
   expected type: None
@@ -36,7 +36,7 @@ Expr: <Id "Selector" test.adb:10:16-10:24>
   references:    <DefiningName "Selector" test.adb:7:4-7:12>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <OpIn "in" test.adb:10:25-10:27>
+Expr: <OpIn test.adb:10:25-10:27>
   references:    None
   type:          None
   expected type: None
@@ -47,7 +47,7 @@ Expr: <Int test.adb:10:28-10:29>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." test.adb:10:29-10:31>
+Expr: <OpDoubleDot test.adb:10:29-10:31>
   references:    None
   type:          None
   expected type: None

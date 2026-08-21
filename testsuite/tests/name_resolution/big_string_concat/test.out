@@ -29,7 +29,7 @@ Expr: <Id "NUL" test.adb:9:9-9:12>
 Expr: <ConcatOperand test.adb:9:37-10:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:9:37-9:38>
+Expr: <OpConcat test.adb:9:37-9:38>
   references:    None
   type:          None
   expected type: None
@@ -48,7 +48,7 @@ Expr: <Id "SOH" test.adb:10:9-10:12>
 Expr: <ConcatOperand test.adb:10:37-11:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:10:37-10:38>
+Expr: <OpConcat test.adb:10:37-10:38>
   references:    None
   type:          None
   expected type: None
@@ -67,7 +67,7 @@ Expr: <Id "STX" test.adb:11:9-11:12>
 Expr: <ConcatOperand test.adb:11:37-12:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:11:37-11:38>
+Expr: <OpConcat test.adb:11:37-11:38>
   references:    None
   type:          None
   expected type: None
@@ -86,7 +86,7 @@ Expr: <Id "ETX" test.adb:12:9-12:12>
 Expr: <ConcatOperand test.adb:12:37-13:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:12:37-12:38>
+Expr: <OpConcat test.adb:12:37-12:38>
   references:    None
   type:          None
   expected type: None
@@ -105,7 +105,7 @@ Expr: <Id "EOT" test.adb:13:9-13:12>
 Expr: <ConcatOperand test.adb:13:37-14:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:13:37-13:38>
+Expr: <OpConcat test.adb:13:37-13:38>
   references:    None
   type:          None
   expected type: None
@@ -124,7 +124,7 @@ Expr: <Id "ENQ" test.adb:14:9-14:12>
 Expr: <ConcatOperand test.adb:14:37-15:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:14:37-14:38>
+Expr: <OpConcat test.adb:14:37-14:38>
   references:    None
   type:          None
   expected type: None
@@ -143,7 +143,7 @@ Expr: <Id "ACK" test.adb:15:9-15:12>
 Expr: <ConcatOperand test.adb:15:37-16:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:15:37-15:38>
+Expr: <OpConcat test.adb:15:37-15:38>
   references:    None
   type:          None
   expected type: None
@@ -162,7 +162,7 @@ Expr: <Id "BEL" test.adb:16:9-16:12>
 Expr: <ConcatOperand test.adb:16:37-17:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:16:37-16:38>
+Expr: <OpConcat test.adb:16:37-16:38>
   references:    None
   type:          None
   expected type: None
@@ -181,7 +181,7 @@ Expr: <Id "BS" test.adb:17:9-17:11>
 Expr: <ConcatOperand test.adb:17:37-18:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:17:37-17:38>
+Expr: <OpConcat test.adb:17:37-17:38>
   references:    None
   type:          None
   expected type: None
@@ -200,7 +200,7 @@ Expr: <Id "HT" test.adb:18:9-18:11>
 Expr: <ConcatOperand test.adb:18:37-19:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:18:37-18:38>
+Expr: <OpConcat test.adb:18:37-18:38>
   references:    None
   type:          None
   expected type: None
@@ -219,7 +219,7 @@ Expr: <Id "LF" test.adb:19:9-19:11>
 Expr: <ConcatOperand test.adb:19:37-20:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:19:37-19:38>
+Expr: <OpConcat test.adb:19:37-19:38>
   references:    None
   type:          None
   expected type: None
@@ -238,7 +238,7 @@ Expr: <Id "VT" test.adb:20:9-20:11>
 Expr: <ConcatOperand test.adb:20:37-21:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:20:37-20:38>
+Expr: <OpConcat test.adb:20:37-20:38>
   references:    None
   type:          None
   expected type: None
@@ -257,7 +257,7 @@ Expr: <Id "FF" test.adb:21:9-21:11>
 Expr: <ConcatOperand test.adb:21:37-22:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:21:37-21:38>
+Expr: <OpConcat test.adb:21:37-21:38>
   references:    None
   type:          None
   expected type: None
@@ -276,7 +276,7 @@ Expr: <Id "CR" test.adb:22:9-22:11>
 Expr: <ConcatOperand test.adb:22:37-23:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:22:37-22:38>
+Expr: <OpConcat test.adb:22:37-22:38>
   references:    None
   type:          None
   expected type: None
@@ -295,7 +295,7 @@ Expr: <Id "SO" test.adb:23:9-23:11>
 Expr: <ConcatOperand test.adb:23:37-24:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:23:37-23:38>
+Expr: <OpConcat test.adb:23:37-23:38>
   references:    None
   type:          None
   expected type: None
@@ -314,7 +314,7 @@ Expr: <Id "SI" test.adb:24:9-24:11>
 Expr: <ConcatOperand test.adb:24:37-25:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:24:37-24:38>
+Expr: <OpConcat test.adb:24:37-24:38>
   references:    None
   type:          None
   expected type: None
@@ -333,7 +333,7 @@ Expr: <Id "DLE" test.adb:25:9-25:12>
 Expr: <ConcatOperand test.adb:25:37-26:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:25:37-25:38>
+Expr: <OpConcat test.adb:25:37-25:38>
   references:    None
   type:          None
   expected type: None
@@ -352,7 +352,7 @@ Expr: <Id "DC1" test.adb:26:9-26:12>
 Expr: <ConcatOperand test.adb:26:37-27:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:26:37-26:38>
+Expr: <OpConcat test.adb:26:37-26:38>
   references:    None
   type:          None
   expected type: None
@@ -371,7 +371,7 @@ Expr: <Id "DC2" test.adb:27:9-27:12>
 Expr: <ConcatOperand test.adb:27:37-28:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:27:37-27:38>
+Expr: <OpConcat test.adb:27:37-27:38>
   references:    None
   type:          None
   expected type: None
@@ -390,7 +390,7 @@ Expr: <Id "DC3" test.adb:28:9-28:12>
 Expr: <ConcatOperand test.adb:28:37-29:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:28:37-28:38>
+Expr: <OpConcat test.adb:28:37-28:38>
   references:    None
   type:          None
   expected type: None
@@ -409,7 +409,7 @@ Expr: <Id "DC4" test.adb:29:9-29:12>
 Expr: <ConcatOperand test.adb:29:37-30:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:29:37-29:38>
+Expr: <OpConcat test.adb:29:37-29:38>
   references:    None
   type:          None
   expected type: None
@@ -428,7 +428,7 @@ Expr: <Id "NAK" test.adb:30:9-30:12>
 Expr: <ConcatOperand test.adb:30:37-31:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:30:37-30:38>
+Expr: <OpConcat test.adb:30:37-30:38>
   references:    None
   type:          None
   expected type: None
@@ -447,7 +447,7 @@ Expr: <Id "SYN" test.adb:31:9-31:12>
 Expr: <ConcatOperand test.adb:31:37-32:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:31:37-31:38>
+Expr: <OpConcat test.adb:31:37-31:38>
   references:    None
   type:          None
   expected type: None
@@ -466,7 +466,7 @@ Expr: <Id "ETB" test.adb:32:9-32:12>
 Expr: <ConcatOperand test.adb:32:37-33:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:32:37-32:38>
+Expr: <OpConcat test.adb:32:37-32:38>
   references:    None
   type:          None
   expected type: None
@@ -485,7 +485,7 @@ Expr: <Id "CAN" test.adb:33:9-33:12>
 Expr: <ConcatOperand test.adb:33:37-34:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:33:37-33:38>
+Expr: <OpConcat test.adb:33:37-33:38>
   references:    None
   type:          None
   expected type: None
@@ -504,7 +504,7 @@ Expr: <Id "EM" test.adb:34:9-34:11>
 Expr: <ConcatOperand test.adb:34:37-35:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:34:37-34:38>
+Expr: <OpConcat test.adb:34:37-34:38>
   references:    None
   type:          None
   expected type: None
@@ -523,7 +523,7 @@ Expr: <Id "SUB" test.adb:35:9-35:12>
 Expr: <ConcatOperand test.adb:35:37-36:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:35:37-35:38>
+Expr: <OpConcat test.adb:35:37-35:38>
   references:    None
   type:          None
   expected type: None
@@ -542,7 +542,7 @@ Expr: <Id "ESC" test.adb:36:9-36:12>
 Expr: <ConcatOperand test.adb:36:37-37:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:36:37-36:38>
+Expr: <OpConcat test.adb:36:37-36:38>
   references:    None
   type:          None
   expected type: None
@@ -561,7 +561,7 @@ Expr: <Id "FS" test.adb:37:9-37:11>
 Expr: <ConcatOperand test.adb:37:37-38:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:37:37-37:38>
+Expr: <OpConcat test.adb:37:37-37:38>
   references:    None
   type:          None
   expected type: None
@@ -580,7 +580,7 @@ Expr: <Id "GS" test.adb:38:9-38:11>
 Expr: <ConcatOperand test.adb:38:37-39:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:38:37-38:38>
+Expr: <OpConcat test.adb:38:37-38:38>
   references:    None
   type:          None
   expected type: None
@@ -599,7 +599,7 @@ Expr: <Id "RS" test.adb:39:9-39:11>
 Expr: <ConcatOperand test.adb:39:37-40:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:39:37-39:38>
+Expr: <OpConcat test.adb:39:37-39:38>
   references:    None
   type:          None
   expected type: None
@@ -618,7 +618,7 @@ Expr: <Id "US" test.adb:40:9-40:11>
 Expr: <ConcatOperand test.adb:40:37-41:14>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:40:37-40:38>
+Expr: <OpConcat test.adb:40:37-40:38>
   references:    None
   type:          None
   expected type: None
@@ -637,7 +637,7 @@ Expr: <Id "Space" test.adb:41:9-41:14>
 Expr: <ConcatOperand test.adb:41:37-42:20>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:41:37-41:38>
+Expr: <OpConcat test.adb:41:37-41:38>
   references:    None
   type:          None
   expected type: None
@@ -656,7 +656,7 @@ Expr: <Id "Exclamation" test.adb:42:9-42:20>
 Expr: <ConcatOperand test.adb:42:37-43:18>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:42:37-42:38>
+Expr: <OpConcat test.adb:42:37-42:38>
   references:    None
   type:          None
   expected type: None
@@ -675,7 +675,7 @@ Expr: <Id "Quotation" test.adb:43:9-43:18>
 Expr: <ConcatOperand test.adb:43:37-44:20>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:43:37-43:38>
+Expr: <OpConcat test.adb:43:37-43:38>
   references:    None
   type:          None
   expected type: None
@@ -694,7 +694,7 @@ Expr: <Id "Number_Sign" test.adb:44:9-44:20>
 Expr: <ConcatOperand test.adb:44:37-45:20>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:44:37-44:38>
+Expr: <OpConcat test.adb:44:37-44:38>
   references:    None
   type:          None
   expected type: None
@@ -713,7 +713,7 @@ Expr: <Id "Dollar_Sign" test.adb:45:9-45:20>
 Expr: <ConcatOperand test.adb:45:37-46:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:45:37-45:38>
+Expr: <OpConcat test.adb:45:37-45:38>
   references:    None
   type:          None
   expected type: None
@@ -732,7 +732,7 @@ Expr: <Id "Percent_Sign" test.adb:46:9-46:21>
 Expr: <ConcatOperand test.adb:46:37-47:18>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:46:37-46:38>
+Expr: <OpConcat test.adb:46:37-46:38>
   references:    None
   type:          None
   expected type: None
@@ -751,7 +751,7 @@ Expr: <Id "Ampersand" test.adb:47:9-47:18>
 Expr: <ConcatOperand test.adb:47:37-48:19>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:47:37-47:38>
+Expr: <OpConcat test.adb:47:37-47:38>
   references:    None
   type:          None
   expected type: None
@@ -770,7 +770,7 @@ Expr: <Id "Apostrophe" test.adb:48:9-48:19>
 Expr: <ConcatOperand test.adb:48:37-49:25>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:48:37-48:38>
+Expr: <OpConcat test.adb:48:37-48:38>
   references:    None
   type:          None
   expected type: None
@@ -789,7 +789,7 @@ Expr: <Id "Left_Parenthesis" test.adb:49:9-49:25>
 Expr: <ConcatOperand test.adb:49:37-50:10>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:49:37-49:38>
+Expr: <OpConcat test.adb:49:37-49:38>
   references:    None
   type:          None
   expected type: None
@@ -800,7 +800,7 @@ Expr: <Chr "'Z'" test.adb:50:7-50:10>
 Expr: <ConcatOperand test.adb:50:37-51:28>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:50:37-50:38>
+Expr: <OpConcat test.adb:50:37-50:38>
   references:    None
   type:          None
   expected type: None
@@ -819,7 +819,7 @@ Expr: <Id "Left_Square_Bracket" test.adb:51:9-51:28>
 Expr: <ConcatOperand test.adb:51:37-52:24>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:51:37-51:38>
+Expr: <OpConcat test.adb:51:37-51:38>
   references:    None
   type:          None
   expected type: None
@@ -838,7 +838,7 @@ Expr: <Id "Reverse_Solidus" test.adb:52:9-52:24>
 Expr: <ConcatOperand test.adb:52:37-53:29>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:52:37-52:38>
+Expr: <OpConcat test.adb:52:37-52:38>
   references:    None
   type:          None
   expected type: None
@@ -857,7 +857,7 @@ Expr: <Id "Right_Square_Bracket" test.adb:53:9-53:29>
 Expr: <ConcatOperand test.adb:53:37-54:19>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:53:37-53:38>
+Expr: <OpConcat test.adb:53:37-53:38>
   references:    None
   type:          None
   expected type: None
@@ -876,7 +876,7 @@ Expr: <Id "Circumflex" test.adb:54:9-54:19>
 Expr: <ConcatOperand test.adb:54:37-55:17>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:54:37-54:38>
+Expr: <OpConcat test.adb:54:37-54:38>
   references:    None
   type:          None
   expected type: None
@@ -895,7 +895,7 @@ Expr: <Id "Low_Line" test.adb:55:9-55:17>
 Expr: <ConcatOperand test.adb:55:37-56:14>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:55:37-55:38>
+Expr: <OpConcat test.adb:55:37-55:38>
   references:    None
   type:          None
   expected type: None
@@ -914,7 +914,7 @@ Expr: <Id "Grave" test.adb:56:9-56:14>
 Expr: <ConcatOperand test.adb:56:37-57:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:56:37-56:38>
+Expr: <OpConcat test.adb:56:37-56:38>
   references:    None
   type:          None
   expected type: None
@@ -933,7 +933,7 @@ Expr: <Id "LC_A" test.adb:57:9-57:13>
 Expr: <ConcatOperand test.adb:57:37-58:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:57:37-57:38>
+Expr: <OpConcat test.adb:57:37-57:38>
   references:    None
   type:          None
   expected type: None
@@ -952,7 +952,7 @@ Expr: <Id "LC_B" test.adb:58:9-58:13>
 Expr: <ConcatOperand test.adb:58:37-59:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:58:37-58:38>
+Expr: <OpConcat test.adb:58:37-58:38>
   references:    None
   type:          None
   expected type: None
@@ -971,7 +971,7 @@ Expr: <Id "LC_C" test.adb:59:9-59:13>
 Expr: <ConcatOperand test.adb:59:37-60:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:59:37-59:38>
+Expr: <OpConcat test.adb:59:37-59:38>
   references:    None
   type:          None
   expected type: None
@@ -990,7 +990,7 @@ Expr: <Id "LC_D" test.adb:60:9-60:13>
 Expr: <ConcatOperand test.adb:60:37-61:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:60:37-60:38>
+Expr: <OpConcat test.adb:60:37-60:38>
   references:    None
   type:          None
   expected type: None
@@ -1009,7 +1009,7 @@ Expr: <Id "LC_E" test.adb:61:9-61:13>
 Expr: <ConcatOperand test.adb:61:37-62:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:61:37-61:38>
+Expr: <OpConcat test.adb:61:37-61:38>
   references:    None
   type:          None
   expected type: None
@@ -1028,7 +1028,7 @@ Expr: <Id "LC_F" test.adb:62:9-62:13>
 Expr: <ConcatOperand test.adb:62:37-63:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:62:37-62:38>
+Expr: <OpConcat test.adb:62:37-62:38>
   references:    None
   type:          None
   expected type: None
@@ -1047,7 +1047,7 @@ Expr: <Id "LC_G" test.adb:63:9-63:13>
 Expr: <ConcatOperand test.adb:63:37-64:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:63:37-63:38>
+Expr: <OpConcat test.adb:63:37-63:38>
   references:    None
   type:          None
   expected type: None
@@ -1066,7 +1066,7 @@ Expr: <Id "LC_H" test.adb:64:9-64:13>
 Expr: <ConcatOperand test.adb:64:37-65:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:64:37-64:38>
+Expr: <OpConcat test.adb:64:37-64:38>
   references:    None
   type:          None
   expected type: None
@@ -1085,7 +1085,7 @@ Expr: <Id "LC_I" test.adb:65:9-65:13>
 Expr: <ConcatOperand test.adb:65:37-66:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:65:37-65:38>
+Expr: <OpConcat test.adb:65:37-65:38>
   references:    None
   type:          None
   expected type: None
@@ -1104,7 +1104,7 @@ Expr: <Id "LC_J" test.adb:66:9-66:13>
 Expr: <ConcatOperand test.adb:66:37-67:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:66:37-66:38>
+Expr: <OpConcat test.adb:66:37-66:38>
   references:    None
   type:          None
   expected type: None
@@ -1123,7 +1123,7 @@ Expr: <Id "LC_K" test.adb:67:9-67:13>
 Expr: <ConcatOperand test.adb:67:37-68:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:67:37-67:38>
+Expr: <OpConcat test.adb:67:37-67:38>
   references:    None
   type:          None
   expected type: None
@@ -1142,7 +1142,7 @@ Expr: <Id "LC_L" test.adb:68:9-68:13>
 Expr: <ConcatOperand test.adb:68:37-69:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:68:37-68:38>
+Expr: <OpConcat test.adb:68:37-68:38>
   references:    None
   type:          None
   expected type: None
@@ -1161,7 +1161,7 @@ Expr: <Id "LC_M" test.adb:69:9-69:13>
 Expr: <ConcatOperand test.adb:69:37-70:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:69:37-69:38>
+Expr: <OpConcat test.adb:69:37-69:38>
   references:    None
   type:          None
   expected type: None
@@ -1180,7 +1180,7 @@ Expr: <Id "LC_N" test.adb:70:9-70:13>
 Expr: <ConcatOperand test.adb:70:37-71:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:70:37-70:38>
+Expr: <OpConcat test.adb:70:37-70:38>
   references:    None
   type:          None
   expected type: None
@@ -1199,7 +1199,7 @@ Expr: <Id "LC_O" test.adb:71:9-71:13>
 Expr: <ConcatOperand test.adb:71:37-72:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:71:37-71:38>
+Expr: <OpConcat test.adb:71:37-71:38>
   references:    None
   type:          None
   expected type: None
@@ -1218,7 +1218,7 @@ Expr: <Id "LC_P" test.adb:72:9-72:13>
 Expr: <ConcatOperand test.adb:72:37-73:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:72:37-72:38>
+Expr: <OpConcat test.adb:72:37-72:38>
   references:    None
   type:          None
   expected type: None
@@ -1237,7 +1237,7 @@ Expr: <Id "LC_Q" test.adb:73:9-73:13>
 Expr: <ConcatOperand test.adb:73:37-74:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:73:37-73:38>
+Expr: <OpConcat test.adb:73:37-73:38>
   references:    None
   type:          None
   expected type: None
@@ -1256,7 +1256,7 @@ Expr: <Id "LC_R" test.adb:74:9-74:13>
 Expr: <ConcatOperand test.adb:74:37-75:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:74:37-74:38>
+Expr: <OpConcat test.adb:74:37-74:38>
   references:    None
   type:          None
   expected type: None
@@ -1275,7 +1275,7 @@ Expr: <Id "LC_S" test.adb:75:9-75:13>
 Expr: <ConcatOperand test.adb:75:37-76:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:75:37-75:38>
+Expr: <OpConcat test.adb:75:37-75:38>
   references:    None
   type:          None
   expected type: None
@@ -1294,7 +1294,7 @@ Expr: <Id "LC_T" test.adb:76:9-76:13>
 Expr: <ConcatOperand test.adb:76:37-77:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:76:37-76:38>
+Expr: <OpConcat test.adb:76:37-76:38>
   references:    None
   type:          None
   expected type: None
@@ -1313,7 +1313,7 @@ Expr: <Id "LC_U" test.adb:77:9-77:13>
 Expr: <ConcatOperand test.adb:77:37-78:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:77:37-77:38>
+Expr: <OpConcat test.adb:77:37-77:38>
   references:    None
   type:          None
   expected type: None
@@ -1332,7 +1332,7 @@ Expr: <Id "LC_V" test.adb:78:9-78:13>
 Expr: <ConcatOperand test.adb:78:37-79:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:78:37-78:38>
+Expr: <OpConcat test.adb:78:37-78:38>
   references:    None
   type:          None
   expected type: None
@@ -1351,7 +1351,7 @@ Expr: <Id "LC_W" test.adb:79:9-79:13>
 Expr: <ConcatOperand test.adb:79:37-80:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:79:37-79:38>
+Expr: <OpConcat test.adb:79:37-79:38>
   references:    None
   type:          None
   expected type: None
@@ -1370,7 +1370,7 @@ Expr: <Id "LC_X" test.adb:80:9-80:13>
 Expr: <ConcatOperand test.adb:80:37-81:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:80:37-80:38>
+Expr: <OpConcat test.adb:80:37-80:38>
   references:    None
   type:          None
   expected type: None
@@ -1389,7 +1389,7 @@ Expr: <Id "LC_Y" test.adb:81:9-81:13>
 Expr: <ConcatOperand test.adb:81:37-82:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:81:37-81:38>
+Expr: <OpConcat test.adb:81:37-81:38>
   references:    None
   type:          None
   expected type: None
@@ -1408,7 +1408,7 @@ Expr: <Id "LC_Z" test.adb:82:9-82:13>
 Expr: <ConcatOperand test.adb:82:37-83:27>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:82:37-82:38>
+Expr: <OpConcat test.adb:82:37-82:38>
   references:    None
   type:          None
   expected type: None
@@ -1427,7 +1427,7 @@ Expr: <Id "Left_Curly_Bracket" test.adb:83:9-83:27>
 Expr: <ConcatOperand test.adb:83:37-84:22>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:83:37-83:38>
+Expr: <OpConcat test.adb:83:37-83:38>
   references:    None
   type:          None
   expected type: None
@@ -1446,7 +1446,7 @@ Expr: <Id "Vertical_Line" test.adb:84:9-84:22>
 Expr: <ConcatOperand test.adb:84:37-85:28>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:84:37-84:38>
+Expr: <OpConcat test.adb:84:37-84:38>
   references:    None
   type:          None
   expected type: None
@@ -1465,7 +1465,7 @@ Expr: <Id "Right_Curly_Bracket" test.adb:85:9-85:28>
 Expr: <ConcatOperand test.adb:85:37-86:14>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:85:37-85:38>
+Expr: <OpConcat test.adb:85:37-85:38>
   references:    None
   type:          None
   expected type: None
@@ -1484,7 +1484,7 @@ Expr: <Id "Tilde" test.adb:86:9-86:14>
 Expr: <ConcatOperand test.adb:86:37-87:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:86:37-86:38>
+Expr: <OpConcat test.adb:86:37-86:38>
   references:    None
   type:          None
   expected type: None
@@ -1503,7 +1503,7 @@ Expr: <Id "DEL" test.adb:87:9-87:12>
 Expr: <ConcatOperand test.adb:87:37-88:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:87:37-87:38>
+Expr: <OpConcat test.adb:87:37-87:38>
   references:    None
   type:          None
   expected type: None
@@ -1522,7 +1522,7 @@ Expr: <Id "Reserved_128" test.adb:88:9-88:21>
 Expr: <ConcatOperand test.adb:88:37-89:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:88:37-88:38>
+Expr: <OpConcat test.adb:88:37-88:38>
   references:    None
   type:          None
   expected type: None
@@ -1541,7 +1541,7 @@ Expr: <Id "Reserved_129" test.adb:89:9-89:21>
 Expr: <ConcatOperand test.adb:89:37-90:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:89:37-89:38>
+Expr: <OpConcat test.adb:89:37-89:38>
   references:    None
   type:          None
   expected type: None
@@ -1560,7 +1560,7 @@ Expr: <Id "BPH" test.adb:90:9-90:12>
 Expr: <ConcatOperand test.adb:90:37-91:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:90:37-90:38>
+Expr: <OpConcat test.adb:90:37-90:38>
   references:    None
   type:          None
   expected type: None
@@ -1579,7 +1579,7 @@ Expr: <Id "NBH" test.adb:91:9-91:12>
 Expr: <ConcatOperand test.adb:91:37-92:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:91:37-91:38>
+Expr: <OpConcat test.adb:91:37-91:38>
   references:    None
   type:          None
   expected type: None
@@ -1598,7 +1598,7 @@ Expr: <Id "Reserved_132" test.adb:92:9-92:21>
 Expr: <ConcatOperand test.adb:92:37-93:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:92:37-92:38>
+Expr: <OpConcat test.adb:92:37-92:38>
   references:    None
   type:          None
   expected type: None
@@ -1617,7 +1617,7 @@ Expr: <Id "NEL" test.adb:93:9-93:12>
 Expr: <ConcatOperand test.adb:93:37-94:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:93:37-93:38>
+Expr: <OpConcat test.adb:93:37-93:38>
   references:    None
   type:          None
   expected type: None
@@ -1636,7 +1636,7 @@ Expr: <Id "SSA" test.adb:94:9-94:12>
 Expr: <ConcatOperand test.adb:94:37-95:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:94:37-94:38>
+Expr: <OpConcat test.adb:94:37-94:38>
   references:    None
   type:          None
   expected type: None
@@ -1655,7 +1655,7 @@ Expr: <Id "ESA" test.adb:95:9-95:12>
 Expr: <ConcatOperand test.adb:95:37-96:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:95:37-95:38>
+Expr: <OpConcat test.adb:95:37-95:38>
   references:    None
   type:          None
   expected type: None
@@ -1674,7 +1674,7 @@ Expr: <Id "HTS" test.adb:96:9-96:12>
 Expr: <ConcatOperand test.adb:96:37-97:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:96:37-96:38>
+Expr: <OpConcat test.adb:96:37-96:38>
   references:    None
   type:          None
   expected type: None
@@ -1693,7 +1693,7 @@ Expr: <Id "HTJ" test.adb:97:9-97:12>
 Expr: <ConcatOperand test.adb:97:37-98:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:97:37-97:38>
+Expr: <OpConcat test.adb:97:37-97:38>
   references:    None
   type:          None
   expected type: None
@@ -1712,7 +1712,7 @@ Expr: <Id "VTS" test.adb:98:9-98:12>
 Expr: <ConcatOperand test.adb:98:37-99:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:98:37-98:38>
+Expr: <OpConcat test.adb:98:37-98:38>
   references:    None
   type:          None
   expected type: None
@@ -1731,7 +1731,7 @@ Expr: <Id "PLD" test.adb:99:9-99:12>
 Expr: <ConcatOperand test.adb:99:37-100:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:99:37-99:38>
+Expr: <OpConcat test.adb:99:37-99:38>
   references:    None
   type:          None
   expected type: None
@@ -1750,7 +1750,7 @@ Expr: <Id "PLU" test.adb:100:9-100:12>
 Expr: <ConcatOperand test.adb:100:37-101:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:100:37-100:38>
+Expr: <OpConcat test.adb:100:37-100:38>
   references:    None
   type:          None
   expected type: None
@@ -1769,7 +1769,7 @@ Expr: <Id "RI" test.adb:101:9-101:11>
 Expr: <ConcatOperand test.adb:101:37-102:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:101:37-101:38>
+Expr: <OpConcat test.adb:101:37-101:38>
   references:    None
   type:          None
   expected type: None
@@ -1788,7 +1788,7 @@ Expr: <Id "SS2" test.adb:102:9-102:12>
 Expr: <ConcatOperand test.adb:102:37-103:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:102:37-102:38>
+Expr: <OpConcat test.adb:102:37-102:38>
   references:    None
   type:          None
   expected type: None
@@ -1807,7 +1807,7 @@ Expr: <Id "SS3" test.adb:103:9-103:12>
 Expr: <ConcatOperand test.adb:103:37-104:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:103:37-103:38>
+Expr: <OpConcat test.adb:103:37-103:38>
   references:    None
   type:          None
   expected type: None
@@ -1826,7 +1826,7 @@ Expr: <Id "DCS" test.adb:104:9-104:12>
 Expr: <ConcatOperand test.adb:104:37-105:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:104:37-104:38>
+Expr: <OpConcat test.adb:104:37-104:38>
   references:    None
   type:          None
   expected type: None
@@ -1845,7 +1845,7 @@ Expr: <Id "PU1" test.adb:105:9-105:12>
 Expr: <ConcatOperand test.adb:105:37-106:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:105:37-105:38>
+Expr: <OpConcat test.adb:105:37-105:38>
   references:    None
   type:          None
   expected type: None
@@ -1864,7 +1864,7 @@ Expr: <Id "PU2" test.adb:106:9-106:12>
 Expr: <ConcatOperand test.adb:106:37-107:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:106:37-106:38>
+Expr: <OpConcat test.adb:106:37-106:38>
   references:    None
   type:          None
   expected type: None
@@ -1883,7 +1883,7 @@ Expr: <Id "STS" test.adb:107:9-107:12>
 Expr: <ConcatOperand test.adb:107:37-108:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:107:37-107:38>
+Expr: <OpConcat test.adb:107:37-107:38>
   references:    None
   type:          None
   expected type: None
@@ -1902,7 +1902,7 @@ Expr: <Id "CCH" test.adb:108:9-108:12>
 Expr: <ConcatOperand test.adb:108:37-109:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:108:37-108:38>
+Expr: <OpConcat test.adb:108:37-108:38>
   references:    None
   type:          None
   expected type: None
@@ -1921,7 +1921,7 @@ Expr: <Id "MW" test.adb:109:9-109:11>
 Expr: <ConcatOperand test.adb:109:37-110:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:109:37-109:38>
+Expr: <OpConcat test.adb:109:37-109:38>
   references:    None
   type:          None
   expected type: None
@@ -1940,7 +1940,7 @@ Expr: <Id "SPA" test.adb:110:9-110:12>
 Expr: <ConcatOperand test.adb:110:37-111:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:110:37-110:38>
+Expr: <OpConcat test.adb:110:37-110:38>
   references:    None
   type:          None
   expected type: None
@@ -1959,7 +1959,7 @@ Expr: <Id "EPA" test.adb:111:9-111:12>
 Expr: <ConcatOperand test.adb:111:37-112:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:111:37-111:38>
+Expr: <OpConcat test.adb:111:37-111:38>
   references:    None
   type:          None
   expected type: None
@@ -1978,7 +1978,7 @@ Expr: <Id "SOS" test.adb:112:9-112:12>
 Expr: <ConcatOperand test.adb:112:37-113:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:112:37-112:38>
+Expr: <OpConcat test.adb:112:37-112:38>
   references:    None
   type:          None
   expected type: None
@@ -1997,7 +1997,7 @@ Expr: <Id "Reserved_153" test.adb:113:9-113:21>
 Expr: <ConcatOperand test.adb:113:37-114:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:113:37-113:38>
+Expr: <OpConcat test.adb:113:37-113:38>
   references:    None
   type:          None
   expected type: None
@@ -2016,7 +2016,7 @@ Expr: <Id "SCI" test.adb:114:9-114:12>
 Expr: <ConcatOperand test.adb:114:37-115:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:114:37-114:38>
+Expr: <OpConcat test.adb:114:37-114:38>
   references:    None
   type:          None
   expected type: None
@@ -2035,7 +2035,7 @@ Expr: <Id "CSI" test.adb:115:9-115:12>
 Expr: <ConcatOperand test.adb:115:37-116:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:115:37-115:38>
+Expr: <OpConcat test.adb:115:37-115:38>
   references:    None
   type:          None
   expected type: None
@@ -2054,7 +2054,7 @@ Expr: <Id "ST" test.adb:116:9-116:11>
 Expr: <ConcatOperand test.adb:116:37-117:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:116:37-116:38>
+Expr: <OpConcat test.adb:116:37-116:38>
   references:    None
   type:          None
   expected type: None
@@ -2073,7 +2073,7 @@ Expr: <Id "OSC" test.adb:117:9-117:12>
 Expr: <ConcatOperand test.adb:117:37-118:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:117:37-117:38>
+Expr: <OpConcat test.adb:117:37-117:38>
   references:    None
   type:          None
   expected type: None
@@ -2092,7 +2092,7 @@ Expr: <Id "PM" test.adb:118:9-118:11>
 Expr: <ConcatOperand test.adb:118:37-119:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:118:37-118:38>
+Expr: <OpConcat test.adb:118:37-118:38>
   references:    None
   type:          None
   expected type: None
@@ -2111,7 +2111,7 @@ Expr: <Id "APC" test.adb:119:9-119:12>
 Expr: <ConcatOperand test.adb:119:37-120:27>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:119:37-119:38>
+Expr: <OpConcat test.adb:119:37-119:38>
   references:    None
   type:          None
   expected type: None
@@ -2130,7 +2130,7 @@ Expr: <Id "LC_Icelandic_Thorn" test.adb:120:9-120:27>
 Expr: <ConcatOperand test.adb:120:37-121:23>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
-Expr: <OpConcat "&" test.adb:120:37-120:38>
+Expr: <OpConcat test.adb:120:37-120:38>
   references:    None
   type:          None
   expected type: None

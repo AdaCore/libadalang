@@ -55,7 +55,7 @@ Expr: <Id "Queue" test.adb:26:17-26:22>
   references:    <DefiningName "Queue" test.adb:6:7-6:12>
   type:          <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>
   expected type: <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>
-Expr: <OpNeq "/=" test.adb:26:23-26:25>
+Expr: <OpNeq test.adb:26:23-26:25>
   references:    None
   type:          None
   expected type: None

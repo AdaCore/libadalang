@@ -77,7 +77,7 @@ Expr: <Id "Reg1" ada2022.adb:3:22-3:26>
   references:    <DefiningName "Reg1" ada2022.adb:2:37-2:41>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpNeq "/=" ada2022.adb:3:27-3:29>
+Expr: <OpNeq ada2022.adb:3:27-3:29>
   references:    None
   type:          None
   expected type: None
@@ -85,7 +85,7 @@ Expr: <Int ada2022.adb:3:30-3:31>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpAndThen "and then" ada2022.adb:4:7-4:15>
+Expr: <OpAndThen ada2022.adb:4:7-4:15>
   references:    None
   type:          None
   expected type: None
@@ -99,7 +99,7 @@ Expr: <Id "Reg2" ada2022.adb:4:17-4:21>
   references:    <DefiningName "Reg2" ada2022.adb:2:57-2:61>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpNeq "/=" ada2022.adb:4:22-4:24>
+Expr: <OpNeq ada2022.adb:4:22-4:24>
   references:    None
   type:          None
   expected type: None
@@ -107,7 +107,7 @@ Expr: <Int ada2022.adb:4:25-4:26>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpAndThen "and then" ada2022.adb:5:7-5:15>
+Expr: <OpAndThen ada2022.adb:5:7-5:15>
   references:    None
   type:          None
   expected type: None
@@ -133,7 +133,7 @@ Expr: <Id "P" ada2022.adb:13:21-13:22>
   references:    <DefiningName "P" ada2022.adb:7:20-7:21>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" ada2022.adb:13:23-13:24>
+Expr: <OpPlus ada2022.adb:13:23-13:24>
   references:    None
   type:          None
   expected type: None
@@ -141,7 +141,7 @@ Expr: <Id "Q" ada2022.adb:13:25-13:26>
   references:    <DefiningName "Q" ada2022.adb:10:20-10:21>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMod "mod" ada2022.adb:13:28-13:31>
+Expr: <OpMod ada2022.adb:13:28-13:31>
   references:    None
   type:          None
   expected type: None
@@ -149,7 +149,7 @@ Expr: <Int ada2022.adb:13:32-13:33>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" ada2022.adb:13:34-13:35>
+Expr: <OpEq ada2022.adb:13:34-13:35>
   references:    None
   type:          None
   expected type: None
@@ -180,7 +180,7 @@ Expr: <Id "Size" ada2022.adb:6:43-6:47>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" ada2022.adb:6:48-6:49>
+Expr: <OpEq ada2022.adb:6:48-6:49>
   references:    <SyntheticDefiningName ""="" in Standard>
   type:          None
   expected type: None
@@ -215,7 +215,7 @@ Expr: <Id "P" ada2022.adb:8:35-8:36>
   references:    <DefiningName "P" ada2022.adb:7:20-7:21>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" ada2022.adb:8:37-8:38>
+Expr: <OpLt ada2022.adb:8:37-8:38>
   references:    None
   type:          None
   expected type: None
@@ -238,7 +238,7 @@ Expr: <Id "P" ada2022.adb:9:35-9:36>
   references:    <DefiningName "P" ada2022.adb:7:20-7:21>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" ada2022.adb:9:37-9:38>
+Expr: <OpLt ada2022.adb:9:37-9:38>
   references:    None
   type:          None
   expected type: None
@@ -273,7 +273,7 @@ Expr: <Id "Q" ada2022.adb:11:35-11:36>
   references:    <DefiningName "Q" ada2022.adb:10:20-10:21>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" ada2022.adb:11:37-11:38>
+Expr: <OpLt ada2022.adb:11:37-11:38>
   references:    None
   type:          None
   expected type: None

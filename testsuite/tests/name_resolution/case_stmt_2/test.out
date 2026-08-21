@@ -23,7 +23,7 @@ Expr: <Id "A" test.adb:8:23-8:24>
   references:    <DefiningName "A" test.adb:2:15-2:16>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
-Expr: <OpDoubleDot ".." test.adb:8:25-8:27>
+Expr: <OpDoubleDot test.adb:8:25-8:27>
   references:    None
   type:          None
   expected type: None

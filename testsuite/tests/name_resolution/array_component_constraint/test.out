@@ -63,7 +63,7 @@ Expr: <Int pack.ads:7:22-7:23>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." pack.ads:7:24-7:26>
+Expr: <OpDoubleDot pack.ads:7:24-7:26>
   references:    None
   type:          None
   expected type: None
@@ -86,7 +86,7 @@ Expr: <Int pack.ads:10:32-10:33>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." pack.ads:10:34-10:36>
+Expr: <OpDoubleDot pack.ads:10:34-10:36>
   references:    None
   type:          None
   expected type: None

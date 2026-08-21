@@ -17,7 +17,7 @@ Expr: <ParenExpr test.adb:12:9-12:13>
 Expr: <UnOp test.adb:12:10-12:12>
   type:          <ConcreteTypeDecl ["root_integer"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpPlus "+" test.adb:12:10-12:11>
+Expr: <OpPlus test.adb:12:10-12:11>
   references:    <SyntheticDefiningName ""+"" in Standard>
   type:          None
   expected type: None
@@ -25,7 +25,7 @@ Expr: <Int test.adb:12:11-12:12>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
-Expr: <OpGt ">" test.adb:12:14-12:15>
+Expr: <OpGt test.adb:12:14-12:15>
   references:    <SyntheticDefiningName "">"" in Standard>
   type:          None
   expected type: None

@@ -28,7 +28,7 @@ Expr: <Id "K" test.adb:7:38-7:39>
   references:    <DefiningName "K" test.adb:7:18-7:19>
   type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: <SubtypeDecl ["Natural"] in Standard>
-Expr: <OpGt ">" test.adb:7:41-7:42>
+Expr: <OpGt test.adb:7:41-7:42>
   references:    None
   type:          None
   expected type: None
@@ -36,7 +36,7 @@ Expr: <Int test.adb:7:43-7:44>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpAndThen "and then" test.adb:7:46-7:54>
+Expr: <OpAndThen test.adb:7:46-7:54>
   references:    None
   type:          None
   expected type: None
@@ -53,7 +53,7 @@ Expr: <Id "E" test.adb:8:30-8:31>
   references:    <DefiningName "E" test.adb:8:19-8:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" test.adb:8:32-8:33>
+Expr: <OpLt test.adb:8:32-8:33>
   references:    None
   type:          None
   expected type: None
@@ -76,7 +76,7 @@ Expr: <Id "E" test.adb:19:12-19:13>
   references:    <DefiningName "E" test.adb:13:7-13:8>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" test.adb:19:14-19:15>
+Expr: <OpPlus test.adb:19:14-19:15>
   references:    None
   type:          None
   expected type: None

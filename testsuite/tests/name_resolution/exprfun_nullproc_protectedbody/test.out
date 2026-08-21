@@ -26,7 +26,7 @@ Expr: <Id "counter" new_prot.adb:17:42-17:49>
   references:    <DefiningName "Counter" new_prot.adb:7:7-7:14>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMult "*" new_prot.adb:17:50-17:51>
+Expr: <OpMult new_prot.adb:17:50-17:51>
   references:    None
   type:          None
   expected type: None

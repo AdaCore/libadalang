@@ -31,7 +31,7 @@ Expr: <Int increment_array.adb:6:47-6:49>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
-Expr: <OpEq "=" increment_array.adb:6:51-6:52>
+Expr: <OpEq increment_array.adb:6:51-6:52>
   references:    None
   type:          None
   expected type: None
@@ -58,7 +58,7 @@ Expr: <Id "I" indexed_entry.adb:11:30-11:31>
   references:    <DefiningName "I" indexed_entry.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" indexed_entry.adb:11:32-11:33>
+Expr: <OpEq indexed_entry.adb:11:32-11:33>
   references:    None
   type:          None
   expected type: None

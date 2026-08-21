@@ -15,7 +15,7 @@ Expr: <Id "X" test.adb:6:19-6:20>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:6:21-6:22>
+Expr: <OpGt test.adb:6:21-6:22>
   references:    None
   type:          None
   expected type: None
@@ -42,7 +42,7 @@ Expr: <Id "X" test.adb:9:19-9:20>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:9:21-9:22>
+Expr: <OpGt test.adb:9:21-9:22>
   references:    None
   type:          None
   expected type: None
@@ -77,7 +77,7 @@ Expr: <Id "X" test.adb:12:28-12:29>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:12:30-12:31>
+Expr: <OpGt test.adb:12:30-12:31>
   references:    None
   type:          None
   expected type: None
@@ -112,7 +112,7 @@ Expr: <Id "X" test.adb:15:30-15:31>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:15:32-15:33>
+Expr: <OpGt test.adb:15:32-15:33>
   references:    None
   type:          None
   expected type: None
@@ -131,7 +131,7 @@ Expr: <Id "X" test.adb:15:47-15:48>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:15:49-15:50>
+Expr: <OpGt test.adb:15:49-15:50>
   references:    None
   type:          None
   expected type: None
@@ -154,7 +154,7 @@ Expr: <Id "X" test.adb:20:27-20:28>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:20:29-20:30>
+Expr: <OpGt test.adb:20:29-20:30>
   references:    None
   type:          None
   expected type: None
@@ -185,7 +185,7 @@ Expr: <Id "X" test.adb:23:38-23:39>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:23:40-23:41>
+Expr: <OpGt test.adb:23:40-23:41>
   references:    None
   type:          None
   expected type: None
@@ -208,7 +208,7 @@ Expr: <Id "X" test.adb:28:19-28:20>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:28:21-28:22>
+Expr: <OpGt test.adb:28:21-28:22>
   references:    None
   type:          None
   expected type: None
@@ -239,7 +239,7 @@ Expr: <Id "X" test.adb:31:30-31:31>
   references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:31:32-31:33>
+Expr: <OpGt test.adb:31:32-31:33>
   references:    None
   type:          None
   expected type: None

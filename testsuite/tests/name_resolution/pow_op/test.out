@@ -15,7 +15,7 @@ Expr: <Real testexp.adb:2:17-2:31>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Float"] in Standard>
-Expr: <OpPow "**" testexp.adb:2:32-2:34>
+Expr: <OpPow testexp.adb:2:32-2:34>
   references:    None
   type:          None
   expected type: None
@@ -52,7 +52,7 @@ Expr: <Int testexp.adb:11:27-11:28>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["My_Int"] testexp.adb:5:4-5:39>
-Expr: <OpPow "**" testexp.adb:11:30-11:32>
+Expr: <OpPow testexp.adb:11:30-11:32>
   references:    None
   type:          None
   expected type: None
@@ -71,7 +71,7 @@ Expr: <Int testexp.adb:11:42-11:43>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLte "<=" testexp.adb:11:45-11:47>
+Expr: <OpLte testexp.adb:11:45-11:47>
   references:    None
   type:          None
   expected type: None
@@ -108,7 +108,7 @@ Expr: <Real testexp.adb:14:26-14:29>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Float"] in Standard>
-Expr: <OpPow "**" testexp.adb:14:31-14:33>
+Expr: <OpPow testexp.adb:14:31-14:33>
   references:    None
   type:          None
   expected type: None
@@ -127,7 +127,7 @@ Expr: <Int testexp.adb:14:43-14:44>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpNeq "/=" testexp.adb:14:46-14:48>
+Expr: <OpNeq testexp.adb:14:46-14:48>
   references:    None
   type:          None
   expected type: None
@@ -166,7 +166,7 @@ Expr: <Id "Last" testexp.adb:17:28-17:32>
   references:    None
   type:          None
   expected type: None
-Expr: <OpPow "**" testexp.adb:17:33-17:35>
+Expr: <OpPow testexp.adb:17:33-17:35>
   references:    None
   type:          None
   expected type: None

@@ -15,7 +15,7 @@ Expr: <Int test.adb:7:20-7:21>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" test.adb:7:22-7:23>
+Expr: <OpPlus test.adb:7:22-7:23>
   references:    None
   type:          None
   expected type: None

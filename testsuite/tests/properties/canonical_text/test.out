@@ -28,6 +28,24 @@ Working on node <Chr "'a'" foo.ads:16:7-16:10>
 Eval 'node.p_canonical_text'
 Result: "'a'"
 
+Working on node <ObjectDecl ["O_1"] foo.ads:20:4-20:36>
+=======================================================
+
+Eval 'node.f_default_expr.f_op.p_canonical_text'
+Result: '"+"'
+
+Working on node <ObjectDecl ["O_2"] foo.ads:23:4-23:50>
+=======================================================
+
+Eval 'node.f_default_expr.f_op.p_canonical_text'
+Result: '"and then"'
+
+Working on node <ObjectDecl ["O_3"] foo.ads:26:4-26:45>
+=======================================================
+
+Eval 'node.f_default_expr.f_op.p_canonical_text'
+Result: '"not in"'
+
 Working on node <PackageDecl ["pKg.BAR"] pkg-bar.ads:1:1-3:13>
 ==============================================================
 

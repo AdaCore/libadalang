@@ -23,7 +23,7 @@ Expr: <Int test.adb:6:28-6:29>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMult "*" test.adb:6:30-6:31>
+Expr: <OpMult test.adb:6:30-6:31>
   references:    None
   type:          None
   expected type: None
@@ -49,7 +49,7 @@ Expr: <Id "X" test.adb:9:9-9:10>
   references:    <DefiningName "X" test.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
-Expr: <OpMult "*" test.adb:9:11-9:12>
+Expr: <OpMult test.adb:9:11-9:12>
   references:    None
   type:          None
   expected type: None
@@ -68,7 +68,7 @@ Expr: <Int test.adb:9:22-9:23>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" test.adb:9:25-9:26>
+Expr: <OpEq test.adb:9:25-9:26>
   references:    None
   type:          None
   expected type: None
@@ -105,7 +105,7 @@ Expr: <Int test.adb:11:18-11:19>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMult "*" test.adb:11:21-11:22>
+Expr: <OpMult test.adb:11:21-11:22>
   references:    None
   type:          None
   expected type: None
@@ -113,7 +113,7 @@ Expr: <Id "X" test.adb:11:23-11:24>
   references:    <DefiningName "X" test.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
-Expr: <OpEq "=" test.adb:11:25-11:26>
+Expr: <OpEq test.adb:11:25-11:26>
   references:    None
   type:          None
   expected type: None

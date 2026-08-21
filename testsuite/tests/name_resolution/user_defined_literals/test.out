@@ -27,7 +27,7 @@ Expr: <Id "A" test.adb:6:14-6:15>
   references:    <DefiningName "A" test.adb:5:17-5:18>
   type:          <ConcreteTypeDecl ["Big_Real"] a-nbnbre.ads:25:4-27:32>
   expected type: <SubtypeDecl ["Valid_Big_Real"] a-nbnbre.ads:34:4-36:52>
-Expr: <OpGt ">" test.adb:6:16-6:17>
+Expr: <OpGt test.adb:6:16-6:17>
   references:    <DefiningName "">"" a-nbnbre.ads:75:13-75:16>
   type:          None
   expected type: None
@@ -73,7 +73,7 @@ Expr: <Id "A" test.adb:13:14-13:15>
   references:    <DefiningName "A" test.adb:11:16-11:17>
   type:          <ConcreteTypeDecl ["Big_Real"] a-nbnbre.ads:25:4-27:32>
   expected type: <SubtypeDecl ["Valid_Big_Real"] a-nbnbre.ads:34:4-36:52>
-Expr: <OpGt ">" test.adb:13:16-13:17>
+Expr: <OpGt test.adb:13:16-13:17>
   references:    <DefiningName "">"" a-nbnbre.ads:75:13-75:16>
   type:          None
   expected type: None
@@ -135,7 +135,7 @@ Expr: <Id "A" pkg.adb:7:14-7:15>
   references:    <DefiningName "A" pkg.adb:6:18-6:19>
   type:          <ConcreteTypeDecl ["T"] pkg.ads:13:4-15:15>
   expected type: <ConcreteTypeDecl ["T"] pkg.ads:13:4-15:15>
-Expr: <OpEq "=" pkg.adb:7:16-7:17>
+Expr: <OpEq pkg.adb:7:16-7:17>
   references:    None
   type:          None
   expected type: None
@@ -181,7 +181,7 @@ Expr: <Id "A" pkg.adb:17:14-17:15>
   references:    <DefiningName "A" pkg.adb:16:18-16:19>
   type:          <ConcreteTypeDecl ["U"] pkg.ads:17:4-17:20>
   expected type: <ConcreteTypeDecl ["U"] pkg.ads:17:4-17:20>
-Expr: <OpEq "=" pkg.adb:17:16-17:17>
+Expr: <OpEq pkg.adb:17:16-17:17>
   references:    None
   type:          None
   expected type: None

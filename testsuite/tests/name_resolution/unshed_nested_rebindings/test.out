@@ -118,7 +118,7 @@ Expr: <| Id "X" test.adb:16:36-16:37 [test.adb:41:4] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <| OpPlus "+" test.adb:16:38-16:39 [test.adb:41:4] |>
+Expr: <| OpPlus test.adb:16:38-16:39 [test.adb:41:4] |>
   references:    None
   type:          None
   expected type: None
@@ -266,7 +266,7 @@ Expr: <| Id "X" test.adb:16:36-16:37 [test.adb:41:4, test.adb:42:4, test.adb:28:
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <| OpPlus "+" test.adb:16:38-16:39 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+Expr: <| OpPlus test.adb:16:38-16:39 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    None
   type:          None
   expected type: None

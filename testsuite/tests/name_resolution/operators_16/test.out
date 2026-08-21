@@ -15,7 +15,7 @@ Expr: <Int test.adb:8:7-8:8>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLte "<=" test.adb:8:9-8:11>
+Expr: <OpLte test.adb:8:9-8:11>
   references:    None
   type:          None
   expected type: None
@@ -52,7 +52,7 @@ Expr: <Int test.adb:12:7-12:8>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLte "<=" test.adb:12:9-12:11>
+Expr: <OpLte test.adb:12:9-12:11>
   references:    None
   type:          None
   expected type: None
@@ -89,7 +89,7 @@ Expr: <Int test.adb:16:7-16:8>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLte "<=" test.adb:16:9-16:11>
+Expr: <OpLte test.adb:16:9-16:11>
   references:    None
   type:          None
   expected type: None
@@ -134,7 +134,7 @@ Expr: <Int test.adb:20:7-20:8>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLte "<=" test.adb:20:9-20:11>
+Expr: <OpLte test.adb:20:9-20:11>
   references:    None
   type:          None
   expected type: None
@@ -185,7 +185,7 @@ Expr: <Int test.adb:24:7-24:8>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLte "<=" test.adb:24:9-24:11>
+Expr: <OpLte test.adb:24:9-24:11>
   references:    None
   type:          None
   expected type: None

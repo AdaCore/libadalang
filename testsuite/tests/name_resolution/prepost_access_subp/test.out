@@ -30,7 +30,7 @@ Expr: <Id "X" ats_types.adb:2:58-2:59>
   references:    <DefiningName "X" ats_types.adb:2:33-2:34>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMod "mod" ats_types.adb:2:60-2:63>
+Expr: <OpMod ats_types.adb:2:60-2:63>
   references:    None
   type:          None
   expected type: None
@@ -38,7 +38,7 @@ Expr: <Int ats_types.adb:2:64-2:65>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" ats_types.adb:2:66-2:67>
+Expr: <OpEq ats_types.adb:2:66-2:67>
   references:    None
   type:          None
   expected type: None
@@ -76,7 +76,7 @@ Expr: <Id "X" ats_types.adb:4:59-4:60>
   references:    <DefiningName "X" ats_types.adb:4:33-4:34>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMod "mod" ats_types.adb:4:61-4:64>
+Expr: <OpMod ats_types.adb:4:61-4:64>
   references:    None
   type:          None
   expected type: None
@@ -84,7 +84,7 @@ Expr: <Int ats_types.adb:4:65-4:66>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" ats_types.adb:4:67-4:68>
+Expr: <OpEq ats_types.adb:4:67-4:68>
   references:    None
   type:          None
   expected type: None
@@ -134,7 +134,7 @@ Expr: <Id "My_Size" ats_types.adb:13:33-13:40>
   references:    <DefiningName "My_Size" ats_types.adb:12:41-12:48>
   type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpMod "mod" ats_types.adb:13:41-13:44>
+Expr: <OpMod ats_types.adb:13:41-13:44>
   references:    None
   type:          None
   expected type: None
@@ -142,7 +142,7 @@ Expr: <Int ats_types.adb:13:45-13:47>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" ats_types.adb:13:48-13:49>
+Expr: <OpEq ats_types.adb:13:48-13:49>
   references:    None
   type:          None
   expected type: None

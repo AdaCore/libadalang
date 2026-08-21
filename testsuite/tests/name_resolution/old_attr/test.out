@@ -27,7 +27,7 @@ Expr: <Id "X" inc.adb:2:11-2:12>
   references:    <DefiningName "X" inc.adb:1:22-1:23>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" inc.adb:2:13-2:14>
+Expr: <OpEq inc.adb:2:13-2:14>
   references:    None
   type:          None
   expected type: None
@@ -46,7 +46,7 @@ Expr: <Id "Old" inc.adb:2:17-2:20>
   references:    None
   type:          None
   expected type: None
-Expr: <OpPlus "+" inc.adb:2:21-2:22>
+Expr: <OpPlus inc.adb:2:21-2:22>
   references:    None
   type:          None
   expected type: None
@@ -93,7 +93,7 @@ Expr: <Id "Count1" test.ads:6:26-6:32>
   references:    <DefiningName "Count1" test.ads:9:13-9:19>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" test.ads:6:33-6:34>
+Expr: <OpEq test.ads:6:33-6:34>
   references:    None
   type:          None
   expected type: None
@@ -120,7 +120,7 @@ Expr: <Id "Count2" test.ads:6:45-6:51>
   references:    <DefiningName "Count2" test.ads:10:13-10:19>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" test.ads:6:52-6:53>
+Expr: <OpPlus test.ads:6:52-6:53>
   references:    None
   type:          None
   expected type: None

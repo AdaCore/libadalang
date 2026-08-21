@@ -47,7 +47,7 @@ Expr: <Int testrange.adb:5:38-5:39>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." testrange.adb:5:40-5:42>
+Expr: <OpDoubleDot testrange.adb:5:40-5:42>
   references:    None
   type:          None
   expected type: None
@@ -78,7 +78,7 @@ Expr: <Int testrange.adb:8:21-8:22>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpDoubleDot ".." testrange.adb:8:23-8:25>
+Expr: <OpDoubleDot testrange.adb:8:23-8:25>
   references:    None
   type:          None
   expected type: None

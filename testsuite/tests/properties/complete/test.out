@@ -166,8 +166,8 @@ Result: [<CompletionItem decl=<ParamSpec ["D"] case.adb:20:18-20:26> is_dot_call
          <CompletionItem decl=<ConcreteTypeDecl ["Wide_Wide_String"] in Standard> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<PackageDecl ["Standard"] in Standard> is_dot_call=False is_visible=True weight=0>]
 
-Working on node <OpDoubleDot ".." case.adb:31:17-31:19>
-=======================================================
+Working on node <OpDoubleDot case.adb:31:17-31:19>
+==================================================
 
 Eval 'list(node.parent.parent.p_complete)'
 Result: [<CompletionItem decl=<ParamSpec ["D"] case.adb:28:18-28:26> is_dot_call=False is_visible=True weight=0>,

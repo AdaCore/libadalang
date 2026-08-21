@@ -190,7 +190,7 @@ Expr: <Id "I" test.adb:33:12-33:13>
   references:    <DefiningName "I" test.adb:25:4-25:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" test.adb:33:14-33:15>
+Expr: <OpPlus test.adb:33:14-33:15>
   references:    None
   type:          None
   expected type: None
@@ -236,7 +236,7 @@ Expr: <Id "I" test.adb:40:12-40:13>
   references:    <DefiningName "I" test.adb:25:4-25:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpPlus "+" test.adb:40:14-40:15>
+Expr: <OpPlus test.adb:40:14-40:15>
   references:    None
   type:          None
   expected type: None

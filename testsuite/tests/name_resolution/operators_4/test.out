@@ -15,7 +15,7 @@ Expr: <Id "N" testop.adb:13:10-13:11>
   references:    <DefiningName "N" testop.adb:7:5-7:6>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:29>
-Expr: <OpMult "*" testop.adb:13:12-13:13>
+Expr: <OpMult testop.adb:13:12-13:13>
   references:    None
   type:          None
   expected type: None
@@ -29,7 +29,7 @@ Expr: <Id "X" testop.adb:13:15-13:16>
   references:    <DefiningName "X" testop.adb:9:5-9:6>
   type:          <ConcreteTypeDecl ["T"] testop.adb:2:5-2:29>
   expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:29>
-Expr: <OpMinus "-" testop.adb:13:17-13:18>
+Expr: <OpMinus testop.adb:13:17-13:18>
   references:    None
   type:          None
   expected type: None

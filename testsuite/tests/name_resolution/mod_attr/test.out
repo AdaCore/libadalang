@@ -31,7 +31,7 @@ Expr: <Id "Seconds_Now" test.adb:8:27-8:38>
   references:    <DefiningName "Seconds_Now" test.adb:5:4-5:15>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
-Expr: <OpMinus "-" test.adb:8:40-8:41>
+Expr: <OpMinus test.adb:8:40-8:41>
   references:    None
   type:          None
   expected type: None

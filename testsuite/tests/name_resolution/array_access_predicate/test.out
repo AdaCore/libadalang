@@ -31,7 +31,7 @@ Expr: <Id "First" test.adb:6:30-6:35>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:6:36-6:37>
+Expr: <OpEq test.adb:6:36-6:37>
   references:    None
   type:          None
   expected type: None

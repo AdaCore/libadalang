@@ -179,7 +179,7 @@ Expr: <Id "B" test.adb:18:27-18:28>
 Expr: <UnOp test.adb:18:32-18:43>
   type:          None
   expected type: None
-Expr: <OpPlus "+" test.adb:18:32-18:33>
+Expr: <OpPlus test.adb:18:32-18:33>
   references:    None
   type:          None
   expected type: None
@@ -205,7 +205,7 @@ Expr: <Id "C" test.adb:19:23-19:24>
 Expr: <UnOp test.adb:19:32-19:35>
   type:          None
   expected type: None
-Expr: <OpPlus "+" test.adb:19:32-19:33>
+Expr: <OpPlus test.adb:19:32-19:33>
   references:    None
   type:          None
   expected type: None
@@ -220,7 +220,7 @@ Expr: <Id "D" test.adb:20:23-20:24>
 Expr: <UnOp test.adb:20:32-20:38>
   type:          None
   expected type: None
-Expr: <OpPlus "+" test.adb:20:32-20:33>
+Expr: <OpPlus test.adb:20:32-20:33>
   references:    None
   type:          None
   expected type: None
@@ -310,7 +310,7 @@ Expr: <Id "B" test.adb:26:27-26:28>
 Expr: <UnOp test.adb:26:32-26:46>
   type:          None
   expected type: None
-Expr: <OpPlus "+" test.adb:26:32-26:33>
+Expr: <OpPlus test.adb:26:32-26:33>
   references:    None
   type:          None
   expected type: None
@@ -340,7 +340,7 @@ Expr: <Id "C" test.adb:27:23-27:24>
 Expr: <UnOp test.adb:27:32-27:35>
   type:          None
   expected type: None
-Expr: <OpPlus "+" test.adb:27:32-27:33>
+Expr: <OpPlus test.adb:27:32-27:33>
   references:    None
   type:          None
   expected type: None
@@ -355,7 +355,7 @@ Expr: <Id "D" test.adb:28:23-28:24>
 Expr: <UnOp test.adb:28:32-28:38>
   type:          None
   expected type: None
-Expr: <OpPlus "+" test.adb:28:32-28:33>
+Expr: <OpPlus test.adb:28:32-28:33>
   references:    None
   type:          None
   expected type: None

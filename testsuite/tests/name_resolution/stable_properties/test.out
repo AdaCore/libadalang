@@ -103,7 +103,7 @@ Expr: <ParenExpr stable.ads:30:33-30:46>
 Expr: <UnOp stable.ads:30:34-30:45>
   type:          None
   expected type: None
-Expr: <OpNot "not" stable.ads:30:34-30:37>
+Expr: <OpNot stable.ads:30:34-30:37>
   references:    None
   type:          None
   expected type: None
@@ -188,7 +188,7 @@ Expr: <ParenExpr tag.ads:13:39-13:52>
 Expr: <UnOp tag.ads:13:40-13:51>
   type:          None
   expected type: None
-Expr: <OpNot "not" tag.ads:13:40-13:43>
+Expr: <OpNot tag.ads:13:40-13:43>
   references:    None
   type:          None
   expected type: None

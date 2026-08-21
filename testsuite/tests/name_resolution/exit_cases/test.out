@@ -30,7 +30,7 @@ Expr: <Id "I" test.adb:8:10-8:11>
   references:    <DefiningName "I" test.adb:6:19-6:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" test.adb:8:12-8:13>
+Expr: <OpLt test.adb:8:12-8:13>
   references:    None
   type:          None
   expected type: None
@@ -49,7 +49,7 @@ Expr: <Id "I" test.adb:9:10-9:11>
   references:    <DefiningName "I" test.adb:6:19-6:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpGt ">" test.adb:9:12-9:13>
+Expr: <OpGt test.adb:9:12-9:13>
   references:    None
   type:          None
   expected type: None
@@ -95,7 +95,7 @@ Expr: <Id "I" test.adb:17:10-17:11>
   references:    <DefiningName "I" test.adb:15:19-15:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq "=" test.adb:17:12-17:13>
+Expr: <OpEq test.adb:17:12-17:13>
   references:    None
   type:          None
   expected type: None
@@ -136,7 +136,7 @@ Expr: <Id "I" test.adb:24:8-24:9>
   references:    <DefiningName "I" test.adb:22:19-22:20>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpLt "<" test.adb:24:10-24:11>
+Expr: <OpLt test.adb:24:10-24:11>
   references:    None
   type:          None
   expected type: None

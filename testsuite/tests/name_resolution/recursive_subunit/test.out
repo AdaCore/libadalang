@@ -46,7 +46,7 @@ Expr: <Id "C" p1-p2.adb:10:14-10:15>
 Expr: <ConcatOperand p1-p2.adb:10:16-10:21>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: <ConcreteTypeDecl ["String"] in Standard>
-Expr: <OpConcat "&" p1-p2.adb:10:16-10:17>
+Expr: <OpConcat p1-p2.adb:10:16-10:17>
   references:    None
   type:          None
   expected type: None

@@ -11,7 +11,7 @@ Expr: <Id "A" test.adb:16:7-16:8>
   references:    <DefiningName "A" test.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["U"] test.adb:9:7-9:27>
   expected type: <ConcreteTypeDecl ["U"] test.adb:9:7-9:27>
-Expr: <OpNeq "/=" test.adb:16:9-16:11>
+Expr: <OpNeq test.adb:16:9-16:11>
   references:    <SyntheticDefiningName ""/="" test.adb:5:7-5:56>
   type:          None
   expected type: None

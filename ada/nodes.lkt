@@ -15746,11 +15746,10 @@ class Expr: AdaNode {
                     )
                     or (
                         # RM 4.9/8
-                        ar.prefix.referenced_decl().do(
-                            (d) =>
+                        ar.prefix.referenced_decl().do((d) => d.is_array() and (
                             d.as[ObjectDecl]?.is_statically_constrained()
                             or d.as[BaseTypeDecl]?.is_statically_constrained()
-                        )
+                        ))
                         and attr in s"First"
                             | s"Last"
                             | s"Length"

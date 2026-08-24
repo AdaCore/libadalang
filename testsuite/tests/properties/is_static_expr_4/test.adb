@@ -20,6 +20,13 @@ procedure Test is
    D : constant := Constrained_Arr'Length;
    --% node.f_expr.p_is_static_expr()
    --% node.f_expr.p_eval_as_int
+
+   type Constrained_Arr_Acc is access all Constrained_Arr;
+
+   CA_NOK : Constrained_Arr_Acc := new Constrained_Arr'(others => 0);
+
+   E : Integer := CA_NOK'Length;
+   --% node.f_default_expr.p_is_static_expr()
 begin
    null;
 end Test;

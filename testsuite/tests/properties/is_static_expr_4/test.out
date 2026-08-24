@@ -30,3 +30,9 @@ Result: True
 
 Eval 'node.f_expr.p_eval_as_int'
 Result: 128
+
+Working on node <ObjectDecl ["E"] test.adb:28:4-28:33>
+======================================================
+
+Eval 'node.f_default_expr.p_is_static_expr()'
+Result: False

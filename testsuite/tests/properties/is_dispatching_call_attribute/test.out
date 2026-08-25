@@ -1,0 +1,5 @@
+Working on node <CallStmt simple.adb:5:4-5:33>
+==============================================
+
+Eval 'node.find(lal.AttributeRef).p_is_dispatching_call()'
+Result: False

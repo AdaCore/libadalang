@@ -28,6 +28,9 @@ laldoc-html:
 		../extensions/src/libadalang-config_pragmas.ads \
 		../extensions/src/libadalang-data_decomposition.ads \
 		../extensions/src/libadalang-expr_eval.ads \
+		$(LAL_BUILD_DIR)/src/libadalang-generic_api.ads \
+		$(LAL_BUILD_DIR)/src/libadalang-generic_api-introspection.ads \
+		$(LAL_BUILD_DIR)/src/libadalang-generic_api-unparsing.ads \
 		../extensions/src/libadalang-helpers.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-iterators.ads \
 		../extensions/src/libadalang-preprocessing.ads \

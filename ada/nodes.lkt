@@ -18277,8 +18277,9 @@ class Name: Expr {
     fun is_dispatching_call(): Bool =
         self.is_access_call()
         or (
-            self.is_direct_call()
-            and self.is_dispatching_call_impl(self.referenced_decl())
+            self.is_direct_call() and self.is_dispatching_call_impl(
+                self.called_subp_spec().parent.as[BasicDecl]
+            )
         )
 
     |" Returns True if this Name corresponds to a static non-dispatching call.

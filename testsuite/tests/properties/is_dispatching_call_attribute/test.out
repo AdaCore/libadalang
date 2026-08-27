@@ -1,0 +1,11 @@
+Working on node <CallStmt dispatch.adb:44:4-44:32>
+==================================================
+
+Eval 'node.find(lal.CallExpr).p_is_dispatching_call()'
+Result: True
+
+Working on node <CallStmt simple.adb:5:4-5:33>
+==============================================
+
+Eval 'node.find(lal.AttributeRef).p_is_dispatching_call()'
+Result: False

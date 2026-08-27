@@ -64,6 +64,16 @@ generate-dev:
 	cp $(LANGKIT_DIR)/langkit/support/unparsing_config_format.rst external
 	gnatdoc --backend rstpt -P $(LAL_GPR_DIR)/libadalang.gpr --generate public -O generated
 
+	# eng/ide/gnatdoc#195: remove :defval: directives from the generated
+	# Sphinx, as they don't bring anything valuable to the documentation, and
+	# for this package, they even cause Sphinx issues because of the too long
+	# lines.
+	grep -v ':defval:' \
+		generated/ada___libadalang__generic_api__introspection___spec.rst \
+		> generated/tmp || true
+	mv generated/tmp \
+		generated/ada___libadalang__generic_api__introspection___spec.rst
+
 generate-prod: generate-dev
 	gnatdoc --backend rstpt -P $(LANGKIT_SUPPORT_GPR_DIR)/langkit_support.gpr --generate public -O generated
 

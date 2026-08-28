@@ -9,4 +9,4 @@ Set 'eq_op' to 'prims[0]'
 Result: <SyntheticSubpDecl [""=""] test.adb:3:17-3:35>
 
 Eval 'eq_op.p_base_subp_declarations()'
-Result: []
+Result: [<SyntheticSubpDecl [""=""] test.adb:3:17-3:35>]

@@ -4022,7 +4022,16 @@ class BaseSubpSpec: BaseFormalParamHolder {
                     # self comes from a generic subprogram.
                     self.generic_instantiations().at(0)?.parent?.parent
                 )
-                else node.parent.parent.parent.as_entity
+                # Predefined operators are not synthesized using NodeBuilders
+                # yet, thus their parent scope are not at the expected location.
+                # TODO: remove this once libadalang#1646 is done.
+                elif (
+                    node is SyntheticUnarySpec
+                    or node is SyntheticBinarySpec
+                ) and node.parent is TypeDef then
+                    node.parent.parent.parent.parent.as_entity
+                else
+                    node.parent.parent.parent.as_entity
             )
             .as[DeclarativePart]
             .node;
@@ -18279,6 +18288,12 @@ class Name: Expr {
         or (
             self.is_direct_call() and self.is_dispatching_call_impl(
                 self.called_subp_spec().parent.as[BasicDecl]
+                #  The parent of the called subp spec may not be a BasicDecl in
+                #  the case where the call is to a predefined operator, as
+                #  those are not yet synthesized using builders (see
+                #  libadalang#1646). However, in that case the operator can be
+                #  fetched via `referenced_decl`.
+                or? self.referenced_decl()
             )
         )
 

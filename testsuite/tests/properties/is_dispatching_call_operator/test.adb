@@ -59,6 +59,13 @@ procedure Test is
 
    Bin_Op_Dispatching_3 : Boolean := X & X;
    --% node.f_default_expr[1][0].f_operator.p_is_dispatching_call()
+
+   --  Make sure `is_dispatching_call` also works (no property error) when the
+   --  target is a predefined operator that was overriden.
+
+   Bin_Op_Dispatching_4 : Boolean := "=" (X, X);
+   --% node.f_default_expr.p_called_subp_spec
+   --% node.f_default_expr.p_is_dispatching_call()
 begin
    null;
 end Test;

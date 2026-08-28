@@ -18279,6 +18279,12 @@ class Name: Expr {
         or (
             self.is_direct_call() and self.is_dispatching_call_impl(
                 self.called_subp_spec().parent.as[BasicDecl]
+                #  The parent of the called subp spec may not be a BasicDecl in
+                #  the case where the call is to a predefined operator, as
+                #  those are not yet synthesized using builders (see
+                #  libadalang#1646). However, in that case the operator can be
+                #  fetched via `referenced_decl`.
+                or? self.referenced_decl()
             )
         )
 

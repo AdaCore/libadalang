@@ -1,0 +1,162 @@
+{
+  "node_configs": {
+    "ObjectDecl": {
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "recurse_field",
+              "field": "f_ids"
+            },
+            "whitespace"
+          ]
+        },
+        {
+          "kind": "tableSeparator",
+          "text": ":"
+        },
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    "line",
+                    {
+                      "kind": "group",
+                      "document": [
+                        {"kind": "recurse_field", "field": "f_has_aliased"},
+                        {
+                          "kind": "if",
+                          "condition": {
+                            "kind": "is_a",
+                            "node": {
+                              "kind": "eval_member",
+                              "member": "f_has_aliased",
+                              "prefix": "this_node"
+                            },
+                            "pattern": {
+                              "kind": "node",
+                              "type": "AliasedPresent"
+                            }
+                          },
+                          "then": "whitespace",
+                          "else": []
+                        },
+                        {"kind": "recurse_field", "field": "f_has_constant"},
+                        {
+                          "kind": "if",
+                          "condition": {
+                            "kind": "is_a",
+                            "node": {
+                              "kind": "eval_member",
+                              "member": "f_has_constant",
+                              "prefix": "this_node"
+                            },
+                            "pattern": {
+                              "kind": "node",
+                              "type": "ConstantPresent"
+                            }
+                          },
+                          "then": "whitespace",
+                          "else": []
+                        },
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_mode"
+                        },
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_type_expr"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "object_decl_type"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_default_expr"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_renaming_clause"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_aspects"
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        }
+      ],
+      "fields": {
+        "f_renaming_clause": [
+          "whitespace",
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "continuationLineIndent",
+                "contents": "recurse"
+              }
+            },
+            "flatContents": {
+              "kind": "continuationLineIndent",
+              "contents": "recurse"
+            },
+            "groupId": "object_decl_type"
+          }
+        ],
+        "f_default_expr": [
+          "whitespace",
+          {
+            "kind": "tableSeparator",
+            "text": ":="
+          },
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    "line",
+                    "recurse"
+                  ]
+                }
+              }
+            },
+            "flatContents": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "group",
+                "document": [
+                  "line",
+                  "recurse"
+                ]
+              }
+            },
+            "groupId": "object_decl_type"
+          }
+        ],
+        "f_aspects": [
+          "line",
+          "recurse"
+        ]
+      }
+    }
+  }
+}

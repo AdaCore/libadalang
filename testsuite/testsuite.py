@@ -8,6 +8,7 @@ Usage::
 Run the Libadalang testsuite.
 """
 
+import collections.abc
 import glob
 import os
 import shutil
@@ -17,8 +18,14 @@ import sys
 from typing import Any, Callable, IO
 
 from e3.collection.dag import DAG
+from e3.env import Env
 from e3.testsuite import Testsuite, logger
-from e3.testsuite.testcase_finder import ProbingError, YAMLTestFinder
+from e3.testsuite.testcase_finder import (
+    ParsedTest,
+    ProbingError,
+    YAMLTestFinder,
+)
+import e3.yaml
 
 from langkit.coverage import GNATcov
 
@@ -59,6 +66,87 @@ class PerfTestFinder(YAMLTestFinder):
         return result
 
 
+class LALTestFinder(YAMLTestFinder):
+    """Testcase finder for the LAL testsuite nominal mode."""
+
+    def probe_postprocess(self, test):
+        """
+        If the given test is an unparsing config snippet testcase, add the
+        snippet itself as an overriding to the default unparsing configuration.
+        """
+        if test.test_env.get("is_snippet"):
+            test.test_env.setdefault("overridings", []).append(
+                os.path.join(test.test_dir, "snippet")
+            )
+        return test
+
+    def probe(self, testsuite, dirpath, dirnames, filenames):
+        # By default, delegate to e3.testsuite's YAMLTestFinder...
+        result = super().probe(testsuite, dirpath, dirnames, filenames)
+
+        # ... but implement a custom behavior for the special unparsing config
+        # snippets testcase.
+        if result is None:
+            return None
+        elif isinstance(result, ParsedTest):
+            single_result = result
+        elif len(result) != 1:
+            return [self.probe_postprocess(test) for test in result]
+        else:
+            single_result = result[0]
+        if single_result.test_name != "unparsing__snippets":
+            return self.probe_postprocess(result)
+
+        # Look for all directories that contain snippets in the
+        # $LAL_ROOT/unparsing_config_snippets directory and turn them into
+        # testcases.
+        result = []
+        snippets_dir = os.path.join(
+            testsuite.root_dir, "..", "unparsing_config_snippets"
+        )
+        env = Env().to_dict()
+        for dirpath, dirnames, filenames in os.walk(snippets_dir):
+            if "input.ada" not in filenames:
+                continue
+
+            # Compute the test name as if the snippets directory was under
+            # $LAL_ROOT/testsuite/tests/unparsing/snippets/.
+            abs_dir = os.path.join(snippets_dir, dirpath)
+            rel_dir = os.path.relpath(abs_dir, snippets_dir)
+            test_name = testsuite.test_name(
+                os.path.join(single_result.test_dir, rel_dir)
+            )
+
+            # Load test.yaml if it exists (keep it optional: the test driver is
+            # forced to UnparserDriver).
+            yaml_file = os.path.join(abs_dir, "test.yaml")
+            try:
+                test_env = e3.yaml.load_with_config(yaml_file, env)
+            except e3.yaml.YamlError as exc:
+                raise ProbingError(f"invalid syntax for {yaml_file}") from exc
+            if test_env is None:
+                test_env = {}
+            elif not isinstance(test_env, collections.abc.Mapping):
+                raise ProbingError(f"invalid format for {yaml_file}")
+
+            if not test_env.get("is_snippet"):
+                raise ProbingError(
+                    f"missing expected 'is_snippet: true' entry in {yaml_file}"
+                )
+
+            result.append(
+                self.probe_postprocess(
+                    ParsedTest(
+                        test_name=test_name,
+                        driver_cls=unparser_driver.UnparserDriver,
+                        test_env=test_env,
+                        test_dir=abs_dir,
+                    )
+                )
+            )
+        return result
+
+
 class LALTestsuite(Testsuite):
     tests_subdir = 'tests'
     test_driver_map = {
@@ -88,7 +176,7 @@ class LALTestsuite(Testsuite):
         return [
             PerfTestFinder()
             if self.env.options.perf_mode
-            else YAMLTestFinder()
+            else LALTestFinder()
         ]
 
     def add_options(self, parser):

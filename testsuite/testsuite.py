@@ -95,7 +95,7 @@ class LALTestFinder(YAMLTestFinder):
         else:
             single_result = result[0]
         if single_result.test_name != "unparsing__snippets":
-            return self.probe_postprocess(result)
+            return self.probe_postprocess(single_result)
 
         # Look for all directories that contain snippets in the
         # $LAL_ROOT/unparsing_config_snippets directory and turn them into

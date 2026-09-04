@@ -22966,19 +22966,23 @@ class Pragma: AdaNode {
              | s"Taint_Sanitizer"
         then
            self.args.at(0).assoc_expr().sub_equation()
-        elif self.id.name_is(s"Linker_Section")
+        elif self.id.name_symbol() in s"Linker_Section" | s"Interface_Name"
         then
             self.args.at(0).assoc_expr().as![Name].xref_no_overloading()
-            %and self.args.at(1).do(
-                (arg) =>
-                arg.assoc_expr().do(
-                    (section_name) =>
-                    section_name.expected_type_var() <- node.std_string_type()
-                    %and section_name.sub_equation()
-                    %and section_name.matches_expected_type(),
+            %and self.args.ilogic_all(
+                (arg, i) =>
+                # First argument has already been resolved above. All remaining
+                # arguments shall resolve to a string (one section name for
+                # Linker_Section, or, two optional external and link names for
+                # Interface_Name).
+                if i < 1 then %true
+                else arg.assoc_expr().do(
+                    (str) =>
+                    str.expected_type_var() <- node.std_string_type()
+                    %and str.sub_equation()
+                    %and str.matches_expected_type(),
                     default_val=%true
-                ),
-                default_val=%true
+                )
             )
         else
             self.args.logic_all(
@@ -23042,6 +23046,7 @@ class Pragma: AdaNode {
                 | s"Attach_Handler"
                 | s"Predicate"
                 | s"Linker_Section"
+                | s"Interface_Name"
         then self.args.at(0)?.assoc_expr().as[Name].do((v1) => [v1])
         elif self.id.name_is(s"Obsolescent")
         then

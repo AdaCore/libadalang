@@ -1,5 +1,5 @@
 package State_Xrefs
-  with Abstract_State => State,
+  with Abstract_State => (State, Empty_State),
        Initializes    => State
 is
    procedure Proc (Param_1 : Integer; Param_2 : out Integer)

@@ -5264,7 +5264,7 @@ class AggregateAssoc: BasicAssoc {
     fun exprs_assoc_equation(): Equation =
         self.designators.logic_all((d) => d.sub_equation())
         %and self.expr().as[Name].do(
-            (n) => n.sub_equation(),
+            (n) => if n is NullLiteral then %true else n.sub_equation(),
             default_val=%true
         )
 }

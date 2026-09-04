@@ -1,0 +1,57 @@
+Analyzing pkg.ads
+#################
+
+Resolving xrefs for node <PragmaNode pkg.ads:6:4-6:47>
+******************************************************
+
+Expr: <Id "Interface_Name" pkg.ads:6:11-6:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Foo" pkg.ads:6:27-6:30>
+  references:    <DefiningName "Foo" pkg.ads:4:14-4:17>
+  type:          None
+  expected type: None
+Expr: <Str ""foo"" pkg.ads:6:32-6:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <Str ""link"" pkg.ads:6:39-6:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+Resolving xrefs for node <PragmaNode pkg.ads:11:4-13:69>
+********************************************************
+
+Expr: <Id "Interface_Name" pkg.ads:12:6-12:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Entity" pkg.ads:13:9-13:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Bar" pkg.ads:13:19-13:22>
+  references:    <DefiningName "Bar" pkg.ads:9:14-9:17>
+  type:          None
+  expected type: None
+Expr: <Id "External_Name" pkg.ads:13:24-13:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""bar"" pkg.ads:13:41-13:46>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <Id "Link_Name" pkg.ads:13:48-13:57>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""link"" pkg.ads:13:61-13:67>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+
+Done.

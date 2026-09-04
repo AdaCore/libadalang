@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [ext.ads, test_aspect.ads, test_pragma.ads]

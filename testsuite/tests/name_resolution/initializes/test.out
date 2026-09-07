@@ -1,0 +1,532 @@
+Analyzing ext.ads
+#################
+
+Resolving xrefs for node <AspectAssoc ext.ads:2:8-2:31>
+*******************************************************
+
+Expr: <Id "Abstract_State" ext.ads:2:8-2:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AbstractStateDeclExpr ext.ads:2:26-2:31>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc ext.ads:2:33-2:61>
+********************************************************
+
+Expr: <Id "Initializes" ext.ads:2:33-2:44>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate ext.ads:2:48-2:61>
+  type:          None
+  expected type: None
+Expr: <Id "State" ext.ads:2:49-2:54>
+  references:    <DefiningName "State" ext.ads:2:26-2:31>
+  type:          None
+  expected type: None
+Expr: <Id "V" ext.ads:2:56-2:57>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "W" ext.ads:2:59-2:60>
+  references:    <DefiningName "W" ext.ads:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["V"] ext.ads:4:4-4:16>
+************************************************************
+
+Expr: <Id "Integer" ext.ads:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["W"] ext.ads:5:4-5:16>
+************************************************************
+
+Expr: <Id "Integer" ext.ads:5:8-5:15>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <EndName ext.ads:6:5-6:8>
+**************************************************
+
+Expr: <EndName ext.ads:6:5-6:8>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Ext" ext.ads:6:5-6:8>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+
+
+Analyzing test_aspect.ads
+#########################
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:5:5-5:39>
+***************************************************************
+
+Expr: <Id "Abstract_State" test_aspect.ads:5:5-5:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AbstractStateDeclExpr test_aspect.ads:5:23-5:39>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:6:5-13:33>
+****************************************************************
+
+Expr: <Id "Initializes" test_aspect.ads:6:5-6:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.ads:7:7-13:33>
+  type:          None
+  expected type: None
+Expr: <Id "S1" test_aspect.ads:7:8-7:10>
+  references:    <DefiningName "S1" test_aspect.ads:5:24-5:26>
+  type:          None
+  expected type: None
+Expr: <Id "X" test_aspect.ads:8:8-8:9>
+  references:    <DefiningName "X" test_aspect.ads:15:4-15:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "S2" test_aspect.ads:9:8-9:10>
+  references:    <DefiningName "S2" test_aspect.ads:5:28-5:30>
+  type:          None
+  expected type: None
+Expr: <DottedName test_aspect.ads:9:14-9:23>
+  references:    <DefiningName "State" ext.ads:2:26-2:31>
+  type:          None
+  expected type: None
+Expr: <Id "Ext" test_aspect.ads:9:14-9:17>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "State" test_aspect.ads:9:18-9:23>
+  references:    <DefiningName "State" ext.ads:2:26-2:31>
+  type:          None
+  expected type: None
+Expr: <Id "S3" test_aspect.ads:10:8-10:10>
+  references:    <DefiningName "S3" test_aspect.ads:5:32-5:34>
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.ads:10:14-10:28>
+  type:          None
+  expected type: None
+Expr: <DottedName test_aspect.ads:10:15-10:20>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Ext" test_aspect.ads:10:15-10:18>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "V" test_aspect.ads:10:19-10:20>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <DottedName test_aspect.ads:10:22-10:27>
+  references:    <DefiningName "W" ext.ads:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Ext" test_aspect.ads:10:22-10:25>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "W" test_aspect.ads:10:26-10:27>
+  references:    <DefiningName "W" ext.ads:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "S4" test_aspect.ads:11:8-11:10>
+  references:    <DefiningName "S4" test_aspect.ads:5:36-5:38>
+  type:          None
+  expected type: None
+Expr: <Null test_aspect.ads:11:14-11:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_aspect.ads:12:8-12:9>
+  references:    <DefiningName "Y" test_aspect.ads:16:4-16:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <DottedName test_aspect.ads:12:14-12:19>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Ext" test_aspect.ads:12:14-12:17>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "V" test_aspect.ads:12:18-12:19>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Z" test_aspect.ads:13:8-13:9>
+  references:    <DefiningName "Z" test_aspect.ads:17:4-17:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Aggregate test_aspect.ads:13:14-13:32>
+  type:          None
+  expected type: None
+Expr: <DottedName test_aspect.ads:13:15-13:20>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Ext" test_aspect.ads:13:15-13:18>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "V" test_aspect.ads:13:19-13:20>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <DottedName test_aspect.ads:13:22-13:31>
+  references:    <DefiningName "State" ext.ads:2:26-2:31>
+  type:          None
+  expected type: None
+Expr: <Id "Ext" test_aspect.ads:13:22-13:25>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "State" test_aspect.ads:13:26-13:31>
+  references:    <DefiningName "State" ext.ads:2:26-2:31>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["X"] test_aspect.ads:15:4-15:16>
+**********************************************************************
+
+Expr: <Id "Integer" test_aspect.ads:15:8-15:15>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Y"] test_aspect.ads:16:4-16:16>
+**********************************************************************
+
+Expr: <Id "Integer" test_aspect.ads:16:8-16:15>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Z"] test_aspect.ads:17:4-17:16>
+**********************************************************************
+
+Expr: <Id "Integer" test_aspect.ads:17:8-17:15>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:20:11-20:29>
+******************************************************************
+
+Expr: <Id "Initializes" test_aspect.ads:20:11-20:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Var" test_aspect.ads:20:26-20:29>
+  references:    <DefiningName "Var" test_aspect.ads:22:7-22:10>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Var"] test_aspect.ads:22:7-22:26>
+************************************************************************
+
+Expr: <Id "Integer" test_aspect.ads:22:13-22:20>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <Int test_aspect.ads:22:24-22:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <EndName test_aspect.ads:23:8-23:14>
+*************************************************************
+
+Expr: <EndName test_aspect.ads:23:8-23:14>
+  references:    <DefiningName "Single" test_aspect.ads:19:12-19:18>
+  type:          None
+  expected type: None
+Expr: <Id "Single" test_aspect.ads:23:8-23:14>
+  references:    <DefiningName "Single" test_aspect.ads:19:12-19:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:26:11-26:35>
+******************************************************************
+
+Expr: <Id "Initializes" test_aspect.ads:26:11-26:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test_aspect.ads:26:26-26:35>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Par_Var" test_aspect.ads:26:27-26:34>
+  references:    <DefiningName "Par_Var" test_aspect.ads:28:7-28:14>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Par_Var"] test_aspect.ads:28:7-28:30>
+****************************************************************************
+
+Expr: <Id "Integer" test_aspect.ads:28:17-28:24>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <Int test_aspect.ads:28:28-28:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <EndName test_aspect.ads:29:8-29:21>
+*************************************************************
+
+Expr: <EndName test_aspect.ads:29:8-29:21>
+  references:    <DefiningName "Parenthesized" test_aspect.ads:25:12-25:25>
+  type:          None
+  expected type: None
+Expr: <Id "Parenthesized" test_aspect.ads:29:8-29:21>
+  references:    <DefiningName "Parenthesized" test_aspect.ads:25:12-25:25>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:34:11-34:38>
+******************************************************************
+
+Expr: <Id "Abstract_State" test_aspect.ads:34:11-34:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AbstractStateDeclExpr test_aspect.ads:34:29-34:38>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:34:40-34:66>
+******************************************************************
+
+Expr: <Id "Initializes" test_aspect.ads:34:40-34:51>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test_aspect.ads:34:55-34:66>
+  type:          None
+  expected type: None
+Expr: <Id "Par_State" test_aspect.ads:34:56-34:65>
+  references:    <DefiningName "Par_State" test_aspect.ads:34:29-34:38>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <EndName test_aspect.ads:36:8-36:27>
+*************************************************************
+
+Expr: <EndName test_aspect.ads:36:8-36:27>
+  references:    <DefiningName "Parenthesized_State" test_aspect.ads:33:12-33:31>
+  type:          None
+  expected type: None
+Expr: <Id "Parenthesized_State" test_aspect.ads:36:8-36:27>
+  references:    <DefiningName "Parenthesized_State" test_aspect.ads:33:12-33:31>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:39:11-39:43>
+******************************************************************
+
+Expr: <Id "Initializes" test_aspect.ads:39:11-39:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_aspect.ads:39:26-39:43>
+  type:          None
+  expected type: None
+Expr: <Id "Nested_Var" test_aspect.ads:39:27-39:37>
+  references:    <DefiningName "Nested_Var" test_aspect.ads:41:7-41:17>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "X" test_aspect.ads:39:41-39:42>
+  references:    <DefiningName "X" test_aspect.ads:15:4-15:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Nested_Var"] test_aspect.ads:41:7-41:33>
+*******************************************************************************
+
+Expr: <Id "Integer" test_aspect.ads:41:20-41:27>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <Id "X" test_aspect.ads:41:31-41:32>
+  references:    <DefiningName "X" test_aspect.ads:15:4-15:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <EndName test_aspect.ads:42:8-42:14>
+*************************************************************
+
+Expr: <EndName test_aspect.ads:42:8-42:14>
+  references:    <DefiningName "Nested" test_aspect.ads:38:12-38:18>
+  type:          None
+  expected type: None
+Expr: <Id "Nested" test_aspect.ads:42:8-42:14>
+  references:    <DefiningName "Nested" test_aspect.ads:38:12-38:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:45:11-45:30>
+******************************************************************
+
+Expr: <Id "Abstract_State" test_aspect.ads:45:11-45:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AbstractStateDeclExpr test_aspect.ads:45:29-45:30>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_aspect.ads:45:32-45:51>
+******************************************************************
+
+Expr: <Id "Initializes" test_aspect.ads:45:32-45:43>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Null test_aspect.ads:45:47-45:51>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <EndName test_aspect.ads:47:8-47:15>
+*************************************************************
+
+Expr: <EndName test_aspect.ads:47:8-47:15>
+  references:    <DefiningName "Nothing" test_aspect.ads:44:12-44:19>
+  type:          None
+  expected type: None
+Expr: <Id "Nothing" test_aspect.ads:47:8-47:15>
+  references:    <DefiningName "Nothing" test_aspect.ads:44:12-44:19>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <EndName test_aspect.ads:48:5-48:16>
+*************************************************************
+
+Expr: <EndName test_aspect.ads:48:5-48:16>
+  references:    <DefiningName "Test_Aspect" test_aspect.ads:3:9-3:20>
+  type:          None
+  expected type: None
+Expr: <Id "Test_Aspect" test_aspect.ads:48:5-48:16>
+  references:    <DefiningName "Test_Aspect" test_aspect.ads:3:9-3:20>
+  type:          None
+  expected type: None
+
+
+Analyzing test_pragma.ads
+#########################
+
+Resolving xrefs for node <PragmaNode test_pragma.ads:6:4-7:77>
+**************************************************************
+
+Expr: <Id "Initializes" test_pragma.ads:7:6-7:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_pragma.ads:7:19-7:75>
+  type:          None
+  expected type: None
+Expr: <Id "S1" test_pragma.ads:7:20-7:22>
+  references:    <DefiningName "S1" test_pragma.ads:4:27-4:29>
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_pragma.ads:7:24-7:25>
+  references:    <DefiningName "Y" test_pragma.ads:11:4-11:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "S2" test_pragma.ads:7:27-7:29>
+  references:    <DefiningName "S2" test_pragma.ads:4:31-4:33>
+  type:          None
+  expected type: None
+Expr: <DottedName test_pragma.ads:7:33-7:42>
+  references:    <DefiningName "State" ext.ads:2:26-2:31>
+  type:          None
+  expected type: None
+Expr: <Id "Ext" test_pragma.ads:7:33-7:36>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "State" test_pragma.ads:7:37-7:42>
+  references:    <DefiningName "State" ext.ads:2:26-2:31>
+  type:          None
+  expected type: None
+Expr: <Id "X" test_pragma.ads:7:44-7:45>
+  references:    <DefiningName "X" test_pragma.ads:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Aggregate test_pragma.ads:7:49-7:63>
+  type:          None
+  expected type: None
+Expr: <DottedName test_pragma.ads:7:50-7:55>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Ext" test_pragma.ads:7:50-7:53>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "V" test_pragma.ads:7:54-7:55>
+  references:    <DefiningName "V" ext.ads:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <DottedName test_pragma.ads:7:57-7:62>
+  references:    <DefiningName "W" ext.ads:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Ext" test_pragma.ads:7:57-7:60>
+  references:    <DefiningName "Ext" ext.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "W" test_pragma.ads:7:61-7:62>
+  references:    <DefiningName "W" ext.ads:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Z" test_pragma.ads:7:65-7:66>
+  references:    <DefiningName "Z" test_pragma.ads:12:4-12:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Null test_pragma.ads:7:70-7:74>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test_pragma.ads:15:7-15:32>
+****************************************************************
+
+Expr: <Id "Initializes" test_pragma.ads:15:14-15:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Var" test_pragma.ads:15:27-15:30>
+  references:    <DefiningName "Var" test_pragma.ads:18:7-18:10>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test_pragma.ads:22:7-22:33>
+****************************************************************
+
+Expr: <Id "Initializes" test_pragma.ads:22:14-22:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Null test_pragma.ads:22:27-22:31>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

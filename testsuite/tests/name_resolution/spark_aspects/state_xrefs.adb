@@ -1,5 +1,6 @@
 package body State_Xrefs
-  with Refined_State => (State => (C1, C2, Nested_Private.Nested_State))
+  with Refined_State => (State => (C1, C2, Nested_Private.Nested_State),
+                         Empty_State => null)
 is
    C1 : Integer := 1;
    C2 : Integer := 2;

@@ -147,6 +147,7 @@ class AdaNode implements Node[AdaNode] {
             | s"Taint_Sink"
             | s"Taint_Sanitizer"
             | s"Modifies"
+            | s"Initializes"
 
     |" Return True if the given ``name`` is that of an Ada aspect in which
     |" references can designate entities declared *after* the entity on which
@@ -4775,10 +4776,10 @@ class AggregateAssoc: BasicAssoc {
         elif agg.in_aspect(s"Depends") or agg.in_aspect(s"Refined_Depends")
         then self.depends_assoc_equation()
         elif agg.in_aspect(s"Test_Case") then self.test_case_assoc_equation()
-        elif agg.in_aspect(s"Refined_State")
+        elif agg.in_aspect(s"Refined_State") or agg.in_aspect(s"Initializes")
         then (
-            # Simply resolve all names present in the Refined_State aspect,
-            # as they must all refer to existing declarations.
+            # Simply resolve all names present in the Refined_State/Initializes
+            # aspect, as they must all refer to existing declarations.
             self.exprs_assoc_equation()
         )
         elif agg.in_aspect(s"Taint_Source")
@@ -5264,7 +5265,7 @@ class AggregateAssoc: BasicAssoc {
     fun exprs_assoc_equation(): Equation =
         self.designators.logic_all((d) => d.sub_equation())
         %and self.expr().as[Name].do(
-            (n) => n.sub_equation(),
+            (n) => if n is NullLiteral then %true else n.sub_equation(),
             default_val=%true
         )
 }
@@ -16156,6 +16157,7 @@ class BaseAggregate: Expr {
                 or node.in_aspect(s"Exceptional_Cases")
                 or node.in_aspect(s"Exit_Cases")
                 or node.in_aspect(s"Modifies")
+                or node.in_aspect(s"Initializes")
 
                 # Careful: normal aggregates can appear inside a contract_cases
                 # aspect's expression, so we must only special case the direct

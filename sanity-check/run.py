@@ -36,13 +36,25 @@ class PythonAPIDriver(DiffTestDriver):
 
     def run(self):
         # Look for the Libadalang wheel to install. We expect exactly one.
-        wheels_pattern = os.path.join(
-            self.env.libadalang_prefix,
-            "share",
-            "libadalang",
-            "python",
-            "libadalang*.whl",
+        #
+        # When testing the regular wheel, we expect the customer-facing
+        # Libadalang prefix (and thus the share/libadalang/python/ layout).
+        # When testing the wheel built from stripped libraries, we expect the
+        # internal package (and thus the more direct stripped_python/ layout).
+        wheels_dir = (
+            os.path.join(
+                self.env.libadalang_prefix,
+                "stripped_python",
+            )
+            if self.env.stripped_wheel
+            else os.path.join(
+                self.env.libadalang_prefix,
+                "share",
+                "libadalang",
+                "python",
+            )
         )
+        wheels_pattern = os.path.join(wheels_dir, "libadalang*.whl")
         wheels = glob.glob(wheels_pattern)
         if len(wheels) != 1:
             wheel_str = (
@@ -100,6 +112,13 @@ class SanityCheckTestsuite(Testsuite):
             help="If provided, Python interpreter to load Libadalang in"
             " testcases.",
         )
+        parser.add_argument(
+            "--stripped-wheel",
+            action="store_true",
+            help="Test the Python wheel built from stripped dynamic"
+            " libraries (by default: test the wheel built from dynamic"
+            " libraries that include debug info).",
+        )
 
         # Convenience options for developers
         parser.add_argument(
@@ -110,6 +129,7 @@ class SanityCheckTestsuite(Testsuite):
     def set_up(self):
         self.env.rewrite_baselines = self.main.args.rewrite
         self.env.python_interpreter = self.main.args.with_python
+        self.env.stripped_wheel = self.main.args.stripped_wheel
 
         # Ensure we have access to the installation prefix for Libadalang. Turn
         # it into an absolute path so that tests can use it wherever they run

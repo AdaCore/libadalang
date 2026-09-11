@@ -1,0 +1,17 @@
+{
+  "node_configs": {
+    "ConstraintList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ],
+      "table": null
+    },
+    "UnconstrainedArrayIndexList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ]
+    }
+  }
+}

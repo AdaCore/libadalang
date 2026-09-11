@@ -1,0 +1,9 @@
+package ArrayTypeDef is
+
+  type Constrained_Matrix is
+    array (Natural range 0 .. L1, Natural range 0 .. L2, Natural range 0 .. L3)
+   of Integer;
+
+  type Unconstrained_Matrix is array(Integer  range <>, Integer range <>) of Real;
+
+end ArrayTypeDef;

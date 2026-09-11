@@ -1,0 +1,28 @@
+
+procedure Vertical_Alternatives is
+
+   --  CaseExpr alternatives
+   Status_Str : constant String :=
+     (case Current_Status is
+        when Idle | Ready | Waiting => "Standby",
+        when Running | Processing   => "Active",
+        when Fault | Error          => "Failed");
+
+   --  VariantPart alternatives
+   type Sensor_Status (Kind : Sensor_Kind) is record
+     case Kind is
+      when Temperature | Humidity | Pressure =>  Reading : Float;
+      when Discrete | Binary => State   : Boolean;
+      when others => Raw_Value : Integer;
+   end case;
+end record;
+
+begin
+  --  CaseSmt alternatives
+  case Current_State is
+     when Idle | Waiting | Suspended => Process_Idle;
+     when Active | Running => Process_Active;
+     when others => Process_Unknown;
+  end case;
+
+end Vertical_Alternatives;

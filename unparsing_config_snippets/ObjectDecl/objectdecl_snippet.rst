@@ -1,8 +1,8 @@
 =======================================================
-``ObjDecl`` rewrite to enforce alignment on separators
+``ObjectDecl`` rewrite to enforce alignment on separators
 =======================================================
 
-This configuration snippet illustrates ``ObjDecl`` node rewriting to enforce
+This configuration snippet illustrates ``ObjectDecl`` node rewriting to enforce
 alignment for ``:`` and ``:=`` separators across object declarations.
 Inserting a blank line acts as a boundary that breaks the alignment.
 

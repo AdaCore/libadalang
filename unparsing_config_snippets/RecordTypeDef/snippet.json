@@ -1,0 +1,38 @@
+{
+  "node_configs": {
+    "RecordDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "text",
+                "text": "record"
+              },
+              {
+                "kind": "indent",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_components"
+                }
+              },
+              "hardline",
+              {
+                "kind": "text",
+                "text": "end"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "record"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,203 @@
+ {
+  "node_configs": {
+        "AggregateAssoc": {
+      "node": [
+        {
+          "field": "f_designators",
+          "kind": "recurse_field"
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "eval_member",
+            "prefix": {
+              "kind": "eval_member",
+              "prefix": "this_node",
+              "member": "f_designators"
+            },
+            "member": "is_empty_list"
+          },
+          "then": {
+            "kind": "group",
+            "document": [
+              {
+                "field": "f_r_expr",
+                "kind": "recurse_field"
+              }
+            ]
+          },
+          "else": {
+            "kind": "group",
+            "document": {
+              "kind": "continuationLineIndent",
+              "contents": [
+                {
+                  "kind": "match",
+                  "node": {
+                    "kind": "eval_member",
+                    "member": "parent",
+                    "prefix": "this_node"
+                  },
+                  "matchers": [
+                    {
+                      "pattern": {
+                        "kind": "node",
+                        "type": "AssocList",
+                        "members": [
+                          {
+                            "member": "parent",
+                            "pattern": {
+                              "kind": "node",
+                              "type": "Aggregate",
+                              "members": [
+                                {
+                                  "member": "parent",
+                                  "pattern": {
+                                    "kind": "node",
+                                    "type": "AspectAssoc",
+                                    "members": [
+                                      {
+                                        "member": "f_id",
+                                        "pattern": {
+                                          "kind": "node",
+                                          "type": "Identifier",
+                                          "members": [
+                                            {
+                                              "member": "p_canonical_text",
+                                              "pattern": {
+                                                "kind": "symbol_literal",
+                                                "value": "depends"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "document": []
+                    },
+                    {
+                      "pattern": "*",
+                      "document": [
+                        "line"
+                      ]
+                    }
+                  ]
+                },
+                "flushLineBreaks",
+                {
+                  "field": "f_r_expr",
+                  "kind": "recurse_field"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "match",
+          "node": "this_node",
+          "matchers": [
+            {
+              "pattern": {
+                "kind": "node",
+                "type": "AggregateAssoc",
+                "members": [
+                  {
+                    "member": "previous_sibling",
+                    "pattern": null
+                  },
+                  {
+                    "member": "next_sibling",
+                    "pattern": null
+                  }
+                ]
+              },
+              "document": []
+            },
+            {
+              "pattern": {
+                "kind": "node",
+                "type": "AggregateAssoc",
+                "members": [
+                  {
+                    "member": "f_designators",
+                    "pattern": {
+                      "kind": "node",
+                      "type": "AlternativesList",
+                      "members": [
+                        {
+                          "member": "is_empty_list",
+                          "pattern": false
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "member": "parent",
+                    "pattern": {
+                      "kind": "node",
+                      "type": "AssocList",
+                      "members": [
+                        {
+                          "member": "parent",
+                          "pattern": {
+                            "kind": "node",
+                            "type": "Aggregate"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "document": "breakParent"
+            },
+            {
+              "pattern": "*",
+              "document": []
+            }
+          ]
+        }
+      ],
+      "fields": {
+        "f_designators": [
+          {
+            "kind": "group",
+            "document": "recurse"
+          },
+          {
+            "kind": "tableSeparator",
+            "text": ""
+          },
+          {
+            "kind": "group",
+            "document": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "dedent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    "line",
+                    {
+                      "kind": "text",
+                      "text": "=>"
+                    }
+                  ]
+                },
+                "bubbleUpLeadingTrivias": true,
+                "bubbleUpTrailingTrivias": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

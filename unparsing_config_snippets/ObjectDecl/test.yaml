@@ -1,0 +1,3 @@
+driver: unparser
+is_snippet: true
+rule: package_decl

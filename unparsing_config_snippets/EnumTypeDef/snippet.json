@@ -1,0 +1,10 @@
+ {
+  "node_configs": {
+   "EnumLiteralDeclList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ]
+    }
+  }
+}

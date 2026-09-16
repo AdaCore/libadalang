@@ -1,0 +1,1 @@
+type Day is (Mon, Tue, Wed, Thu, Fri, Sat, Sun);

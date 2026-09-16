@@ -1,0 +1,12 @@
+ {
+  "node_configs": {
+    "AlternativesList": {
+      "sep": [
+        "hardline",
+        "recurse",
+        "whitespace"
+      ],
+      "table": null
+    }
+  }
+}

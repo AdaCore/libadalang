@@ -1,0 +1,122 @@
+ {
+  "node_configs": {
+    "ForLoopStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "for"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_spec"
+              },
+              "hardline",
+              {
+                "kind": "text",
+                "text": "loop"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ]
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "loop"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
+      }
+    },
+    "WhileLoopStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_spec"
+                }
+              },
+              "hardline",
+              {
+                "kind": "text",
+                "text": "loop"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ]
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "loop"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
+      }
+    }
+  }
+}

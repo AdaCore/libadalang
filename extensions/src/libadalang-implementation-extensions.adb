@@ -413,7 +413,7 @@ package body Libadalang.Implementation.Extensions is
 
          for Comp_Unit of Units loop
             declare
-               Units_Array : Internal_Entity_Compilation_Unit_Array_Access :=
+               Units_Array : Internal_Entity_Array_Access :=
                   Compilation_Unit_P_Imported_Units (Comp_Unit);
             begin
                for Imported_Unit of Units_Array.Items loop
@@ -515,7 +515,7 @@ package body Libadalang.Implementation.Extensions is
          end case;
       end Name_Image;
 
-      Children : Internal_Entity_Defining_Name_Array_Access :=
+      Children : Internal_Entity_Array_Access :=
          Dispatcher_Basic_Decl_P_Defining_Names (Node);
    begin
       Append (Ret, "<" & To_Text (Kind_Name (Node)) & " [");
@@ -622,7 +622,7 @@ package body Libadalang.Implementation.Extensions is
    ------------------------------------------------
 
    function Compilation_Unit_P_External_Config_Pragmas
-     (Node : Bare_Compilation_Unit) return Bare_Pragma_Node_Array_Access
+     (Node : Bare_Compilation_Unit) return Bare_Ada_Node_Array_Access
    is
       package Impl renames Config_Pragmas_Impl;
 
@@ -636,7 +636,7 @@ package body Libadalang.Implementation.Extensions is
       --  if it is not a list of pragmas.
 
       procedure Append
-        (Result  : in out Bare_Pragma_Node_Array_Record;
+        (Result  : in out Bare_Ada_Node_Array_Record;
          Next    : in out Positive;
          Pragmas : Bare_Pragma_Node_List);
       --  Append all pragmas from ``Pragmas`` to ``Result`` starting at index
@@ -666,7 +666,7 @@ package body Libadalang.Implementation.Extensions is
       ------------
 
       procedure Append
-        (Result  : in out Bare_Pragma_Node_Array_Record;
+        (Result  : in out Bare_Ada_Node_Array_Record;
          Next    : in out Positive;
          Pragmas : Bare_Pragma_Node_List) is
       begin
@@ -704,8 +704,8 @@ package body Libadalang.Implementation.Extensions is
            + (if Global = null then 0 else Global.Count);
          Next   : Positive := 1;
       begin
-         return Result : constant Bare_Pragma_Node_Array_Access :=
-           Create_Bare_Pragma_Node_Array (Length)
+         return Result : constant Bare_Ada_Node_Array_Access :=
+           Create_Bare_Ada_Node_Array (Length)
          do
             Append (Result.all, Next, Local);
             Append (Result.all, Next, Global);

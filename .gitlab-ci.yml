@@ -1,5 +1,8 @@
 include:
   - local: utils/gitlab-ci-common.yml
+  - component: $CI_SERVER_FQDN/it/gitlab-templates/gitleaks@~latest
+    inputs:
+      stage: single
 
 
 stages:

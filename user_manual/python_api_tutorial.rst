@@ -4,7 +4,7 @@ Python API tutorial
 Now that you are familiar with Libadalang's :ref:`core-concepts`, let's
 actually do some practice with the Python API.
 
-.. note:: Libadalang's Python API supports Python 3.9 and 3.10.
+.. note:: Libadalang's Python API currently supports Python 3.11 to Python 3.14
 
 Preliminary setup
 =================

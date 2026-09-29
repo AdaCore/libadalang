@@ -126,6 +126,7 @@ class AdaNode implements Node[AdaNode] {
             | s"Invariant'Class"
             | s"Type_Invariant"
             | s"Type_Invariant'Class"
+            | s"Type_Invariant_Class"
             | s"Predicate"
             | s"Static_Predicate"
             | s"Dynamic_Predicate"
@@ -23004,22 +23005,43 @@ class Pragma: AdaNode {
     |" pragma was replaced by its equivalent aspect.
     |" For example, on ``pragma Convention (C, X)``, the returned value is
     |" ``C`` because one would write ``X : Integer with Convention => C``.
-    fun value_expr(): Entity[Expr] =
-        if
-            self.id.name_symbol() in s"Import"
-                | s"Export"
-                | s"Interface"
-                | s"Convention"
-        then self.args.at(0).assoc_expr()
-        # No_Raise has no associated value
-        elif self.id.name_is(s"No_Raise") then null[Entity[Expr]]
-        # SPARK_Mode can have no associated value (in that case, the
-        # default is `On`) but if a value is provided, it's in first
-        # position. Same for the Ghost pragma.
-        elif self.id.name_symbol() in s"SPARK_Mode" | s"Ghost"
-        then self.args.at(0)?.assoc_expr()
+    fun value_expr(): Entity[Expr] = {
+        val expr_index =
+            if
+                self.id.name_symbol() in s"Import"
+                    | s"Export"
+                    | s"Interface"
+                    | s"Convention"
+            then 0
 
-        else self.args.at(1)?.assoc_expr()
+            # No_Raise has no associated value
+            elif self.id.name_is(s"No_Raise") then -1
+
+            # SPARK_Mode can have no associated value (in that case, the
+            # default is `On`) but if a value is provided, it's in first
+            # position. Same for the Ghost pragma.
+            elif self.id.name_symbol() in s"SPARK_Mode" | s"Ghost"
+            then 0
+
+            # Contracts: most pragmas have their expression in the first
+            # arguments, but for a few exceptions, there is an entity argument
+            # first, and for others, there is no expression at all.
+            elif self.id.name_symbol() in s"Invariant"
+                | s"Type_Invariant"
+                | s"Type_Invariant_Class"
+                | s"Predicate"
+                | s"Predicate_Failure"
+            then 1
+            elif self.id.name_symbol() == s"Exit_Cases" then -1
+            elif self.is_contract_aspect(self.id.name_symbol())
+            then 0
+
+            else 1;
+
+        if expr_index == -1
+        then null[Entity[Expr]]
+        else self.args.at(expr_index)?.assoc_expr()
+    }
 
     fun associated_entity_names(): Array[Entity[Name]] =
         if

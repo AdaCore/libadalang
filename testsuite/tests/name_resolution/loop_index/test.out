@@ -1,0 +1,458 @@
+Analyzing arrays.adb
+####################
+
+Resolving xrefs for node <PragmaNode arrays.adb:16:7-16:44>
+***********************************************************
+
+Expr: <Id "Assert" arrays.adb:16:14-16:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp arrays.adb:16:22-16:42>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr arrays.adb:16:22-16:38>
+  references:    <DefiningName "A" arrays.adb:9:4-9:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "A" arrays.adb:16:22-16:23>
+  references:    <DefiningName "A" arrays.adb:9:4-9:5>
+  type:          <ConcreteTypeDecl ["Int_Array"] arrays.adb:3:4-3:58>
+  expected type: None
+Expr: <AttributeRef arrays.adb:16:25-16:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "E" arrays.adb:16:25-16:26>
+  references:    <DefiningName "E" arrays.adb:15:8-15:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" arrays.adb:16:27-16:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq arrays.adb:16:39-16:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "E" arrays.adb:16:41-16:42>
+  references:    <DefiningName "E" arrays.adb:15:8-15:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <PragmaNode arrays.adb:21:7-21:43>
+***********************************************************
+
+Expr: <Id "Assert" arrays.adb:21:14-21:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp arrays.adb:21:22-21:41>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <AttributeRef arrays.adb:21:22-21:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Color"] arrays.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] arrays.adb:2:4-2:37>
+Expr: <Id "E" arrays.adb:21:22-21:23>
+  references:    <DefiningName "E" arrays.adb:20:8-20:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" arrays.adb:21:24-21:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpNeq arrays.adb:21:35-21:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Red" arrays.adb:21:38-21:41>
+  references:    <DefiningName "Red" arrays.adb:2:19-2:22>
+  type:          <ConcreteTypeDecl ["Color"] arrays.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] arrays.adb:2:4-2:37>
+
+Resolving xrefs for node <PragmaNode arrays.adb:28:7-28:55>
+***********************************************************
+
+Expr: <Id "Assert" arrays.adb:28:14-28:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp arrays.adb:28:22-28:53>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <AttributeRef arrays.adb:28:22-28:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "E" arrays.adb:28:22-28:23>
+  references:    <DefiningName "E" arrays.adb:27:8-27:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" arrays.adb:28:24-28:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq arrays.adb:28:39-28:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef arrays.adb:28:41-28:53>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "E" arrays.adb:28:41-28:42>
+  references:    <DefiningName "E" arrays.adb:27:8-27:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" arrays.adb:28:43-28:53>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode arrays.adb:35:7-35:44>
+***********************************************************
+
+Expr: <Id "Assert" arrays.adb:35:14-35:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp arrays.adb:35:22-35:42>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr arrays.adb:35:22-35:38>
+  references:    <DefiningName "R" arrays.adb:11:4-11:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "R" arrays.adb:35:22-35:23>
+  references:    <DefiningName "R" arrays.adb:11:4-11:5>
+  type:          <ConcreteTypeDecl ["Ref"] arrays.adb:6:4-7:38>
+  expected type: None
+Expr: <AttributeRef arrays.adb:35:25-35:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "E" arrays.adb:35:25-35:26>
+  references:    <DefiningName "E" arrays.adb:34:8-34:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" arrays.adb:35:27-35:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq arrays.adb:35:39-35:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "E" arrays.adb:35:41-35:42>
+  references:    <DefiningName "E" arrays.adb:34:8-34:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Analyzing multidim.adb
+######################
+
+Resolving xrefs for node <PragmaNode multidim.adb:18:7-18:66>
+*************************************************************
+
+Expr: <Id "Assert" multidim.adb:18:14-18:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp multidim.adb:18:22-18:64>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr multidim.adb:18:22-18:60>
+  references:    <DefiningName "M" multidim.adb:8:4-8:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "M" multidim.adb:18:22-18:23>
+  references:    <DefiningName "M" multidim.adb:8:4-8:5>
+  type:          <ConcreteTypeDecl ["Matrix"] multidim.adb:4:4-4:69>
+  expected type: None
+Expr: <AttributeRef multidim.adb:18:25-18:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+Expr: <Id "E" multidim.adb:18:25-18:26>
+  references:    <DefiningName "E" multidim.adb:17:8-17:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" multidim.adb:18:27-18:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef multidim.adb:18:43-18:59>
+  references:    None
+  type:          <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+  expected type: <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+Expr: <Id "E" multidim.adb:18:43-18:44>
+  references:    <DefiningName "E" multidim.adb:17:8-17:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" multidim.adb:18:45-18:55>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq multidim.adb:18:61-18:62>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "E" multidim.adb:18:63-18:64>
+  references:    <DefiningName "E" multidim.adb:17:8-17:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <PragmaNode multidim.adb:20:7-20:67>
+*************************************************************
+
+Expr: <Id "Assert" multidim.adb:20:14-20:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp multidim.adb:20:22-20:65>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <AttributeRef multidim.adb:20:22-20:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+  expected type: <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+Expr: <Id "E" multidim.adb:20:22-20:23>
+  references:    <DefiningName "E" multidim.adb:17:8-17:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" multidim.adb:20:24-20:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq multidim.adb:20:41-20:42>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef multidim.adb:20:43-20:65>
+  references:    None
+  type:          <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+  expected type: <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+Expr: <Id "E" multidim.adb:20:43-20:44>
+  references:    <DefiningName "E" multidim.adb:17:8-17:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" multidim.adb:20:45-20:55>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode multidim.adb:26:7-26:43>
+*************************************************************
+
+Expr: <Id "Assert" multidim.adb:26:14-26:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp multidim.adb:26:22-26:41>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <AttributeRef multidim.adb:26:22-26:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+Expr: <Id "E" multidim.adb:26:22-26:23>
+  references:    <DefiningName "E" multidim.adb:17:8-17:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" multidim.adb:26:24-26:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq multidim.adb:26:35-26:36>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Blue" multidim.adb:26:37-26:41>
+  references:    <DefiningName "Blue" multidim.adb:2:31-2:35>
+  type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+
+Resolving xrefs for node <PragmaNode multidim.adb:34:10-34:63>
+**************************************************************
+
+Expr: <Id "Assert" multidim.adb:34:17-34:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp multidim.adb:34:25-34:61>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr multidim.adb:34:25-34:57>
+  references:    <DefiningName "RA" multidim.adb:9:4-9:6>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <CallExpr multidim.adb:34:25-34:42>
+  references:    <DefiningName "RA" multidim.adb:9:4-9:6>
+  type:          <ConcreteTypeDecl ["Row"] multidim.adb:5:4-5:57>
+  expected type: None
+Expr: <Id "RA" multidim.adb:34:25-34:27>
+  references:    <DefiningName "RA" multidim.adb:9:4-9:6>
+  type:          <ConcreteTypeDecl ["Row_Array"] multidim.adb:6:4-6:43>
+  expected type: None
+Expr: <AttributeRef multidim.adb:34:29-34:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+Expr: <Id "R" multidim.adb:34:29-34:30>
+  references:    <DefiningName "R" multidim.adb:32:8-32:9>
+  type:          <ConcreteTypeDecl ["Row"] multidim.adb:5:4-5:57>
+  expected type: None
+Expr: <Id "Loop_Index" multidim.adb:34:31-34:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef multidim.adb:34:44-34:56>
+  references:    None
+  type:          <SubtypeDecl ["Positive"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
+Expr: <Id "X" multidim.adb:34:44-34:45>
+  references:    <DefiningName "X" multidim.adb:33:11-33:12>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" multidim.adb:34:46-34:56>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq multidim.adb:34:58-34:59>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "X" multidim.adb:34:60-34:61>
+  references:    <DefiningName "X" multidim.adb:33:11-33:12>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Analyzing iterable.adb
+######################
+
+Resolving xrefs for node <PragmaNode iterable.adb:55:7-55:53>
+*************************************************************
+
+Expr: <Id "Assert" iterable.adb:55:14-55:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp iterable.adb:55:22-55:51>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr iterable.adb:55:22-55:47>
+  references:    <DefiningName "Element" iterable.adb:21:16-21:23>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
+Expr: <Id "Element" iterable.adb:55:22-55:29>
+  references:    <DefiningName "Element" iterable.adb:21:16-21:23>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: None
+Expr: <Id "Q" iterable.adb:55:31-55:32>
+  references:    <DefiningName "Q" iterable.adb:49:4-49:5>
+  type:          <ConcreteTypeDecl ["Seq"] iterable.adb:5:7-13:36>
+  expected type: <ConcreteTypeDecl ["Seq"] iterable.adb:5:7-13:36>
+Expr: <AttributeRef iterable.adb:55:34-55:46>
+  references:    None
+  type:          <ConcreteTypeDecl ["Cursor"] iterable.adb:3:7-3:34>
+  expected type: <ConcreteTypeDecl ["Cursor"] iterable.adb:3:7-3:34>
+Expr: <Id "E" iterable.adb:55:34-55:35>
+  references:    <DefiningName "E" iterable.adb:54:8-54:9>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" iterable.adb:55:36-55:46>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq iterable.adb:55:48-55:49>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "E" iterable.adb:55:50-55:51>
+  references:    <DefiningName "E" iterable.adb:54:8-54:9>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
+
+Resolving xrefs for node <PragmaNode iterable.adb:62:7-62:50>
+*************************************************************
+
+Expr: <Id "Assert" iterable.adb:62:14-62:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <MembershipExpr iterable.adb:62:22-62:48>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <DottedName iterable.adb:62:22-62:38>
+  references:    <DefiningName "Pos" iterable.adb:25:10-25:13>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: None
+Expr: <AttributeRef iterable.adb:62:22-62:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Rec_Cursor"] iterable.adb:24:7-26:18>
+  expected type: <ConcreteTypeDecl ["Rec_Cursor"] iterable.adb:24:7-26:18>
+Expr: <Id "E" iterable.adb:62:22-62:23>
+  references:    <DefiningName "E" iterable.adb:61:8-61:9>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" iterable.adb:62:24-62:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Pos" iterable.adb:62:35-62:38>
+  references:    <DefiningName "Pos" iterable.adb:25:10-25:13>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: None
+Expr: <OpIn iterable.adb:62:39-62:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <BinOp iterable.adb:62:42-62:48>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
+Expr: <Int iterable.adb:62:42-62:43>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
+Expr: <OpDoubleDot iterable.adb:62:44-62:46>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int iterable.adb:62:47-62:48>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
+
+
+Analyzing quantified.adb
+########################
+
+Resolving xrefs for node <PragmaNode quantified.adb:9:4-9:59>
+*************************************************************
+
+quantified.adb:9:40: error: expected a loop parameter of a for .. of loop, got 'E'
+9 |    pragma Assert (for all E of A => A (E'Loop_Index) = E);
+  |                                        ^
+
+
+Expected name resolution failure for node <PragmaNode quantified.adb:9:4-9:59>
+
+
+Analyzing renaming.adb
+######################
+
+Resolving xrefs for node <PragmaNode renaming.adb:13:10-13:43>
+**************************************************************
+
+renaming.adb:13:25: error: expected a loop parameter of a for .. of loop, got 'R'
+13 |          pragma Assert (R'Loop_Index = 1);
+   |                         ^
+
+
+Expected name resolution failure for node <PragmaNode renaming.adb:13:10-13:43>
+
+
+Done.

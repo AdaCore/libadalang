@@ -23,6 +23,7 @@ procedure Ghost_Code is
       pragma Assume (True);
       loop
          pragma Loop_Invariant (True);
+         pragma Loop_Variant (Increases => True);
       end loop;
    end Ghost_Pkg;
 begin

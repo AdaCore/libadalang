@@ -22746,6 +22746,7 @@ class Pragma: AdaNode {
             | s"Assert_And_Cut"
             | s"Assume"
             | s"Loop_Invariant"
+            | s"Loop_Variant"
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =

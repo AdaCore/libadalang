@@ -154,7 +154,7 @@ class AdaNode implements Node[AdaNode] {
     |" references can designate entities declared *after* the entity on which
     |" this aspect is defined.
     fun aspect_has_forward_visibility(name: Symbol): Bool =
-        node.is_contract_aspect(name)
+        (node.is_contract_aspect(name) and name != s"SPARK_Mode")
         or name in s"Iterator_Element" | s"Default_Iterator"
 
     fun in_aspect_with_forward_visibility(): Bool =

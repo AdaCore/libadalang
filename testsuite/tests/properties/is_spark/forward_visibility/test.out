@@ -1,0 +1,23 @@
+Working on node <NullSubpDecl ["Valid_Nameres_Aspect"] pkg.ads:4:4-4:68>
+========================================================================
+
+Eval 'node.f_aspects.f_aspect_assocs[0].f_expr.p_referenced_decl()'
+Result: <ObjectDecl ["Early"] pkg.ads:2:4-2:37>
+
+Working on node <PragmaNode pkg.ads:8:4-8:30>
+=============================================
+
+Eval 'node.f_args[0].f_expr.p_referenced_decl()'
+Result: <ObjectDecl ["Early"] pkg.ads:2:4-2:37>
+
+Working on node <NullSubpDecl ["Invalid_Nameres_Aspect"] pkg.ads:11:4-11:69>
+============================================================================
+
+Eval 'node.f_aspects.f_aspect_assocs[0].f_expr.p_referenced_decl()'
+Result: None
+
+Working on node <PragmaNode pkg.ads:15:4-15:29>
+===============================================
+
+Eval 'node.f_args[0].f_expr.p_referenced_decl()'
+Result: None

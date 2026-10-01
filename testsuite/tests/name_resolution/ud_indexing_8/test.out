@@ -78,9 +78,9 @@
 
 == test_array.adb ==
 
--> Resolving <CallExpr test_array.adb:41:14-41:24> to <| DefiningName "Constant_Reference" a-convec.ads:313:13-313:31 [test_array.adb:26:7] |>
+-> Resolving <CallExpr test_array.adb:41:14-41:24> to <| DefiningName "Constant_Reference" a-convec.ads:320:13-320:31 [test_array.adb:26:7] |>
 
--> Resolving <CallExpr test_array.adb:44:4-44:14> to <| DefiningName "Reference" a-convec.ads:318:13-318:22 [test_array.adb:26:7] |>
+-> Resolving <CallExpr test_array.adb:44:4-44:14> to <| DefiningName "Reference" a-convec.ads:325:13-325:22 [test_array.adb:26:7] |>
 
--> Resolving <CallExpr test_array.adb:44:23-44:33> to <| DefiningName "Constant_Reference" a-convec.ads:313:13-313:31 [test_array.adb:26:7] |>
+-> Resolving <CallExpr test_array.adb:44:23-44:33> to <| DefiningName "Constant_Reference" a-convec.ads:320:13-320:31 [test_array.adb:26:7] |>
 

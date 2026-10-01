@@ -1,0 +1,56 @@
+Working on node <ExprFunction ["Identity"] test.adb:6:4-6:58>
+=============================================================
+
+Eval 'node.p_get_aspect("Precondition")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:9:4-9:39> value=<MembershipExpr test.adb:9:25-9:37> inherited=False>
+
+Eval 'node.p_get_aspect("Postcondition")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:10:4-10:47> value=<RelationOp test.adb:10:26-10:45> inherited=False>
+
+Working on node <ExprFunction ["Cartesian_Product"] test.adb:12:4-12:74>
+========================================================================
+
+Eval 'node.p_get_aspect("Contract_Cases")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:14:4-18:65> value=<Aggregate test.adb:15:7-18:63> inherited=False>
+
+Working on node <ConcreteTypeDecl ["T1"] test.adb:21:7-21:26>
+=============================================================
+
+Eval 'node.p_get_aspect("Invariant")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:23:7-23:35> value=<Id "True" test.adb:23:29-23:33> inherited=False>
+
+Working on node <ConcreteTypeDecl ["T2"] test.adb:25:7-25:26>
+=============================================================
+
+Eval 'node.p_get_aspect("Type_Invariant")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:27:7-27:40> value=<Id "True" test.adb:27:34-27:38> inherited=False>
+
+Working on node <ConcreteTypeDecl ["T3"] test.adb:29:7-29:33>
+=============================================================
+
+Eval 'node.p_get_aspect("Type_Invariant_Class")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:31:7-31:46> value=<Id "True" test.adb:31:40-31:44> inherited=False>
+
+Working on node <ConcreteTypeDecl ["T4"] test.adb:33:7-33:26>
+=============================================================
+
+Eval 'node.p_get_aspect("Predicate")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:35:7-35:35> value=<Id "True" test.adb:35:29-35:33> inherited=False>
+
+Working on node <ConcreteTypeDecl ["T5"] test.adb:37:7-37:26>
+=============================================================
+
+Eval 'node.p_get_aspect("Predicate_Failure")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:39:7-39:58> value=<RaiseExpr test.adb:39:37-39:56> inherited=False>
+
+Working on node <SubpDecl ["P1"] test.adb:48:4-48:17>
+=====================================================
+
+Eval 'node.p_get_aspect("Exceptional_Cases")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:50:4-51:58> value=<Aggregate test.adb:51:7-51:56> inherited=False>
+
+Working on node <SubpDecl ["P2"] test.adb:54:4-54:17>
+=====================================================
+
+Eval 'node.p_get_aspect("Exit_Cases")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:56:4-56:50> value=None inherited=False>

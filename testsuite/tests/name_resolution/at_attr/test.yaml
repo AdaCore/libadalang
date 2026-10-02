@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [test_at.adb, test_at_prefixes.adb]

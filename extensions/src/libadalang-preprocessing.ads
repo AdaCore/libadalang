@@ -379,6 +379,8 @@ package Libadalang.Preprocessing is
    --  Note that this function collects all arguments and returns an
    --  approximation from them: it does not replicates exactly gprbuild's
    --  behavior.
+   --
+   --  Note: this function is deprecated and will be removed in release 28.
 
    procedure Extract_Preprocessor_Data_From_Project
      (Tree           : Prj.Project_Tree'Class;
@@ -389,6 +391,8 @@ package Libadalang.Preprocessing is
    --  instead fill out the ``Default_Config`` and ``File_Configs`` arguments.
    --  This procedure is useful in order to modify the parsed configuration
    --  before creating the ``Preprocessor_Data`` object.
+   --
+   --  Note: this procedure is deprecated and will be removed in release 28.
 
    function Extract_Preprocessor_Data_From_Project
      (Tree    : GPR2.Project.Tree.Object;

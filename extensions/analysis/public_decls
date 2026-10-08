@@ -37,6 +37,8 @@ function Create_Context_From_Project
 --
 --  See ``Libadalang.Analysis.Create_Context`` for the semantics of the other
 --  arguments.
+--
+--  Note: this function is deprecated and will be removed in release 28.
 
 function Create_Context_From_Project
   (Tree          : GPR2.Project.Tree.Object;

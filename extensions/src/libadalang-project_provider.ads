@@ -44,18 +44,28 @@ package Libadalang.Project_Provider is
    -- GNATCOLL.Projects based API --
    ---------------------------------
 
+   --  Note: the GNATCOLL.Projects based API is deprecated and will be removed
+   --  in release 28.
+
    type Provider_And_Projects is record
       Provider : LAL.Unit_Provider_Reference;
       Projects : Prj.Project_Array_Access;
    end record;
    --  Associates one project unit provider with all the projects on which it
    --  has visibility.
+   --
+   --  Note: This type is deprecated and will be removed in release 28.
 
    type Provider_And_Projects_Array is
       array (Positive range <>) of Provider_And_Projects;
+   --  Note: This type is deprecated and will be removed in release 28
+
    type Provider_And_Projects_Array_Access is
       access all Provider_And_Projects_Array;
+   --  Note: This type is deprecated and will be removed in release 28
+
    procedure Free (PAP_Array : in out Provider_And_Projects_Array_Access);
+   --  Note: This procedure is deprecated and will be removed in release 28
 
    function Create_Project_Unit_Providers
      (Tree : Prj.Project_Tree_Access)
@@ -69,6 +79,8 @@ package Libadalang.Project_Provider is
    --
    --  The project pointed to by ``Tree`` must outlive the returned unit file
    --  providers, and it is up to callers to deallocate ``Tree`` itself.
+   --
+   --  Note: This function is deprecated and will be removed in release 28.
 
    function Create_Project_Unit_Provider
      (Tree             : Prj.Project_Tree_Access;
@@ -89,6 +101,8 @@ package Libadalang.Project_Provider is
    --  If ``Is_Project_Owner`` is true, the result owns ``Tree``, thus the
    --  caller must not deallocate it itself.  Otherwise, the project pointed to
    --  by ``Project`` must outlive the returned unit file provider.
+   --
+   --  Note: This function is deprecated and will be removed in release 28.
 
    function Convert
      (Kind : Analysis_Unit_Kind) return GNATCOLL.Projects.Unit_Parts
@@ -98,6 +112,8 @@ package Libadalang.Project_Provider is
       when Unit_Body          => GNATCOLL.Projects.Unit_Body);
    --  Convert our kind for analysis unit into the corresponding
    --  ``GNATCOLL.Projects`` value.
+   --
+   --  Note: This function is deprecated and will be removed in release 28.
 
    package Filename_Vectors is new Ada.Containers.Vectors
      (Index_Type   => Positive,
@@ -129,6 +145,8 @@ package Libadalang.Project_Provider is
    --  If ``Projects`` is not empty, return instead the list for the sources in
    --  all sub-projects in ``Projects``, still applying the given mode to the
    --  search.
+   --
+   --  Note: This function is deprecated and will be removed in release 28.
 
    function Default_Charset_From_Project
      (Tree    : Prj.Project_Tree'Class;
@@ -140,14 +158,12 @@ package Libadalang.Project_Provider is
    --
    --  Note that, as of today, this detection only looks for the ``-gnatW8``
    --  compiler switch: other charsets are not supported.
+   --
+   --  Note: This function is deprecated and will be removed in release 28.
 
    --------------------
    -- GPR2 based API --
    --------------------
-
-   --  .. ATTENTION:: This is an experimental feature, so even if it is exposed
-   --  to allow experiments, it is totally unsupported and the API is very
-   --  likely to change in the future.
 
    Runtime_Missing_Error : exception;
    --  Exception raised by the ``Create_Project_Unit_Provider[s]`` functions

@@ -72,10 +72,6 @@ package Libadalang.Config_Pragmas is
    -- GPR2 based API --
    --------------------
 
-   --  .. ATTENTION:: This is an experimental feature, so even if it is exposed
-   --  to allow experiments, it is totally unsupported and the API is very
-   --  likely to change in the future.
-
    function Import_From_Project
      (Tree    : GPR2.Project.Tree.Object;
       View    : GPR2.Project.View.Object := GPR2.Project.View.Undefined)

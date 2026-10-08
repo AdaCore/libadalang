@@ -165,10 +165,6 @@ package Libadalang.Project_Provider is
    -- GPR2 based API --
    --------------------
 
-   --  .. ATTENTION:: This is an experimental feature, so even if it is exposed
-   --  to allow experiments, it is totally unsupported and the API is very
-   --  likely to change in the future.
-
    Runtime_Missing_Error : exception;
    --  Exception raised by the ``Create_Project_Unit_Provider[s]`` functions
    --  when passed a project that does not have the runtime project loaded.

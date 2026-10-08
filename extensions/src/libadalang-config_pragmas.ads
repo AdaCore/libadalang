@@ -57,12 +57,16 @@ package Libadalang.Config_Pragmas is
    --  If ``Subproject`` is not ``No_Project``, restrict the exploration of
    --  local configuration pragmas files to that project (global ones are still
    --  found in the root project).
+   --
+   --  Note: this function is deprecated and will be removed in release 28.
 
    procedure Import_From_Project
      (Context    : Analysis_Context;
       Project    : Project_Tree'Class;
       Subproject : Project_Type := No_Project);
-   --  Shortcut for ``Import_From_Project/Set_Mapping`` calls
+   --  Shortcut for ``Import_From_Project/Set_Mapping`` call.
+   --
+   --  Note: this procedure is deprecated and will be removed in release 28.
 
    --------------------
    -- GPR2 based API --

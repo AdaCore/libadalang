@@ -1,0 +1,23 @@
+procedure Loops is
+begin
+   if Canvas.Width > From_Point.X + To_Point.X
+     and then Canvas.Height > From_Point.Y + To_Point.Y then
+      null;
+   elsif Canvas.Width > From_Point.X + To_Point.X
+     or else Canvas.Height > From_Point.Y then
+      null;
+   end if;
+   if Short then
+      null;
+   end if;
+   for Index in
+     Canvas.Pixels'First (1)
+     .. Canvas.Pixels'Last (1) - From_Point.X - To_Point.X loop
+      null;
+   end loop;
+   while Total
+     > Canvas.Width * Canvas.Height + From_Point.X * To_Point.Y + 12345 loop
+      null;
+   end loop;
+end Loops;
+

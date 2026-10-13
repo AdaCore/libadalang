@@ -1,0 +1,13 @@
+package ArrayTypeDef is
+
+  type Constrained_Matrix is
+    array (Natural range 0 .. L1, Natural range 0 .. L2, Natural range 0 .. L3)
+   of Integer;
+
+  type Unconstrained_Matrix is array(Integer  range <>, Integer range <>) of Real;
+
+  type Small_Matrix is array (1 .. 2, 1 .. 3) of Integer;
+
+  Buffer : array (1 .. 10) of Character;
+
+end ArrayTypeDef;

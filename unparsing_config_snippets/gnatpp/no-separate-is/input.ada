@@ -1,0 +1,15 @@
+package body Is_Placement is
+   procedure Log (Msg : String) is
+   begin
+      null;
+   end Log;
+   procedure Draw (Canvas : in out Canvas_Type; From_Point : Point; To_Point : Point; C : Color) is
+      Total : Integer := 0;
+   begin
+      null;
+   end Draw;
+   function Is_Valid (P : Point) return Boolean is
+   begin
+      return True;
+   end Is_Valid;
+end Is_Placement;

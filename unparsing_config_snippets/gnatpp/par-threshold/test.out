@@ -1,0 +1,28 @@
+package Params is
+   procedure Reset;
+   procedure Log (Msg : String);
+   procedure Move
+     (P  : in out Point;
+      DX : Integer;
+      DY : Integer);
+   function Get return Integer;
+   function Is_Valid
+     (P : Point)
+      return Boolean;
+   function Add
+     (A : Integer;
+      B : Integer)
+      return Integer is (A + B);
+   type Callback is access procedure
+     (A : Integer;
+      B : Integer);
+   type Getter is access function
+     (A : Integer)
+      return Integer;
+   task T is
+      entry Start
+        (Id   : Integer;
+         Name : String);
+   end T;
+end Params;
+

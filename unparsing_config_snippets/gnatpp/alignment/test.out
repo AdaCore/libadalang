@@ -1,0 +1,21 @@
+package Alignment is
+
+   type Point is record
+      X            : Integer      := 0;
+      Y_Coordinate : Long_Integer := 0;
+      Visible      : Boolean;
+   end record;
+
+   procedure Move
+     (Origin    : Point;
+      DX        : Integer      := 0;
+      DY_Offset : Long_Integer := 0;
+      Scale     : Float        := 1.0);
+
+   Var_Int   : constant Integer := 15;
+   Var_Bool  : Boolean          := True;
+   Var_Float : Float            := 0.1;
+
+   Var_After_Blank_Line_Sep : Integer := 123;
+
+end Alignment;

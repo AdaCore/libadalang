@@ -1,0 +1,4 @@
+package EnumTypeDef is
+   type Day is (Mon, Tue, Wed, Thu, Fri, Sat, Sun);
+   type Single is (Only);
+end EnumTypeDef;

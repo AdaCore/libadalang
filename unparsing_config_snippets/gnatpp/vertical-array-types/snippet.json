@@ -1,0 +1,76 @@
+{
+  "node_configs": {
+    "ArrayTypeDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "if",
+            "condition": {
+              "kind": "is_a",
+              "node": {
+                "kind": "eval_member",
+                "prefix": "this_node",
+                "member": "parent"
+              },
+              "pattern": {
+                "kind": "or",
+                "patterns": [
+                  {
+                    "kind": "node",
+                    "type": "ConcreteTypeDecl"
+                  },
+                  {
+                    "kind": "node",
+                    "type": "FormalTypeDecl"
+                  }
+                ]
+              }
+            },
+            "then": "breakParent",
+            "else": []
+          },
+          {
+            "kind": "text",
+            "text": "array"
+          },
+          "whitespace",
+          {
+            "kind": "group",
+            "document": {
+              "kind": "innerRoot",
+              "contents": [
+                {
+                  "kind": "text",
+                  "text": "("
+                },
+                {
+                  "kind": "align",
+                  "width": " ",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_indices"
+                  }
+                },
+                {
+                  "kind": "text",
+                  "text": ")"
+                }
+              ]
+            }
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "of"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_component_type"
+          }
+        ]
+      }
+    }
+  }
+}

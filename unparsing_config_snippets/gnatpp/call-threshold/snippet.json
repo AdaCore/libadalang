@@ -1,0 +1,331 @@
+{
+  "node_configs": {
+    "GenericPackageInstantiation": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            {
+              "kind": "text",
+              "text": "package"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_name"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "is"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "new"
+            },
+            {
+              "kind": "group",
+              "id": "generic_name",
+              "document": [
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_generic_pkg_name"
+                }
+              ]
+            },
+            {
+              "kind": "ifBreak",
+              "groupId": "generic_name",
+              "breakContents": {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_params"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              },
+              "flatContents": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_params"
+                },
+                {
+                  "kind": "recurse_field",
+                  "field": "f_aspects"
+                }
+              ]
+            },
+            {
+              "kind": "text",
+              "text": ";"
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_params": [
+          "line",
+          {
+            "kind": "align",
+            "width": " ",
+            "contents": [
+              {
+                "kind": "text",
+                "text": "("
+              },
+              "recurse",
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "GenericSubpInstantiation": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": {
+              "kind": "continuationLineIndent",
+              "contents": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_kind"
+                },
+                "whitespace",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subp_name"
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": "is"
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": "new"
+                },
+                {
+                  "kind": "group",
+                  "id": "generic_name",
+                  "document": [
+                    "line",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_generic_subp_name"
+                    }
+                  ]
+                },
+                {
+                  "kind": "ifBreak",
+                  "groupId": "generic_name",
+                  "breakContents": {
+                    "kind": "continuationLineIndent",
+                    "contents": [
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_params"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_aspects"
+                      }
+                    ]
+                  },
+                  "flatContents": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_params"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_aspects"
+                    }
+                  ]
+                },
+                {
+                  "kind": "text",
+                  "text": ";"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "fields": {
+        "f_params": [
+          "line",
+          {
+            "kind": "align",
+            "width": " ",
+            "contents": [
+              {
+                "kind": "text",
+                "text": "("
+              },
+              "recurse",
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ParamAssoc": {
+      "node": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "is_empty",
+            "node": {
+              "kind": "eval_member",
+              "prefix": "this_node",
+              "member": "f_designator"
+            }
+        },
+        "then": [
+          {
+            "kind": "recurse_field",
+            "field": "f_designator"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_r_expr"
+          }
+        ],
+        "else": [
+          {
+            "kind": "recurse_field",
+            "field": "f_designator"
+          },
+          {
+            "kind": "group",
+            "document": {
+              "kind": "continuationLineIndent",
+              "contents": [
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_r_expr"
+                }
+              ]
+            }
+          }
+        ]
+        },
+        {
+          "kind": "match",
+          "node": "this_node",
+          "matchers": [
+            {
+              "pattern": {
+                "kind": "node",
+                "type": "ParamAssoc",
+                "members": [
+                  {
+                    "member": "f_designator",
+                    "pattern": {"kind": "not", "pattern": null}
+                  },
+                  {
+                    "member": "parent",
+                    "pattern": {
+                      "kind": "node",
+                      "type": "AssocList",
+                      "members": [
+                        {
+                          "member": "parent",
+                          "pattern": {
+                            "kind": "or",
+                            "patterns": [
+                              {"kind": "node", "type": "CallExpr"},
+                              {"kind": "node", "type": "GenericInstantiation"}
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "member": "previous_sibling",
+                    "pattern": {"kind": "not", "pattern": null}
+                  }
+                ]
+              },
+              "document": "breakParent"
+            },
+            {
+              "pattern": {
+                "kind": "node",
+                "type": "ParamAssoc",
+                "members": [
+                  {
+                    "member": "f_designator",
+                    "pattern": {"kind": "not", "pattern": null}
+                  },
+                  {
+                    "member": "parent",
+                    "pattern": {
+                      "kind": "node",
+                      "type": "AssocList",
+                      "members": [
+                        {
+                          "member": "parent",
+                          "pattern": {
+                            "kind": "or",
+                            "patterns": [
+                              {"kind": "node", "type": "CallExpr"},
+                              {"kind": "node", "type": "GenericInstantiation"}
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "member": "next_sibling",
+                    "pattern": {"kind": "not", "pattern": null}
+                  }
+                ]
+              },
+              "document": "breakParent"
+            },
+            {
+              "pattern": "*",
+              "document": []
+            }
+          ]
+        }
+      ],
+      "fields": {
+        "f_designator": [
+          "recurse",
+          "whitespace",
+          {
+            "kind": "tableSeparator",
+            "text": "=>"
+          }
+        ]
+      }
+    }
+  }
+}

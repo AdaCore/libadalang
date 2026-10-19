@@ -1,0 +1,28 @@
+{
+  "node_configs": {
+    "EnumTypeDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          "breakParent",
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "align",
+            "width": " ",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_enum_literals"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,3 +1,0 @@
-driver: unparser
-is_snippet: true
-rule: type_decl

@@ -1,0 +1,955 @@
+{
+  "node_configs": {
+    "AbstractFormalSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_overriding"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "is"
+              },
+              {
+                "kind": "text",
+                "text": "abstract"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_default_expr"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ]
+      }
+    },
+    "AbstractSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "text",
+            "text": "abstract"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
+    "AcceptStmtWithStmts": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "accept"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_body_decl"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_entry_index_expr"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_params"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "do"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_stmts"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
+      }
+    },
+    "ConcreteFormalSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_default_expr"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
+        "f_default_expr": {
+          "kind": "group",
+          "document": [
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "is"
+            },
+            "whitespace",
+            {
+              "kind": "innerRoot",
+              "contents": "recurse"
+            }
+          ]
+        }
+      }
+    },
+    "ConcreteTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "text",
+                    "text": "type"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_name"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_discriminants"
+                  },
+                  "line",
+                  {
+                    "kind": "text",
+                    "text": "is"
+                  }
+                ]
+              },
+              {
+                "kind": "if",
+                "condition": {
+                  "kind": "is_a",
+                  "node": {
+                    "kind": "eval_member",
+                    "prefix": "this_node",
+                    "member": "f_type_def"
+                  },
+                  "pattern": {
+                    "kind": "or",
+                    "patterns": [
+                      {"kind": "node", "type": "DerivedTypeDef"},
+                      {"kind": "node", "type": "RecordTypeDef"},
+                      {"kind": "node", "type": "AccessToSubpDef"}
+                    ]
+                  }
+                },
+                "then": {"kind": "recurse_field", "field": "f_type_def"},
+                "else": {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    "line",
+                    {"kind": "recurse_field","field": "f_type_def"}
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_discriminants": [
+          {
+            "kind": "continuationLineIndent",
+            "contents": [
+              "line",
+              "recurse"
+            ]
+          }
+        ],
+        "f_aspects": [
+          "line",
+          "recurse"
+        ]
+      }
+    },
+    "ExprFunction": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": {
+              "kind": "recurse_field",
+              "field": "f_subp_spec"
+            }
+          },
+          {
+            "kind": "group",
+            "document": [
+              "line",
+              {
+                "kind": "indent",
+                "contents": [
+                  {
+                    "kind": "text",
+                    "text": "is"
+                  },
+                  "whitespace",
+                  "flushLineBreaks",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_expr"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ]
+      }
+    },
+    "FormalTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "text",
+                    "text": "type"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_name"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_discriminants"
+                  },
+                  "line",
+                  {
+                    "kind": "text",
+                    "text": "is"
+                  }
+                ]
+              },
+              {
+                "kind": "if",
+                "condition": {
+                  "kind": "is_a",
+                  "node": {
+                    "kind": "eval_member",
+                    "prefix": "this_node",
+                    "member": "f_type_def"
+                  },
+                  "pattern": {
+                    "kind": "or",
+                    "patterns": [
+                      {"kind": "node", "type": "DerivedTypeDef"},
+                      {"kind": "node", "type": "RecordTypeDef"},
+                      {"kind": "node", "type": "AccessToSubpDef"}
+                    ]
+                  }
+                },
+                "then": {"kind": "recurse_field", "field": "f_type_def"},
+                "else": {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    "line",
+                    {"kind": "recurse_field", "field": "f_type_def"}
+                  ]
+                }
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_default_type"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_discriminants": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        },
+        "f_default_type": {
+          "kind": "group",
+          "document": [
+            "line",
+            "recurse"
+          ]
+        }
+      }
+    },
+    "GenericFormalSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "with"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_decl"
+          }
+        ]
+      }
+    },
+    "NullSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "is"
+              },
+              {
+                "kind": "text",
+                "text": "null"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              },
+              {
+                "kind": "text",
+                "text": ";"
+              }
+            ]
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "line",
+          "recurse"
+        ]
+      }
+    },
+    "ParamSpec": {
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "recurse_field",
+              "field": "f_ids"
+            },
+            "whitespace"
+          ]
+        },
+        {
+          "kind": "tableSeparator",
+          "text": ":"
+        },
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    "line",
+                    {
+                      "kind": "group",
+                      "document": [
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_has_aliased"
+                        },
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_mode"
+                        },
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_type_expr"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "id": "param_spec_type"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_default_expr"
+            }
+          ]
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_aspects"
+        },
+        {
+          "kind": "match",
+          "node": "this_node",
+          "matchers": [
+            {
+              "pattern": {
+                "kind": "node",
+                "type": "ParamSpec",
+                "members": [
+                  {
+                    "member": "previous_sibling",
+                    "pattern": {"kind": "node", "type": "ParamSpec"}
+                  }
+                ]
+              },
+              "document": "breakParent"
+            },
+            {
+              "pattern": {
+                "kind": "node",
+                "type": "ParamSpec",
+                "members": [
+                  {
+                    "member": "next_sibling",
+                    "pattern": {"kind": "node", "type": "ParamSpec"}
+                  }
+                ]
+              },
+              "document": "breakParent"
+            },
+            {
+              "pattern": {
+                "kind": "node",
+                "type": "ParamSpec",
+                "members": [
+                  {
+                    "member": "parent",
+                    "pattern": {
+                      "kind": "node",
+                      "type": "ParamSpecList",
+                      "members": [
+                        {
+                          "member": "parent",
+                          "pattern": {
+                            "kind": "node",
+                            "type": "Params",
+                            "members": [
+                              {
+                                "member": "parent",
+                                "pattern": {
+                                  "kind": "node",
+                                  "type": "SubpSpec",
+                                  "members": [
+                                    {
+                                      "member": "f_subp_kind",
+                                      "pattern": {
+                                        "kind": "node",
+                                        "type": "SubpKindFunction"
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "document": "breakParent"
+            },
+            {
+              "pattern": "*",
+              "document": []
+            }
+          ]
+        }
+      ],
+      "fields": {
+        "f_default_expr": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": ":="
+          },
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    "line",
+                    "recurse"
+                  ]
+                }
+              }
+            },
+            "flatContents": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "group",
+                "document": [
+                  "line",
+                  "recurse"
+                ]
+              }
+            },
+            "groupId": "param_spec_type"
+          }
+        ]
+      }
+    },
+    "SubpBody": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              }
+            ],
+            "id": "subp_spec"
+          },
+          {
+            "kind": "if",
+            "condition": {
+              "kind": "is_empty",
+              "node": {
+                "kind": "eval_member",
+                "prefix": "this_node",
+                "member": "f_aspects"
+              }
+            },
+            "then": {
+              "kind": "ifBreak",
+              "groupId": "subp_spec",
+              "flatContents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "group",
+                    "document": [
+                      "line",
+                      {
+                        "kind": "text",
+                        "text": "is"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_decls"
+                  }
+                ]
+              },
+              "breakContents": {
+                "kind": "group",
+                "document": [
+                  "hardline",
+                  {
+                    "kind": "text",
+                    "text": "is"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_decls"
+                  }
+                ]
+              }
+            },
+            "else": {
+              "kind": "ifBreak",
+              "groupId": "subp_spec",
+              "flatContents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "group",
+                    "document": [
+                      "line",
+                      {
+                        "kind": "text",
+                        "text": "is"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_decls"
+                  }
+                ]
+              },
+              "breakContents": {
+                "kind": "group",
+                "document": [
+                  "hardline",
+                  {
+                    "kind": "text",
+                    "text": "is"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_decls"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "text",
+            "text": "begin"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_stmts"
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "line",
+          "recurse"
+        ],
+        "f_decls": [
+          {
+            "kind": "indent",
+            "contents": [
+              "recurse"
+            ]
+          },
+          "hardlineWithoutBreakParent"
+        ],
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
+      }
+    },
+    "SubpBodyStub": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "text",
+            "text": "separate"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
+    "SubpRenamingDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              "whitespace",
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "continuationLineIndent",
+                    "contents": {
+                      "kind": "recurse_field",
+                      "field": "f_renames"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "line",
+          "recurse"
+        ]
+      }
+    },
+    "SubpSpec": {
+      "node": {
+        "kind": "continuationLineIndent",
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "recurse_field",
+              "field": "f_subp_kind"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_subp_name"
+            },
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subp_params"
+                },
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subp_returns"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_subp_name": [
+          "whitespace",
+          "recurse"
+        ],
+        "f_subp_returns": {
+          "kind": "align",
+          "width": " ",
+          "contents": [
+            "line",
+            {
+              "kind": "text",
+              "text": "return"
+            },
+            "whitespace",
+            "recurse"
+          ]
+        },
+        "f_subp_params": {
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
+          "then": "recurse",
+          "else": [
+            "line",
+            "recurse"
+          ]
+        }
+      }
+    }
+  }
+}

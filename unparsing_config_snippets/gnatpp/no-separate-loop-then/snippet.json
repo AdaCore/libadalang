@@ -1,0 +1,247 @@
+{
+  "node_configs": {
+    "ElsifStmtPart": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "elsif"
+              },
+              "whitespace",
+              {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": {
+                    "kind": "recurse_field",
+                    "field": "f_cond_expr"
+                  }
+                }
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "then"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardlineWithoutBreakParent",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ],
+            "bubbleUpTrailingTrivias": true
+          }
+        ]
+      }
+    },
+    "ForLoopStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "for"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_spec"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "loop"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ]
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "loop"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
+      }
+    },
+    "IfStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "text",
+                      "text": "if"
+                    },
+                    "whitespace",
+                    "flushLineBreaks",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_cond_expr"
+                    }
+                  ]
+                }
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "then"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_then_stmts"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_alternatives"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_else_part"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "if"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_then_stmts": [
+          {
+            "kind": "indent",
+            "contents": [
+              "hardlineWithoutBreakParent",
+              "recurse"
+            ],
+            "bubbleUpTrailingTrivias": true
+          }
+        ],
+        "f_alternatives": {
+          "kind": "if",
+          "condition": {"kind": "is_empty", "node": "this_field"},
+          "then": "recurse",
+          "else": [
+            "hardlineWithoutBreakParent",
+            "recurse"
+          ]
+        }
+      }
+    },
+    "WhileLoopStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_spec"
+                }
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "loop"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ]
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "loop"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
+      }
+    }
+  }
+}

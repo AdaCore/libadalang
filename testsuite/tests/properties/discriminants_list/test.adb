@@ -29,6 +29,19 @@ procedure Test is
 
       type J is access procedure;
       --% node.p_discriminants_list()
+
+      type K;
+      --% node.p_discriminants_list()
+      type K is null record;
+
+      protected type L is
+      end L;
+      --% node.p_discriminants_list()
+
+      task type M is
+      end M;
+      --% node.p_discriminants_list()
+
    private
       type D (Y : Integer) is null record;
       type E (X : Integer) is null record;

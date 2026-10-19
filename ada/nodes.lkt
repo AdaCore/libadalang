@@ -10382,7 +10382,7 @@ class IncompleteTypeDecl: BaseTypeDecl {
         @ignored
         stop_recurse_at: Entity[BaseTypeDecl] = null[Entity[BaseTypeDecl]]
     ): Array[Entity[BaseFormalParamDecl]] =
-        self.discriminants.abstract_formal_params()
+        self.discriminants?.abstract_formal_params()
 
     env_spec {
         add_to_env_kv(self.name_symbol(), node)
@@ -10434,7 +10434,7 @@ class ProtectedTypeDecl: BaseTypeDecl {
         @ignored
         stop_recurse_at: Entity[BaseTypeDecl] = null[Entity[BaseTypeDecl]]
     ): Array[Entity[BaseFormalParamDecl]] =
-        self.discriminants.abstract_formal_params()
+        self.discriminants?.abstract_formal_params()
 
     @with_dynvars(
         origin, include_ud_indexing=false, dottable_type=null[AdaNode]
@@ -10512,7 +10512,7 @@ class TaskTypeDecl: BaseTypeDecl {
         @ignored
         stop_recurse_at: Entity[BaseTypeDecl] = null[Entity[BaseTypeDecl]]
     ): Array[Entity[BaseFormalParamDecl]] =
-        self.discriminants.abstract_formal_params()
+        self.discriminants?.abstract_formal_params()
 
     fun xref_entry_point(): Bool = true
 

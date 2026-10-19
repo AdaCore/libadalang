@@ -58,8 +58,26 @@ Working on node <ConcreteTypeDecl ["J"] test.adb:30:7-30:34>
 Eval 'node.p_discriminants_list()'
 Result: []
 
-Working on node <SubtypeDecl ["J"] test.adb:43:7-43:22>
+Working on node <IncompleteTypeDecl ["K"] test.adb:33:7-33:14>
+==============================================================
+
+Eval 'node.p_discriminants_list()'
+Result: []
+
+Working on node <ProtectedTypeDecl ["L"] test.adb:37:7-38:13>
+=============================================================
+
+Eval 'node.p_discriminants_list()'
+Result: []
+
+Working on node <TaskTypeDecl ["M"] test.adb:41:7-42:13>
+========================================================
+
+Eval 'node.p_discriminants_list()'
+Result: []
+
+Working on node <SubtypeDecl ["J"] test.adb:56:7-56:22>
 =======================================================
 
 Eval 'node.p_discriminants_list()'
-Result: [<DiscriminantSpec ["X"] test.adb:34:15-34:26>]
+Result: [<DiscriminantSpec ["X"] test.adb:47:15-47:26>]

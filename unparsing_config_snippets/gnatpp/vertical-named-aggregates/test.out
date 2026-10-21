@@ -1,6 +1,6 @@
 procedure Main (X : in out Integer; Y : Integer)
 with
-  Depends => (X =>(X, Y)),
+  Depends => (X => (X, Y)),
   Global  =>
     (Input  => G1,
      Output => G2)

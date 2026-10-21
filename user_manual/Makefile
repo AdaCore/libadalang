@@ -18,39 +18,7 @@ LANGKIT_SUPPORT_GPR_DIR = $(LANGKIT_DIR)/langkit/support
 # Internal variables.
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: clean html generate generate-dev generate-prod laldoc-html
-
-laldoc-html:
-	python -m laldoc.generate_rst -P $(LAL_BUILD_DIR)/libadalang.gpr \
-		$(LAL_BUILD_DIR)/src/libadalang-analysis.ads \
-		../extensions/src/libadalang-auto_provider.ads \
-		$(LAL_BUILD_DIR)/src/libadalang-common.ads \
-		../extensions/src/libadalang-config_pragmas.ads \
-		../extensions/src/libadalang-data_decomposition.ads \
-		../extensions/src/libadalang-expr_eval.ads \
-		$(LAL_BUILD_DIR)/src/libadalang-generic_api.ads \
-		$(LAL_BUILD_DIR)/src/libadalang-generic_api-introspection.ads \
-		$(LAL_BUILD_DIR)/src/libadalang-generic_api-unparsing.ads \
-		../extensions/src/libadalang-helpers.ads \
-		$(LAL_BUILD_DIR)/src/libadalang-iterators.ads \
-		../extensions/src/libadalang-preprocessing.ads \
-		../extensions/src/libadalang-project_provider.ads \
-		../extensions/src/libadalang-target_info.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-diagnostics.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-diagnostics-output.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-errors.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-file_readers.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-generic_api.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-analysis.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-introspection.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-rewriting.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-generic_api-unparsing.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-names.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-names-maps.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-slocs.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-symbols.ads \
-		$(LANGKIT_DIR)/langkit/support/langkit_support-text.ads \
-		-O generated
+.PHONY: clean html generate generate-dev generate-prod
 
 # When generating documentation, gnatdoc limits its analysis to the units
 # covered by the given project and all of its dependencies, excluding those

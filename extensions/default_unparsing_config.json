@@ -381,40 +381,61 @@
               "contents": [
                 {
                   "kind": "match",
-                  "node": {
-                    "kind": "eval_member",
-                    "member": "parent",
-                    "prefix": "this_node"
-                  },
+                  "node": "this_node",
                   "matchers": [
                     {
                       "pattern": {
                         "kind": "node",
-                        "type": "AssocList",
+                        "type": "AggregateAssoc",
                         "members": [
+                          {
+                            "member": "f_r_expr",
+                            "pattern": {
+                              "kind": "node",
+                              "type": "UnOp",
+                              "members": [
+                                {
+                                  "member": "f_op",
+                                  "pattern": {
+                                    "kind": "node",
+                                    "type": "OpPlus"
+                                  }
+                                }
+                              ]
+                            }
+                          },
                           {
                             "member": "parent",
                             "pattern": {
                               "kind": "node",
-                              "type": "Aggregate",
+                              "type": "AssocList",
                               "members": [
                                 {
                                   "member": "parent",
                                   "pattern": {
                                     "kind": "node",
-                                    "type": "AspectAssoc",
+                                    "type": "Aggregate",
                                     "members": [
                                       {
-                                        "member": "f_id",
+                                        "member": "parent",
                                         "pattern": {
                                           "kind": "node",
-                                          "type": "Identifier",
+                                          "type": "AspectAssoc",
                                           "members": [
                                             {
-                                              "member": "p_canonical_text",
+                                              "member": "f_id",
                                               "pattern": {
-                                                "kind": "symbol_literal",
-                                                "value": "depends"
+                                                "kind": "node",
+                                                "type": "Identifier",
+                                                "members": [
+                                                  {
+                                                    "member": "p_canonical_text",
+                                                    "pattern": {
+                                                      "kind": "symbol_literal",
+                                                      "value": "depends"
+                                                    }
+                                                  }
+                                                ]
                                               }
                                             }
                                           ]

@@ -1,15 +1,13 @@
 case Foo is
    when Barrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
       | Quxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      | Corge
-   =>
+      | Corge =>
       null;
 
    when Bazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz | Qux
    =>
       null;
 
-   when others
-   =>
+   when others =>
       null;
 end case;

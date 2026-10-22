@@ -1409,12 +1409,11 @@
       ]
     },
     "CaseStmtAlternativeList": {
-      "table": {
-        "must_break": true
-      },
+      "table": null,
       "sep": [
         "recurse",
-        "literalline"
+        "hardline",
+        "hardline"
       ]
     },
     "CharLiteral": {},

@@ -1,11 +1,11 @@
 case Foo is
    when Bar
       | Qux
-      | Corge  =>
+      | Corge =>
       null;
 
    when Baz
-      | Qux    =>
+      | Qux =>
       null;
 
    when others =>

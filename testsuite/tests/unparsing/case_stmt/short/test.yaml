@@ -1,5 +1,5 @@
 driver: unparser
 rule: case_stmt
 description: |
-  Base test for `CaseStmt`. Test that there's a literal line between the
+  Base test for `CaseStmt`. Test that there's a blank line between the
   alternatives.

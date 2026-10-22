@@ -1,0 +1,4 @@
+driver: unparser
+rule: subp_body
+description: |
+  Keep short plain, guarded and unguarded forms on one line.

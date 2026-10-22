@@ -1,0 +1,1 @@
+pragma Modifies (((Goooooooooooooooooooooooo, Hoooooooooooooooooooooooooo, Iiiiiiiiiiiiiiiii.Fiiiiiiiiiiield) when Some_Long_Condition and then not Some_Other_Long_Condition));

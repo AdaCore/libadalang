@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Keep short conditional guards compact and wrap long guards.
+overridings:
+  - tall

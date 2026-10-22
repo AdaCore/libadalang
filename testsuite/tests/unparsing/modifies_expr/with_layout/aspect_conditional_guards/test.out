@@ -1,0 +1,11 @@
+procedure Foo
+with
+  Modifies =>
+    ((G, H) when (if B then C elsif D then E elsif F then I else J),
+     K
+       when (if Some_Long_Condition
+             then Another_Long_Result
+             elsif Some_Other_Long_Condition
+             then Another_Other_Long_Result
+             else A_Long_Default_Result),
+     L);

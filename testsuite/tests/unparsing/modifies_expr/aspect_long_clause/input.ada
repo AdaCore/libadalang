@@ -1,0 +1,1 @@
+procedure Foo (Some_Long_Condition : Boolean) with Modifies => ((Goooooooooooooooooooooooo, Hoooooooooooooooooooooooooo, Iiiiiiiiiiiiiiiii.Fiiiiiiiiiiield) when Some_Long_Condition and then not Some_Other_Long_Condition);

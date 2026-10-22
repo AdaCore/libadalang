@@ -4594,54 +4594,80 @@
       ]
     },
     "ModifiesClause": {
-      "node": [
-        {
-          "kind": "recurse_field",
-          "field": "f_objects"
-        },
-        {
-          "kind": "recurse_field",
-          "field": "f_guard"
-        }
-      ],
-      "fields": {
-        "f_guard": [
-          "whitespace",
+      "node": {
+        "kind": "group",
+        "document": [
           {
-            "kind": "text",
-            "text": "when"
+            "kind": "recurse_field",
+            "field": "f_objects"
           },
-          "whitespace",
-          "recurse"
+          {
+            "kind": "recurse_field",
+            "field": "f_guard"
+          }
         ]
+      },
+      "fields": {
+        "f_guard": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            {
+              "kind": "text",
+              "text": "when"
+            },
+            "whitespace",
+            {
+              "kind": "continuationLineIndent",
+              "contents": [
+                "flushLineBreaks",
+                "recurse"
+              ],
+              "bubbleUpLeadingTrivias": false,
+              "bubbleUpTrailingTrivias": true
+            }
+          ],
+          "bubbleUpTrailingTrivias": true
+        }
       }
     },
     "ModifiesClauseList": {
       "sep": [
         "recurse",
-        "whitespace"
+        "line"
       ]
     },
     "ModifiesExpr": {
       "node": {
         "kind": "group",
-        "document": [
-          {
-            "kind": "text",
-            "text": "("
-          },
-          {
-            "kind": "innerRoot",
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_clauses"
+        "document": {
+          "kind": "align",
+          "width": " ",
+          "contents": [
+            {
+              "kind": "text",
+              "text": "("
+            },
+            {
+              "kind": "innerRoot",
+              "contents": [
+                "flushLineBreaks",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_clauses"
+                }
+              ],
+              "bubbleUpLeadingTrivias": true,
+              "bubbleUpTrailingTrivias": true
+            },
+            {
+              "kind": "text",
+              "text": ")"
             }
-          },
-          {
-            "kind": "text",
-            "text": ")"
-          }
-        ]
+          ],
+          "bubbleUpLeadingTrivias": true,
+          "bubbleUpTrailingTrivias": true
+        }
       }
     },
     "MultiAbstractStateDecl": {},

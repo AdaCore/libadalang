@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Keep objects and conditional guards compact within each clause.
+overridings:
+  - tall

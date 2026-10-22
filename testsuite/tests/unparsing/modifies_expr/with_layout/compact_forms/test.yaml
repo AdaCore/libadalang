@@ -1,0 +1,7 @@
+driver: unparser
+rule: subp_body
+description: |
+  Keep single clauses on one line and put each clause of a list on its own
+  line.
+overridings:
+  - tall

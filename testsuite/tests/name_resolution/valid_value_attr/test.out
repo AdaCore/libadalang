@@ -1,0 +1,33 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["V"] test.adb:4:4-4:39>
+*************************************************************
+
+Expr: <Id "Boolean" test.adb:4:8-4:15>
+  references:    <DefiningName "Boolean" in Standard>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:4:19-4:38>
+  references:    <SyntheticDefiningName "valid_value" test.adb:2:4-2:24>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <AttributeRef test.adb:4:19-4:32>
+  references:    <SyntheticDefiningName "valid_value" test.adb:2:4-2:24>
+  type:          None
+  expected type: None
+Expr: <Id "E" test.adb:4:19-4:20>
+  references:    <DefiningName "E" test.adb:2:9-2:10>
+  type:          None
+  expected type: None
+Expr: <Id "Valid_Value" test.adb:4:21-4:32>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""B"" test.adb:4:34-4:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+
+Done.

@@ -7994,6 +7994,7 @@ class BaseTypeDecl: BasicDecl {
             elif attr_name == s"value" then repo.value
             elif attr_name == s"wide_value" then repo.wide_value
             elif attr_name == s"wide_wide_value" then repo.wide_wide_value
+            elif attr_name == s"valid_value" then repo.valid_value
             elif attr_name == s"fixed_value" then repo.fixed_value
             elif attr_name == s"integer_value" then repo.integer_value
             elif attr_name == s"pos" then repo.pos
@@ -18604,6 +18605,7 @@ class AttributeRef: Name {
                 | s"Value"
                 | s"Wide_Value"
                 | s"Wide_Wide_Value"
+                | s"Valid_Value"
                 | s"Fixed_Value"
                 | s"Integer_Value"
                 | s"Pos"
@@ -24474,6 +24476,25 @@ class TypeAttributesRepository: AdaNode {
                     )
                 ),
                 return_type_expr=node.scalar_base_type_expr
+            )
+        )
+        .build(parent=node.base_type)
+
+    @lazy
+    valid_value: BasicSubpDecl =
+        SyntheticSubpDecl.builder(
+            spec=SyntheticUnarySpec.builder(
+                subp_symbol=s"Valid_Value",
+                right_param=SyntheticFormalParamDecl.builder(
+                    param_name=s"Val",
+                    param_type=SyntheticTypeExpr.builder(
+                        target_type=node.std_entity(s"String")
+                        .as[BaseTypeDecl]
+                    )
+                ),
+                return_type_expr=SyntheticTypeExpr.builder(
+                    target_type=node.bool_type()
+                )
             )
         )
         .build(parent=node.base_type)

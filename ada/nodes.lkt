@@ -5807,23 +5807,6 @@ class BasicDecl: AdaNode {
     @exported
     fun is_formal(): Bool = node.parent is GenericFormal
 
-    |" Return the documentation annotations associated with this decl.
-    |" Annotations are any comment line of the form::
-    |"
-    |"     --  @annotation_name [annotation]
-    |"
-    |" Valueless annotations (e.g. ``--  @exclude``) get the boolean value
-    |" ``True``.
-    |"
-    |" Raises a property error if the doc is incorrectly formatted.
-    |"
-    |" .. ATTENTION:: This is an experimental feature, so even if it is
-    |"    exposed to allow experiments, it is totally unsupported and the API
-    |"    and behavior are very likely to change in the future.
-    @exported
-    @external()
-    fun doc_annotations(): Array[DocAnnotation]
-
     |" Return the documentation associated with this decl. Raises a property
     |" error if the doc is incorrectly formatted.
     |"
@@ -26729,14 +26712,6 @@ struct DiscreteRange {
 struct DiscriminantValues {
     discriminant: Entity[Identifier]
     values: Entity[AlternativesList]
-}
-
-|" Documentation annotation.
-struct DocAnnotation {
-    |" Annotation key
-    key: String
-    |" Annotation value
-    value: String
 }
 
 |" Represent the range of a discrete type or subtype. The bounds are already

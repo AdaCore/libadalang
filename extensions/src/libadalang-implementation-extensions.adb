@@ -576,36 +576,6 @@ package body Libadalang.Implementation.Extensions is
    end Basic_Decl_P_Doc;
 
    ----------------------------------
-   -- Basic_Decl_P_Doc_Annotations --
-   ----------------------------------
-
-   function Basic_Decl_P_Doc_Annotations
-     (Node : Bare_Basic_Decl) return Internal_Doc_Annotation_Array_Access
-   is
-      use Libadalang.Doc_Utils;
-      Decl : constant Basic_Decl :=
-         Public_Converters.Wrap_Node (Node).As_Basic_Decl;
-      Doc  : constant Doc_Type := Get_Documentation (Decl);
-      Ret  : constant Internal_Doc_Annotation_Array_Access :=
-         Create_Internal_Doc_Annotation_Array
-           (Natural (Doc.Annotations.Length));
-      Idx  : Positive := 1;
-   begin
-      for El in Doc.Annotations.Iterate loop
-         declare
-            Key     : constant Text_Type := Annotations_Maps.Key (El);
-            Val     : constant Text_Type := Annotations_Maps.Element (El);
-            DSL_Key : constant String_Type := Create_String (Key);
-            DSL_Val : constant String_Type := Create_String (Val);
-         begin
-            Ret.Items (Idx) := (Key => DSL_Key, Value => DSL_Val);
-         end;
-         Idx := Idx + 1;
-      end loop;
-      return Ret;
-   end Basic_Decl_P_Doc_Annotations;
-
-   ----------------------------------
    -- Char_Literal_P_Denoted_Value --
    ----------------------------------
 

@@ -83,9 +83,6 @@ package Libadalang.Implementation.Extensions is
 
    function Basic_Decl_P_Doc (Node : Bare_Basic_Decl) return String_Type;
 
-   function Basic_Decl_P_Doc_Annotations
-     (Node : Bare_Basic_Decl) return Internal_Doc_Annotation_Array_Access;
-
    ------------------
    -- Char_Literal --
    ------------------

@@ -33,13 +33,6 @@ def test(label, buffer, pred=None):
         print('')
         return
 
-    annotations = decl.p_doc_annotations
-    if annotations:
-        print('Annotations:')
-        for a in annotations:
-            print('  * {} = {}'.format(a.key, a.value))
-        print('')
-
 
 test('Test that there is no crash when doc is missing', b"""
 with A; use A;
@@ -84,25 +77,8 @@ package Foo is
 end Foo;
 """)
 
-test('Test annotation extraction', b"""
-procedure Foo;
---  @belongs-to Bar
---  @exclude
---  @exclude-value
---  This is the documentation for foo
-""")
-
-test('Test double annotation', b"""
-procedure Foo;
---  @belongs-to Foo
---  @belongs-to Bar
-""")
-
 test('Test whitespace stripping', b"""
 procedure Foo;
---  @belongs-to Bar
---      @exclude
---  @exclude-value
 --  This is the documentation for foo
 -- Weirdly formatted
 """)
@@ -130,22 +106,6 @@ procedure Foo;
 
 test('Test toplevel package without token before "package"',
      b"package Lol is end Lol;")
-
-
-test('Test unknown annotation is rejected', b"""
-procedure Foo;
---  @no-such-annotation Foo
-""")
-
-test('Test belongs-to without a value is rejected', b"""
-procedure Foo;
---  @belongs-to
-""")
-
-test('Test valueless annotation given a value is rejected', b"""
-procedure Foo;
---  @exclude True
-""")
 
 test('Test generic package doc', b"""
 package Foo is

@@ -14,6 +14,8 @@ class AdaAPIDriver(DiffTestDriver):
     """Check that the Ada API works as expected."""
 
     def run(self):
+        lib_type = self.test_env["library_type"]
+
         # Create a GPR file for the "main" executable
         gpr_file = self.working_dir("test.gpr")
         with open(gpr_file, "w") as f:
@@ -27,7 +29,10 @@ end Test;
 """)
 
         # Build that executable and run it
-        self.shell(["gprbuild", "-P", "test.gpr"], analyze_output=False)
+        self.shell(
+            ["gprbuild", "-P", "test.gpr", f"-XLIBRARY_TYPE={lib_type}"],
+            analyze_output=False,
+        )
         self.shell([self.working_dir("obj", "main")])
 
 

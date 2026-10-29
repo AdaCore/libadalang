@@ -190,6 +190,22 @@ class AdaNode implements Node[AdaNode] {
         # might want to pass to a predicate.
         not self.is_null
 
+    |" Whether this entity is the loop parameter of a ``for ... of`` loop
+    |" statement. Used as a predicate when resolving ``Loop_Index``
+    |" attributes.
+    @predicate_error(
+        "expected a loop parameter of a for .. of loop, got $Self"
+    )
+    fun is_of_loop_param(): Bool =
+        node.as[ForLoopVarDecl].do(
+            (vd) =>
+            vd.parent.as[ForLoopSpec].do(
+                (spec) =>
+                spec.loop_type is IterType.Of
+                and spec.parent is ForLoopStmt
+            )
+        )
+
     |" Static method. Evaluate the bounds of ``dr``.
     fun eval_discrete_range(dr: DiscreteRange): EvalDiscreteRange =
         if dr == null[DiscreteRange]
@@ -5434,6 +5450,7 @@ class ParamAssoc: BasicAssoc {
                 | s"Length"
                 | s"Has_Same_Storage"
                 | s"Overlaps_Storage"
+                | s"Loop_Index"
         )
 }
 
@@ -18548,6 +18565,8 @@ class AttributeRef: Name {
             .subp_spec_or_null()
             .return_type()
             .defining_env()
+        elif self.attribute.name_is(s"Loop_Index")
+        then self.loop_index_type().defining_env()
         else null[LexicalEnv]
 
     @with_dynvars(env)
@@ -18764,6 +18783,7 @@ class AttributeRef: Name {
         elif rel_name == s"Deref" then self.deref_equation()
         elif rel_name == s"Mechanism_Code" then self.mechanism_code_equation()
         elif rel_name == s"Super" then self.super_equation()
+        elif rel_name == s"Loop_Index" then self.loop_index_equation()
         else raise[Equation] PropertyError("Unhandled attribute")
     }
 
@@ -19034,26 +19054,30 @@ class AttributeRef: Name {
             %and node.universal_int_bind(node.type_var())
     }
 
+    |" Return the zero-based value of the static dimension argument of this
+    |" attribute reference, defaulting to the first dimension when the
+    |" attribute has no argument.
+    @with_dynvars(env, origin)
+    fun dim_arg(): Int =
+        self.args.at(0).do(
+            (arg) =>
+            arg.expr().do(
+                (expr) => {
+                    val _ = expr.resolve_names_internal(false);
+
+                    expr.eval_as_int().as_int()
+                },
+                default_val=1
+            ),
+            default_val=1
+        )
+        - 1
+
     @with_dynvars(env, origin, entry_point)
     fun array_attr_equation(): Equation = {
         val is_length = self.attribute.name_is(s"Length");
         val typ = self.prefix.name_designated_type();
-        # If the range attribute has an argument, then it's a static expression
-        # representing an int that we will use as a dimension.
-        val dim =
-            self.args.at(0).do(
-                (arg) =>
-                arg.expr().do(
-                    (expr) => {
-                        val _ = expr.resolve_names_internal(false);
-
-                        expr.eval_as_int().as_int()
-                    },
-                    default_val=1
-                ),
-                default_val=1
-            )
-            - 1;
+        val dim = self.dim_arg();
 
         if not typ.is_null
         then (
@@ -19118,6 +19142,47 @@ class AttributeRef: Name {
 
         self.prefix.sub_equation() %and node.type_var() <- typ
     }
+
+    |" Assuming this attribute reference is a ``Loop_Index`` attribute,
+    |" return the type it denotes: the index type of the iterated array at
+    |" the dimension given by the optional argument, or the cursor type of
+    |" the ``Iterable`` aspect of the iterated container. Return null if the
+    |" prefix denotes an invalid loop parameter.
+    @with_dynvars(env, origin)
+    fun loop_index_type(): Entity[BaseTypeDecl] =
+        env.get_first(self.prefix.name_symbol())
+        .as[ForLoopVarDecl]?.parent.as[ForLoopSpec].do((spec) =>
+            if not spec.loop_type is IterType.Of
+            then null[Entity[BaseTypeDecl]]
+            else {
+                val typ = spec.iter_expr.as[Expr].expression_type()
+                    ?.implicitly_derefed_type();
+
+                if typ.is_null
+                then null[Entity[BaseTypeDecl]]
+                # Array case: take the index type at the requested dimension
+                elif typ.is_array()
+                then typ.index_type(self.dim_arg())
+                # Container case: no argument is allowed and the attribute
+                # denotes the cursor type.
+                elif self.args.at(0).is_null
+                then typ.iterable_cursor_type()
+                else null[Entity[BaseTypeDecl]]
+            }
+        )
+
+    |" Return the xref equation for the ``Loop_Index`` (ghost) attribute, see
+    |" SPARK RM 5.5.3.2.
+    @with_dynvars(env, origin, entry_point)
+    fun loop_index_equation(): Equation =
+        self.prefix.sub_equation()
+        %and {
+            bind error_location = node.prefix;
+
+            AdaNode.is_of_loop_param%(node.prefix.ref_var())
+        }
+        %and node.type_var() <- self.loop_index_type()
+        %and AdaNode.is_not_null%(node.type_var())
 
     |" Return the xref equation for the ``Deref`` attribute.
     @with_dynvars(env, origin, entry_point)
@@ -21884,6 +21949,7 @@ class Identifier: BaseId implements TokenNode {
             | s"Overlaps_Storage"
             | s"Deref"
             | s"Mechanism_Code"
+            | s"Loop_Index"
 
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] = self.parent.complete_items()

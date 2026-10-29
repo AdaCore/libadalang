@@ -302,9 +302,13 @@ Expr: <Id "Range" testrange.adb:30:21-30:26>
   references:    None
   type:          None
   expected type: None
+Expr: <Id "One" testrange.adb:30:28-30:31>
+  references:    <DefiningName "One" testrange.adb:10:4-10:7>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: None
 
-Resolving xrefs for node <ParamAssoc testrange.adb:30:28-30:31>
-***************************************************************
+Resolving xrefs for node <Id "One" testrange.adb:30:28-30:31>
+*************************************************************
 
 Expr: <Id "One" testrange.adb:30:28-30:31>
   references:    <DefiningName "One" testrange.adb:10:4-10:7>
@@ -358,9 +362,13 @@ Expr: <Id "Range" testrange.adb:34:21-34:26>
   references:    None
   type:          None
   expected type: None
+Expr: <Id "Two" testrange.adb:34:28-34:31>
+  references:    <DefiningName "Two" testrange.adb:11:4-11:7>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: None
 
-Resolving xrefs for node <ParamAssoc testrange.adb:34:28-34:31>
-***************************************************************
+Resolving xrefs for node <Id "Two" testrange.adb:34:28-34:31>
+*************************************************************
 
 Expr: <Id "Two" testrange.adb:34:28-34:31>
   references:    <DefiningName "Two" testrange.adb:11:4-11:7>

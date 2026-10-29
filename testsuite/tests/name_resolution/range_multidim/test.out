@@ -104,9 +104,13 @@ Expr: <Id "Range" test_range.adb:11:18-11:23>
   references:    None
   type:          None
   expected type: None
+Expr: <Int test_range.adb:11:25-11:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: None
 
-Resolving xrefs for node <ParamAssoc test_range.adb:11:25-11:26>
-****************************************************************
+Resolving xrefs for node <Int test_range.adb:11:25-11:26>
+*********************************************************
 
 Expr: <Int test_range.adb:11:25-11:26>
   references:    None
@@ -132,9 +136,13 @@ Expr: <Id "Range" test_range.adb:12:21-12:26>
   references:    None
   type:          None
   expected type: None
+Expr: <Int test_range.adb:12:28-12:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: None
 
-Resolving xrefs for node <ParamAssoc test_range.adb:12:28-12:29>
-****************************************************************
+Resolving xrefs for node <Int test_range.adb:12:28-12:29>
+*********************************************************
 
 Expr: <Int test_range.adb:12:28-12:29>
   references:    None

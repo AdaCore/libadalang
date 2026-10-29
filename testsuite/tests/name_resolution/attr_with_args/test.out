@@ -151,6 +151,10 @@ Expr: <Id "Overlaps_Storage" storage.adb:3:13-3:29>
   references:    None
   type:          None
   expected type: None
+Expr: <Id "B" storage.adb:3:31-3:32>
+  references:    <DefiningName "B" storage.adb:1:22-1:23>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: None
 Expr: <OpAnd storage.adb:3:34-3:37>
   references:    None
   type:          None
@@ -167,17 +171,21 @@ Expr: <Id "Has_Same_Storage" storage.adb:3:40-3:56>
   references:    None
   type:          None
   expected type: None
+Expr: <Id "B" storage.adb:3:58-3:59>
+  references:    <DefiningName "B" storage.adb:1:22-1:23>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: None
 
-Resolving xrefs for node <ParamAssoc storage.adb:3:31-3:32>
-***********************************************************
+Resolving xrefs for node <Id "B" storage.adb:3:31-3:32>
+*******************************************************
 
 Expr: <Id "B" storage.adb:3:31-3:32>
   references:    <DefiningName "B" storage.adb:1:22-1:23>
   type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 
-Resolving xrefs for node <ParamAssoc storage.adb:3:58-3:59>
-***********************************************************
+Resolving xrefs for node <Id "B" storage.adb:3:58-3:59>
+*******************************************************
 
 Expr: <Id "B" storage.adb:3:58-3:59>
   references:    <DefiningName "B" storage.adb:1:22-1:23>

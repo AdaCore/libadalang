@@ -51,8 +51,7 @@ ExtendedReturnStmt[1:1-5:1] <<INCOMPLETE>>
 |  |  |  |  |  |  Id[2:13-2:14]: A
 |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  Id[2:15-2:20]: Range
-|  |  |  |  |  |f_args:
-|  |  |  |  |  |  AssocList[2:20-2:20]: <empty list>
+|  |  |  |  |  |f_arg: <null>
 |  |  |  |  |f_iter_filter: <null>
 |  |  |  |f_stmts:
 |  |  |  |  StmtList[3:7-3:24]

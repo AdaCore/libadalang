@@ -7,6 +7,5 @@ AttributeDefClause[1:1-1:18] <<INCOMPLETE>>
 |  |  Id[1:5-1:6]: A
 |  |f_attribute:
 |  |  Id[1:7-1:14]: Address
-|  |f_args:
-|  |  AssocList[1:14-1:14]: <empty list>
+|  |f_arg: <null>
 |f_expr: <null>

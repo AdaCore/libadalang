@@ -71,9 +71,13 @@ Expr: <Id "At" test_at.adb:7:11-7:13>
   references:    None
   type:          None
   expected type: None
+Expr: <Id "L1" test_at.adb:7:15-7:17>
+  references:    <DefiningName "L1" test_at.adb:5:6-5:8>
+  type:          None
+  expected type: None
 
-Resolving xrefs for node <ParamAssoc test_at.adb:7:15-7:17>
-***********************************************************
+Resolving xrefs for node <Id "L1" test_at.adb:7:15-7:17>
+********************************************************
 
 Expr: <Id "L1" test_at.adb:7:15-7:17>
   references:    <DefiningName "L1" test_at.adb:5:6-5:8>
@@ -123,6 +127,10 @@ Expr: <Id "At" test_at_prefixes.adb:14:13-14:15>
   references:    None
   type:          None
   expected type: None
+Expr: <Id "L1" test_at_prefixes.adb:14:17-14:19>
+  references:    <DefiningName "L1" test_at_prefixes.adb:12:6-12:8>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test_at_prefixes.adb:20:7-20:26>
 *********************************************************************
@@ -149,6 +157,10 @@ Expr: <Id "I" test_at_prefixes.adb:20:15-20:16>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "At" test_at_prefixes.adb:20:18-20:20>
   references:    None
+  type:          None
+  expected type: None
+Expr: <Id "L2" test_at_prefixes.adb:20:22-20:24>
+  references:    <DefiningName "L2" test_at_prefixes.adb:18:9-18:11>
   type:          None
   expected type: None
 

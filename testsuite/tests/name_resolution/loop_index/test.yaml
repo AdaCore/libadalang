@@ -1,3 +1,4 @@
 driver: name-resolution
 input_sources: [arrays.adb, multidim.adb, iterable.adb,
-                quantified.adb, renaming.adb]
+                quantified.adb, renaming.adb,
+                cursor_indexing.adb]

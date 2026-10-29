@@ -20,6 +20,14 @@ begin
       pragma Assert (E'Loop_Index (Two) = E'Loop_Index (One + 1));
       pragma Test_Statement;
 
+      --  Array dimension selection accepts exactly one operand
+      pragma Assert (E'Loop_Index (1, 2) = Green);
+      pragma Test_Statement (Expect_Fail => True);
+
+      --  An unresolved extra operand must still be diagnosed
+      pragma Assert (E'Loop_Index (1, Missing) = Green);
+      pragma Test_Block (Expect_Fail => True);
+
       --  Loop_Index without argument on multidimensional arrays is treated as
       --  Loop_Index (1).
 

@@ -5437,6 +5437,7 @@ class ParamAssoc: BasicAssoc {
         else [node.designator]
 
     fun xref_entry_point(): Bool = node.is_static_attribute_assoc()
+        or node.is_at_attribute_assoc()
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
@@ -5452,6 +5453,11 @@ class ParamAssoc: BasicAssoc {
                 | s"Has_Same_Storage"
                 | s"Overlaps_Storage"
                 | s"Loop_Index"
+        )
+
+    fun is_at_attribute_assoc(): Bool =
+        node.parent.parent.as[AttributeRef].do(
+            (ar) => ar.attribute.name_is(s"At")
         )
 }
 
@@ -18542,7 +18548,7 @@ class AttributeRef: Name {
     fun designated_env(): LexicalEnv =
         if
             self.is_access_attr()
-            or self.attribute.name_symbol() in s"Old" | s"Super"
+            or self.attribute.name_symbol() in s"Old" | s"At" | s"Super"
         then self.prefix.designated_env()
         elif self.attribute.name_is(s"Result")
         then
@@ -18556,7 +18562,7 @@ class AttributeRef: Name {
 
     @with_dynvars(env)
     fun env_elements_impl(): Array[Entity[AdaNode]] =
-        if self.attribute.name_symbol() in s"Old" | s"Loop_Entry"
+        if self.attribute.name_symbol() in s"Old" | s"At" | s"Loop_Entry"
         then self.prefix.env_elements_impl()
         elif self.attribute.name_is(s"Result")
         then
@@ -18661,7 +18667,8 @@ class AttributeRef: Name {
         elif rel_name == s"Img" then self.img_equation(node.std_string_type())
         elif rel_name == s"Tag" then self.tag_attr_equation()
         elif rel_name == s"Result" then self.result_attr_equation()
-        elif rel_name in s"Old" | s"Loop_Entry" then self.bind_to_prefix_eq()
+        elif rel_name in s"Old" | s"At" | s"Loop_Entry"
+        then self.bind_to_prefix_eq()
         elif rel_name in s"Class" | s"Base" then self.prefix.sub_equation()
         elif
             rel_name in s"Valid"
@@ -21927,7 +21934,8 @@ class Identifier: BaseId implements TokenNode {
     # For other args, we deactivate this parsing, so that they're correctly
     # parsed as ``CallExpr (AttrRef (pfx, attr), args)``.
     fun is_attr_with_args(): Bool =
-        node.symbol in s"First"
+        node.symbol in s"At"
+            | s"First"
             | s"Last"
             | s"Range"
             | s"Length"

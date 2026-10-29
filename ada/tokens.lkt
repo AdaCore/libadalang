@@ -38,6 +38,7 @@ lexer ada_lexer {
     @unparsing_spacing(with=alphanumericals)
     family alphanumericals {
         Access <- null
+        At <- null
         Delta <- null
         Digits <- null
         Mod <- null
@@ -76,6 +77,10 @@ lexer ada_lexer {
         if previous_token is Tick then send(Identifier, 3)
         else send(Mod, 3)
     }
+    match "at" {
+        if previous_token is Tick then send(Identifier, 2)
+        else send(At, 2)
+    }
 
     # Keywords
     @unparsing_spacing(with=alphanumericals)
@@ -107,7 +112,6 @@ lexer ada_lexer {
         Out <- "out"
         Array <- "array"
         Function <- "function"
-        At <- "at"
         Generic <- "generic"
         Package <- "package"
         Task <- "task"

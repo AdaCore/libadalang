@@ -1,0 +1,14 @@
+procedure Main is
+   procedure Bare
+   with Modifies => G;
+   procedure Singleton
+   with Modifies => (G);
+   procedure Guarded
+   with Modifies => (H when B);
+   pragma Modifies (G);
+   pragma Modifies ((G));
+   pragma Modifies ((G, H));
+   pragma Modifies ((H when B));
+begin
+   null;
+end Main;

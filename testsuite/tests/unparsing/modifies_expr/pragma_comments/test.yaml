@@ -1,0 +1,4 @@
+driver: unparser
+rule: pragma
+description: |
+  Preserve comments and blank lines.

@@ -1,0 +1,6 @@
+pragma
+  Modifies
+    ((G,
+      (H, I) when Some_Condition,
+      J when (if B then C elsif D then E elsif F then I else J),
+      K));

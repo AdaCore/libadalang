@@ -100,7 +100,36 @@
     },
     "AssocList": {
       "table": {
-        "must_break": true
+        "must_break": false
+      },
+      "sep": {
+        "kind": "if",
+        "condition": {
+          "kind": "is_a",
+          "node": {
+            "kind": "eval_member",
+            "prefix": "this_node",
+            "member": "parent"
+          },
+          "pattern": {
+            "kind": "node",
+            "type": "Aggregate",
+            "members": [
+              {
+                "member": "parent",
+                "pattern": {
+                  "kind": "node",
+                  "type": "ModifiesClause"
+                }
+              }
+            ]
+          }
+        },
+        "then": "recurse",
+        "else": [
+          "recurse",
+          "breakParent"
+        ]
       }
     },
     "BaseAssocList": {
@@ -178,7 +207,41 @@
     "ElsifExprPartList": {
       "sep": [
         "recurse",
-        "hardlineWithoutBreakParent"
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "is_a",
+            "node": {
+              "kind": "eval_member",
+              "prefix": "this_node",
+              "member": "parent"
+            },
+            "pattern": {
+              "kind": "node",
+              "type": "IfExpr",
+              "members": [
+                {
+                  "member": "parent",
+                  "pattern": {
+                    "kind": "node",
+                    "type": "ParenExpr",
+                    "members": [
+                      {
+                        "member": "parent",
+                        "pattern": {
+                          "kind": "node",
+                          "type": "ModifiesClause"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "then": "line",
+          "else": "hardlineWithoutBreakParent"
+        }
       ]
     },
     "EntryBody": {
@@ -410,12 +473,62 @@
           "condition": {"kind": "is_empty", "node": "this_field"},
           "then": "recurse",
           "else": [
-            "hardlineWithoutBreakParent",
+            {
+              "kind": "if",
+              "condition": {
+                "kind": "is_a",
+                "node": {
+                  "kind": "eval_member",
+                  "prefix": "this_node",
+                  "member": "parent"
+                },
+                "pattern": {
+                  "kind": "node",
+                  "type": "ParenExpr",
+                  "members": [
+                    {
+                      "member": "parent",
+                      "pattern": {
+                        "kind": "node",
+                        "type": "ModifiesClause"
+                      }
+                    }
+                  ]
+                }
+              },
+              "then": "line",
+              "else": "hardlineWithoutBreakParent"
+            },
             "recurse"
           ]
         },
         "f_else_expr": [
-          "hardlineWithoutBreakParent",
+          {
+            "kind": "if",
+            "condition": {
+              "kind": "is_a",
+              "node": {
+                "kind": "eval_member",
+                "prefix": "this_node",
+                "member": "parent"
+              },
+              "pattern": {
+                "kind": "node",
+                "type": "ParenExpr",
+                "members": [
+                  {
+                    "member": "parent",
+                    "pattern": {
+                      "kind": "node",
+                      "type": "ModifiesClause"
+                    }
+                  }
+                ]
+              }
+            },
+            "then": "line",
+            "else": "hardlineWithoutBreakParent"
+          },
           "flushLineBreaks",
           {
             "kind": "continuationLineIndent",
@@ -499,6 +612,12 @@
         "bubbleUpLeadingTrivias": true,
         "bubbleUpTrailingTrivias": true
       }
+    },
+    "ModifiesClauseList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ]
     },
     "ParamSpecList": {
       "table": {

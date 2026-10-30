@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Preserve comments and blank lines around wrapped clauses.
+overridings:
+  - tall

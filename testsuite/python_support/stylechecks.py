@@ -38,6 +38,7 @@ excludes = ['tmp', 'doc',
             in_test('python', 'char_literal', 'foo.ads'),
             in_test('python', 'string_literal', 'foo.ads'),
             in_test('name_resolution', 'symbol_canon'),
+            in_test('name_resolution', 'non_ascii_unit_name'),
             in_test('regressions')]
 
 sys.path.append(join(root_dir, 'langkit'))

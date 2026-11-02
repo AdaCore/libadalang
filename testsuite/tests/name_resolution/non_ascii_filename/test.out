@@ -1,0 +1,6 @@
+<Id "Pkg" test.adb:2:6-2:9> resolves to: <PackageDecl ["Pkg"] pkg_\xc3\xa9.ads:2:1-4:9>
+<Id "Test" test.adb:3:11-3:15> resolves to: None
+<Id "Pkg" test.adb:5:4-5:7> resolves to: <PackageDecl ["Pkg"] pkg_\xc3\xa9.ads:2:1-4:9>
+<Id "P" test.adb:5:8-5:9> resolves to: <SubpDecl ["P"] pkg_\xc3\xa9.ads:3:4-3:16>
+<Id "Test" test.adb:6:5-6:9> resolves to: <SubpBody ["Test"] test.adb:3:1-6:10>
+Done.

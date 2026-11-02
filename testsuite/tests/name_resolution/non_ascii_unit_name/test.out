@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:4:4-4:12>
+*****************************************************
+
+Expr: <DottedName test.adb:4:4-4:11>
+  references:    <DefiningName "P" pkg_\\xc3\\xa9.ads:2:14-2:15>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg_\xc9" test.adb:4:4-4:9>
+  references:    <DefiningName "Pkg_\xc9" pkg_\\xc3\\xa9.ads:1:9-1:14>
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:4:10-4:11>
+  references:    <DefiningName "P" pkg_\\xc3\\xa9.ads:2:14-2:15>
+  type:          None
+  expected type: None
+
+
+Done.

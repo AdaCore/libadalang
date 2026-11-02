@@ -1,0 +1,8 @@
+project P is
+   for Main use ("test.adb");
+   for Object_Dir use "obj";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnatW8");
+   end Compiler;
+end P;

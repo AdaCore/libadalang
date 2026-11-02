@@ -39,10 +39,10 @@ begin
          Process_Idle;
 
       when Active
-         | Running   =>
+         | Running =>
          Process_Active;
 
-      when others    =>
+      when others =>
          Process_Unknown;
    end case;
 

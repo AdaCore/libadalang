@@ -853,6 +853,14 @@ package body Libadalang.GPR_Utils is
 
    begin
       Visit (Self);
+
+      --  GPR2 used to return the runtime project as a limited import, but no
+      --  longer does, so process it manually here.
+
+      if Self.Tree.Has_Runtime_Project then
+         Visit (Self.Tree.Runtime_Project);
+      end if;
+
       return Result;
    end Closure;
 

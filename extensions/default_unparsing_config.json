@@ -2666,7 +2666,9 @@
         ]
       }
     },
-    "EntryIndexSpec": {},
+    "EntryIndexSpec": {
+      "node": ["whitespace", "recurse"]
+    },
     "EntrySpec": {
       "node": {
         "kind": "continuationLineIndent",

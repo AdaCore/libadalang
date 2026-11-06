@@ -1,0 +1,156 @@
+Analyzing test_at.adb
+#####################
+
+Resolving xrefs for node <SubpSpec test_at.adb:1:1-1:18>
+********************************************************
+
+
+Resolving xrefs for node <ObjectDecl ["X"] test_at.adb:2:4-2:21>
+****************************************************************
+
+Expr: <Id "Integer" test_at.adb:2:8-2:15>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+Expr: <Int test_at.adb:2:19-2:20>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["Y"] test_at.adb:3:4-3:16>
+****************************************************************
+
+Expr: <Id "Integer" test_at.adb:3:8-3:15>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <Label test_at.adb:5:4-5:10>
+*****************************************************
+
+
+Resolving xrefs for node <AssignStmt test_at.adb:6:4-6:15>
+**********************************************************
+
+Expr: <Id "X" test_at.adb:6:4-6:5>
+  references:    <DefiningName "X" test_at.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <BinOp test_at.adb:6:9-6:14>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "X" test_at.adb:6:9-6:10>
+  references:    <DefiningName "X" test_at.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpPlus test_at.adb:6:11-6:12>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test_at.adb:6:13-6:14>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <AssignStmt test_at.adb:7:4-7:19>
+**********************************************************
+
+Expr: <Id "Y" test_at.adb:7:4-7:5>
+  references:    <DefiningName "Y" test_at.adb:3:4-3:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <AttributeRef test_at.adb:7:9-7:18>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "X" test_at.adb:7:9-7:10>
+  references:    <DefiningName "X" test_at.adb:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "At" test_at.adb:7:11-7:13>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamAssoc test_at.adb:7:15-7:17>
+***********************************************************
+
+Expr: <Id "L1" test_at.adb:7:15-7:17>
+  references:    <DefiningName "L1" test_at.adb:5:6-5:8>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <EndName test_at.adb:8:5-8:12>
+*******************************************************
+
+Expr: <EndName test_at.adb:8:5-8:12>
+  references:    <DefiningName "Test_At" test_at.adb:1:11-1:18>
+  type:          None
+  expected type: None
+Expr: <Id "Test_At" test_at.adb:8:5-8:12>
+  references:    <DefiningName "Test_At" test_at.adb:1:11-1:18>
+  type:          None
+  expected type: None
+
+
+Analyzing test_at_prefixes.adb
+##############################
+
+Resolving xrefs for node <AssignStmt test_at_prefixes.adb:14:4-14:21>
+*********************************************************************
+
+Expr: <Id "Y" test_at_prefixes.adb:14:4-14:5>
+  references:    <DefiningName "Y" test_at_prefixes.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <AttributeRef test_at_prefixes.adb:14:9-14:20>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <DottedName test_at_prefixes.adb:14:9-14:12>
+  references:    <DefiningName "A" test_at_prefixes.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "R" test_at_prefixes.adb:14:9-14:10>
+  references:    <DefiningName "R" test_at_prefixes.adb:8:4-8:5>
+  type:          <ConcreteTypeDecl ["Rec"] test_at_prefixes.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Rec"] test_at_prefixes.adb:2:4-4:15>
+Expr: <Id "A" test_at_prefixes.adb:14:11-14:12>
+  references:    <DefiningName "A" test_at_prefixes.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "At" test_at_prefixes.adb:14:13-14:15>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AssignStmt test_at_prefixes.adb:20:7-20:26>
+*********************************************************************
+
+Expr: <Id "Y" test_at_prefixes.adb:20:7-20:8>
+  references:    <DefiningName "Y" test_at_prefixes.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <AttributeRef test_at_prefixes.adb:20:12-20:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <CallExpr test_at_prefixes.adb:20:12-20:17>
+  references:    <DefiningName "A" test_at_prefixes.adb:9:4-9:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "A" test_at_prefixes.adb:20:12-20:13>
+  references:    <DefiningName "A" test_at_prefixes.adb:9:4-9:5>
+  type:          <ConcreteTypeDecl ["Arr"] test_at_prefixes.adb:6:4-6:42>
+  expected type: None
+Expr: <Id "I" test_at_prefixes.adb:20:15-20:16>
+  references:    <DefiningName "I" test_at_prefixes.adb:17:8-17:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "At" test_at_prefixes.adb:20:18-20:20>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

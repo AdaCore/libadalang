@@ -1,0 +1,3 @@
+generic
+   type T is private with Size => 8;
+package Test is end Test;

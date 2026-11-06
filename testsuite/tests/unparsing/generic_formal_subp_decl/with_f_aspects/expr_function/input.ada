@@ -1,0 +1,1 @@
+   with function F return Integer is (1) with Post => True;

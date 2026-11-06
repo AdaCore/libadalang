@@ -1,0 +1,6 @@
+description: |
+    This tests the formatting of a PackageBody when f_aspects are present.
+    Ensures that a line break is added before the with keyword.
+ 
+driver: unparser
+rule: package_body

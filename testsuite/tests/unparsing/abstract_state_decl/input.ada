@@ -1,0 +1,1 @@
+package Test with Abstract_State => (State with Ghost) is end Test;

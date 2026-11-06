@@ -1,0 +1,1 @@
+procedure Test renames P with Inline;

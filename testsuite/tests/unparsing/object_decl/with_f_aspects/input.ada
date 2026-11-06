@@ -1,0 +1,2 @@
+ X : Integer with Atomic;
+ 

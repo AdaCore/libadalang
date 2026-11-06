@@ -1,0 +1,1 @@
+with procedure P is abstract with Pre => True;

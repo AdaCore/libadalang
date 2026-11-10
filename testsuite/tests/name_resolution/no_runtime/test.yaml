@@ -1,0 +1,11 @@
+description: |
+  Check that name resolution can process language constructs that do not
+  involve the Ada runtime when there is no runtime available (here: project
+  uses an unknown target, so there is no associated runtime, even though
+  LibGPR2 can load the project).
+
+  Also check that, for constructs that do involve the Ada runtime (here:
+  exception occurrences), there is no crash.
+driver: name-resolution
+input_sources: [test.adb]
+project_file: p.gpr

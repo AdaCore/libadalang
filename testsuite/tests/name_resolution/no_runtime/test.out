@@ -1,0 +1,76 @@
+kb: info: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:7:4-7:15>
+*******************************************************
+
+Expr: <DottedName test.adb:7:4-7:9>
+  references:    <DefiningName "I" pkg.ads:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Pkg" test.adb:7:4-7:7>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "I" test.adb:7:8-7:9>
+  references:    <DefiningName "I" pkg.ads:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Int test.adb:7:13-7:14>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <AssignStmt test.adb:10:4-10:21>
+*********************************************************
+
+Expr: <DottedName test.adb:10:4-10:15>
+  references:    <DefiningName "I" pkg-child.ads:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <DottedName test.adb:10:4-10:13>
+  references:    <DefiningName "Pkg.Child" pkg-child.ads:1:9-1:18>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" test.adb:10:4-10:7>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Child" test.adb:10:8-10:13>
+  references:    <DefiningName "Pkg.Child" pkg-child.ads:1:9-1:18>
+  type:          None
+  expected type: None
+Expr: <Id "I" test.adb:10:14-10:15>
+  references:    <DefiningName "I" pkg-child.ads:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Int test.adb:10:19-10:20>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["S"] test.adb:15:10-15:43>
+****************************************************************
+
+WARNING: File ada.ads not found
+WARNING: File ada-exceptions.ads not found
+Expr: <Id "String" test.adb:15:23-15:29>
+  references:    <DefiningName "String" in Standard>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:15:33-15:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+Expr: <Id "Exc" test.adb:15:33-15:36>
+  references:    <DefiningName "Exc" test.adb:13:9-13:12>
+  type:          None
+  expected type: None
+Expr: <Id "Image" test.adb:15:37-15:42>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

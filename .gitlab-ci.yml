@@ -7,6 +7,13 @@ include:
 
 stages:
   - single
+  - release
+
+
+variables:
+  LIBADALANG_SETUP:
+    value: "27.0"
+    description: "Cathod setup to download for the TestPyPI release"
 
 
 build_and_test:
@@ -68,3 +75,48 @@ check_issue:
 continuous_builder:
   extends: .cb
   stage: single
+
+
+publish_testpypi:
+  stage: release
+  interruptible: false
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: manual
+      allow_failure: true
+  services:
+    - task_role_arn:arn:aws:iam::097448436531:role/gitlab-runner-task-roles/LibadalangPublishPyPITaskRole
+    - security_group:GitLabRunnerTasksExecPrivilegedSG
+    - image:e3
+    - cpu:1
+  variables:
+    TWINE_NON_INTERACTIVE: "1"
+  # Set GOOGLE_APPLICATION_CREDENTIALS as a File-type CI/CD variable containing
+  # the service account JSON. Register that Google service account as a trusted
+  # publisher on TestPyPI. Do not configure TWINE_PASSWORD for this job.
+  # Override LIBADALANG_SETUP when starting a pipeline if needed.
+  script:
+    - e3-cli venv /tmp/testpypi-venv
+    - /tmp/testpypi-venv/bin/python -m pip install 'twine>=6.2' google-auth requests
+    - |
+      : "${GOOGLE_APPLICATION_CREDENTIALS:?Set the service account credentials File variable}"
+      test -r "$GOOGLE_APPLICATION_CREDENTIALS"
+    - mkdir -p testpypi-release
+    - cd testpypi-release
+    - e3-cathod components
+        --setup "$LIBADALANG_SETUP"
+        --build-date all
+        --platform x86_64-linux
+        --component libadalang-internal
+        --download
+    - tar xf "libadalang-internal-${LIBADALANG_SETUP}-x86_64-linux-bin.tar.gz"
+    - /tmp/testpypi-venv/bin/python -m twine check
+        libadalang-internal-${LIBADALANG_SETUP}-x86_64-linux-bin/stripped_python/libadalang-*.whl
+    # Twine reads this variable in GitLab CI and exchanges the Google ID token
+    # for a short-lived TestPyPI upload token.
+    - |
+      TESTPYPI_ID_TOKEN=$(/tmp/testpypi-venv/bin/python -c 'from google.auth.transport.requests import Request; from google.oauth2.id_token import fetch_id_token; print(fetch_id_token(Request(), "testpypi"))')
+      export TESTPYPI_ID_TOKEN
+    - /tmp/testpypi-venv/bin/python -m twine upload
+        --repository-url https://test.pypi.org/legacy/
+        libadalang-internal-${LIBADALANG_SETUP}-x86_64-linux-bin/stripped_python/libadalang-*.whl

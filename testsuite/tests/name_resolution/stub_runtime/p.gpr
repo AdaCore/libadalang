@@ -1,0 +1,4 @@
+project P is
+   for Target use "nosuchtarget";
+   for Object_Dir use "obj";
+end P;

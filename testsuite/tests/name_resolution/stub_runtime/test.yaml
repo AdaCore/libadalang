@@ -1,0 +1,8 @@
+description: |
+  Check that name resolution works fine when there is no bona fide runtime
+  available (here: project uses an unknown target, so there is no associated
+  runtime, even though LibGPR2 can load the project, but the project sources do
+  include some Ada runtime units).
+driver: name-resolution
+input_sources: [test.adb]
+project_file: p.gpr

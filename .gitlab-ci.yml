@@ -92,7 +92,8 @@ publish_testpypi:
   variables:
     TWINE_NON_INTERACTIVE: "1"
   # Set GOOGLE_APPLICATION_CREDENTIALS as a File-type CI/CD variable containing
-  # the service account JSON. Register that Google service account as a trusted
+  # Google credentials JSON (service account key or Workload Identity Federation
+  # configuration with service account impersonation). Register the account as a trusted
   # publisher on TestPyPI. Do not configure TWINE_PASSWORD for this job.
   # Override LIBADALANG_SETUP when starting a pipeline if needed.
   script:
@@ -115,7 +116,44 @@ publish_testpypi:
     # Twine reads this variable in GitLab CI and exchanges the Google ID token
     # for a short-lived TestPyPI upload token.
     - |
-      TESTPYPI_ID_TOKEN=$(/tmp/testpypi-venv/bin/python -c 'from google.auth.transport.requests import Request; from google.oauth2.id_token import fetch_id_token; print(fetch_id_token(Request(), "testpypi"))')
+      TESTPYPI_ID_TOKEN=$(/tmp/testpypi-venv/bin/python - <<'PY'
+      import json
+      import os
+      from urllib.parse import unquote, urlparse
+
+      import google.auth
+      from google.auth import impersonated_credentials
+      from google.auth.transport.requests import Request
+      from google.oauth2.id_token import fetch_id_token
+
+      with open(os.environ["GOOGLE_APPLICATION_CREDENTIALS"]) as stream:
+          info = json.load(stream)
+
+      if info.get("type") == "external_account":
+          url = info.pop("service_account_impersonation_url", None)
+          if not url:
+              raise ValueError("Federated credentials require service_account_impersonation_url")
+          account = unquote(urlparse(url).path).rsplit("/", 1)[-1]
+          if not account.endswith(":generateAccessToken"):
+              raise ValueError("Invalid service_account_impersonation_url")
+          account = account.removesuffix(":generateAccessToken")
+          scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+          source, _ = google.auth.load_credentials_from_dict(info, scopes=scopes)
+          # Use the federated identity directly to avoid nested impersonation.
+          target = impersonated_credentials.Credentials(
+              source_credentials=source,
+              target_principal=account,
+              target_scopes=scopes,
+          )
+          credentials = impersonated_credentials.IDTokenCredentials(
+              target, target_audience="testpypi", include_email=True
+          )
+          credentials.refresh(Request())
+          print(credentials.token)
+      else:
+          print(fetch_id_token(Request(), "testpypi"))
+      PY
+      )
       export TESTPYPI_ID_TOKEN
     - /tmp/testpypi-venv/bin/python -m twine upload
         --repository-url https://test.pypi.org/legacy/

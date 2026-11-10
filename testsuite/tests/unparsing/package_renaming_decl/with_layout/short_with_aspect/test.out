@@ -1,1 +1,2 @@
-package Foo renames Bar with Baz;
+package Foo renames Bar
+with Baz;

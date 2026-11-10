@@ -3,4 +3,3 @@ generic
    with Atomic;
 package Test is
 end Test;
-

@@ -11,6 +11,12 @@ stages:
 
 
 variables:
+  PUBLISH_TESTPYPI:
+    value: "false"
+    options:
+      - "false"
+      - "true"
+    description: "Publish the Libadalang wheel to TestPyPI from the default branch"
   LIBADALANG_SETUP:
     value: "27.0"
     description: "Cathod setup to download for the TestPyPI release"
@@ -81,9 +87,7 @@ publish_testpypi:
   stage: release
   interruptible: false
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: manual
-      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "web" && $PUBLISH_TESTPYPI == "true" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   services:
     - task_role_arn:arn:aws:iam::097448436531:role/gitlab-runner-task-roles/LibadalangPublishPyPITaskRole
     - security_group:GitLabRunnerTasksExecPrivilegedSG
@@ -98,7 +102,7 @@ publish_testpypi:
   # Override LIBADALANG_SETUP when starting a pipeline if needed.
   script:
     - e3-cli venv /tmp/testpypi-venv
-    - /tmp/testpypi-venv/bin/python -m pip install 'twine>=6.2' google-auth requests
+    - /tmp/testpypi-venv/bin/python -m pip install 'twine>=6.2' google-auth requests e3-aws
     - |
       : "${GOOGLE_APPLICATION_CREDENTIALS:?Set the service account credentials File variable}"
       test -r "$GOOGLE_APPLICATION_CREDENTIALS"
@@ -137,6 +141,23 @@ publish_testpypi:
           if not account.endswith(":generateAccessToken"):
               raise ValueError("Invalid service_account_impersonation_url")
           account = account.removesuffix(":generateAccessToken")
+          if info.get("subject_token_type") == "urn:ietf:params:aws:token-type:aws4_request":
+              from e3.aws import Session
+
+              # The e3 AWS session supports ECS task credentials; Google's
+              # loader otherwise falls back to EC2 instance metadata.
+              region = "eu-west-1"
+              aws_credentials = Session(regions=[region]).to_boto3().get_credentials()
+              if aws_credentials is None:
+                  raise ValueError("No AWS credentials available for Workload Identity Federation")
+              aws_credentials = aws_credentials.get_frozen_credentials()
+              os.environ["AWS_REGION"] = region
+              os.environ["AWS_ACCESS_KEY_ID"] = aws_credentials.access_key
+              os.environ["AWS_SECRET_ACCESS_KEY"] = aws_credentials.secret_key
+              if aws_credentials.token:
+                  os.environ["AWS_SESSION_TOKEN"] = aws_credentials.token
+              else:
+                  os.environ.pop("AWS_SESSION_TOKEN", None)
           scopes = ["https://www.googleapis.com/auth/cloud-platform"]
           source, _ = google.auth.load_credentials_from_dict(info, scopes=scopes)
           # Use the federated identity directly to avoid nested impersonation.

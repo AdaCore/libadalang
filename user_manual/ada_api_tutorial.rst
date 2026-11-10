@@ -578,14 +578,14 @@ failed (for instance due to incorrect analyzed source code).
 List of sources in a project
 ----------------------------
 
-Even though ``GNATCOLL.Projects`` provides facilities to get the list of source
-files in a project, this operation is so common for Libadalang tools that
-Libadalang provides a convenience function to compute such a list:
+Even though ``GPR2`` provides facilities to get the list of source files in a
+project, this operation is so common for Libadalang tools that Libadalang
+provides a convenience function to compute such a list:
 ``Libadalang.Project_Provider.Source_Files``. This is especially useful to
 compute the analysis units to pass to the ``P_Find_All_*`` properties
 (described in the previous section).
 
-This function takes a project tree (``GNATCOLL.Projects.Project_Tree``) and a
+This function takes a project tree (``GPR2.Project.Tree.Object``) and a
 mode to determine the scope of the sources to consider (root project only,
 the whole project tree, the runtime, ...) and just returns the list of source
 files:
@@ -593,10 +593,10 @@ files:
 .. code-block:: ada
 
    declare
-      Project : Project_Tree := ...;
+      Tree    : GPR2.Project.Tree.Object := ...;
       Context : Analysis_Context := ...;
       Id      : Defining_Name := ...;
-      Sources : constant Filename_Vectors.Vector := Source_Files (Project);
+      Sources : constant Filename_Vectors.Vector := Source_Files (Tree);
       Units   : Analysis_Unit_Array (1 .. Sources.Last_Index);
    begin
       for I in Units'Range loop

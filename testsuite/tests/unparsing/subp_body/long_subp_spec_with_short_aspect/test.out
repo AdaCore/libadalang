@@ -1,6 +1,6 @@
 function Fooooooooooooo
   (A : Bar; B : Baz; C : Qux) return Freeeeeeeeeeeeeeeeeed
-  with Precondition
+with Precondition
 is
 begin
    null;

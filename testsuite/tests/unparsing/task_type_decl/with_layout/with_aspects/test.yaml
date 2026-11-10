@@ -1,8 +1,8 @@
 description: |
-    Check a task type declaration with discriminants, aspects and public entries.
-    Break before the discriminants and the `with` and `is` keywords. Indent the
-    discriminants and public entries, keeping `task`, `with`, `is` and `end`
-    aligned.
+    Check a task type declaration with discriminants, aspects and
+    public entries. Break before the discriminants and the `with`
+    and `is` keywords. Indent the discriminants and public entries,
+    keeping `task`, `with`, `is` and `end` aligned.
 
 driver: unparser
 rule: task_type_decl

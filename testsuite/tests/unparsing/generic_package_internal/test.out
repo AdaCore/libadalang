@@ -1,4 +1,4 @@
 generic
 package Test
-  with Pure is
+with Pure is
 end Test;

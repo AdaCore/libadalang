@@ -3483,13 +3483,6 @@
       "node": {
         "kind": "group",
         "document": "recurse"
-      },
-      "fields": {
-        "f_decl": {
-          "kind": "align",
-          "width": "     ",
-          "contents": "recurse"
-        }
       }
     },
     "GenericFormalPart": {
@@ -3667,11 +3660,8 @@
                     "field": "f_package_name"
                   },
                   {
-                    "kind": "continuationLineIndent",
-                    "contents": {
-                      "kind": "recurse_field",
-                      "field": "f_aspects"
-                    }
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
                   }
                 ]
               }
@@ -5301,13 +5291,10 @@
         }
       ],
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardline",
-            "recurse"
-          ]
-        },
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
         "f_end_name": [
           "whitespace",
           "recurse"
@@ -5421,13 +5408,8 @@
       ],
       "fields": {
         "f_aspects": [
-          {
-            "kind": "continuationLineIndent",
-            "contents": [
-              "hardline",
-              "recurse"
-            ]
-          }
+          "hardline",
+          "recurse"
         ],
         "f_end_name": [
           "whitespace",
@@ -5885,13 +5867,10 @@
         }
       ],
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardline",
-            "recurse"
-          ]
-        },
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
         "f_end_name": [
           "whitespace",
           "recurse"
@@ -6051,13 +6030,10 @@
         ]
       },
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardline",
-            "recurse"
-          ]
-        },
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
         "f_discriminants": {
           "kind": "continuationLineIndent",
           "contents": [
@@ -6641,13 +6617,10 @@
         ]
       },
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardline",
-            "recurse"
-          ]
-        }
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ]
       }
     },
     "SingleTaskDecl": {
@@ -6861,17 +6834,14 @@
         ]
       },
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardlineWithoutBreakParent",
-            {
-              "kind": "group",
-              "id": "subp_aspects",
-              "document": "recurse"
-            }
-          ]
-        },
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "group",
+            "id": "subp_aspects",
+            "document": "recurse"
+          }
+        ],
         "f_decls": [
           {
             "kind": "indent",

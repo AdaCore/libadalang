@@ -1,4 +1,4 @@
 protected type T
-  with Priority => 1
+with Priority => 1
 is
 end T;

@@ -506,100 +506,139 @@ Expected name resolution failure for node <PragmaNode renaming.adb:13:10-13:43>
 Analyzing cursor_indexing.adb
 #############################
 
-Resolving xrefs for node <PragmaNode cursor_indexing.adb:47:7-47:59>
+Resolving xrefs for node <PragmaNode cursor_indexing.adb:65:7-65:59>
 ********************************************************************
 
-Expr: <Id "Assert" cursor_indexing.adb:47:14-47:20>
+Expr: <Id "Assert" cursor_indexing.adb:65:14-65:20>
   references:    None
   type:          None
   expected type: None
-Expr: <RelationOp cursor_indexing.adb:47:22-47:57>
+Expr: <RelationOp cursor_indexing.adb:65:22-65:57>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <CallExpr cursor_indexing.adb:47:22-47:38>
+Expr: <CallExpr cursor_indexing.adb:65:22-65:38>
   references:    None
   type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <AttributeRef cursor_indexing.adb:47:22-47:34>
+Expr: <AttributeRef cursor_indexing.adb:65:22-65:34>
   references:    None
   type:          <ConcreteTypeDecl ["Cursor"] cursor_indexing.adb:3:7-3:48>
   expected type: None
-Expr: <Id "E" cursor_indexing.adb:47:22-47:23>
-  references:    <DefiningName "E" cursor_indexing.adb:44:8-44:9>
+Expr: <Id "E" cursor_indexing.adb:65:22-65:23>
+  references:    <DefiningName "E" cursor_indexing.adb:62:8-62:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <Id "Loop_Index" cursor_indexing.adb:47:24-47:34>
+Expr: <Id "Loop_Index" cursor_indexing.adb:65:24-65:34>
   references:    None
   type:          None
   expected type: None
-Expr: <Int cursor_indexing.adb:47:36-47:37>
+Expr: <Int cursor_indexing.adb:65:36-65:37>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq cursor_indexing.adb:47:39-47:40>
+Expr: <OpEq cursor_indexing.adb:65:39-65:40>
   references:    None
   type:          None
   expected type: None
-Expr: <CallExpr cursor_indexing.adb:47:41-47:57>
+Expr: <CallExpr cursor_indexing.adb:65:41-65:57>
   references:    None
   type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <AttributeRef cursor_indexing.adb:47:41-47:53>
+Expr: <AttributeRef cursor_indexing.adb:65:41-65:53>
   references:    None
   type:          <ConcreteTypeDecl ["Cursor"] cursor_indexing.adb:3:7-3:48>
   expected type: None
-Expr: <Id "E" cursor_indexing.adb:47:41-47:42>
-  references:    <DefiningName "E" cursor_indexing.adb:44:8-44:9>
+Expr: <Id "E" cursor_indexing.adb:65:41-65:42>
+  references:    <DefiningName "E" cursor_indexing.adb:62:8-62:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <Id "Loop_Index" cursor_indexing.adb:47:43-47:53>
+Expr: <Id "Loop_Index" cursor_indexing.adb:65:43-65:53>
   references:    None
   type:          None
   expected type: None
-Expr: <Id "D" cursor_indexing.adb:47:55-47:56>
-  references:    <DefiningName "D" cursor_indexing.adb:42:4-42:5>
+Expr: <Id "D" cursor_indexing.adb:65:55-65:56>
+  references:    <DefiningName "D" cursor_indexing.adb:60:4-60:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
-Resolving xrefs for node <PragmaNode cursor_indexing.adb:53:7-53:47>
+Resolving xrefs for node <PragmaNode cursor_indexing.adb:71:7-71:47>
 ********************************************************************
 
-Expr: <Id "Assert" cursor_indexing.adb:53:14-53:20>
+Expr: <Id "Assert" cursor_indexing.adb:71:14-71:20>
   references:    None
   type:          None
   expected type: None
-Expr: <RelationOp cursor_indexing.adb:53:22-53:45>
+Expr: <RelationOp cursor_indexing.adb:71:22-71:45>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <CallExpr cursor_indexing.adb:53:22-53:41>
+Expr: <CallExpr cursor_indexing.adb:71:22-71:41>
   references:    None
   type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <AttributeRef cursor_indexing.adb:53:22-53:34>
+Expr: <AttributeRef cursor_indexing.adb:71:22-71:34>
   references:    None
   type:          <ConcreteTypeDecl ["Cursor"] cursor_indexing.adb:22:7-22:56>
   expected type: None
-Expr: <Id "E" cursor_indexing.adb:53:22-53:23>
-  references:    <DefiningName "E" cursor_indexing.adb:51:8-51:9>
+Expr: <Id "E" cursor_indexing.adb:71:22-71:23>
+  references:    <DefiningName "E" cursor_indexing.adb:69:8-69:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <Id "Loop_Index" cursor_indexing.adb:53:24-53:34>
+Expr: <Id "Loop_Index" cursor_indexing.adb:71:24-71:34>
   references:    None
   type:          None
   expected type: None
-Expr: <Int cursor_indexing.adb:53:36-53:37>
+Expr: <Int cursor_indexing.adb:71:36-71:37>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <Id "D" cursor_indexing.adb:53:39-53:40>
-  references:    <DefiningName "D" cursor_indexing.adb:42:4-42:5>
+Expr: <Id "D" cursor_indexing.adb:71:39-71:40>
+  references:    <DefiningName "D" cursor_indexing.adb:60:4-60:5>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <OpEq cursor_indexing.adb:53:42-53:43>
+Expr: <OpEq cursor_indexing.adb:71:42-71:43>
   references:    None
   type:          None
   expected type: None
-Expr: <Int cursor_indexing.adb:53:44-53:45>
+Expr: <Int cursor_indexing.adb:71:44-71:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <PragmaNode cursor_indexing.adb:77:7-77:44>
+********************************************************************
+
+Expr: <Id "Assert" cursor_indexing.adb:77:14-77:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp cursor_indexing.adb:77:22-77:42>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr cursor_indexing.adb:77:22-77:38>
+  references:    None
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <AttributeRef cursor_indexing.adb:77:22-77:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Cursor"] cursor_indexing.adb:41:7-42:39>
+  expected type: None
+Expr: <Id "E" cursor_indexing.adb:77:22-77:23>
+  references:    <DefiningName "E" cursor_indexing.adb:75:8-75:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" cursor_indexing.adb:77:24-77:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int cursor_indexing.adb:77:36-77:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
+Expr: <OpEq cursor_indexing.adb:77:39-77:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int cursor_indexing.adb:77:41-77:42>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>

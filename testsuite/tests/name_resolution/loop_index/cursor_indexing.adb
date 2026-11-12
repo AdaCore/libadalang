@@ -37,8 +37,26 @@ procedure Cursor_Indexing is
       is (1);
    end Two_Dimensional;
 
+   package User_Defined is
+      type Cursor is tagged null record
+        with Constant_Indexing => Get;
+      function Get (C : Cursor; Index : Positive) return Natural
+      is (Natural (Index));
+      type Seq is null record
+        with Iterable =>
+          (First       => First,
+           Next        => Next,
+           Has_Element => Has_Element,
+           Element     => Element);
+      function First (S : Seq) return Cursor is (null record);
+      function Next (S : Seq; C : Cursor) return Cursor is (C);
+      function Has_Element (S : Seq; C : Cursor) return Boolean is (True);
+      function Element (S : Seq; C : Cursor) return Integer is (1);
+   end User_Defined;
+
    Q1 : One_Dimensional.Seq;
    Q2 : Two_Dimensional.Seq;
+   Q3 : User_Defined.Seq;
    D  : Integer := 1;
 begin
    for E of Q1 loop
@@ -51,6 +69,12 @@ begin
    for E of Q2 loop
       --  Multiple cursor indices are legal; multiple dimension operands aren't
       pragma Assert (E'Loop_Index (1, D) = 1);
+      pragma Test_Statement;
+   end loop;
+
+   for E of Q3 loop
+      --  The suffix can also use the cursor's user-defined indexing
+      pragma Assert (E'Loop_Index (1) = 1);
       pragma Test_Statement;
    end loop;
 end Cursor_Indexing;

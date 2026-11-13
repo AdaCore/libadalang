@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description: |
+  Check that a comment between an elsif expression condition and then
+  is aligned with elsif, without continuation indentation.

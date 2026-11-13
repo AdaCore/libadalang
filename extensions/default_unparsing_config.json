@@ -2477,7 +2477,8 @@
                     "kind": "recurse_field",
                     "field": "f_cond_expr"
                   }
-                }
+                },
+                "bubbleUpTrailingTrivias": true
               },
               "line",
               {
@@ -4119,7 +4120,8 @@
                       "field": "f_cond_expr"
                     }
                   ]
-                }
+                },
+                "bubbleUpTrailingTrivias": true
               },
               "line",
               {

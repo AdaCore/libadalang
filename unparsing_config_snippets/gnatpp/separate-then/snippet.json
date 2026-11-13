@@ -20,7 +20,8 @@
                     "kind": "recurse_field",
                     "field": "f_cond_expr"
                   }
-                }
+                },
+                "bubbleUpTrailingTrivias": true
               },
               "hardline",
               {
@@ -66,7 +67,8 @@
                       "field": "f_cond_expr"
                     }
                   ]
-                }
+                },
+                "bubbleUpTrailingTrivias": true
               },
               "hardline",
               {

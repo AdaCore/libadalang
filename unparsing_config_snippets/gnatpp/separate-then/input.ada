@@ -1,4 +1,6 @@
-if Foo then
+if Foo
+--  a comment
+then
   null;
 elsif Bar then
   null;

@@ -20,7 +20,8 @@
                     "kind": "recurse_field",
                     "field": "f_cond_expr"
                   }
-                }
+                },
+                "bubbleUpTrailingTrivias": true
               },
               "whitespace",
               {
@@ -126,7 +127,8 @@
                       "field": "f_cond_expr"
                     }
                   ]
-                }
+                },
+                "bubbleUpTrailingTrivias": true
               },
               "whitespace",
               {

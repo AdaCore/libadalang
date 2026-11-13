@@ -5,7 +5,9 @@ begin
    elsif Canvas.Width > From_Point.X + To_Point.X or else Canvas.Height > From_Point.Y then
       null;
    end if;
-   if Short then
+   if Short
+   --  a comment
+   then
       null;
    end if;
    for Index in Canvas.Pixels'First (1) .. Canvas.Pixels'Last (1) - From_Point.X - To_Point.X loop

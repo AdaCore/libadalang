@@ -1,6 +1,6 @@
 description: |
-    This tests the formatting of a SubpBody when f_aspects
-    are present. Ensures that a line break is added before the with keyword.
- 
+  Test that a short procedure with aspects and an empty declarative part
+  breaks before both `with` and `is`.
+
 driver: unparser
 rule: subp_body

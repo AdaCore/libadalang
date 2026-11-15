@@ -6755,59 +6755,18 @@
               }
             },
             "else": {
-              "kind": "ifBreak",
-              "groupId": "subp_spec",
-              "flatContents": {
-                "kind": "ifBreak",
-                "groupId": "subp_aspects",
-                "flatContents": {
-                  "kind": "group",
-                  "document": [
-                    {
-                      "kind": "group",
-                      "document": [
-                        "line",
-                        {
-                          "kind": "text",
-                          "text": "is"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "recurse_field",
-                      "field": "f_decls"
-                    }
-                  ]
+              "kind": "group",
+              "document": [
+                "hardline",
+                {
+                  "kind": "text",
+                  "text": "is"
                 },
-                "breakContents": {
-                  "kind": "group",
-                  "document": [
-                    "hardline",
-                    {
-                      "kind": "text",
-                      "text": "is"
-                    },
-                    {
-                      "kind": "recurse_field",
-                      "field": "f_decls"
-                    }
-                  ]
+                {
+                  "kind": "recurse_field",
+                  "field": "f_decls"
                 }
-              },
-              "breakContents": {
-                "kind": "group",
-                "document": [
-                  "hardline",
-                  {
-                    "kind": "text",
-                    "text": "is"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
-              }
+              ]
             }
           },
           {
@@ -6838,7 +6797,6 @@
           "hardlineWithoutBreakParent",
           {
             "kind": "group",
-            "id": "subp_aspects",
             "document": "recurse"
           }
         ],

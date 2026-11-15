@@ -7,7 +7,9 @@ begin
      or else Canvas.Height > From_Point.Y then
       null;
    end if;
-   if Short then
+   if Short
+   --  a comment
+   then
       null;
    end if;
    for Index in

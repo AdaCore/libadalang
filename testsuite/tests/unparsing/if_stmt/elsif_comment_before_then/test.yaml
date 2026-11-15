@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Check that a comment between an elsif condition and the then keyword is
+  aligned with the elsif and then keywords, without continuation indentation.

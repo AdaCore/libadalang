@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Check that a comment between an if condition and the then keyword is
+  aligned with the if and then keywords, without continuation indentation.

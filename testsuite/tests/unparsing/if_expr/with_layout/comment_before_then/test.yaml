@@ -1,0 +1,7 @@
+driver: unparser
+rule: expr
+description: |
+  Check that a comment between an if expression condition and then
+  is aligned with if, without continuation indentation.
+overridings:
+  - tall

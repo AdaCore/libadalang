@@ -3914,6 +3914,117 @@ class BaseFormalParamHolder: AdaNode {
 |" Base class for subprogram specifications (:rmlink:`6.1`).
 @abstract
 class BaseSubpSpec: BaseFormalParamHolder {
+    |" Wrapper around ``is_valid_indexing`` for use when this indexing
+    |" expression does not appear as an actual parameter of a known call, so
+    |" no enclosing subprogram specification is available. Equivalent to
+    |" calling ``is_valid_indexing`` with ``subp_spec`` set to ``null`` (see
+    |" that property for the full parameter documentation).
+    |"
+    |" This wrapper exists because a LogicVar cannot be passed as a null
+    |" literal at the call site during name resolution.
+    |"
+    |" .. note:: This property should remain private as it is only used for
+    |"     name resolution.
+    fun is_valid_indexing_no_spec(
+        indexed_object: Entity[BasicDecl],
+        indexing_node: CallExpr,
+        fn_constant: Bool,
+        typ: Entity[BaseTypeDecl]
+    ): Bool =
+        self.is_valid_indexing(
+            indexed_object, null[Entity[BaseSubpSpec]], indexing_node,
+            fn_constant, typ
+        )
+
+    |" Return whether a candidate indexing function is valid when resolving a
+    |" generalized indexing expression according to :rmlink:`4.1.6` 12/3-16/3.
+    |"
+    |" ``self`` is the candidate indexing specification.
+    |"
+    |" ``indexed_object`` is the object being indexed, or null when indexing an
+    |" attribute value.
+    |"
+    |" ``subp_spec`` is the specification of the subprogram call enclosing
+    |" this expression, when it appears as an actual parameter. It is used to
+    |" determine whether the corresponding formal parameter is writable
+    |" (out or in out mode). Pass ``null`` when no enclosing call specification
+    |" is available; in that case, case (b) of the constant indexing rules is
+    |" skipped. See ``is_valid_indexing_no_spec`` for a wrapper that handles
+    |" this case in a logic equation context.
+    |"
+    |" ``indexing_node`` is the indexing expression.
+    |"
+    |" ``fn_constant`` is true when the candidate indexing function being
+    |" tested belongs to the constant indexing functions of ``typ``. When false
+    |" the candidate indexing function being tested belongs to the variable
+    |" indexing functions of ``typ``.
+    |"
+    |" ``typ`` is the type of the indexed object. It must have a
+    |" ``Constant_Indexing`` or ``Variable_Indexing`` aspect (or both).
+    |"
+    |" .. note:: This property should remain private as it is only used for
+    |"     name resolution.
+    fun is_valid_indexing(
+        indexed_object: Entity[BasicDecl],
+        subp_spec: Entity[BaseSubpSpec],
+        indexing_node: CallExpr,
+        fn_constant: Bool,
+        typ: Entity[BaseTypeDecl]
+    ): Bool = {
+        # If the ``Constant_Indexing`` aspect is specified for ``typ`` then the
+        # generalized indexing is interpreted as a constant indexing under the
+        # following circumstances (:rmlink:`4.1.6`):
+        if typ.has_aspect(s"Constant_Indexing") and (
+           # 1. when ``Variable_Indexing`` aspect is not specified for ``typ``;
+           not typ.has_aspect(s"Variable_Indexing")
+           # 2. when the indexed object or value is constant
+           or indexed_object.is_null or indexed_object.is_constant_object()
+           # 3. when the generalized_indexing is used within a primary where a
+           # name denoting a constant is permitted, i.e. when it is not used
+           # in any of the following contexts that require a variable:
+           or not (
+               (
+                   # a. the name in the LHS of an assignment:
+                   indexing_node == indexing_node.parent.as[AssignStmt]?.dest
+                   # b. the name is used for an out or in out parameter:
+                   or subp_spec.do(
+                       (ss) => indexing_node.parent.as[ParamAssoc].do(
+                           # We use match_param_list in order to find the
+                           # corresponding formal parameter mode.
+                           (pa) => ss.match_param_list(
+                               pa.parent.as[AssocList].as_entity,
+                               # Propagate the dottable_subp flag from the
+                               # outer call's resolved spec: when the outer
+                               # call uses dot notation its first formal is
+                               # the implicit self object (not in the actual
+                               # list), so match_param_list must skip it.
+                               is_dottable_subp=ss.info.md.dottable_subp
+                           ).find(
+                               (p) => p.actual.assoc == pa.as_entity
+                           ).formal.basic_decl().as[ParamSpec]?.mode?
+                               .is_writable()
+                       )
+                   )
+                   # c. the name is in an object renaming:
+                   or (
+                       indexing_node.parent is RenamingClause
+                       and indexing_node.parent.parent is ObjectDecl
+                   )
+               )
+               # d. unless there is no ``Variable_Indexing`` aspect
+               # defined:
+               and typ.has_aspect(s"Variable_Indexing")
+           )
+        )
+        # Check that the indexing kind (constant vs variable) of the candidate
+        # function matches the context: constant indexing requires fn_constant
+        # to be true, variable indexing requires it to be false.
+        then
+           fn_constant
+        else
+           not fn_constant
+    }
+
     |" Syntax property. Return the name of the subprogram defined by this
     |" specification.
     @exported
@@ -5452,7 +5563,17 @@ class ParamAssoc: BasicAssoc {
                 | s"Length"
                 | s"Has_Same_Storage"
                 | s"Overlaps_Storage"
-                | s"Loop_Index"
+        )
+        or node.parent.parent.as[CallExpr]?.name.as[AttributeRef].do(
+            # Array dimensions must resolve before their value is evaluated.
+            # Cursor indices need the enclosing call's expected index type.
+            (ar) => ar.attribute.name_is(s"Loop_Index")
+                and {
+                    bind env = node.node_env;
+                    bind origin = node.origin_node();
+
+                    ar.as_bare_entity.loop_index_iterated_type()?.is_array()
+                }
         )
 
     fun is_at_attribute_assoc(): Bool =
@@ -7310,120 +7431,7 @@ class BasicDecl: AdaNode {
             )
         )
 
-    |" Wrapper around ``generalized_indexing_fn_candidate`` for use when
-    |" ``indexing_node`` does not appear as an actual parameter of a known
-    |" call, so no enclosing subprogram specification is available. Equivalent
-    |" to calling ``generalized_indexing_fn_candidate`` with ``subp_spec`` set
-    |" to ``null`` (see that property for the full parameter documentation).
-    |"
-    |" This wrapper exists because a LogicVar cannot be passed as a null
-    |" literal at the call site during name resolution.
-    |"
-    |" ``fn_constant`` is true when the candidate indexing function being
-    |" tested belongs to the constant indexing functions of ``typ``. When false
-    |" the candidate indexing function being tested belongs to the variable
-    |" indexing functions of ``typ``.
-    |"
-    |" ``typ`` is the type of the indexed object.
-    |"
-    |" .. note:: This property should remain private as it is only used for
-    |"     name resolution.
-    fun generalized_indexing_fn_candidate_no_spec(
-        fn_constant: Bool,
-        typ: Entity[BaseTypeDecl],
-        indexing_node: AdaNode
-    ): Bool =
-        self.generalized_indexing_fn_candidate(
-            null[Entity[BaseSubpSpec]], fn_constant, typ, indexing_node
-        )
 
-    |" Return whether a candidate indexing function is valid when resolving a
-    |" generalized indexing access on this object declaration according to
-    |" :rmlink:`4.1.6` 12/3-16/3.
-    |"
-    |" ``self`` is the declaration of the object being indexed.
-    |"
-    |" ``fn_constant`` is true when the candidate indexing function being
-    |" tested belongs to the constant indexing functions of ``typ``. When false
-    |" the candidate indexing function being tested belongs to the variable
-    |" indexing functions of ``typ``.
-    |"
-    |" ``typ`` is the type of the indexed object. It must have a
-    |" ``Constant_Indexing`` or ``Variable_Indexing`` aspect (or both).
-    |"
-    |" ``subp_spec`` is the specification of the subprogram call enclosing
-    |" ``indexing_node``, when ``indexing_node`` appears as an actual
-    |" parameter. It is used to determine whether the corresponding formal
-    |" parameter is writable (out or in out mode). Pass ``null`` when no
-    |" enclosing call specification is available; in that case, case (b) of
-    |" the constant indexing rules is skipped. See
-    |" "``generalized_indexing_fn_candidate_no_spec`` for a
-    |" wrapper that handles this case in a logic equation context.
-    |"
-    |" The ``indexing_node`` parameter must be set to the node of the
-    |" generalized indexing expression before calling this property.
-    |"
-    |" .. note:: This property should remain private as it is only used for
-    |"     name resolution.
-    fun generalized_indexing_fn_candidate(
-        subp_spec: Entity[BaseSubpSpec],
-        fn_constant: Bool,
-        typ: Entity[BaseTypeDecl],
-        indexing_node: AdaNode
-    ): Bool = {
-        # If the ``Constant_Indexing`` aspect is specified for ``typ`` then the
-        # generalized indexing is interpreted as a constant indexing under the
-        # following circumstances (:rmlink:`4.1.6`):
-        if typ.has_aspect(s"Constant_Indexing") and (
-           # 1. when ``Variable_Indexing`` aspect is not specified for ``typ``;
-           not typ.has_aspect(s"Variable_Indexing")
-           # 2. when ``self`` denotes a constant;
-           or self.is_constant_object()
-           # 3. when the generalized_indexing is used within a primary where a
-           # name denoting a constant is permitted, i.e. when it is not used
-           # in any of the following contexts that require a variable:
-           or not (
-               (
-                   # a. the name in the LHS of an assignment:
-                   indexing_node == indexing_node.parent.as[AssignStmt]?.dest
-                   # b. the name is used for an out or in out parameter:
-                   or subp_spec.do(
-                       (ss) => indexing_node.parent.as[ParamAssoc].do(
-                           # We use match_param_list in order to find the
-                           # corresponding formal parameter mode.
-                           (pa) => ss.match_param_list(
-                               pa.parent.as[AssocList].as_entity,
-                               # Propagate the dottable_subp flag from the
-                               # outer call's resolved spec: when the outer
-                               # call uses dot notation its first formal is
-                               # the implicit self object (not in the actual
-                               # list), so match_param_list must skip it.
-                               is_dottable_subp=ss.info.md.dottable_subp
-                           ).find(
-                               (p) => p.actual.assoc == pa.as_entity
-                           ).formal.basic_decl().as[ParamSpec]?.mode?
-                               .is_writable()
-                       )
-                   )
-                   # c. the name is in an object renaming:
-                   or (
-                       indexing_node.parent is RenamingClause
-                       and indexing_node.parent.parent is ObjectDecl
-                   )
-               )
-               # d. unless there is no ``Variable_Indexing`` aspect
-               # defined:
-               and typ.has_aspect(s"Variable_Indexing")
-           )
-        )
-        # Check that the indexing kind (constant vs variable) of the candidate
-        # function matches the context: constant indexing requires fn_constant
-        # to be true, variable indexing requires it to be false.
-        then
-           fn_constant
-        else
-           not fn_constant
-    }
 }
 
 |" Contained (directly or indirectly) in an AbstractStateDeclExpr, and is used
@@ -19137,31 +19145,27 @@ class AttributeRef: Name {
     }
 
     |" Assuming this attribute reference is a ``Loop_Index`` attribute,
-    |" return the type it denotes: the index type of the iterated array at
-    |" the dimension given by the optional argument, or the cursor type of
-    |" the ``Iterable`` aspect of the iterated container. Return null if the
+    |" return the iterated array or container type. Return null if the
     |" prefix denotes an invalid loop parameter.
     @with_dynvars(env, origin)
-    fun loop_index_type(): Entity[BaseTypeDecl] =
+    fun loop_index_iterated_type(): Entity[BaseTypeDecl] =
         env.get_first(self.prefix.name_symbol())
         .as[ForLoopVarDecl]?.parent.as[ForLoopSpec].do((spec) =>
             if not spec.loop_type is IterType.Of
             then null[Entity[BaseTypeDecl]]
             else {
-                val typ = spec.iter_expr.as[Expr].expression_type()
-                    ?.implicitly_derefed_type();
-
-                if typ.is_null
-                then null[Entity[BaseTypeDecl]]
-                # Array case: take the index type at the requested dimension
-                elif typ.is_array()
-                then typ.index_type(self.dim_arg())
-                # Container case: no argument is allowed and the attribute
-                # denotes the cursor type.
-                elif self.args.at(0).is_null
-                then typ.iterable_cursor_type()
-                else null[Entity[BaseTypeDecl]]
+                spec.iter_expr.as[Expr].expression_type()
+                    ?.implicitly_derefed_type()
             }
+        )
+
+    # The bare attribute denotes the first array index or the container
+    # cursor. CallExpr interprets a following suffix using the iterated type.
+    @with_dynvars(env, origin)
+    fun loop_index_type(): Entity[BaseTypeDecl] =
+        self.loop_index_iterated_type().do(
+            (typ) => if typ.is_array() then typ.index_type(0)
+                     else typ.iterable_cursor_type()
         )
 
     |" Return the xref equation for the ``Loop_Index`` (ghost) attribute, see
@@ -19536,17 +19540,32 @@ class CallExpr: Name {
                 default_val=%true
             )
         )
-        # Attribute ref case: we can always resolve the AttributeRef first
-        # without ambiguity. This allows us to use its type in order to
-        # solve the rest of the expression.
+        # Attribute ref case: array Loop_Index needs the dimension operand to
+        # determine its type. Other attributes can be resolved first, using
+        # their type to resolve the rest of the expression.
 
+        elif self.name.as[AttributeRef].do(
+            (ar) => ar.attribute.name_is(s"Loop_Index")
+                    and ar.loop_index_iterated_type()?.is_array(),
+            default_val=false
+        )
+        then self.loop_index_dimension_equation(root)
         elif self.name is AttributeRef
         then
             self.name.resolve_names_internal(false).do(
                 (_) =>
                 self.all_args_xref_equation(root)
                 %and self.name.type_val().as[BaseTypeDecl].do(
-                    (typ) => self.parent_name_equation(typ, root),
+                    (typ) =>
+                        # Indexing an attribute result has no object
+                        # declaration to supply the indexing context.
+                        (
+                            if typ.implicitly_derefed_type()?.has_ud_indexing()
+                            then node.ref_var()
+                                <- self.name.ref_var().get_value()
+                            else %true
+                        )
+                        %and self.parent_name_equation(typ, root),
                     default_val={
                         bind logic_context =
                             LogicContext(
@@ -19608,6 +19627,30 @@ class CallExpr: Name {
             # TODO: Bug here: if operator equation, then parent equation is
             # not called!
             %and self.name.sub_equation()
+
+    # In array iteration, interpret the suffix as a dimension selector.
+    # Indexing a container cursor follows the ordinary indexing path above.
+    @with_dynvars(env, origin, entry_point)
+    fun loop_index_dimension_equation(root: Name): Equation =
+        self.all_args_xref_equation(root)
+        %and if self.params().length() == 1
+        then self.name.as[AttributeRef].do(
+            (ar) => {
+                val expr = self.params().at(0).expr();
+                val result = ar.loop_index_iterated_type().index_type(
+                    expr.eval_as_int().as_int() - 1
+                );
+
+                ar.sub_equation()
+                %and node.type_var() <- result
+                %and self.parent_name(root).do(
+                    (pn) => pn.parent_name_equation(result, root),
+                    default_val=%true
+                )
+            },
+            default_val=%false
+        )
+        else %false
 
     |" Construct an equation verifying if self is conformant to the type
     |" designator passed in parameter.
@@ -19707,7 +19750,8 @@ class CallExpr: Name {
                     # parameter than that call expression.
                     if formals.length() == params.length() + 1
                     then
-                        node.parent.as[ParamAssoc].do(
+                        node.subp_spec_var() <- spec
+                        %and node.parent.as[ParamAssoc].do(
                             (pa) => {
                                 # pa.parent -> AssocList,
                                 # pa.parent.parent -> CallExpr.
@@ -19723,26 +19767,25 @@ class CallExpr: Name {
                                     %or
                                     parent_call_var <- null[Entity[AdaNode]]
                                 )
-                                %and BasicDecl
-                                    .generalized_indexing_fn_candidate%(
-                                        node.ref_var(),
-                                        parent_call_var,
-                                        constant_indexing,
-                                        derefed_typ,
-                                        node
-                                    )
+                                %and BaseSubpSpec.is_valid_indexing%(
+                                    node.subp_spec_var(),
+                                    node.ref_var(),
+                                    parent_call_var,
+                                    node,
+                                    constant_indexing,
+                                    derefed_typ
+                                )
                             },
                             default_val=
-                            BasicDecl
-                            .generalized_indexing_fn_candidate_no_spec%(
+                            BaseSubpSpec.is_valid_indexing_no_spec%(
+                                node.subp_spec_var(),
                                 node.ref_var(),
+                                node,
                                 constant_indexing,
-                                derefed_typ,
-                                node
+                                derefed_typ
                             )
                         )
                         %and node.type_var() <- ret_type
-                        %and node.subp_spec_var() <- spec
                         %and params.ilogic_all(
                             (param, i) =>
                             param.expr().expected_type_var()
@@ -21943,7 +21986,6 @@ class Identifier: BaseId implements TokenNode {
             | s"Overlaps_Storage"
             | s"Deref"
             | s"Mechanism_Code"
-            | s"Loop_Index"
 
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] = self.parent.complete_items()

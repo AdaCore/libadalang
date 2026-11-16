@@ -81,10 +81,14 @@ Expr: <Id "Assert" arrays.adb:28:14-28:20>
 Expr: <RelationOp arrays.adb:28:22-28:53>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <AttributeRef arrays.adb:28:22-28:38>
+Expr: <CallExpr arrays.adb:28:22-28:38>
   references:    None
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <AttributeRef arrays.adb:28:22-28:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
 Expr: <Id "E" arrays.adb:28:22-28:23>
   references:    <DefiningName "E" arrays.adb:27:8-27:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
@@ -171,10 +175,14 @@ Expr: <Id "M" multidim.adb:18:22-18:23>
   references:    <DefiningName "M" multidim.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Matrix"] multidim.adb:4:4-4:69>
   expected type: None
-Expr: <AttributeRef multidim.adb:18:25-18:41>
+Expr: <CallExpr multidim.adb:18:25-18:41>
   references:    None
   type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
   expected type: <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+Expr: <AttributeRef multidim.adb:18:25-18:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+  expected type: None
 Expr: <Id "E" multidim.adb:18:25-18:26>
   references:    <DefiningName "E" multidim.adb:17:8-17:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
@@ -183,10 +191,14 @@ Expr: <Id "Loop_Index" multidim.adb:18:27-18:37>
   references:    None
   type:          None
   expected type: None
-Expr: <AttributeRef multidim.adb:18:43-18:59>
+Expr: <CallExpr multidim.adb:18:43-18:59>
   references:    None
   type:          <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
   expected type: <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+Expr: <AttributeRef multidim.adb:18:43-18:55>
+  references:    None
+  type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+  expected type: None
 Expr: <Id "E" multidim.adb:18:43-18:44>
   references:    <DefiningName "E" multidim.adb:17:8-17:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
@@ -214,10 +226,14 @@ Expr: <Id "Assert" multidim.adb:20:14-20:20>
 Expr: <RelationOp multidim.adb:20:22-20:65>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <AttributeRef multidim.adb:20:22-20:40>
+Expr: <CallExpr multidim.adb:20:22-20:40>
   references:    None
   type:          <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
   expected type: <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+Expr: <AttributeRef multidim.adb:20:22-20:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+  expected type: None
 Expr: <Id "E" multidim.adb:20:22-20:23>
   references:    <DefiningName "E" multidim.adb:17:8-17:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
@@ -230,10 +246,14 @@ Expr: <OpEq multidim.adb:20:41-20:42>
   references:    None
   type:          None
   expected type: None
-Expr: <AttributeRef multidim.adb:20:43-20:65>
+Expr: <CallExpr multidim.adb:20:43-20:65>
   references:    None
   type:          <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
   expected type: <ConcreteTypeDecl ["Small"] multidim.adb:3:4-3:32>
+Expr: <AttributeRef multidim.adb:20:43-20:55>
+  references:    None
+  type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
+  expected type: None
 Expr: <Id "E" multidim.adb:20:43-20:44>
   references:    <DefiningName "E" multidim.adb:17:8-17:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
@@ -243,89 +263,117 @@ Expr: <Id "Loop_Index" multidim.adb:20:45-20:55>
   type:          None
   expected type: None
 
-Resolving xrefs for node <PragmaNode multidim.adb:26:7-26:43>
+Resolving xrefs for node <PragmaNode multidim.adb:24:7-24:51>
 *************************************************************
 
-Expr: <Id "Assert" multidim.adb:26:14-26:20>
+multidim.adb:24:7: error: resolution failed
+24 |       pragma Assert (E'Loop_Index (1, 2) = Green);
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+Expected name resolution failure for node <PragmaNode multidim.adb:24:7-24:51>
+
+Resolving xrefs for node <ParamAssoc multidim.adb:28:36-28:37>
+**************************************************************
+
+Expr: <Int multidim.adb:28:36-28:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: None
+
+Resolving xrefs for node <ParamAssoc multidim.adb:28:39-28:46>
+**************************************************************
+
+multidim.adb:28:39: error: cannot find name 'Missing'
+28 |       pragma Assert (E'Loop_Index (1, Missing) = Green);
+   |                                       ^^^^^^^
+
+
+Expected name resolution failure for block <PragmaNode multidim.adb:28:7-28:57>
+
+Resolving xrefs for node <PragmaNode multidim.adb:34:7-34:43>
+*************************************************************
+
+Expr: <Id "Assert" multidim.adb:34:14-34:20>
   references:    None
   type:          None
   expected type: None
-Expr: <RelationOp multidim.adb:26:22-26:41>
+Expr: <RelationOp multidim.adb:34:22-34:41>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <AttributeRef multidim.adb:26:22-26:34>
+Expr: <AttributeRef multidim.adb:34:22-34:34>
   references:    None
   type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
   expected type: <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
-Expr: <Id "E" multidim.adb:26:22-26:23>
+Expr: <Id "E" multidim.adb:34:22-34:23>
   references:    <DefiningName "E" multidim.adb:17:8-17:9>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <Id "Loop_Index" multidim.adb:26:24-26:34>
+Expr: <Id "Loop_Index" multidim.adb:34:24-34:34>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq multidim.adb:26:35-26:36>
+Expr: <OpEq multidim.adb:34:35-34:36>
   references:    None
   type:          None
   expected type: None
-Expr: <Id "Blue" multidim.adb:26:37-26:41>
+Expr: <Id "Blue" multidim.adb:34:37-34:41>
   references:    <DefiningName "Blue" multidim.adb:2:31-2:35>
   type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
   expected type: <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
 
-Resolving xrefs for node <PragmaNode multidim.adb:34:10-34:63>
+Resolving xrefs for node <PragmaNode multidim.adb:42:10-42:63>
 **************************************************************
 
-Expr: <Id "Assert" multidim.adb:34:17-34:23>
+Expr: <Id "Assert" multidim.adb:42:17-42:23>
   references:    None
   type:          None
   expected type: None
-Expr: <RelationOp multidim.adb:34:25-34:61>
+Expr: <RelationOp multidim.adb:42:25-42:61>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
-Expr: <CallExpr multidim.adb:34:25-34:57>
+Expr: <CallExpr multidim.adb:42:25-42:57>
   references:    <DefiningName "RA" multidim.adb:9:4-9:6>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
-Expr: <CallExpr multidim.adb:34:25-34:42>
+Expr: <CallExpr multidim.adb:42:25-42:42>
   references:    <DefiningName "RA" multidim.adb:9:4-9:6>
   type:          <ConcreteTypeDecl ["Row"] multidim.adb:5:4-5:57>
   expected type: None
-Expr: <Id "RA" multidim.adb:34:25-34:27>
+Expr: <Id "RA" multidim.adb:42:25-42:27>
   references:    <DefiningName "RA" multidim.adb:9:4-9:6>
   type:          <ConcreteTypeDecl ["Row_Array"] multidim.adb:6:4-6:43>
   expected type: None
-Expr: <AttributeRef multidim.adb:34:29-34:41>
+Expr: <AttributeRef multidim.adb:42:29-42:41>
   references:    None
   type:          <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
   expected type: <ConcreteTypeDecl ["Color"] multidim.adb:2:4-2:37>
-Expr: <Id "R" multidim.adb:34:29-34:30>
-  references:    <DefiningName "R" multidim.adb:32:8-32:9>
+Expr: <Id "R" multidim.adb:42:29-42:30>
+  references:    <DefiningName "R" multidim.adb:40:8-40:9>
   type:          <ConcreteTypeDecl ["Row"] multidim.adb:5:4-5:57>
   expected type: None
-Expr: <Id "Loop_Index" multidim.adb:34:31-34:41>
+Expr: <Id "Loop_Index" multidim.adb:42:31-42:41>
   references:    None
   type:          None
   expected type: None
-Expr: <AttributeRef multidim.adb:34:44-34:56>
+Expr: <AttributeRef multidim.adb:42:44-42:56>
   references:    None
   type:          <SubtypeDecl ["Positive"] in Standard>
   expected type: <SubtypeDecl ["Positive"] in Standard>
-Expr: <Id "X" multidim.adb:34:44-34:45>
-  references:    <DefiningName "X" multidim.adb:33:11-33:12>
+Expr: <Id "X" multidim.adb:42:44-42:45>
+  references:    <DefiningName "X" multidim.adb:41:11-41:12>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
-Expr: <Id "Loop_Index" multidim.adb:34:46-34:56>
+Expr: <Id "Loop_Index" multidim.adb:42:46-42:56>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq multidim.adb:34:58-34:59>
+Expr: <OpEq multidim.adb:42:58-42:59>
   references:    None
   type:          None
   expected type: None
-Expr: <Id "X" multidim.adb:34:60-34:61>
-  references:    <DefiningName "X" multidim.adb:33:11-33:12>
+Expr: <Id "X" multidim.adb:42:60-42:61>
+  references:    <DefiningName "X" multidim.adb:41:11-41:12>
   type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
@@ -453,6 +501,147 @@ renaming.adb:13:25: error: expected a loop parameter of a for .. of loop, got 'R
 
 
 Expected name resolution failure for node <PragmaNode renaming.adb:13:10-13:43>
+
+
+Analyzing cursor_indexing.adb
+#############################
+
+Resolving xrefs for node <PragmaNode cursor_indexing.adb:65:7-65:59>
+********************************************************************
+
+Expr: <Id "Assert" cursor_indexing.adb:65:14-65:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp cursor_indexing.adb:65:22-65:57>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr cursor_indexing.adb:65:22-65:38>
+  references:    None
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <AttributeRef cursor_indexing.adb:65:22-65:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Cursor"] cursor_indexing.adb:3:7-3:48>
+  expected type: None
+Expr: <Id "E" cursor_indexing.adb:65:22-65:23>
+  references:    <DefiningName "E" cursor_indexing.adb:62:8-62:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" cursor_indexing.adb:65:24-65:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int cursor_indexing.adb:65:36-65:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpEq cursor_indexing.adb:65:39-65:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr cursor_indexing.adb:65:41-65:57>
+  references:    None
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <AttributeRef cursor_indexing.adb:65:41-65:53>
+  references:    None
+  type:          <ConcreteTypeDecl ["Cursor"] cursor_indexing.adb:3:7-3:48>
+  expected type: None
+Expr: <Id "E" cursor_indexing.adb:65:41-65:42>
+  references:    <DefiningName "E" cursor_indexing.adb:62:8-62:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" cursor_indexing.adb:65:43-65:53>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "D" cursor_indexing.adb:65:55-65:56>
+  references:    <DefiningName "D" cursor_indexing.adb:60:4-60:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <PragmaNode cursor_indexing.adb:71:7-71:47>
+********************************************************************
+
+Expr: <Id "Assert" cursor_indexing.adb:71:14-71:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp cursor_indexing.adb:71:22-71:45>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr cursor_indexing.adb:71:22-71:41>
+  references:    None
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <AttributeRef cursor_indexing.adb:71:22-71:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Cursor"] cursor_indexing.adb:22:7-22:56>
+  expected type: None
+Expr: <Id "E" cursor_indexing.adb:71:22-71:23>
+  references:    <DefiningName "E" cursor_indexing.adb:69:8-69:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" cursor_indexing.adb:71:24-71:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int cursor_indexing.adb:71:36-71:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "D" cursor_indexing.adb:71:39-71:40>
+  references:    <DefiningName "D" cursor_indexing.adb:60:4-60:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpEq cursor_indexing.adb:71:42-71:43>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int cursor_indexing.adb:71:44-71:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <PragmaNode cursor_indexing.adb:77:7-77:44>
+********************************************************************
+
+Expr: <Id "Assert" cursor_indexing.adb:77:14-77:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp cursor_indexing.adb:77:22-77:42>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <CallExpr cursor_indexing.adb:77:22-77:38>
+  references:    None
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <AttributeRef cursor_indexing.adb:77:22-77:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Cursor"] cursor_indexing.adb:41:7-42:39>
+  expected type: None
+Expr: <Id "E" cursor_indexing.adb:77:22-77:23>
+  references:    <DefiningName "E" cursor_indexing.adb:75:8-75:9>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <Id "Loop_Index" cursor_indexing.adb:77:24-77:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int cursor_indexing.adb:77:36-77:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
+Expr: <OpEq cursor_indexing.adb:77:39-77:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int cursor_indexing.adb:77:41-77:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

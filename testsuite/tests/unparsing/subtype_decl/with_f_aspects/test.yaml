@@ -1,0 +1,6 @@
+description: |
+    This tests the formatting of a SubpRenamingDecl when f_aspects
+    are present. Ensures that no line break is added before the with keyword.
+ 
+driver: unparser
+rule: subtype_decl

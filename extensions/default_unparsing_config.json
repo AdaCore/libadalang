@@ -2566,7 +2566,19 @@
                   }
                 ]
               },
-              "line",
+              {
+                "kind": "if",
+                "condition": {
+                  "kind": "is_empty",
+                  "node": {
+                    "kind": "eval_member",
+                    "prefix": "this_node",
+                    "member": "f_aspects"
+                  }
+                },
+                "then": "line",
+                "else": "hardlineWithoutBreakParent"
+              },
               {
                 "kind": "text",
                 "text": "is"
@@ -2608,7 +2620,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ],
         "f_end_name": [
@@ -2666,7 +2678,9 @@
         ]
       }
     },
-    "EntryIndexSpec": {},
+    "EntryIndexSpec": {
+      "node": ["whitespace", "recurse"]
+    },
     "EntrySpec": {
       "node": {
         "kind": "continuationLineIndent",
@@ -3561,57 +3575,63 @@
     "GenericPackageInstantiation": {
       "node": {
         "kind": "group",
-        "document": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            {
-              "kind": "text",
-              "text": "package"
-            },
-            "whitespace",
-            {
-              "kind": "recurse_field",
-              "field": "f_name"
-            },
-            "whitespace",
-            {
-              "kind": "text",
-              "text": "is"
-            },
-            "whitespace",
-            {
-              "kind": "text",
-              "text": "new"
-            },
-            "line",
-            {
-              "kind": "group",
-              "document": {
-                "kind": "continuationLineIndent",
-                "contents": [
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_generic_pkg_name"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_params"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_aspects"
-                  }
-                ]
+        "document": [
+          {
+            "kind": "continuationLineIndent",
+            "contents": [
+              {
+                "kind": "text",
+                "text": "package"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "is"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "new"
+              },
+              "line",
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_generic_pkg_name"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_params"
+                    }
+                  ]
+                }
               }
-            },
-            {
-              "kind": "text",
-              "text": ";"
-            }
-          ]
-        }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
       },
       "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ],
         "f_params": [
           "line",
           {
@@ -3652,11 +3672,8 @@
                     "field": "f_package_name"
                   },
                   {
-                    "kind": "continuationLineIndent",
-                    "contents": {
-                      "kind": "recurse_field",
-                      "field": "f_aspects"
-                    }
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
                   }
                 ]
               }
@@ -3708,6 +3725,10 @@
             ]
           },
           "hardline"
+        ],
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
         ]
       }
     },
@@ -3748,7 +3769,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ]
       }
@@ -3818,24 +3839,28 @@
                       {
                         "kind": "recurse_field",
                         "field": "f_params"
-                      },
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_aspects"
                       }
                     ]
                   }
-                },
-                {
-                  "kind": "text",
-                  "text": ";"
                 }
               ]
             }
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
           }
         ]
       },
       "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ],
         "f_params": [
           "line",
           {
@@ -4882,7 +4907,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ]
       }
@@ -5127,10 +5152,29 @@
             "groupId": "object_decl_type"
           }
         ],
-        "f_aspects": [
-          "line",
-          "recurse"
-        ]
+        "f_aspects": {
+          "kind": "if",
+          "condition": {
+            "kind": "is_a",
+            "node": {
+              "kind": "eval_member",
+              "prefix": "this_node",
+              "member": "parent"
+            },
+            "pattern": {
+              "kind": "node",
+              "type": "GenericFormalObjDecl"
+            }
+          },
+          "then": [
+            "hardlineWithoutBreakParent",
+            "recurse"
+          ],
+          "else": [
+            "line",
+            "recurse"
+          ]
+        }
       }
     },
     "Op": {},
@@ -5259,13 +5303,10 @@
         }
       ],
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardline",
-            "recurse"
-          ]
-        },
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
         "f_end_name": [
           "whitespace",
           "recurse"
@@ -5379,13 +5420,8 @@
       ],
       "fields": {
         "f_aspects": [
-          {
-            "kind": "continuationLineIndent",
-            "contents": [
-              "hardline",
-              "recurse"
-            ]
-          }
+          "hardline",
+          "recurse"
         ],
         "f_end_name": [
           "whitespace",
@@ -5434,7 +5470,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ]
       }
@@ -5520,10 +5556,7 @@
                     {
                       "kind": "group",
                       "document": [
-                        {
-                          "kind": "recurse_field",
-                          "field": "f_has_aliased"
-                        },
+                        {"kind": "recurse_field", "field": "f_has_aliased"},
                         {
                           "kind": "recurse_field",
                           "field": "f_mode"
@@ -5846,13 +5879,10 @@
         }
       ],
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardline",
-            "recurse"
-          ]
-        },
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
         "f_end_name": [
           "whitespace",
           "recurse"
@@ -6012,13 +6042,10 @@
         ]
       },
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "line",
-            "recurse"
-          ]
-        },
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
         "f_discriminants": {
           "kind": "continuationLineIndent",
           "contents": [
@@ -6602,13 +6629,10 @@
         ]
       },
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardline",
-            "recurse"
-          ]
-        }
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ]
       }
     },
     "SingleTaskDecl": {
@@ -6658,13 +6682,10 @@
         ]
       },
       "fields": {
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "hardline",
-            "recurse"
-          ]
-        }
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
       }
     },
     "StmtList": {
@@ -6746,41 +6767,18 @@
               }
             },
             "else": {
-              "kind": "ifBreak",
-              "groupId": "subp_spec",
-              "flatContents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "group",
-                    "document": [
-                      "line",
-                      {
-                        "kind": "text",
-                        "text": "is"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
-              },
-              "breakContents": {
-                "kind": "group",
-                "document": [
-                  "hardline",
-                  {
-                    "kind": "text",
-                    "text": "is"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
-              }
+              "kind": "group",
+              "document": [
+                "hardline",
+                {
+                  "kind": "text",
+                  "text": "is"
+                },
+                {
+                  "kind": "recurse_field",
+                  "field": "f_decls"
+                }
+              ]
             }
           },
           {
@@ -6808,8 +6806,11 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
-          "recurse"
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "group",
+            "document": "recurse"
+          }
         ],
         "f_decls": [
           {
@@ -6941,7 +6942,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ]
       }
@@ -7223,7 +7224,14 @@
         ]
       }
     },
-    "TaskBodyStub": {},
+    "TaskBodyStub": {
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
     "TaskDef": {
       "node": [
         {
@@ -7383,13 +7391,10 @@
             "recurse"
           ]
         },
-        "f_aspects": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "line",
-            "recurse"
-          ]
-        }
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
       }
     },
     "TerminateAlternative": {},

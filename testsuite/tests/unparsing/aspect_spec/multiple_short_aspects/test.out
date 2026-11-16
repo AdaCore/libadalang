@@ -1,5 +1,5 @@
 package Foo
-  with Bar, Baz
+with Bar, Baz
 is
    type Qux;
 end Foo;

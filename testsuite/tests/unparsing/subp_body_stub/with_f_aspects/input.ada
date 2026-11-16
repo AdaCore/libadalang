@@ -1,0 +1,1 @@
+procedure P is separate with Pre => True;

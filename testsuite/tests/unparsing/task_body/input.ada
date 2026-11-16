@@ -1,0 +1,5 @@
+   task body Test with SPARK_Mode is
+   begin
+      null;
+   end Test;
+   

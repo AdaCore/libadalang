@@ -1,0 +1,6 @@
+description: |
+  Test that a short procedure with aspects and an empty declarative part
+  breaks before both `with` and `is`.
+
+driver: unparser
+rule: subp_body

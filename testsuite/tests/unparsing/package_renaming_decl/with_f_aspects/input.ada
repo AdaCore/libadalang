@@ -1,0 +1,1 @@
+package Test renames P with Ghost;

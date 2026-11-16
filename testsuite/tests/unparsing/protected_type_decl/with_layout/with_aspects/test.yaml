@@ -3,8 +3,8 @@ description: |
     with known discriminant, aspects and public.
     It is expected the declaration breaks before the discriminant
     specification, before `with` and `is` keywords and be formatted
-    by indenting the discriminant specification, the aspects and the
-    public part content and keeping the `protected`, `is` and `end`
+    by indenting the discriminant specification and the public part
+    content and keeping the `protected`, `with`, `is` and `end`
     keywords aligned.
  
 driver: unparser

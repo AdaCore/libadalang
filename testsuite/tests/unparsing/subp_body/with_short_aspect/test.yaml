@@ -1,5 +1,5 @@
 driver: unparser
 rule: subp_body
 description: |
-  Test a `SubpBody` whose `f_subp_spec` and `is` token do not fine on one
-  line.
+  Test that a short aspect followed by a non-empty declarative part is
+  separated from the `is` token by a line break.

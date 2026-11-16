@@ -1,0 +1,1 @@
+package P is new G (X => 1) with Ghost;

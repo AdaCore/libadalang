@@ -1,0 +1,7 @@
+description: |
+    This tests the formatting of a GenericFormalPackage when
+    f_aspects are present. Ensures that a line break is added before
+    the with keyword.
+ 
+driver: unparser
+rule: generic_formal_decl

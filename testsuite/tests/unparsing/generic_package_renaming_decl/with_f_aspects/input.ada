@@ -1,0 +1,1 @@
+generic package Test renames G with Ghost;

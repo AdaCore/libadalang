@@ -1,0 +1,1 @@
+procedure Test is new G with Inline;

@@ -1,0 +1,3 @@
+generic
+   X : Integer with Atomic;
+package Test is end Test;

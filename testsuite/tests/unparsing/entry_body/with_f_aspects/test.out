@@ -1,0 +1,6 @@
+entry E
+with Pre => True when True
+is
+begin
+   null;
+end E;

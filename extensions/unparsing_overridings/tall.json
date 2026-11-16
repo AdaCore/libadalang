@@ -343,7 +343,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ],
         "f_end_name": [
@@ -765,41 +765,18 @@
               }
             },
             "else": {
-              "kind": "ifBreak",
-              "groupId": "subp_spec",
-              "flatContents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "group",
-                    "document": [
-                      "line",
-                      {
-                        "kind": "text",
-                        "text": "is"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
-              },
-              "breakContents": {
-                "kind": "group",
-                "document": [
-                  "hardline",
-                  {
-                    "kind": "text",
-                    "text": "is"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_decls"
-                  }
-                ]
-              }
+              "kind": "group",
+              "document": [
+                "hardline",
+                {
+                  "kind": "text",
+                  "text": "is"
+                },
+                {
+                  "kind": "recurse_field",
+                  "field": "f_decls"
+                }
+              ]
             }
           },
           {
@@ -827,7 +804,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ],
         "f_decls": [

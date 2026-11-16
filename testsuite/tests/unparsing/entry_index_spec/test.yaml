@@ -1,0 +1,5 @@
+driver: unparser
+rule: package_body
+description: |
+  Test an added white space between entry name and EntryIndexSpec opening
+  parenthesis.

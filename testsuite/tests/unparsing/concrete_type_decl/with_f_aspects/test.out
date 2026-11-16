@@ -1,0 +1,1 @@
+type T is range 1 .. 10 with Size => 8;

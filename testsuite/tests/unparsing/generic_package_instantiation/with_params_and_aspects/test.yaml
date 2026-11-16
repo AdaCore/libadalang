@@ -1,0 +1,6 @@
+description: |
+  Check that an aspect is separated from the closing parenthesis of the
+  generic actual parameters.
+
+driver: unparser
+rule: generic_instantiation

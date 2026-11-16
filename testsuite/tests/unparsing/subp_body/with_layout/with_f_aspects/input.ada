@@ -1,0 +1,4 @@
+procedure Test with Pre => True is
+begin
+   null;
+end Test;

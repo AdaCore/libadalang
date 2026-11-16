@@ -1,0 +1,1 @@
+procedure P is null with Inline;

@@ -1,0 +1,6 @@
+description: |
+    This tests the formatting of a PackageDecl when f_aspects are present.
+    Ensures that a line break is added before the with keyword.
+ 
+driver: unparser
+rule: package_decl

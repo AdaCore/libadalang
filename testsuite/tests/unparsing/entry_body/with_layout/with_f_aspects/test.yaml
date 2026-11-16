@@ -1,0 +1,8 @@
+description: |
+  Check that an entry body with aspects breaks before with and is
+  keywords.
+
+driver: unparser
+rule: entry_body
+overridings:
+  - tall

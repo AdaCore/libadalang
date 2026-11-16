@@ -343,7 +343,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ],
         "f_end_name": [

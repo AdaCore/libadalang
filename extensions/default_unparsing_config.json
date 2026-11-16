@@ -2566,7 +2566,19 @@
                   }
                 ]
               },
-              "line",
+              {
+                "kind": "if",
+                "condition": {
+                  "kind": "is_empty",
+                  "node": {
+                    "kind": "eval_member",
+                    "prefix": "this_node",
+                    "member": "f_aspects"
+                  }
+                },
+                "then": "line",
+                "else": "hardlineWithoutBreakParent"
+              },
               {
                 "kind": "text",
                 "text": "is"
@@ -2608,7 +2620,7 @@
       },
       "fields": {
         "f_aspects": [
-          "line",
+          "hardlineWithoutBreakParent",
           "recurse"
         ],
         "f_end_name": [

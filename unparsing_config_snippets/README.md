@@ -9,7 +9,7 @@ both a testcase and a section of the GNATformat documentation.
 
 ```
 unparsing_config_snippets/
-  <group>/             One documentation page (e.g. gnatpp)
+  <group>/             One documentation page (e.g. gnatpp, line-wrapping)
     index.rst          Page title and introduction
     <snippet>/         One snippet, i.e. one section of the page
       snippet.json     The configuration snippet
@@ -22,6 +22,9 @@ unparsing_config_snippets/
 In the `gnatpp` group, each snippet mimics a `gnatpp` switch, and its
 directory is named after that switch, without the leading dashes and without
 the value for switches that take one (e.g. `separate-then`, `par-threshold`).
+
+The `line-wrapping` group contains optional wrapping layouts, such as filling
+lines in string concatenations instead of breaking before every `&`.
 
 ## Testcases
 

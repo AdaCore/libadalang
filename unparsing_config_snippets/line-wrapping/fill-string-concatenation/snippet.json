@@ -1,0 +1,26 @@
+{
+  "node_configs": {
+    "ConcatOp": {
+      "node": {
+        "kind": "fill",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_first_operand"
+          },
+          "line",
+          {
+            "kind": "recurse_field",
+            "field": "f_other_operands"
+          }
+        ]
+      }
+    },
+    "ConcatOperandList": {
+      "sep": [
+        "line",
+        "recurse"
+      ]
+    }
+  }
+}

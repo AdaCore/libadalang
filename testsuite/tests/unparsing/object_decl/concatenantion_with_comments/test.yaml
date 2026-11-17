@@ -1,0 +1,6 @@
+driver: unparser
+rule: object_decl
+
+description: |
+  Format a wide wide string constant built from concatenated regular
+  expressions with trailing comments, using the default configuration.

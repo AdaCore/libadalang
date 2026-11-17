@@ -1,0 +1,7 @@
+driver: unparser
+rule: expr
+
+description: |
+  Flush line breaks after comments before establishing the concatenation
+  operand's alignment root. Cover suffix and standalone comments, including
+  a call operand that must wrap relative to its own starting column.

@@ -1713,6 +1713,7 @@
             "field": "f_operator"
           },
           "whitespace",
+          "flushLineBreaks",
           {
             "kind": "innerRoot",
             "contents": {

@@ -1,0 +1,23 @@
+task body Server is
+begin
+   select
+      when True =>
+         accept E;
+   end select;
+   select
+      when Ready =>
+         accept Work;
+         Process_Work;
+   or
+      when Stopping =>
+         terminate;
+   end select;
+   select
+      when Ready =>
+         accept Work;
+   or
+      when Timeout_Enabled =>
+         delay until Deadline;
+         Timed_Out;
+   end select;
+end Server;

@@ -1,0 +1,10 @@
+driver: unparser
+rule: expr_fn
+overridings:
+  - snippet:line-wrapping/fill-string-concatenation
+
+description: |
+  Showcase the fill concatenation snippet in an expression function with
+  string literals, line feed constants and parenthesized conditional
+  expressions.
+  Fill each line where possible and wrap before & when needed.

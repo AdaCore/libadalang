@@ -23,59 +23,70 @@ Ada
 
 .. code-block:: ada
 
-   with GNATCOLL.Projects;
-   with GNATCOLL.VFS;
+   with GPR2.Options;
+   with GPR2.Project.Tree;
+   with GPR2.Project.View;
    with Libadalang.Analysis;
    with Libadalang.Project_Provider;
 
    --  Create a unit provider for the "arch32/arch.gpr" project, loaded through
    --  the "agg.gpr" project.
    declare
-      package Prj renames GNATCOLL.Projects;
-      package VFS renames GNATCOLL.VFS;
       package LAL renames Libadalang.Analysis;
 
-      PT  : Prj.Project_Tree_Access;
-      Env : Prj.Project_Environment_Access;
-      P   : Prj.Project_Type;
+      Opts : GPR2.Options.Object;
+      Tree : GPR2.Project.Tree.Object;
+      View : GPR2.Project.View.Object;
 
       UP  : LAL.Unit_Provider_Reference;
       Ctx : LAL.Analysis_Context;
    begin
       --  Load the "agg.gpr" project
-      PT := new Prj.Project_Tree;
-      Prj.Initialize (Env);
-      PT.Load (Root_Project_Path => VFS.Create ("agg.gpr"),
-               Env               => Env);
+      Opts.Add_Switch (GPR2.Options.P, "agg.gpr");
+      if not Tree.Load
+        (Opts,
+         With_Runtime         => True,
+         Artifacts_Info_Level => GPR2.Sources_Units)
+      then
+         raise Program_Error with "error loading the project tree";
+      end if;
 
-      --  Fetch the "arch/arch32.gpr" project
-      P := PT.Project_From_Path (VFS.Create ("arch/arch32.gpr"));
+      --  Fetch the "arch32/arch32.gpr" project
+      for V of Tree loop
+         if V.Dir_Name.Simple_Name = "arch32" then
+            View := V;
+            exit;
+         end if;
+      end loop;
 
       --  Create the unit provider, then the analysis context
       UP := Libadalang.Project_Provider.Create_Project_Unit_Provider
-        (PT, P, Env);
+        (Tree, View);
       Ctx := LAL.Create_Context (Unit_Provider => UP);
    end;
 
    --  Create several project providers so that one provider has at most one
    --  source file per unit name/unit kind.
    declare
-      package Prj renames GNATCOLL.Projects;
-      package VFS renames GNATCOLL.VFS;
       package LAL renames Libadalang.Analysis;
+      package LALGPR renames Libadalang.Project_Provider;
 
-      PT   : Prj.Project_Tree_Access;
-      Env  : Prj.Project_Environment_Access;
-      PAPs : Libadalang.Project_Provider.Provider_And_Projects_Array_Access;
+      Opts : GPR2.Options.Object;
+      Tree : GPR2.Project.Tree.Object;
+      PAPs : LALGPR.GPR2_Provider_And_Projects_Array_Access;
    begin
       --  Load the "agg.gpr" project
-      PT := new Prj.Project_Tree;
-      Prj.Initialize (Env);
-      PT.Load (Root_Project_Path => VFS.Create ("agg.gpr"),
-               Env               => Env);
+      Opts.Add_Switch (GPR2.Options.P, "agg.gpr");
+      if not Tree.Load
+        (Opts,
+         With_Runtime         => True,
+         Artifacts_Info_Level => GPR2.Sources_Units)
+      then
+         raise Program_Error with "error loading the project tree";
+      end if;
 
       --  Create one analysis context per unit provider
-      PAPs := Libadalang.Project_Provider.Create_Project_Unit_Providers (PT);
+      PAPs := LALGPR.Create_Project_Unit_Providers (Tree);
       for PAP of PAPs.all loop
          declare
             Ctx : constant LAL.Analysis_Context :=
@@ -85,11 +96,7 @@ Ada
             null;
          end;
       end loop;
-      Libadalang.Project_Provider.Free (PAPs);
-
-      --  Free allocated resources
-      Prj.Free (PT);
-      Prj.Free (Env);
+      LALGPR.Free (PAPs);
    end;
 
 Python
@@ -109,11 +116,11 @@ Python
 Creating one provide/context for each aggregated project
 ========================================================
 
-This complete example demonstrates how to use the ``GNATCOLL.Projects`` API in
-order to analyze each aggregated project separately with Libadalang.
+This complete example demonstrates how to use the ``GPR2`` API in order to
+analyze each aggregated project separately with Libadalang.
 
-Note that there is no equivalent in Python as the GNATCOLL project does not
-provide a Python API to analyze projects files.
+Note that there is no equivalent in Python as the GPR2 project does not provide
+a Python API to analyze projects files.
 
 Input sources
 *************
@@ -131,13 +138,13 @@ Input sources
    end Arch;
 
    --  arch64/arch.gpr
-   package Arch is
-      type Target_Address is mod 2 ** 64;
+   project Arch is
+      for Object_Dir use "obj";
    end Arch;
 
    --  arch64/arch.ads
-   project Arch is
-      for Object_Dir use "obj";
+   package Arch is
+      type Target_Address is mod 2 ** 64;
    end Arch;
 
    --  main/main32.gpr
@@ -183,69 +190,50 @@ Sample code
 
 .. code-block:: ada
 
-   with Ada.Containers.Generic_Array_Sort;
-   with Ada.Text_IO; use Ada.Text_IO;
+   with Ada.Directories;       use Ada.Directories;
+   with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+   with Ada.Text_IO;           use Ada.Text_IO;
 
-   with GNATCOLL.Projects; use GNATCOLL.Projects;
-   with GNATCOLL.VFS;      use GNATCOLL.VFS;
+   with GPR2.Options;
+   with GPR2.Path_Name;
+   with GPR2.Project.Tree;
+   with GPR2.Project.View.Set;
 
+   with Langkit_Support.Text;        use Langkit_Support.Text;
    with Libadalang.Analysis;         use Libadalang.Analysis;
    with Libadalang.Common;           use Libadalang.Common;
    with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
    procedure Run is
 
-      --  Sort lists of projects and source files so that execution is
-      --  deterministic.
-
-      function "<" (Left, Right : Project_Type) return Boolean is
-        (Left.Project_Path < Right.Project_Path);
-
-      procedure Sort is new Ada.Containers.Generic_Array_Sort
-        (Index_Type   => Positive,
-         Element_Type => Virtual_File,
-         Array_Type   => File_Array);
-      procedure Sort is new Ada.Containers.Generic_Array_Sort
-        (Index_Type   => Positive,
-         Element_Type => Project_Type,
-         Array_Type   => Project_Array);
-
       procedure Iterate_Aggregated
-        (Project  : Project_Type;
-         Callback : access procedure (Project : Project_Type));
+        (Project  : GPR2.Project.View.Object;
+         Callback : access procedure (Project : GPR2.Project.View.Object));
       --  If Project is not an aggregate project, just call Callback on it.
       --  Otherwise, recurse on Project's aggregated projects.
 
-      procedure Process_Aggregated (Project : Project_Type);
+      procedure Process_Aggregated (Project : GPR2.Project.View.Object);
       --  Analyze all sources in Project
 
       function Process_Node (Node : Ada_Node'Class) return Visit_Status;
       --  If Node is an object declaration, show the corresponding type
       --  declaration node.
 
-      Env  : Project_Environment_Access;
-      Tree : Project_Tree_Access := new Project_Tree;
+      Tree : GPR2.Project.Tree.Object;
 
       ------------------------
       -- Iterate_Aggregated --
       ------------------------
 
       procedure Iterate_Aggregated
-        (Project  : Project_Type;
-         Callback : access procedure (Project : Project_Type))
+        (Project  : GPR2.Project.View.Object;
+         Callback : access procedure (Project : GPR2.Project.View.Object))
       is
       begin
-         if Project.Is_Aggregate_Project then
-            declare
-               Aggregated : Project_Array_Access := Project.Aggregated_Projects;
-            begin
-               Sort (Aggregated.all);
-               for A of Aggregated.all loop
-                  Iterate_Aggregated (A, Callback);
-               end loop;
-               Unchecked_Free (Aggregated);
-            end;
-
+         if Project.Kind in GPR2.Aggregate_Kind then
+            for A of Project.Aggregated loop
+               Iterate_Aggregated (A, Callback);
+            end loop;
          else
             Callback (Project);
          end if;
@@ -255,36 +243,28 @@ Sample code
       -- Process_Aggregated --
       ------------------------
 
-      procedure Process_Aggregated (Project : Project_Type) is
+      procedure Process_Aggregated (Project : GPR2.Project.View.Object) is
          --  Create an analysis context that has a view on all sources in Project
 
-         UP   : constant Unit_Provider_Reference := Create_Project_Unit_Provider
-           (Tree, Project, Env,
-
-            --  We handle the lifetime of Tree and Env manually (see the Free
-            --  calls at the end of this source file), so consider that UP won't
-            --  own them.
-            Is_Project_Owner => False);
-
-         Context : constant Analysis_Context :=
+         UP       : constant Unit_Provider_Reference :=
+           Create_Project_Unit_Provider (Tree, Project);
+         Context  : constant Analysis_Context :=
             Create_Context (Unit_Provider => UP);
-         Sources : File_Array_Access := Project.Source_Files (Recursive => True);
+         Projects : GPR2.Project.View.Set.Object;
       begin
-         Put_Line ("== Processing project: " & Project.Name & " ==");
+         Put_Line ("== Processing project: " & String (Project.Name) & " ==");
 
-         Sort (Sources.all);
-
-         for Filename of Sources.all loop
+         Projects.Include (Project);
+         for Filename of Source_Files (Tree, Default, Projects) loop
             declare
-               Unit : constant Analysis_Unit :=
-                  Context.Get_From_File (+Filename.Full_Name);
+               F    : constant String := To_String (Filename);
+               Unit : constant Analysis_Unit := Context.Get_From_File (F);
             begin
-               Put_Line ("In " & (+Filename.Base_Name) & ":");
+               Put_Line ("In " & Simple_Name (F) & ":");
                Unit.Root.Traverse (Process_Node'Access);
             end;
          end loop;
 
-         Unchecked_Free (Sources);
          New_Line;
       end Process_Aggregated;
 
@@ -299,25 +279,28 @@ Sample code
                Type_Decl : constant Base_Type_Decl :=
                   Node.As_Object_Decl.F_Type_Expr.P_Designated_Type_Decl;
             begin
-               Put_Line ("  Type for " & Node.Short_Image
-                         & ": " & Type_Decl.Debug_Text);
+               Put_Line ("  Type for " & Node.Image
+                         & ": " & Image (Type_Decl.Text));
             end;
          end if;
 
          return Into;
       end Process_Node;
 
+      Opts : GPR2.Options.Object;
    begin
       --  Load the input project
-      Initialize (Env);
-      Tree.Load (Create (+"agg.gpr"), Env);
+      Opts.Add_Switch (GPR2.Options.P, "agg.gpr");
+      if not Tree.Load
+        (Opts,
+         With_Runtime         => True,
+         Artifacts_Info_Level => GPR2.Sources_Units)
+      then
+         raise Program_Error with "error loading the project tree";
+      end if;
 
       --  Process every aggregated project independently
       Iterate_Aggregated (Tree.Root_Project, Process_Aggregated'Access);
-
-      --  Do not leak project resources
-      Free (Tree);
-      Free (Env);
    end Run;
 
 Expected output

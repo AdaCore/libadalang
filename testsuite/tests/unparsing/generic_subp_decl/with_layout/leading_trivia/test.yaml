@@ -1,0 +1,7 @@
+driver: unparser
+rule: package_decl
+description: |
+  Preserve trivia before nested generic procedures and functions without
+  adding continuation indentation to their declarations.
+overridings:
+  - tall

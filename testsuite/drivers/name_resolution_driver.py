@@ -57,10 +57,10 @@ class NameResolutionDriver(BaseDriver):
       (``--RTS`` nameres switch).
 
     * ``strict``: Run nameres in quiet mode (``--quiet``, no output on stdout),
-      and enforce that ``--no-abort-on-failures`` and
-      ``-k/--keep-going-on-missing-dependency`` are not enabled. When
-      activated, this mode can be used to ensure that a nameres run completes
-      without errors or name resolution failures.
+      and enforce that ``--no-abort-on-failures``,
+      ``-k/--keep-going-on-missing-dependency`` and ``--allow-syntax-errors``
+      are not enabled. When activated, this mode can be used to ensure that a
+      nameres run completes without errors or name resolution failures.
     """
 
     perf_supported = True
@@ -99,6 +99,11 @@ class NameResolutionDriver(BaseDriver):
             # Some tests intentionally exercize cases with missing source
             # files: let "navigate" warn about them, but keep it going (-k).
             args.append("-k")
+            # Likewise, some tests intentionally work on sources that contain
+            # syntax errors, to test the robustness of name resolution against
+            # partially invalid code: a diagnostic is emitted but wont' prevent
+            # name resolution.
+            args.append("--allow-syntax-errors")
 
         # List of source files to process and unit provider
         input_sources = self.test_env.get("input_sources", [])

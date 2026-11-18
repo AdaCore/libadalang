@@ -69,20 +69,28 @@ class PerfTestFinder(YAMLTestFinder):
 class LALTestFinder(YAMLTestFinder):
     """Testcase finder for the LAL testsuite nominal mode."""
 
-    def probe_postprocess(self, test):
+    def probe_postprocess(self, snippets_dir, test):
         """
         If the given test is an unparsing config snippet testcase, add the
         snippet itself as an overriding to the default unparsing configuration.
         """
         if test.test_env.get("is_snippet"):
-            test.test_env.setdefault("overridings", []).append(
-                os.path.join(test.test_dir, "snippet")
+            # Turn the relative snippets location into a snippet locator to be
+            # consumed by the unparser test driver.
+            overridings = test.test_env.setdefault("overridings", [])
+            snippet_location = os.path.relpath(test.test_dir, snippets_dir)
+            overridings.append(
+                f"snippet:{snippet_location.replace('\\', '/')}"
             )
         return test
 
     def probe(self, testsuite, dirpath, dirnames, filenames):
         # By default, delegate to e3.testsuite's YAMLTestFinder...
         result = super().probe(testsuite, dirpath, dirnames, filenames)
+
+        snippets_dir = os.path.join(
+            testsuite.root_dir, "..", "unparsing_config_snippets"
+        )
 
         # ... but implement a custom behavior for the special unparsing config
         # snippets testcase.
@@ -95,15 +103,12 @@ class LALTestFinder(YAMLTestFinder):
         else:
             single_result = result[0]
         if single_result.test_name != "unparsing__snippets":
-            return self.probe_postprocess(single_result)
+            return self.probe_postprocess(snippets_dir, single_result)
 
         # Look for all directories that contain snippets in the
         # $LAL_ROOT/unparsing_config_snippets directory and turn them into
         # testcases.
         result = []
-        snippets_dir = os.path.join(
-            testsuite.root_dir, "..", "unparsing_config_snippets"
-        )
         env = Env().to_dict()
         for dirpath, dirnames, filenames in os.walk(snippets_dir):
             if "input.ada" not in filenames:
@@ -136,6 +141,7 @@ class LALTestFinder(YAMLTestFinder):
 
             result.append(
                 self.probe_postprocess(
+                    snippets_dir,
                     ParsedTest(
                         test_name=test_name,
                         driver_cls=unparser_driver.UnparserDriver,

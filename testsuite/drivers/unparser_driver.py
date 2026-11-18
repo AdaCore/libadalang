@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import os.path
+import re
+
+from e3.testsuite.driver.classic import TestAbortWithError
 
 from drivers.base_driver import BaseDriver
 
@@ -13,6 +16,11 @@ class UnparserDriver(BaseDriver):
     """
 
     input_filename = "input.ada"
+
+    overriding_re = re.compile(
+        "(?:(?P<prefix>[a-z][a-z-]*):)?"
+        "(?P<location>[a-z][a-z0-9_-]*(?:/[a-z][a-z0-9_-]*)*)"
+    )
 
     def in_ext_dir(self, *filenames: str) -> str:
         """
@@ -28,14 +36,40 @@ class UnparserDriver(BaseDriver):
         """
         return self.in_ext_dir("default_unparsing_config.json")
 
+    def parse_overriding_spec(self, spec: str) -> str:
+        """
+        Parse an overriding specifier and return the corresponding JSON
+        filename.
+        """
+        m = self.overriding_re.fullmatch(spec)
+        if m is None:
+            raise TestAbortWithError(f"invalid overriding: {spec}")
+
+        location = m.group("location")
+        match m.group("prefix"):
+            case None:
+                return self.in_ext_dir(
+                    "unparsing_overridings", f"{location}.json"
+                )
+            case "snippet":
+                return os.path.join(
+                    self.env.root_dir,
+                    "..",
+                    "unparsing_config_snippets",
+                    location,
+                    "snippet.json",
+                )
+            case _:
+                raise TestAbortWithError(f"invalid prefix: {spec}")
+
     @property
     def unparsing_config_overridings(self) -> list[str]:
         """
         Return the absolute path to unparsing configuration overridings.
         """
         return [
-            self.in_ext_dir("unparsing_overridings", f"{filename}.json")
-            for filename in self.test_env.get("overridings", [])
+            self.parse_overriding_spec(spec)
+            for spec in self.test_env.get("overridings", [])
         ]
 
     def run(self) -> None:

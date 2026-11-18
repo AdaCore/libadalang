@@ -1,0 +1,6 @@
+driver: unparser
+rule: object_decl
+
+description: |
+  Exercise the default layout of a string constant containing an operator
+  map, with aligned end-of-line comments following concatenation operators.

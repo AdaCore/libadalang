@@ -3,6 +3,8 @@ include:
   - component: $CI_SERVER_FQDN/it/gitlab-templates/gitleaks@~latest
     inputs:
       stage: single
+    rules:
+      - if: '$PUBLISH_TESTPYPI != "true"'
 
 
 stages:
@@ -25,6 +27,8 @@ variables:
 build_and_test:
   extends: .basic
   rules:
+    - if: '$PUBLISH_TESTPYPI == "true"'
+      when: never
     # Run this for merge requests only
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   services:
@@ -76,11 +80,19 @@ build_and_test:
 check_issue:
   extends: .check_issue
   stage: single
+  rules:
+    - if: '$PUBLISH_TESTPYPI == "true"'
+      when: never
+    - !reference [.check_issue, rules]
 
 
 continuous_builder:
   extends: .cb
   stage: single
+  rules:
+    - if: '$PUBLISH_TESTPYPI == "true"'
+      when: never
+    - !reference [.cb, rules]
 
 
 publish_testpypi:
@@ -114,9 +126,11 @@ publish_testpypi:
         --platform x86_64-linux
         --component libadalang-internal
         --download
-    - tar xf "libadalang-internal-${LIBADALANG_SETUP}-x86_64-linux-bin.tar.gz"
+        --as-name libadalang-internal
+    - mkdir -p libadalang-internal
+    - tar xf libadalang-internal.tar.gz -C libadalang-internal --strip-components=1
     - /tmp/testpypi-venv/bin/python -m twine check
-        libadalang-internal-${LIBADALANG_SETUP}-x86_64-linux-bin/stripped_python/libadalang-*.whl
+        libadalang-internal/stripped_python/libadalang-*.whl
     # Twine reads this variable in GitLab CI and exchanges the Google ID token
     # for a short-lived TestPyPI upload token.
     - |
@@ -177,5 +191,6 @@ publish_testpypi:
       )
       export TESTPYPI_ID_TOKEN
     - /tmp/testpypi-venv/bin/python -m twine upload
+        --verbose
         --repository-url https://test.pypi.org/legacy/
-        libadalang-internal-${LIBADALANG_SETUP}-x86_64-linux-bin/stripped_python/libadalang-*.whl
+        libadalang-internal/stripped_python/libadalang-*.whl

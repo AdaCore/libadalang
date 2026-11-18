@@ -264,29 +264,31 @@ package body Libadalang.Unit_Files is
       --  Build a map of all runtime units so that the provider can look them
       --  up easily.
 
-      for Source of Tree.Runtime_Project.Sources loop
-         if Source.Has_Units then
-            for Unit of Source.Units loop
-               if Unit.Kind /= GPR2.S_No_Body then
-                  declare
-                     use GPR2.Build.Compilation_Unit;
-                     Key : Unbounded_String :=
-                       To_Unbounded_String
-                         (if Unit.Kind = GPR2.S_Spec
-                          then Spec_Prefix
-                          else Body_Prefix);
-                     Element : constant Unit_Location :=
-                       (GPR2.Project.View.Undefined,
-                        Source.Path_Name,
-                        Unit.Index);
-                  begin
-                     Append (Key, To_Lower (String (Unit.Full_Name)));
-                     Result.Runtime_Units.Include (Key, Element);
-                  end;
-               end if;
-            end loop;
-         end if;
-      end loop;
+      if Tree.Has_Runtime_Project then
+         for Source of Tree.Runtime_Project.Sources loop
+            if Source.Has_Units then
+               for Unit of Source.Units loop
+                  if Unit.Kind /= GPR2.S_No_Body then
+                     declare
+                        use GPR2.Build.Compilation_Unit;
+                        Key : Unbounded_String :=
+                          To_Unbounded_String
+                            (if Unit.Kind = GPR2.S_Spec
+                             then Spec_Prefix
+                             else Body_Prefix);
+                        Element : constant Unit_Location :=
+                          (GPR2.Project.View.Undefined,
+                           Source.Path_Name,
+                           Unit.Index);
+                     begin
+                        Append (Key, To_Lower (String (Unit.Full_Name)));
+                        Result.Runtime_Units.Include (Key, Element);
+                     end;
+                  end if;
+               end loop;
+            end if;
+         end loop;
+      end if;
 
       return Libadalang.Analysis.Create_Unit_Provider_Reference (Result);
    end Default_Provider;

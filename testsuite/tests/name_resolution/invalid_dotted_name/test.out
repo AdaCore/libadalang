@@ -1,0 +1,24 @@
+Analyzing test.adb
+##################
+
+test.adb:2:16: Cannot parse <record_def>
+test.adb:4:8: Expected 'record', got Identifier
+test.adb:4:8: Missing ';'
+test.adb:4:8: Skipped token Rec
+test.adb:4:11: Skipped token ;
+test.adb:10:9: Cannot parse <name>
+test.adb:10:11: Expected Char, got ')'
+Resolving xrefs for node <CallStmt test.adb:10:4-11:4>
+******************************************************
+
+test.adb:10:4: error: resolution failed
+10 |     Foo (R.);
+   | ____^
+11 ||    pragma Test_Statement (Expect_Fail => True);
+   ||___^
+
+
+Expected name resolution failure for node <CallStmt test.adb:10:4-11:4>
+
+
+Done.

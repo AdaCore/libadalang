@@ -20989,10 +20989,13 @@ class DottedName: Name {
             %and {
                 bind env = self.prefix.designated_env();
 
-                self.suffix.sub_equation()
+                self.suffix.do(
+                    (suffix) => suffix.sub_equation(),
+                    default_val=%true
+                )
             };
 
-        if not self.designated_type_impl().is_null then
+        if self.suffix.is_null or not self.designated_type_impl().is_null then
             base
         else
             base

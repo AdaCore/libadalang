@@ -161,6 +161,11 @@ procedure Nameres is
          Help => "Expected name resolution failures: do not call Abort_App"
                  & " if some name resolution failed");
 
+      package Allow_Syntax_Errors is new Parse_Flag
+        (App.Args.Parser, Long => "--allow-syntax-errors",
+         Help => "Proceed with name resolution even if the files to process"
+                 & " contain one or several syntax errors");
+
       package Imprecise_Fallback is new Parse_Flag
         (App.Args.Parser, Long => "--imprecise-fallback",
          Help => "Activate fallback mechanism for name resolution");
@@ -1314,7 +1319,9 @@ procedure Nameres is
          for D of Diagnostics (Unit) loop
             Put_Line (Format_GNU_Diagnostic (Unit, D));
          end loop;
-         return;
+         if not Args.Allow_Syntax_Errors.Get then
+            return;
+         end if;
       end if;
 
       --  Manually trigger PLE first, and if requested reparse the unit, to

@@ -3,6 +3,8 @@ include:
   - component: $CI_SERVER_FQDN/it/gitlab-templates/gitleaks@~latest
     inputs:
       stage: single
+    rules:
+      - if: '$PUBLISH_TESTPYPI != "true"'
 
 
 stages:
@@ -25,6 +27,8 @@ variables:
 build_and_test:
   extends: .basic
   rules:
+    - if: '$PUBLISH_TESTPYPI == "true"'
+      when: never
     # Run this for merge requests only
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   services:
@@ -76,11 +80,19 @@ build_and_test:
 check_issue:
   extends: .check_issue
   stage: single
+  rules:
+    - if: '$PUBLISH_TESTPYPI == "true"'
+      when: never
+    - !reference [.check_issue, rules]
 
 
 continuous_builder:
   extends: .cb
   stage: single
+  rules:
+    - if: '$PUBLISH_TESTPYPI == "true"'
+      when: never
+    - !reference [.cb, rules]
 
 
 publish_testpypi:

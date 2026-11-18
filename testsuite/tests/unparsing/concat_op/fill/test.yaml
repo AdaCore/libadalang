@@ -1,0 +1,9 @@
+driver: unparser
+rule: subp_body
+overridings:
+  - snippet:line-wrapping/fill-string-concatenation
+
+description: |
+  Exercise the fill concatenation snippet in declarations and calls, with
+  comments, nested expressions, mixed operators and an overlong operand.
+  Check token preservation and formatting stability through auto-checks.

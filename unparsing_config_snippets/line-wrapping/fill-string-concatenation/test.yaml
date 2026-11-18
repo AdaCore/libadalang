@@ -1,0 +1,7 @@
+driver: unparser
+is_snippet: true
+rule: package_decl
+
+description: |
+  Fill lines in concatenations, wrapping before & only when needed, while
+  keeping short concatenations on one line.

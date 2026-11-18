@@ -1,0 +1,9 @@
+driver: unparser
+rule: simple_expr
+overridings:
+  - tall
+  - snippet:line-wrapping/fill-string-concatenation
+
+description: |
+  Apply the fill snippet after the tall layout, replacing its mandatory
+  operand breaks with optional breaks before &.

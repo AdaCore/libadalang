@@ -20,6 +20,7 @@ with GPR2.Path_Name;
 with GPR2.Project.Registry.Attribute;
 with GPR2.Project.Tree.View_Builder;
 with GPR2.Project.View;
+with GPR2.Reporter.Console;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
@@ -252,7 +253,9 @@ package body Libadalang.Unit_Files is
         (Root_Project     => Root,
          Options          => GPR2.Options.Empty_Options,
          With_Runtime     => True,
-         Absent_Dir_Error => GPR2.No_Error)
+         Absent_Dir_Error => GPR2.No_Error,
+         Reporter         => GPR2.Reporter.Console.Create
+                               (GPR2.Reporter.Quiet))
       then
          raise Program_Error;
       end if;

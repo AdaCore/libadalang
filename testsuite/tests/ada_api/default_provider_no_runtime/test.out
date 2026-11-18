@@ -1,2 +1,4 @@
 kb: info: can't find a toolchain for the following configuration: language 'Ada', target '<native>', default runtime
+Unit root: <CompilationUnit foo.ads:1:1-5:9>
+<SubtypeIndication foo.ads:4:8-4:33> resolves to: None
 Done.

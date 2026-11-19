@@ -113,6 +113,26 @@ library:
       filename: unparsing_overridings/original_keywords.json
       doc: Preserve the formatting of keywords from sources.
 
+  python_api:
+    authors:
+      - name: AdaCore
+        email: support@adacore.com
+    maintainers:
+      - name: AdaCore
+        email: support@adacore.com
+    description:
+        Parsing and semantic analysis for Ada code.
+    readme_file: ../README.md
+    license: Apache-2.0
+    keywords:
+      - ada
+      - parsing
+      - semantic
+      - analysis
+    urls:
+      homepage: https://github.com/AdaCore/libadalang/
+    requires_python: ">= 3.11"
+
 emission:
   source_post_processors:
     ada: ada.copyright.AdaPostProcessor

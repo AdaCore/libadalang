@@ -2,6 +2,7 @@
 
 with Ada.Environment_Variables;
 with Ada.Text_IO; use Ada.Text_IO;
+with GNAT.OS_Lib;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
@@ -13,9 +14,14 @@ procedure Main is
    T    : Type_Expr;
 begin
    --  Make the native toolchain unavailable so that LibGPR2 cannot find the
-   --  native Ada toolchain.
+   --  native Ada toolchain. Avoid an empty PATH, which makes LibGPR2 crash on
+   --  Windows.
 
-   Ada.Environment_Variables.Set ("PATH", "");
+   Ada.Environment_Variables.Set
+     ("PATH",
+      (if GNAT.OS_Lib.Directory_Separator = '\'
+       then "C:\nosuchdir"
+       else "/nosuchdir"));
 
    --  Create a context with the default provider, then make sure this provider
    --  1) resolves user units as expected 2) but cannot find runtime units.

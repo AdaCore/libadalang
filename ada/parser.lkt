@@ -672,7 +672,7 @@ grammar ada_grammar {
         ?pick(
             or(
                 # Enables parsing ``Post'Class => Ignore``, for example
-                | AttributeRef(identifier "'" identifier null(AssocList))
+                | AttributeRef(identifier "'" identifier null(Expr))
                 | identifier
             )
             "=>"
@@ -1181,7 +1181,7 @@ grammar ada_grammar {
     qual_name_internal <- or(
         | DottedName(qual_name_internal "." / direct_name)
         # Attributes, needed because of 'Class: A'Class'(...)
-        | AttributeRef(qual_name_internal "'" identifier null(AssocList))
+        | AttributeRef(qual_name_internal "'" identifier null(Expr))
         | direct_name
     )
 
@@ -1217,12 +1217,12 @@ grammar ada_grammar {
         | AttributeRef(
             name
             "'"
-            identifier |> when(Identifier.is_attr_with_args)
-            ?pick("(" attr_suffix ")")
+            identifier |> when(Identifier.parses_single_attr_operand)
+            ?pick("(" expr ")")
         )
 
         # Class attribute
-        | AttributeRef(name "'" identifier null(AssocList))
+        | AttributeRef(name "'" identifier null(Expr))
 
         | QualExpr(name "'" or(paren_expr | aggregate))
 
@@ -1245,7 +1245,13 @@ grammar ada_grammar {
     # always eat the type constraints.
     subtype_name <- or(
         | DottedName(subtype_name "." / direct_name)
-        | AttributeRef(subtype_name "'" identifier ?pick("(" attr_suffix ")"))
+        | AttributeRef(
+            subtype_name
+            "'"
+            identifier |> when(Identifier.parses_single_attr_operand)
+            ?pick("(" expr ")")
+        )
+        | AttributeRef(subtype_name "'" identifier null(Expr))
         | direct_name
     )
     static_name <- or(
@@ -1376,7 +1382,7 @@ grammar ada_grammar {
             )
             or(string_literal | int_literal | identifier)
         )
-        | AttributeRef(identifier "'" identifier null(AssocList))
+        | AttributeRef(identifier "'" identifier null(Expr))
         | identifier
     )
 }

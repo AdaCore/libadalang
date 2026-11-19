@@ -5547,24 +5547,8 @@ class ParamAssoc: BasicAssoc {
         if node.designator.is_null then null[Array[AdaNode]]
         else [node.designator]
 
-    fun xref_entry_point(): Bool = node.is_static_attribute_assoc()
-        or node.is_at_attribute_assoc()
-
-    @with_dynvars(env, origin, entry_point)
-    fun xref_equation(): Equation =
-        if node.xref_entry_point() then self.expr().sub_equation() else %false
-
-    fun is_static_attribute_assoc(): Bool =
-        node.parent.parent.as[AttributeRef].do(
-            (ar) =>
-            ar.attribute.name_symbol() in s"First"
-                | s"Last"
-                | s"Range"
-                | s"Length"
-                | s"Has_Same_Storage"
-                | s"Overlaps_Storage"
-        )
-        or node.parent.parent.as[CallExpr]?.name.as[AttributeRef].do(
+    fun xref_entry_point(): Bool =
+        node.parent.parent.as[CallExpr]?.name.as[AttributeRef].do(
             # Array dimensions must resolve before their value is evaluated.
             # Cursor indices need the enclosing call's expected index type.
             (ar) => ar.attribute.name_is(s"Loop_Index")
@@ -5576,10 +5560,9 @@ class ParamAssoc: BasicAssoc {
                 }
         )
 
-    fun is_at_attribute_assoc(): Bool =
-        node.parent.parent.as[AttributeRef].do(
-            (ar) => ar.attribute.name_is(s"At")
-        )
+    @with_dynvars(env, origin, entry_point)
+    fun xref_equation(): Equation =
+        if node.xref_entry_point() then self.expr().sub_equation() else %false
 }
 
 |" Root class for an Ada declaration (:rmlink:`3.1`). A declaration
@@ -15430,6 +15413,19 @@ class ThenAbortPart: AdaNode {
 class Expr: AdaNode {
     logic_vars: Address
 
+    # Resolve these attribute designator operands independently of the
+    # enclosing attribute reference.
+    fun xref_entry_point(): Bool =
+        node.parent.as[AttributeRef].do(
+            (ar) => ar.arg == node and ar.attribute.name_symbol() in s"At"
+                | s"First"
+                | s"Last"
+                | s"Range"
+                | s"Length"
+                | s"Has_Same_Storage"
+                | s"Overlaps_Storage"
+        )
+
     @external()
     fun type_var(): LogicVar
 
@@ -15782,8 +15778,8 @@ class Expr: AdaNode {
                             | s"Range"
                     )
                 }
-                and ar.args.do(
-                    (args) => args.all((arg) => arg.expr().is_static_expr()),
+                and ar.arg.do(
+                    (arg) => arg.is_static_expr(),
                     default_val=true
                 )
 
@@ -18528,7 +18524,8 @@ class AttributeRef: Name {
     @parse_field
     attribute: Identifier
     @parse_field
-    args: AssocList
+    @nullable
+    arg: Expr
     r_ref_var: LogicVar
 
     fun ref_var(): LogicVar = node.r_ref_var
@@ -18924,11 +18921,12 @@ class AttributeRef: Name {
 
         self.prefix.sub_equation()
         %and node.universal_int_bind(node.type_var())
-        %and self.args.logic_all(
+        %and self.arg.do(
             (arg) =>
-            arg.expr().expected_type_var() <- typ
-            %and arg.expr().sub_equation()
-            %and arg.expr().matches_expected_type()
+            arg.expected_type_var() <- typ
+            %and arg.sub_equation()
+            %and arg.matches_expected_type(),
+            default_val=%true
         )
     }
 
@@ -19058,18 +19056,9 @@ class AttributeRef: Name {
     |" Return the zero-based value of the static dimension argument of this
     |" attribute reference, defaulting to the first dimension when the
     |" attribute has no argument.
-    @with_dynvars(env, origin)
     fun dim_arg(): Int =
-        self.args.at(0).do(
-            (arg) =>
-            arg.expr().do(
-                (expr) => {
-                    val _ = expr.resolve_names_internal(false);
-
-                    expr.eval_as_int().as_int()
-                },
-                default_val=1
-            ),
+        self.arg.do(
+            (arg) => arg.eval_as_int().as_int(),
             default_val=1
         )
         - 1
@@ -19186,11 +19175,11 @@ class AttributeRef: Name {
     fun deref_equation(): Equation =
         self.prefix.xref_type_equation()
         %and node.type_var() <-> node.prefix.ref_var()
-        %and self.args.at(0).do(
+        %and self.arg.do(
             (arg) =>
-            arg.expr().sub_equation()
-            %and arg.expr().expected_type_var() <- node.system_address_type()
-            %and arg.expr().matches_expected_type(),
+            arg.sub_equation()
+            %and arg.expected_type_var() <- node.system_address_type()
+            %and arg.matches_expected_type(),
             default_val=%false
         )
 
@@ -19199,11 +19188,11 @@ class AttributeRef: Name {
     fun mechanism_code_equation(): Equation =
         self.prefix.xref_no_overloading()
         %and self.universal_int_bind(node.type_var())
-        %and self.args.at(0).do(
+        %and self.arg.do(
             (arg) =>
-            arg.expr().sub_equation()
-            %and self.universal_int_bind(arg.expr().expected_type_var())
-            %and arg.expr().matches_expected_type(),
+            arg.sub_equation()
+            %and self.universal_int_bind(arg.expected_type_var())
+            %and arg.matches_expected_type(),
             default_val=%true
         )
 
@@ -19227,7 +19216,7 @@ class AttributeRef: Name {
         <- node.bool_type()
 
         # The only one argument of the attribute can be of any type
-        %and self.args.at(0).sub_equation()
+        %and self.arg.sub_equation()
 
     fun called_formal_subp_spec(): Entity[BaseFormalParamHolder] = {
         val rel_name = self.attribute.name_symbol();
@@ -21967,19 +21956,24 @@ class CharLiteral: BaseId implements TokenNode {
 @repr_name("Id")
 class Identifier: BaseId implements TokenNode {
 
-    # Some attributes return functions in Ada. However, LAL incorrectly parses
-    # an "AttributeRef with arguments" as something magical rather than a
-    # regular call (which is why AttributeRef has an `args` field.
+    # Some attribute designators accept a parenthesized expression
+    # (:rmlink:`4.1.4` and GNAT-defined attributes). This expression belongs
+    # to the AttributeRef node, not to an enclosing CallExpr.
     #
-    # Additionally, resolution for a number of them was implemented as "magic
-    # attributes" rather than built-in functions. This is wrong and needs to be
-    # fixed (see S910-057). However, for the moment, we parse them as
-    # ``AttributeRef (pfx, attr, args)``, and resolve them specially
-    # rather than  ``CallExpr (AttrRef (pfx, attr), args)``.
+    # Attributes that denote functions must instead be parsed as regular
+    # calls when actual parameters are supplied:
     #
-    # For other args, we deactivate this parsing, so that they're correctly
-    # parsed as ``CallExpr (AttrRef (pfx, attr), args)``.
-    fun is_attr_with_args(): Bool =
+    #   A'First(2)       -> AttributeRef(A, First, 2)
+    #   Integer'Min(1,2) -> CallExpr(AttributeRef(Integer, Min), ...).
+    #
+    # This predicate identifies attributes for which the parser must consume
+    # the parenthesized expression as part of the attribute designator.
+    # Do not add function-denoting attributes merely because they take
+    # parameters.
+    #
+    # Ambiguous Loop_Index suffixes remain in CallExpr and are distinguished
+    # from cursor indexing during resolution.
+    fun parses_single_attr_operand(): Bool =
         node.symbol in s"At"
             | s"First"
             | s"Last"

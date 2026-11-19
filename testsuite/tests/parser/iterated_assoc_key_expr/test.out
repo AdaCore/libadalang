@@ -25,8 +25,7 @@ IteratedAssoc[1:1-1:47]
 |  |  |  Id[1:28-1:35]: Integer
 |  |  |f_attribute:
 |  |  |  Id[1:36-1:41]: Image
-|  |  |f_args:
-|  |  |  AssocList[1:41-1:41]: <empty list>
+|  |  |f_arg: <null>
 |  |f_suffix:
 |  |  AssocList[1:43-1:46]
 |  |  |  ParamAssoc[1:43-1:46]

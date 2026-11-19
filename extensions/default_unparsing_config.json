@@ -783,7 +783,7 @@
               "kind": "continuationLineIndent",
               "contents": {
                 "kind": "recurse_field",
-                "field": "f_args"
+                "field": "f_arg"
               }
             },
             "breakContents": {
@@ -791,14 +791,14 @@
               "width": "     ",
               "contents": {
                 "kind": "recurse_field",
-                "field": "f_args"
+                "field": "f_arg"
               }
             }
           }
         ]
       },
       "fields": {
-        "f_args": [
+        "f_arg": [
           "line",
           {
             "kind": "group",

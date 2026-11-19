@@ -5,10 +5,11 @@ procedure Test is
    -- type when looking for them).
 
    subtype S1 is Integer;
-   subtype S2 is S1 with Static_Predicate => true;
+   subtype S2 is S1 with Static_Predicate => true, Predicate_Failure => "bad";
    subtype S3 is S2;
    --% node.p_get_aspect("Predicate")
    --% node.p_get_aspect("Static_Predicate")
+   --% node.p_get_aspect("Predicate_Failure")
 
    pragma Predicate (S2, true);
 begin

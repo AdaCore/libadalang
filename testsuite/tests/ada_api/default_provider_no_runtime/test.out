@@ -1,0 +1,5 @@
+Unit root: <CompilationUnit foo.ads:1:1-5:9>
+WARNING: File ada.ads not found
+WARNING: File ada-containers.ads not found
+<SubtypeIndication foo.ads:4:8-4:33> resolves to: None
+Done.

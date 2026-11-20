@@ -1,0 +1,9 @@
+description: |
+  Check that the default concatenation operand alignment fix also applies
+  with the tall layout, for suffix and standalone comments and a multiline
+  call operand.
+
+driver: unparser
+rule: expr
+overridings:
+  - tall

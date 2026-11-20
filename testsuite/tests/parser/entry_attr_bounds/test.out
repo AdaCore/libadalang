@@ -1,0 +1,45 @@
+EntryDecl[1:1-1:34]
+|f_overriding:
+|  OverridingUnspecified[1:1-1:1]
+|f_spec:
+|  EntrySpec[1:1-1:33]
+|  |f_entry_name:
+|  |  DefiningName[1:7-1:8]
+|  |  |f_name:
+|  |  |  Id[1:7-1:8]: E
+|  |f_family_type:
+|  |  BinOp[1:10-1:32]
+|  |  |f_left:
+|  |  |  CallExpr[1:10-1:19]
+|  |  |  |f_name:
+|  |  |  |  AttributeRef[1:10-1:15]
+|  |  |  |  |f_prefix:
+|  |  |  |  |  Id[1:10-1:11]: T
+|  |  |  |  |f_attribute:
+|  |  |  |  |  Id[1:12-1:15]: Pos
+|  |  |  |  |f_arg: <null>
+|  |  |  |f_suffix:
+|  |  |  |  AssocList[1:17-1:18]
+|  |  |  |  |  ParamAssoc[1:17-1:18]
+|  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |f_r_expr:
+|  |  |  |  |  |  Int[1:17-1:18]: 1
+|  |  |f_op:
+|  |  |  OpDoubleDot[1:20-1:22]
+|  |  |f_right:
+|  |  |  CallExpr[1:23-1:32]
+|  |  |  |f_name:
+|  |  |  |  AttributeRef[1:23-1:28]
+|  |  |  |  |f_prefix:
+|  |  |  |  |  Id[1:23-1:24]: T
+|  |  |  |  |f_attribute:
+|  |  |  |  |  Id[1:25-1:28]: Pos
+|  |  |  |  |f_arg: <null>
+|  |  |  |f_suffix:
+|  |  |  |  AssocList[1:30-1:31]
+|  |  |  |  |  ParamAssoc[1:30-1:31]
+|  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |f_r_expr:
+|  |  |  |  |  |  Int[1:30-1:31]: 2
+|  |f_entry_params: <null>
+|f_aspects: <null>

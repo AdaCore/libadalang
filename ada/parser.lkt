@@ -505,8 +505,8 @@ grammar ada_grammar {
             ?pick(
                 "("
                 or(
-                    | constrained_subtype_indication
                     | discrete_range
+                    | constrained_subtype_indication
                     | subtype_indication
                 )
                 ")"

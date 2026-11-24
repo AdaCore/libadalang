@@ -20458,6 +20458,7 @@ class DefiningName: Name {
                     and name in s"Predicate"
                         | s"Static_Predicate"
                         | s"Dynamic_Predicate"
+                        | s"Predicate_Failure"
                         | s"Linker_Section" then
                     bd.as[SubtypeDecl].subtype.designated_type()
                 else

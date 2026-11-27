@@ -18,7 +18,7 @@ variables:
     options:
       - "false"
       - "true"
-    description: "Publish the Libadalang wheel to PyPI from the default branch"
+    description: "Publish the Libadalang wheels to PyPI from the default branch"
   LIBADALANG_SETUP:
     value: "27.0"
     description: "Cathod setup to download for the PyPI release"

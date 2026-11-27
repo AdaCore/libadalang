@@ -3784,6 +3784,7 @@
             "field": "f_formal_part"
           },
           "hardline",
+          "flushLineBreaks",
           {
             "kind": "recurse_field",
             "field": "f_subp_decl"

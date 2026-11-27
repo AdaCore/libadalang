@@ -1,0 +1,7 @@
+driver: unparser
+rule: generic_decl
+description: |
+  Preserve a blank line before a generic procedure without continuation
+  indentation.
+overridings:
+  - tall

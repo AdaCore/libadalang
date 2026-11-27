@@ -4,7 +4,7 @@ include:
     inputs:
       stage: single
     rules:
-      - if: '$PUBLISH_TESTPYPI != "true"'
+      - if: '$PUBLISH_PYPI != "true"'
 
 
 stages:
@@ -13,22 +13,20 @@ stages:
 
 
 variables:
-  PUBLISH_TESTPYPI:
+  PUBLISH_PYPI:
     value: "false"
     options:
       - "false"
       - "true"
-    description: "Publish the Libadalang wheel to TestPyPI from the default branch"
+    description: "Publish the Libadalang wheel to PyPI from the default branch"
   LIBADALANG_SETUP:
     value: "27.0"
-    description: "Cathod setup to download for the TestPyPI release"
+    description: "Cathod setup to download for the PyPI release"
 
 
 build_and_test:
   extends: .basic
   rules:
-    - if: '$PUBLISH_TESTPYPI == "true"'
-      when: never
     # Run this for merge requests only
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   services:
@@ -81,8 +79,6 @@ check_issue:
   extends: .check_issue
   stage: single
   rules:
-    - if: '$PUBLISH_TESTPYPI == "true"'
-      when: never
     - !reference [.check_issue, rules]
 
 
@@ -90,16 +86,16 @@ continuous_builder:
   extends: .cb
   stage: single
   rules:
-    - if: '$PUBLISH_TESTPYPI == "true"'
+    - if: '$PUBLISH_PYPI == "true"'
       when: never
     - !reference [.cb, rules]
 
 
-publish_testpypi:
+publish_pypi:
   stage: release
   interruptible: false
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "web" && $PUBLISH_TESTPYPI == "true" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "web" && $PUBLISH_PYPI == "true" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   services:
     - task_role_arn:arn:aws:iam::097448436531:role/gitlab-runner-task-roles/LibadalangPublishPyPITaskRole
     - security_group:GitLabRunnerTasksExecPrivilegedSG
@@ -110,87 +106,9 @@ publish_testpypi:
   # Set GOOGLE_APPLICATION_CREDENTIALS as a File-type CI/CD variable containing
   # Google credentials JSON (service account key or Workload Identity Federation
   # configuration with service account impersonation). Register the account as a trusted
-  # publisher on TestPyPI. Do not configure TWINE_PASSWORD for this job.
+  # publisher on PyPI. Do not configure TWINE_PASSWORD for this job.
   # Override LIBADALANG_SETUP when starting a pipeline if needed.
   script:
-    - e3-cli venv /tmp/testpypi-venv
-    - /tmp/testpypi-venv/bin/python -m pip install 'twine>=6.2' google-auth requests e3-aws
-    - |
-      : "${GOOGLE_APPLICATION_CREDENTIALS:?Set the service account credentials File variable}"
-      test -r "$GOOGLE_APPLICATION_CREDENTIALS"
-    - mkdir -p testpypi-release
-    - cd testpypi-release
-    - e3-cathod components
-        --setup "$LIBADALANG_SETUP"
-        --build-date all
-        --platform x86_64-linux
-        --component libadalang-internal
-        --download
-        --as-name libadalang-internal
-    - mkdir -p libadalang-internal
-    - tar xf libadalang-internal.tar.gz -C libadalang-internal --strip-components=1
-    - /tmp/testpypi-venv/bin/python -m twine check
-        libadalang-internal/stripped_python/libadalang-*.whl
-    # Twine reads this variable in GitLab CI and exchanges the Google ID token
-    # for a short-lived TestPyPI upload token.
-    - |
-      TESTPYPI_ID_TOKEN=$(/tmp/testpypi-venv/bin/python - <<'PY'
-      import json
-      import os
-      from urllib.parse import unquote, urlparse
-
-      import google.auth
-      from google.auth import impersonated_credentials
-      from google.auth.transport.requests import Request
-      from google.oauth2.id_token import fetch_id_token
-
-      with open(os.environ["GOOGLE_APPLICATION_CREDENTIALS"]) as stream:
-          info = json.load(stream)
-
-      if info.get("type") == "external_account":
-          url = info.pop("service_account_impersonation_url", None)
-          if not url:
-              raise ValueError("Federated credentials require service_account_impersonation_url")
-          account = unquote(urlparse(url).path).rsplit("/", 1)[-1]
-          if not account.endswith(":generateAccessToken"):
-              raise ValueError("Invalid service_account_impersonation_url")
-          account = account.removesuffix(":generateAccessToken")
-          if info.get("subject_token_type") == "urn:ietf:params:aws:token-type:aws4_request":
-              from e3.aws import Session
-
-              # The e3 AWS session supports ECS task credentials; Google's
-              # loader otherwise falls back to EC2 instance metadata.
-              region = "eu-west-1"
-              aws_credentials = Session(regions=[region]).to_boto3().get_credentials()
-              if aws_credentials is None:
-                  raise ValueError("No AWS credentials available for Workload Identity Federation")
-              aws_credentials = aws_credentials.get_frozen_credentials()
-              os.environ["AWS_REGION"] = region
-              os.environ["AWS_ACCESS_KEY_ID"] = aws_credentials.access_key
-              os.environ["AWS_SECRET_ACCESS_KEY"] = aws_credentials.secret_key
-              if aws_credentials.token:
-                  os.environ["AWS_SESSION_TOKEN"] = aws_credentials.token
-              else:
-                  os.environ.pop("AWS_SESSION_TOKEN", None)
-          scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-          source, _ = google.auth.load_credentials_from_dict(info, scopes=scopes)
-          # Use the federated identity directly to avoid nested impersonation.
-          target = impersonated_credentials.Credentials(
-              source_credentials=source,
-              target_principal=account,
-              target_scopes=scopes,
-          )
-          credentials = impersonated_credentials.IDTokenCredentials(
-              target, target_audience="testpypi", include_email=True
-          )
-          credentials.refresh(Request())
-          print(credentials.token)
-      else:
-          print(fetch_id_token(Request(), "testpypi"))
-      PY
-      )
-      export TESTPYPI_ID_TOKEN
-    - /tmp/testpypi-venv/bin/python -m twine upload
-        --verbose
-        --repository-url https://test.pypi.org/legacy/
-        libadalang-internal/stripped_python/libadalang-*.whl
+    - e3-cli venv /tmp/pypi-venv
+    - /tmp/pypi-venv/bin/python -m pip install 'twine>=6.2' google-auth requests e3-aws
+    - /tmp/pypi-venv/bin/python utils/publish_pypi.py --setup "$LIBADALANG_SETUP"

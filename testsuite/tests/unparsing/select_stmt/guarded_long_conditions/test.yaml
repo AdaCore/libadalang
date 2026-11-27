@@ -1,0 +1,5 @@
+driver: unparser
+rule: task_body
+description: |
+  Indent continued guards and their statements, preserving comments around
+  guards, arrows, and alternative statements.

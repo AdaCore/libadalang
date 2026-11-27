@@ -6563,10 +6563,44 @@
         }
       ],
       "fields": {
-        "f_cond_expr": [
-          "recurse",
-          "hardline"
-        ]
+        "f_cond_expr": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "text",
+              "text": "when"
+            },
+            "whitespace",
+            {
+              "kind": "continuationLineIndent",
+              "contents": "recurse"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "=>"
+            }
+          ]
+        },
+        "f_stmts": {
+          "kind": "if",
+          "condition": {
+            "kind": "is_empty",
+            "node": {
+              "kind": "eval_member",
+              "prefix": "this_node",
+              "member": "f_cond_expr"
+            }
+          },
+          "then": "recurse",
+          "else": {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              "recurse"
+            ]
+          }
+        }
       }
     },
     "SelectWhenPartList": {

@@ -1,0 +1,5 @@
+driver: unparser
+rule: task_body
+description: |
+  Keep each guard and its arrow together, and indent the guarded accept,
+  delay, or terminate alternative below it.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download a Libadalang release wheel from Cathod and publish it to PyPI."""
+"""Download Libadalang release wheels from Cathod and publish them to PyPI."""
 
 from __future__ import annotations
 
@@ -93,56 +93,67 @@ def pypi_id_token() -> str:
         return fetch_id_token(Request(), "pypi")
 
 
-def publish(setup: str) -> None:
-    """Download, check and upload the wheel with configured credentials."""
-    credentials = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
-    if not credentials:
-        raise ValueError(
-            "Set the GOOGLE_APPLICATION_CREDENTIALS File variable"
-        )
-    with open(credentials):
-        pass
+def publish(setup: str, *, dry_run: bool = False) -> None:
+    """Download and check the wheels, then upload unless dry_run is set."""
+    if not dry_run:
+        credentials = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+        if not credentials:
+            raise ValueError(
+                "Set the GOOGLE_APPLICATION_CREDENTIALS File variable"
+            )
+        with open(credentials):
+            pass
 
     release_dir = Path("pypi-release").resolve()
-    release_dir.mkdir(exist_ok=True)
-    run_command(
-        [
-            "e3-cathod",
-            "components",
-            "--setup",
-            setup,
-            "--build-date",
-            "all",
-            "--platform",
-            "x86_64-linux",
-            "--component",
-            "libadalang-internal",
-            "--download",
-            "--as-name",
-            "libadalang-internal",
-        ],
-        cwd=release_dir,
-    )
-    component_dir = release_dir / "libadalang-internal"
-    component_dir.mkdir(exist_ok=True)
-    run_command(
-        [
-            "tar",
-            "xf",
-            str(release_dir / "libadalang-internal.tar.gz"),
-            "-C",
-            str(component_dir),
-            "--strip-components=1",
-        ],
-    )
-    wheels = sorted(
-        (component_dir / "stripped_python").glob("libadalang-*.whl")
-    )
-    if not wheels:
-        raise FileNotFoundError("No Libadalang release wheels found")
+    wheels: list[Path] = []
+    for platform in ("x86_64-linux", "aarch64-linux", "x86_64-windows64"):
+        platform_dir = release_dir / platform
+        platform_dir.mkdir(parents=True, exist_ok=True)
+        run_command(
+            [
+                "e3-cathod",
+                "components",
+                "--setup",
+                setup,
+                "--build-date",
+                "all",
+                "--platform",
+                platform,
+                "--component",
+                "libadalang-internal",
+                "--download",
+                "--as-name",
+                "libadalang-internal",
+            ],
+            cwd=platform_dir,
+        )
+        component_dir = platform_dir / "libadalang-internal"
+        component_dir.mkdir(exist_ok=True)
+        run_command(
+            [
+                "tar",
+                "xf",
+                str(platform_dir / "libadalang-internal.tar.gz"),
+                "-C",
+                str(component_dir),
+                "--strip-components=1",
+            ],
+        )
+        platform_wheels = sorted(
+            (component_dir / "stripped_python").glob("libadalang-*.whl")
+        )
+        if not platform_wheels:
+            raise FileNotFoundError(
+                f"No Libadalang release wheels found for {platform}"
+            )
+        wheels.extend(platform_wheels)
 
     twine = [sys.executable, "-m", "twine"]
     run_command([*twine, "check", *map(str, wheels)])
+    if dry_run:
+        log.info("Dry run: wheels downloaded and checked in %s", release_dir)
+        return
+
     # Twine exchanges the Google ID token for a short-lived PyPI upload token
     env = os.environ.copy()
     env["PYPI_ID_TOKEN"] = pypi_id_token()
@@ -151,6 +162,7 @@ def publish(setup: str) -> None:
         [
             *twine,
             "upload",
+            "--skip-existing",
             "--verbose",
             "--repository-url",
             "https://upload.pypi.org/legacy/",
@@ -166,10 +178,18 @@ def main() -> int:
     cli.argument_parser.add_argument(
         "--setup", required=True, help="Cathod setup to download"
     )
+    cli.argument_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help=(
+            "Download and check wheels without authenticating to "
+            "or uploading to PyPI"
+        ),
+    )
     cli.parse_args()
     assert cli.args is not None
     try:
-        publish(cli.args.setup)
+        publish(cli.args.setup, dry_run=cli.args.dry_run)
     except Exception as exc:
         log.error("%s", exc)
         log.debug("Publishing failed", exc_info=True)
